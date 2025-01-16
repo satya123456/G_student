@@ -12,7 +12,10 @@ namespace Gstudent.Controllers
         {
             return View("Error");
         }
-
+        public ActionResult UserNotFoundError()
+        {
+            return View("Error");
+        }
         public ActionResult UnauthorizedError()
         {
             return View("Error");
