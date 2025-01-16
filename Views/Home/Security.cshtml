@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Gstudent.Models.Security>
+<div class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Security</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-container">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Check-out date</th>
+                        <th>Check-out time</th>
+                        <th>Check-in date</th>
+                        <th>Check-in time</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var count = 1;
+                    }
+                    @foreach (var val in Model)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>@val.Checkout_date</td>
+                            <td>@val.TIMEOUT</td>
+                            <td>@val.CheckIn_date</td>
+                            <td>@val.TIMEIN</td>
+
+
+                            @{ count++;}
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+
+
+    });
+</script>

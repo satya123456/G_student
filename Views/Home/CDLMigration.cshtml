@@ -1,0 +1,286 @@
+﻿<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Migration certificate</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner" id="contentdiv">
+        <div class="row">
+            <div class="container">
+                <div class="page" style="text-align: center; border: 0px solid" id="divmgg" >
+                    <style>
+                        .migration_div {
+                            padding: 20px;
+                            text-align: justify;
+                            border: 5px solid #787878;
+                            width: 810px;
+                            margin: auto;
+                        }
+                        #lblregdno {
+                            font-size: 19px;
+                            font-weight: bold;
+                        }
+                        .header img {
+                            width: 100%;
+                          
+                        }
+                        .title {
+                            font-size: 35px;
+                            font-weight: bold;
+                            background-color: whitesmoke;
+                            text-align: center;
+                            margin-top: 25px;
+                            margin-bottom:50px;
+                        }
+                        .content {
+                            text-align: left;
+                            line-height: 34px;
+                        }
+                        .content span{
+                            font-size:17px;
+                        }
+                           
+                        .address_sec {
+                            text-align: justify;
+                            margin:50px auto;
+                        }
+                        .text-right{
+                            text-align:right;
+                        }
+                        .sign .qr{
+                            display:flex;
+                            justify-content:end;
+                        }
+                        .font-bold{
+                            font-weight:bold;
+                        }
+                        @@media screen and (max-width: 905px) {
+                            .migration_div {
+                                padding: 5px;
+                                text-align: justify;
+                                border: 2px solid #787878;
+                                width: 100%;
+                                margin: auto;
+                            }
+                            #lblregdno {
+                                font-size: 10px;
+                            }
+                            .title {
+                                font-size: 14px;
+                                margin-bottom: 20px;
+                            }
+                            .content {
+                                line-height: 20px;
+                            }
+                            .content span {
+                                font-size: 11px;
+                            }
+                            .sign{
+                                margin-top:70px;
+                            }
+                            }
+                        </style>
+                    <div class="migration_div" style="">
+                        <div class="text-right">
+                            <Label ID="lblregdno"></Label>
+                        </div>
+                        <div class="header">
+                            <img src="images/academiccert1.jpg" style="" />
+                        </div>
+                        <div class="title">MIGRATION CERTIFICATE</div>
+                       
+                        <div class="content">
+                            <span>It is here by to certified that Mr. / Ms.</span>
+                            <span ID="lblname" class="font-bold"></span>
+                            <span>&nbsp;&nbsp;appeared for the Final Semester / </span>
+                            <span> Trimester /Year end examination of&nbsp;</span>
+                            <span  class="font-bold" ID="lblpr"></span>
+                            <span class="font-bold" ID="lblbatch"></span>
+                            <span ID="pgraph">The University has no objection for the candidate to prosecute his / her further studies SRRin any BRRUniversity or inistitute or Board established by law. He / She has not been debarred for any malpractice at the examinations of the University.</span>
+
+                            <div class="address_sec">
+                                <table align="justify;">
+                                    <tr>
+                                        <td><span><b>Mode of delivery&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>ODL</span></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span><b>Date of Admission&nbsp;&nbsp;&nbsp;:</b></span>
+                                            <span class="font-bold" ID="lbldoa" Text=""></span>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span><b>Date of completion&nbsp;&nbsp;: </b></span>
+                                            <span class="font-bold" ID="lbldoc" Text=""></span>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><span><b>Name and address of all Learner Support Centres : ---</b></span></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><span><b>Name and address of all Examination Centres :  </b><br>GITAM (Deemed to be University),VISAKHAPATNAM.</span></td>
+
+                                    </tr>
+
+
+                                </table>
+                                <table align="left;">
+                                    <tr>
+                                        <td<span><b>Visakhapatnam </b></span></td>
+
+                                    </tr>
+                                    <tr>
+
+
+                                        <td><span style="display:none;"><b>Controller of Examnation</b></span></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                            <div class="sign">
+
+                                <div class="d-flex justify-content-end qr" id="QRIMG">
+
+                                </div>
+
+                                <div class="text-right">
+                                    <img src="images/Sumanth-Kumar.png" style="height:30px;" />
+                                    <div><b>controller of examinations</b></div>
+                                </div>
+
+
+
+                            </div>
+                            <div><Label ID="dttm"></Label></div>
+                        </div>
+                        
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-inner" id="nodatadiv">
+        <div class="row text-center">
+            <label style="text-align:center;">No data available</label>
+        </div>
+    </div>
+    <div class="text-center mb-5" id="printbtn">
+        <button class="btn btn-primary" onclick="PrintMigrationCertificate()">Print</button>
+    </div>
+</section>
+<script>
+
+        $(document).ready(function () {
+
+
+
+            $.ajax({
+                type: 'GET',
+                url: './Home/getCDLMigrationData',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.length > 0) {
+                        console.log(data);
+                        $('#contentdiv').show();
+                        $('#nodatadiv').hide();
+                        $('#printbtn').show();
+                        document.getElementById('dttm').innerText = "Printed On :" + data[0].sysdate;
+                        document.getElementById('lblname').innerText = data[0].NAME;
+                       // document.getElementById('lblfname').innerText = data[0].FATHER_NAME;
+                        document.getElementById('lblpr').innerText = data[0].course_name;
+                        document.getElementById('lblregdno').innerText = "Regdno. " + data[0].REGDNO;
+                        var text = document.getElementById('pgraph').innerText
+                        //debugger;
+                        var str = "";
+                        if (data[0].COURSE_CODE == "MBA") {
+
+                            text = text.replace("BRR", "");
+                            text = text.replace("SRR", "     ");
+
+                            text = " <br/> University." + text;
+                            str = " in " + data[0].Month_Year + " from this";
+                        }
+                        else {
+                           
+                            text = text.replace("BRR", "    ");
+                            text = text.replace("SRR", "");
+                            str = " in " + data[0].Month_Year + " from this University.";
+                        }
+                        document.getElementById('lblbatch').innerText = str;
+                        document.getElementById('pgraph').innerText = text;
+                        document.getElementById('lbldoa').innerText = data[0].DOA;
+                        document.getElementById('lbldoc').innerText = data[0].DOC;
+                        $('#QRIMG').append(data[0].qrtext);
+
+                    }
+                    else {
+
+
+                    $('#contentdiv').hide();
+                    $('#nodatadiv').show();
+                    $('#printbtn').hide();
+                    }
+
+
+                    //document.getElementById('lblbatch').value = data.NAME;
+
+
+                    console.log(data);
+
+
+
+                }
+            });
+        })
+
+
+
+    function PrintMigrationCertificate() {
+            //debugger;
+            setTimeout(function () {
+
+                var contents = document.getElementById('divmgg').innerHTML;
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({ "position": "absolute", "top": "-1000000px" });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                frameDoc.document.write('<html><head><title></title>');
+                frameDoc.document.write('</head><body>');
+                frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+                //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+                //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+
+                return false;
+            }, 50);
+        }
+
+
+
+</script>

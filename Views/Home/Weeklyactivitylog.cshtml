@@ -1,0 +1,276 @@
+﻿@model IEnumerable<Gstudent.Models.Students>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+
+
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Weekly Activity Log </h5>
+        <div class="back">
+            <!-- Back Arrow Button -->
+
+            <a href="javascript:void(0);" onclick="goBack()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="tabsContainer">
+        <div class="tabsFill">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#tabfill1" aria-selected="true" role="tab">Weekly activity log</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-bs-toggle="tab" href="#tabfill2" aria-selected="false" tabindex="-1" role="tab">History</a>
+                </li>
+
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="tabfill1" role="tabpanel">
+                    <div id="daily-log">
+                        <div class="box-inner">
+                            <form action="/submit-log" method="post" id="form2">
+                                <!-- Add a form ID and the form element -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Name of the Company<span style="color:red;">*</span></label>
+                                            <input type="text" id="company_name" name="company_name" class="form-control" maxlength="100"> <!-- Add an ID and the required attribute -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="company_mentor">Company Mentor<span style="color:red;">*</span></label>
+                                            <input type="text" id="company_mentor" name="company_mentor" class="form-control" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="staff_guide">Staff guide<span style="color:red;">*</span></label>
+                                            <input type="text" id="staff_guide" name="staff_guide" class="form-control" maxlength="100">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="activities_performed">Activities performed during the week<span style="color:red;">*</span></label>
+                                            <textarea id="activities_performed" name="activities_performed" class="form-control" maxlength="300"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="key_performance_indicators">Key performance indicators<span style="color:red;">*</span></label>
+                                            <textarea id="key_performance_indicators" name="key_performance_indicators" class="form-control" maxlength="300"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="challenges">Challenges<span style="color:red;">*</span></label>
+                                            <textarea id="challenges" name="challenges" class="form-control" maxlength="300"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="achievements">Achievements<span style="color:red;">*</span></label>
+                                            <textarea id="achievements" name="achievements" class="form-control" maxlength="300"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="learning_points">Learning points<span style="color:red;">*</span></label>
+                                            <textarea id="learning_points" name="learning_points" class="form-control" maxlength="300"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-success Submit" id="btnsubmit">Submit</button> <!-- Change the type to submit -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="tabfill2" role="tabpanel">
+                <div id="history">
+
+                    <div class="box-inner">
+
+                        <table id="submittedweeklyactivityTable" class="table table-striped">
+                            <thead>
+
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Company Mentor</th>
+                                    <th>Staff Guide</th>
+                                    <th>Activities Performed During Week</th>
+                                    <th>Key Performance Indicators</th>
+                                    <th>Challenges</th>
+                                    <th>Achievements</th>
+                                    <th>Learning Points</th>
+                                    <th>Dt_Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var student in Model)
+                                {
+
+                                    <tr class="">
+                                        <td style="width:10%">@student.company_name</td>
+                                        <td style="width:20%">@student.mentor_name</td>
+                                        <td style="width:10%">@student.staff_guide</td>
+                                        <td style="width:10%">@student.activities_performed</td>
+                                        <td style="width:10%">@student.key_per_indicators</td>
+                                        <td style="width:10%">@student.challenges</td>
+                                        <td style="width:10%">@student.achievements</td>
+                                        <td style="width:10%">@student.learning_points</td>
+                                        <td style="width:10%">@student.dt_time</td>
+                                    </tr>
+                                }
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    function goBack() {
+      
+        loadConfigView('80');
+    }
+</script>
+
+
+        <script>
+            function reloadPage() {
+                // Reload the page after a successful update
+                loadConfigView('79');
+            }
+
+            $(document).ready(function () {
+                $("#form2").validate({
+                    rules: {
+                        "company_name": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "company_mentor": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "staff_guide": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "activities_performed": {
+                            required: true,
+                            minlength: 5
+                        },
+
+                        "key_performance_indicators": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "challenges": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "achievements": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "learning_points": {
+                            required: true,
+                            minlength: 5
+                        },
+                    },
+                    messages: {
+                        "company_name": {
+                            required: "Please, enter a company name"
+                        },
+                        "company_mentor": {
+                            required: "Please, enter  company mentor"
+                        },
+                        "staff_guide": {
+                            required: "Please, enter  staff guide"
+                        },
+                        "activities_performed": {
+                            required: "Please, enter activities performed"
+                        },
+                        "key_performance_indicators": {
+                            required: "Please, enter performance indicators"
+                        },
+                        "challenges": {
+                            required: "Please, enter challenges encountered"
+                        },
+                        "achievements": {
+                            required: "Please, enter your achievements"
+                        },
+                        "learning_points": {
+                            required: "Please, enter key learning points"
+                        },
+                    },
+
+
+                    submitHandler: function (form) { // for demo
+
+                        debugger;
+                        // Get the form data
+                        var cmpname = $('#company_name').val();
+                        var cmpmentor = $('#company_mentor').val();
+                        var stfguide = $('#staff_guide').val();
+                        var actprf = $('#activities_performed').val();
+                        var kpfind = $('#key_performance_indicators').val();
+                        var chlngs = $('#challenges').val();
+                        var achvmts = $('#achievements').val();
+                        var lnpts = $('#learning_points').val();
+                        //console.log('Arrival time:', arrtime, 'Departure time:', dprttime, 'Organization name:', orgname, 'Department name:', deptname, 'Mentor name:', mtrname, 'Learning actions:', lrngactions);
+                        // Send the form data to the server using AJAX
+                        $.ajax({
+                            url: './Home/submittingweeklyactivitylog',
+                            type: 'POST',
+                            data: { 'cmpnamedata': cmpname, 'cmpmentordata': cmpmentor, 'stfguidedata': stfguide, 'actperformeddata': actprf, 'keyprfindicatordata': kpfind, 'challengesdata': chlngs, 'achievementsdata': achvmts, 'learningpointsdata': lnpts, },
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response);
+                                if (response.success) {
+                                    // Display a success message to the user
+                                    swal({ icon: "success", text: "Updated Successfully" });
+                                    reloadPage();
+                                } else {
+                                    // Display an error message to the user
+                                    swal({ icon: "error", text: "Not Submitted!" });
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                // Display an error message to the user
+                                alert('Error submitting: ' + error);
+                            }
+
+                        });
+                    }
+                });
+
+            });
+
+        </script>
+        <script>
+
+            $('#submittedweeklyactivityTable').DataTable({
+                order: [[8, 'desc']]
+            });
+        </script>
+

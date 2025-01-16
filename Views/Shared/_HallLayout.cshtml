@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>G-Student</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="Distribution" content="Global" />
+    <meta name="description" />
+    <meta name="keywords" content="GITAM, Gat" />
+    <meta name="theme-color" content="#007367" />
+    <meta name="author" content="GITAM" />
+    <meta name="copyright" content="GITAM" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="https://cdn.gitam.edu/images/favicon/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/boxicons-2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/remixIcon-3.1.1/remixicon.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/fontawesome-6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-icons/bootstrap-icons.css">
+
+
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/jquery-ui/css/jquery-ui.css">
+
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/dataTables/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/dataTables/ColumnFilterWidgets.css" />
+
+    <!-- Sweet alerts -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/sweetAlert/sweetalert2.min.css" />
+
+    <!-- Daterangepicker -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/daterangepicker/css/daterange.min.css" />
+
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/select2/select2.min.css">
+
+    <!-- Datetimepicker -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/datetimepicker/tempus-dominus.min.css">
+
+    <!-- Custome style -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/css/root.css">
+    <link href="~/Content/css/student.css?v=3" rel="stylesheet" />
+    <script src="~/Content/js/index.js" defer></script>
+    <link rel="manifest" href="~/Content/js/manifest.webmanifest">
+
+    <style>
+        .sidebar .nav-links {
+            height: 83%;
+        }
+
+        .student_logo {
+            display: none;
+        }
+
+        .std_profile {
+            text-align: center;
+        }
+
+            .std_profile img {
+                margin-bottom: 10px;
+            }
+
+        .hostler {
+            font-size: 60px;
+            color: black;
+            margin-right: 10px;
+        }
+
+        .scrollbar {
+            max-height: 83%;
+            overflow: auto;
+        }
+
+        .scrollbarAll::-webkit-scrollbar-track {
+            /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .scrollbarAll::-webkit-scrollbar {
+            width: 5px;
+            background-color: #FFF;
+        }
+
+        .scrollbarAll::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: pink;
+        }
+
+        .subscript {
+            margin-left: 135px;
+            font-stretch: :20px !important;
+            font-weight: 700;
+        }
+        .back{
+            display:none !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    @{
+        var hostler = Convert.ToString(Session["hostler"]);
+
+    }
+
+    <div id="wrapper">
+        <!-- sider bar -->
+        <div class="sidebar-bg"></div>
+        <div class="sidebar menuSec">
+            <div class="logo-details">
+                <span class="logo_name">
+
+                    <img src="https://cdn.gitam.edu/images/logo/cats-logo-white.png" alt="CATS-logo">
+                </span>
+            </div>
+            <h5 class="nav-heading d-none d-lg-block"></h5>
+        
+            <div class="scrollbar scrollbarAll">
+                <ul class="nav-links ">
+
+                    <li>
+                        <a class="hallticket" href="javascript:void(0);" onclick="HallloadConfigView('4O');">
+                            <i class="ri-article-line"></i>
+                            <span class="link_name"> Hall ticket</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="Profile" href="javascript:void(0);" onclick="HallloadConfigView('1');">
+                            <i class='bx bx-user'></i>
+                            <span class="link_name">Profile</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a class="GradeOnlie" href="javascript:void(0);" onclick="HallloadConfigView('6O');">
+                            <i class="ri-file-chart-line"></i>
+                            <span class="link_name"> Online grade card</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a class="GradeOnlie" href="javascript:void(0);" onclick="HallloadConfigView('1O');">
+                            <i class="ri-file-chart-line"></i>
+                            <span class="link_name"> Academic track</span>
+                        </a>
+
+                    </li>
+                    @if (Session["batchend"].ToString() == "2024")
+                    {
+
+                        <li>
+                            <a class="course" href="https://Apply.gitam.edu/gevents.aspx?val=@Session["GATval"]" target="_blank">
+                                <i class='bx bx-registered'></i>
+                                <span class="link_name">Apply for GAT2024</span>
+                            </a>
+
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- main content -->
+        <section class="home-section hallticket">
+            <!-- header -->
+            <!--<header>
+        <div class="container-fluid">
+            <div class="row">
+
+
+                <div class="col-md-12">
+                    <div class="student_logo">
+                        <img src="~/Content/images/Gstudent-white.png?v=1" />-->
+            @*<img src="~/Content/images/G-student.png?v=1" />*@
+            <!--</div>
+                </div>
+            </div>
+        </div>
+    </header>-->
+            <header>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="home-content d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div id="menuToggle">
+                                        <i class="ri-menu-line"></i>
+                                    </div>
+                                    <span class="text d-none d-lg-block"> G-Student </span>
+                                    <span class="text d-block d-lg-none"> G-Student </span>
+                                </div>
+                                <div class="d-flex justify-content-between gap-4 align-items-center">
+
+                                    @if (Session["college_code"].ToString() == "CDL")
+                                    {
+                                        <img src="http://cdlimages.gitam.edu/img.aspx?id=@Context.Session["uid"]" alt="" class="profile" id="profile_pic">
+                                    }
+                                    else
+                                    {
+                                        <img src="https://doeresults.gitam.edu/photo/img.aspx?id=@Context.Session["uid"]" alt="" class="profile" id="profile_pic">
+
+                                    }
+                                </div>
+                                <div class="sub-menu-wrap" id="subMenu">
+                                    <div class="sub-menu">
+                                        <div class="sub-menu-link more-profile-details">
+                                            <i class="bx bx-user-circle"></i>
+                                            <p class="userName">@Context.Session["studname"]</p>
+                                        </div>
+
+                                       
+                                        <a href="./Home/Logout" class="sub-menu-link">
+                                            <i class="bx bx-log-out-circle"></i>
+                                            <p class="">Logout</p>
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div id="maindiv">
+                @*<div id="homeSection">*@
+                @RenderBody()
+                @*</div>*@
+            </div>
+            <div class="loading-overlay"></div>
+            <div class="loaderContainer ">
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+            <!-- Jquery -->
+            <script src="https://cdn.gitam.edu/js/jquery-3.6.0.js"></script>
+
+            <!-- Jquery UI -->
+            <script src="https://cdn.gitam.edu/vendor/jquery-ui/js/jquery-ui.js"></script>
+
+
+            <!-- Bootstrap js -->
+            <script src="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/js/bootstrap.min.js"></script>
+
+            <!-- Popper  js -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+
+
+            <!-- Jquery validations -->
+            <script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.validate.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.validate.unobtrusive.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.unobtrusive-ajax.min.js"></script>
+
+
+            <!-- Data Tables -->
+            <script src="https://cdn.gitam.edu/vendor/dataTables/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/dataTables.bootstrap5.min.js"></script>
+
+            <!-- Datatable file exports -->
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.bootstrap5.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/JSZip-2.5.0/jszip.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.print.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.colVis.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/ColumnFilterWidgets.js"></script>
+
+            <!-- Sweet alerts -->
+            <script src="https://cdn.gitam.edu/vendor/sweetAlert/sweetalert2.all.min.js"></script>
+
+
+            <!-- Ckeditor -->
+            <script src="https://cdn.gitam.edu/vendor/ckeditor-4.21.0/ckeditor.js"></script>
+
+
+            <!-- Charts -->
+            <script src="https://cdn.gitam.edu/js/apexcharts.js"></script>
+
+
+            <!-- Daterangepicker -->
+            <script src="https://cdn.gitam.edu/js/moment.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/daterangepicker/js/daterangepicker.min.js"></script>
+
+            <!-- Bootstrap steps form wizard -->
+            <script src="https://cdn.gitam.edu/vendor/step-wizard/jquery.bootstrap.wizard.min.js"></script>
+
+            <!-- Select 2 -->
+            <script src="https://cdn.gitam.edu/vendor/select2/select2.min.js"></script>
+
+            <!-- Datetimepicker -->
+            <script src="https://cdn.gitam.edu/vendor/datetimepicker/tempus-dominus.min.js"></script>
+
+            <!-- custome js -->
+            <script src="https://cdn.gitam.edu/js/app.js"></script>
+
+
+
+</body>
+
+</html>
+<script>
+    $(function () {
+        $("body").on('click keypress', function () {
+            ResetThisSession();
+        });
+    });
+
+    var timeInSecondsAfterSessionOut = 600; // change this to change session time out (in seconds).
+    var secondTick = 0;
+
+    function ResetThisSession() {
+        secondTick = 0;
+    }
+
+    function StartThisSessionTimer() {
+        secondTick++;
+        var timeLeft = ((timeInSecondsAfterSessionOut - secondTick) / 60).toFixed(0); // in minutes
+        timeLeft = timeInSecondsAfterSessionOut - secondTick; // override, we have 30 secs only
+
+        let minutes = Math.floor(timeLeft / 60);
+        let extraSeconds = timeLeft % 60;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        extraSeconds = extraSeconds < 10 ? "0" + extraSeconds : extraSeconds;
+        //  spanTimeLeft.innerHTML += seconds + " == " + minutes + " : " + extraSeconds + "<br/>";
+        $("#countDown").html(minutes + "m" + " : " + extraSeconds + "s");
+
+        if (secondTick > timeInSecondsAfterSessionOut) {
+            clearTimeout(tick);
+            window.location = "https://login.gitam.edu/Login.aspx";
+            return;
+        }
+        tick = setTimeout("StartThisSessionTimer()", 1000);
+    }
+
+    StartThisSessionTimer();
+
+    function convertStoMs(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        let extraSeconds = seconds % 60;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        extraSeconds = extraSeconds < 10 ? "0" + extraSeconds : extraSeconds;
+        spanTimeLeft.innerHTML += seconds + " == " + minutes + " : " + extraSeconds + "<br/>";
+    }
+
+    $('#maindiv').click(function () {
+        $('.quick-menu.open-menu').removeClass('open-menu');
+        $('.sub-menu-wrap.open-menu').removeClass('open-menu');
+    })
+   // sidebar - bg
+    $('.sidebar ul li').click(function () {
+        var width = $(window).width();
+        //alert(width);
+        if (width <= "992") {
+            $('.sidebar.close').removeClass('close');
+            $('.sidebar-bg.close').removeClass('close');
+        }
+    })
+    $(document).ready(function () {
+        var width = $(window).width();
+        if (width <= "1024") {
+            $('.sidebar.close').css('width', '200px');
+
+             if ("@Session["course_code"].ToString()" == "PHD") {
+            $('.sidebar.close').css('width', '155px');
+            }
+        }
+    })
+    $("#menuToggle").click(function () {
+        var width = $(window).width();
+        if (width <= "1024") {
+            $('.sidebar.close').css('width', '200px');
+
+        if ("@Session["course_code"].ToString()" == "PHD") {
+            $('.sidebar.close').css('width', '155px');
+            }
+        }
+    })
+</script>
+<script>
+    $(document).ready(function () {
+      
+    })
+   @* $(".back").click(function (event) {
+        event.preventDefault();
+        history.back(1);
+    });*@
+    $('.back').click(function () {
+        //debugger;
+        @* $.post("./Home/Welcome", function (data) {
+            $('#maindiv').html(data);
+        });*@
+        window.location.href = window.location.href;
+    })
+
+
+    //$(document).ready(function () {
+    //    //debugger;
+    //    var width = $(window).width();
+    //    alert(width);
+    //    $('#windowwidth').val(width);
+    //})
+
+
+    function GetExamination(id) {
+        window.open('https://eweb.gitam.edu/doereceipts/SUMMERTERM_SESSION.aspx?Regno=' + id + '&REGDTYPE=EXAMPAY', '_blank');
+    }
+    function GetCertificate(id) {
+        window.open('https://onlinedoereceipts.gitam.edu/sIGNON_DETAILS.aspx?Regno=' + id + '&REGDTYPE=STDCERTPAY', '_blank');
+    }
+</script>
+
+<script>
+
+    function HallloadConfigView(id) {
+        if (id == "30") {
+
+            $('.loaderContainer').hide();
+            $('.loading-overlay').hide();
+          
+        
+        } else {
+            $('.loaderContainer').show();
+            $('.loading-overlay').show();
+        }
+        var urlView = '';
+        switch (id) {
+            case '1':
+                urlView = './Home/GetStudentData';
+                break;
+            case '1O':
+                urlView = './Home/GetAcademictrack';
+                break;
+            case '4O':
+                urlView = './Home/Gethallticketsreleived';
+                break;
+            case '6O':
+                urlView = './Home/Onlinegradecard';
+                break;
+            default:
+                urlView = './Home/GetStudentData/';
+                break;
+
+        }
+        if (id == "1") {
+            //alert($(this));
+            //debugger;
+            $('.Profile').addClass('active');
+            $('.picUpload, .gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Scholarship, .Course, .Attendance, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+        }
+      
+        $.ajax({
+
+            type: 'GET',
+            url: urlView,
+
+            success: (function (result) {
+                //debugger;
+                console.log(result);
+                $('#maindiv').html(result);
+                $('.loaderContainer').hide();
+                $('.loading-overlay').hide();
+                $('.back').hide();
+                var width = $(window).width();
+                if (width <= "1024") {
+                    $('.back').show();
+                }
+                else {
+                    $('.back').hide();
+                }
+            })
+        });
+
+    }
+    $('#profile_pic').click(function () {
+        $('#subMenu').addClass('open-menu');
+    })
+</script>

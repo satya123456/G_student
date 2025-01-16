@@ -1,0 +1,216 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Lmsdirectorysummary
+
+
+<style>
+    .table {
+        background: #fff;
+    }
+
+    .bg1 {
+        background: #ffeaee;
+    }
+
+    .bgBox {
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .bg2 {
+        background: #e4e6ed;
+    }
+
+    .bg3 {
+        background: #f0eee5;
+    }
+
+    .bgBox h4 {
+        margin-bottom: 10px;
+    }
+</style>
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Internal marks ( @ViewBag.subjectcode - @ViewBag.subjectname )</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="Lmsback()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+
+        @if (Model.Midmarks != null)
+        {
+        <div class="bgBox bg1">
+
+            <h4 class="sub-title">Mid marks</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+
+                        <tr>
+                            <th class="t-w-400">Name</th>
+                            <th class="t-w-400">Max marks</th>
+                            <th>Marks</th>
+
+
+                        </tr>
+                    </thead>
+                    @{ int i = 0;
+                    int totalMarks = 0;
+                    int totalMarks2 = 0; }
+                    @if (Model.Midmarks.Count() > 0)
+                    {
+
+                    foreach (var credits in Model.Midmarks)
+                    {
+                    <tr>
+                        <td>@credits.SUB_SECTION_NAME</td>
+                        <td>@credits.MAX_MARKS</td>
+                        <td>@credits.MARKS</td>
+                    </tr>
+                    i++;
+                    totalMarks += Convert.ToInt32(credits.MAX_MARKS); // Add MARKS to totalMarks
+                    totalMarks2 += Convert.ToInt32(credits.MARKS);
+                    }
+
+                    <tr>
+                        <td class="text-right"><b>Total Marks</b></td>
+                        <td><b>@totalMarks</b></td>
+                        <td><b>@totalMarks2</b></td>
+                    </tr>
+
+                    }
+                    else
+                    {
+                    <tr><td colspan="8" class="text-center">No data available</td></tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+        }
+        <br>
+        @if (Model.Assignmentmarks != null)
+        {
+        <div class="bgBox bg2">
+            <h4 class="sub-title">Assignment marks</h4>
+            <div class="table-responsive">
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th class="t-w-400">Name</th>
+                            <th class="t-w-400">Max marks</th>
+                            <th>Marks</th>
+
+
+                        </tr>
+                    </thead>
+                    @{ int i = 0;
+                    int totalMarks = 0;
+                    int totalMarks2 = 0; }
+                    @if (Model.Assignmentmarks.Count() > 0)
+                    {
+
+                    foreach (var credits in Model.Assignmentmarks)
+                    {
+                    <tr>
+                        <td>@credits.SUB_SECTION_NAME</td>
+                        <td>@credits.MAX_MARKS</td>
+                        <td>@credits.MARKS</td>
+                    </tr>
+                    i++;
+                    totalMarks += Convert.ToInt32(credits.MAX_MARKS); // Add MARKS to totalMarks
+                    totalMarks2 += Convert.ToInt32(credits.MARKS); // Add MARKS to totalMarks
+                    }
+
+                    <tr>
+                        <td class="text-right"><b>Total Marks</b></td>
+                        <td><b>@totalMarks</b></td>
+                        <td><b>@totalMarks2</b></td>
+                    </tr>
+
+                    }
+                    else
+                    {
+                    <tr><td colspan="8" class="text-center">No data available</td></tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+        }
+        <br>
+        @if (Model.Quizmarks != null)
+        {
+        <div class="bgBox bg1">
+            <h4 class="sub-title">Quiz marks</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+
+                        <tr>
+                            <th class="t-w-400">Name</th>
+                            <th class="t-w-400">Max marks</th>
+                            <th>Marks</th>
+
+
+                        </tr>
+                    </thead>
+                    @{ int i = 0;
+                    int totalMarks = 0;
+                    int totalMarks2 = 0; }
+                    @if (Model.Quizmarks.Count() > 0)
+                    {
+
+                    foreach (var credits in Model.Quizmarks)
+                    {
+                    <tr>
+                        <td>@credits.SUB_SECTION_NAME</td>
+                        <td>@credits.MAX_MARKS</td>
+                        <td>@credits.MARKS</td>
+                    </tr>
+                    i++;
+                    totalMarks += Convert.ToInt32(credits.MAX_MARKS);
+                    totalMarks2 += Convert.ToInt32(credits.MARKS);
+                    }
+
+                    <tr>
+                        <td class="text-right"><b>Total Marks</b></td>
+                        <td><b>@totalMarks</b></td>
+                        <td><b>@totalMarks2</b></td>
+                    </tr>
+
+                    }
+                    else
+                    {
+                    <tr><td colspan="8" class="text-center">No data available</td></tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+        }
+    </div>
+</section>
+
+<script>
+    function Lmsback() {
+
+
+        $('#maindiv').html("");
+        $.ajax({
+
+            type: 'GET',
+            url: './Home/getlmssubjects',
+
+            success: (function (result) {
+
+                $('#maindiv').html(result);
+
+
+            })
+        });
+
+    }
+</script>

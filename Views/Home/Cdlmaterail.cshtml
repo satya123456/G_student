@@ -1,0 +1,167 @@
+﻿
+
+<div class="content-container">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">CDL Study Material</h6>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="row box-inner" >
+    <div class="col-md-3"></div>
+   
+    <div class="col-md-1"></div>
+
+    @if (Session["college_code"].ToString().Equals("CDL") && Session["Curr_sem"].ToString().Equals("1"))
+    {
+        if (Session["course_code"].ToString().Equals("BCOM") || Session["course_code"].ToString().Equals("BA"))
+        {
+
+
+            <div class="row" id="BA">
+
+                <div class="row back" style="margin-left: 100px;">
+                    <div class="col-md-12">
+                        <a href="Welcome.aspx">
+                            <img src="../Content/images/back_50.png" alt="back" class="pull-right">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/101_HINDI_Study_Material.pdf" target="_blank">
+
+                        <img src="ontent/Content/images/student-handbook.png" alt="material" />
+                        <h6>Hindi Materail</h6>
+                    </a>
+
+                </div>
+
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/101_SPECIAL_ENGLISH_Study_Material.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6>English Materail</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/101_TELUGU_Study_Material.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6>Telugu Materail</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/101-Sanskrit_Study_Material.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6>Sanskrit Materail</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/102_Contemporary_Study_Material_EM.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6>Contemporary Materail EM</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/102_Contemporary_Study_Material_TM.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6> Contemporary Study Materail TM</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/103_EM_Environment_Study_Material_EM.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6>Environment Study Materail EM</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/103_EM_Environment_Study_Material_TM.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6>Environment Study Materail TM</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/104-Scince_Technology_Study_Material_EM.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6> Scince & Technology Material EM</h6>
+                    </a>
+
+                </div>
+                <div class="col-md-2 col-xs-6 col-sm-3 ">
+                    <a href="Materials/104-Scince_Technology_Study_Material_TM.pdf" target="_blank">
+
+                        <img src="Content/images/student-handbook.png" alt="material" />
+                        <h6> Scince & Technology Material TM</h6>
+                    </a>
+
+                </div>
+            </div>
+        }
+    }
+
+   @if (Session["college_code"].ToString().Equals("CDL") && Session["Curr_sem"].ToString().Equals("1"))
+   {
+       if (Session["course_code"].ToString().Equals("MA"))
+       {
+
+    <div class="row" id="MA">
+
+
+
+        <div class="col-md-2 col-xs-6 col-sm-3 ">
+            <a href="Materials/101_History_ELskills.pdf" target="_blank">
+
+                <img src="Content/images/student-handbook.png" alt="material" />
+                <h6>History EM</h6>
+            </a>
+
+        </div>
+        <div class="col-md-2 col-xs-6 col-sm-3 ">
+            <a href="Materials/103_Britsh_prose_fictioin.pdf" target="_blank">
+
+                <img src="Content/images/student-handbook.png" alt="material" />
+                <h6>British prose EM</h6>
+            </a>
+
+        </div>
+        <div class="col-md-2 col-xs-6 col-sm-3 ">
+            <a href="Materials/102_British_Poetry.pdf" target="_blank">
+
+                <img src="Content/images/student-handbook.png" alt="material" />
+                <h6>British poetry EM</h6>
+            </a>
+
+        </div>
+        <div class="col-md-2 col-xs-6 col-sm-3 ">
+            <a href="Materials/PUBLIC_SPEAKING_PAPER.pdf" target="_blank">
+
+                <img src="Content/images/student-handbook.png" alt="material" />
+                <h6>Public speaking EM</h6>
+            </a>
+
+
+        </div>
+    </div>
+
+       }
+
+   }
+</div>
+    </div>

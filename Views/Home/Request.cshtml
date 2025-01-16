@@ -1,0 +1,529 @@
+﻿@model Gstudent.ViewModels.permissions
+
+
+
+@using (Ajax.BeginForm("createpermission", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", OnSuccess = "persuccess", OnFailure = "return onError(event)" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Hostlers.FirstOrDefault().COLLEGE_CODE)
+    @Html.HiddenFor(m => m.Hostlers.FirstOrDefault().CAMPUS)
+    @Html.HiddenFor(m => m.Hostlers.FirstOrDefault().dept_code)
+    @Html.HiddenFor(m => m.Hostlers.FirstOrDefault().GENDER)
+    @Html.HiddenFor(m => m.Hostlers.FirstOrDefault().biometric_id)
+    @Html.HiddenFor(m => m.Hostlers.FirstOrDefault().parent_mobile)
+    @Html.HiddenFor(m => m.Hostlers.FirstOrDefault().HOSTEL_BLOCK)
+
+<div class="row">
+
+    <div class="col-12 col-sm-6 col-md-3 col-xl-3">
+        <div class="form-group ">
+            <label>Registration number</label>
+            <input class="form-control" type="text" readonly value="@Model.Hostlers.FirstOrDefault().regdno" name="regdno">
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-9 col-xl-5">
+        <div class="form-group ">
+            <label>Name</label>
+            <input class="form-control" type="text" readonly value="@Model.Hostlers.FirstOrDefault().name" name="studentname">
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-6  col-xl-4">
+        <label>Type</label>
+        <div class="sec-inline mt-2">
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="Permission" name="radioBtn" value="P" checked="" onclick="GetType()">
+                <label class="form-check-label" for="Permission">Permission</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="Leave" name="radioBtn" value="F" onclick="GetType()">
+                <label class="form-check-label" for="Leave">Leave</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="Vacation" name="radioBtn" value="V" onclick="GetType()">
+                <label class="form-check-label" for="Vacation">Vacation</label>
+            </div>
+        </div>
+
+    </div>
+
+
+    @*@if (Convert.ToString(Session["campus_code"]) == "BLR" && Convert.ToString(Session["gender"]) == "F")*@
+        @if (Convert.ToString(Session["campus_code"]) == "BLR" )
+        {
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3">
+                <div class="form-group">
+                    <label>Hostel coordinator name </label>
+                    @Html.DropDownList("hostelconame", (IEnumerable<SelectListItem>)ViewBag.hostelcoordinators, "Select coordinator", new { @class = "form-control", @id = "hostelconame", @onchange = "hostelconamechange()" })
+
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3">
+                <div class="form-group ">
+                    <label>Hostel coordinator mobile number</label>
+                    <input class="form-control" type="text" readonly value="" name="hostelcomobile" id="hostelcomobile">
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3" id="coordinatetext">
+                <div class="form-group ">
+                    <label>Hostel coordinator name</label>
+                    <input class="form-control" type="text" readonly value="@Model.warden.FirstOrDefault().emp_name">
+                    <input class="form-control" type="text" readonly value="@Model.warden.FirstOrDefault().empid" name="hostelconame" hidden>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-3">
+                <div class="form-group ">
+                    <label>Hostel coordinator mobile number</label>
+                    <input class="form-control" type="text" readonly value="@Model.warden.FirstOrDefault().mobile" name="hostelcomobile">
+                </div>
+            </div>
+        }
+    <div class="col-12 col-sm-6 col-md-6 col-xl-2">
+        <div class="form-group  ">
+            <label>Travelling by</label>
+            <select class="form-select" name="travellingby">
+
+                <option value="Air">
+                    Air
+                </option>
+                <option value="Train">
+                    Train
+                </option>
+                <option value="Bus">
+                    Bus
+                </option>
+
+                <option value="Vehicle">
+                    Vehicle
+                </option>
+
+            </select>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3 col-xl-4">
+        <div class="form-group ">
+            <label>Travelling information</label>
+            <input class="form-control" type="text" value="" name="travelinfo" id="travelinfo" maxlength="200">
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3 col-xl-3 prmsn_time">
+        <div class="form-group ">
+            <label>Date</label>
+            <input class="form-control" type="text" value="today();" placeholder="DD/MM/YYYY" id="datePicker" name="datePicker" readonly="">
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3 col-xl-3 prmsn_time">
+        <div class="form-group ">
+            <label>From time</label>
+            <input class="form-control hasWickedpicker" type="text" value="" placeholder="HH:MM:SS" id="fromtimepicker" name="fromtimepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3 col-xl-2 prmsn_time ">
+        <div class="form-group ">
+            <label>To time</label>
+            <input class="form-control hasWickedpicker" type="text" value="" placeholder="HH:MM:SS" id="Totimepicker" name="Totimepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3 col-xl-3 leave_time" style="display: none;">
+        <div class="form-group ">
+            <label>From date</label>
+            <input class="form-control" type="text" value="" placeholder="DD/MM/YYYY" id="FromdatePicker" name="FromdatePicker" readonly="">
+
+
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 col-xl-3 leave_time" style="display: none;">
+        <div class="form-group ">
+            <label>Time</label>
+            <input class="form-control hasWickedpicker" type="text" value="" placeholder="HH:MM:SS" id="fdatetimepicker" name="fdatetimepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3 col-xl-2 leave_time" style="display: none;">
+        <div class="form-group ">
+            <label>To date</label>
+            <input class="form-control" type="text" value="" placeholder="DD/MM/YYYY" id="TodatePicker" name="TodatePicker" readonly="">
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3 col-xl-4 leave_time" style="display: none;">
+        <div class="form-group ">
+            <label>Time</label>
+            <input class="form-control hasWickedpicker" type="text" value="" placeholder="HH:MM:SS" id="Tdatetimepicker" name="Tdatetimepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+        <div class="form-group">
+            <label>Reason</label>
+<textarea class="form-control" style="height: 32px; overflow: hidden;" name="Reason" id="Reason" maxlength="500"></textarea>
+        </div>
+    </div>
+</div>
+
+}
+
+
+<div class="row">
+    <div class="col-12 btns-group" id="submitarea">
+
+        <div class="d-flex justify-content-center">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="checkBox1" name="checkbox" value="something" checked="">
+                <label class="form-check-label" for="checkBox1">I am leaving the hostel on my own risk and responsibility until I come back</label>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="submit">Submit</button>
+        <button class="btn btn-secondary" id="Reset">Reset</button>
+    </div>
+
+</div>
+
+
+
+
+<script>
+    function hostelconamechange() {
+
+        var val = $('#hostelconame').find(":selected").val();
+        if (val == "" || val == null) {
+            document.getElementById("hostelcomobile").value = "";
+        }
+        else {
+            $.ajax({
+                type: "Get",
+                url: './Home/Getcoordinatormobile',
+                data: { 'empid': val, },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    //   console.log(data);
+                    document.getElementById("hostelcomobile").value = data[0].mobile;
+                }
+            });
+        }
+
+
+    }
+    $(document).ready(function () {
+
+        $('input[name="radioBtn"]').change(function () {
+            $('#FromdatePicker').val('');
+            $('#TodatePicker').val('');
+           // $('#datePicker').val('');
+            $('#fromtimepicker').val('');
+            $('#Totimepicker').val('');
+
+
+        });
+    });
+
+    $('#Reset').click(function () {
+      //  $('#form0')[0].reset();
+        loadConfigView('6');
+    });
+
+
+    $("#submit").on("click", function () {
+        var decider = 1;
+        if (!$('#checkBox1').is(':checked')) {
+
+            decider = 0;
+            swal({
+                icon: "warning",
+                text: "Please check / accept conditions to proceed"
+            });
+        }
+        else {
+
+
+            $("#form0").validate({
+                // Specify validation rules
+                rules: {
+                    Reason: {
+                        required: true,
+                        //digits: true,
+                        // minlength: 10,
+                        //maxlength: 10,
+                    },
+                    travelinfo: {
+                        required: true,
+                        //email: true
+                    },
+                    hostelconame: {
+                        required: true,
+                        //email: true
+                    }
+
+
+                },
+                messages: {
+                    Reason: {
+                        required: "Please input reason",
+                    },
+                    travelinfo: {
+                        required: "Please input travelling information",
+                    },
+                    hostelconame: {
+                        required: "Please input hostel coordinator name",
+                    }
+
+                },
+
+            });
+
+            if ($("#form0").valid()) {
+                //debugger;
+                date = new Date($('#datePicker').val());
+                date1 = new Date($('#FromdatePicker').val());
+                date2 = new Date($('#TodatePicker').val());
+                fromtime = $('#fromtimepicker').val();
+                totime = $('#Totimepicker').val();
+                fromtime1 = $('#fdatetimepicker').val();
+                totime1 = $('#Tdatetimepicker').val();
+                var startDateTime = new Date('2000-01-01 ' + fromtime);
+                var endDateTime = new Date('2000-01-01 ' + totime);
+                var fromTotalMinutes = "";
+                var toTotalMinutes = "";
+                var fromHours = "";
+                var fromPeriod = "";
+                var toHours = "";
+                var toPeriod = "";
+                
+
+
+                if (fromtime != "" && totime != "") {
+                    var time_partsfrom = fromtime.split(" "); 
+                    var am_pmfrom = time_partsfrom[1];
+                    var time_partsto = totime.split(" ");
+                    var am_pmto = time_partsto[1];
+                    const fromTimeParts = fromtime.split(/:| /);
+                    const toTimeParts = totime.split(/:| /);
+                    fromHours = parseInt(fromTimeParts[0]);
+                    const fromMinutes = parseInt(fromTimeParts[1]);
+                    fromPeriod = fromTimeParts[2];
+
+                     toHours = parseInt(toTimeParts[0]);
+                    const toMinutes = parseInt(toTimeParts[1]);
+                     toPeriod = toTimeParts[2];
+
+                    if ((fromPeriod === 'PM' && fromHours !== 12) || (toPeriod === 'AM' && toHours === 12)) {
+                        fromHours += 12;
+                    }
+
+                    if ((toPeriod === 'PM' && toHours !== 12) || (fromPeriod === 'AM' && fromHours === 12)) {
+                        toHours += 12;
+                    }
+
+                    fromTotalMinutes = fromHours * 60 + fromMinutes;
+                    toTotalMinutes = toHours * 60 + toMinutes;
+                }
+                else {
+                    var am_pmfrom = "";
+                    var am_pmto = "";
+
+                }
+                //console.log(date1);
+
+               
+
+                if ($("#form0 input[type='radio']:checked").val() == "F" || $("#form0 input[type='radio']:checked").val() == "V") {
+
+                    if (date1 == 'Invalid Date') {
+                        decider = 0
+                        swal({
+                            icon: "warning",
+                            text: "Please enter from date"
+                        });
+                    }
+                    else if (date2 == 'Invalid Date') {
+                        decider = 0
+                        swal({
+                            icon: "warning",
+                            text: "Please enter to date"
+                        });
+                    }
+                    else if (fromtime1 == "" || totime1 == "") {
+                        decider = 0;
+                        swal({
+                            icon: "warning",
+                            text: "times cannot be the null"
+                        });
+
+                    }
+                    var time_difference = date2.getTime() - date1.getTime();
+                    var days_difference = time_difference / (1000 * 60 * 60 * 24);
+                    var d = new Date();
+                    var currentdate = d.setHours(0, 0, 0, 0);
+                    // var CurrentDate = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+                    var CurrentDate = currentdate;// Get the numerical representation of the current date
+                    var fromdate = date1.getTime(); // Get the numerical representation of fromdate
+
+                    //var fromdate = date1.getFullYear() + '/' + (date1.getMonth() + 1) + '/' + date1.getDate();
+                    if (days_difference < 0) {
+                        swal({
+                            icon: "warning",
+                            text: "From date should be less than To date"
+                        });
+
+                        decider = 0;
+                    }
+                    else if (days_difference < 15 && $("#form0 input[type='radio']:checked").val() == "V") {
+                        swal({
+                            icon: "warning",
+                            text: "Vacation leaves must be equal to 15 days or more"
+                        });
+
+                        decider = 0;
+                    }
+                    else if (fromdate < CurrentDate) {
+                        swal({
+                            icon: "warning",
+                            text: "From date should be equal or  greater than Current date"
+                        });
+
+                        decider = 0;
+                    }
+                }
+                else {
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr",
+                        "May", "Jun", "Jul", "Aug",
+                        "Sep", "Oct", "Nov", "Dec"];
+
+                    const day = new Date().getDate();
+
+                    const monthIndex = new Date().getMonth();
+                    const monthName = monthNames[monthIndex];
+
+                    const year = new Date().getFullYear();
+                    var datenew = day + "-" + monthName + "-" + year;
+
+                    //alert()
+                   
+              
+
+
+                 
+
+                   if (date == 'Invalid Date') {
+                        decider = 0;
+                        swal({
+                            icon: "warning",
+                            text: "Please enter permission date"
+                        });
+
+                    }
+
+                    else if (fromtime == totime) {
+                        decider = 0;
+                        swal({
+                            icon: "warning",
+                            text: "Permission times cannot be the same"
+                        });
+
+                    }
+                    else if (fromTotalMinutes >= toTotalMinutes) {
+                        decider = 0;
+                        swal({
+                            icon: "warning",
+                            text: "Permission fromtime cannot be greater than totime"
+                        });
+
+                    }
+
+                    else if (am_pmfrom == "PM" && am_pmto == "AM") {
+                        decider = 0;
+                        swal({
+                            icon: "warning",
+                            text: "Permission should be within a day"
+                        });
+                    }
+                    else if ((fromHours >= "21" && fromPeriod == "PM") || (toHours >= "21" && toPeriod == "PM")) {
+                        decider = 0;
+                        swal({
+                            icon: "warning",
+                            text: "You cannot apply permission after 9 PM"
+                        });
+
+                    }
+
+                    else if (startDateTime > endDateTime) {
+                        decider = 0;
+                        swal({
+                            icon: "warning",
+                            text: "Fromtime should be less than Totime"
+                        });
+
+                    }
+                }
+
+                if ($('#datePicker').val() == datenew) {
+
+                    var time = $('#fromtimepicker').val();
+                    var dt = $('#datePicker').val() + " " + time;
+                    var userTime = new Date(dt);
+                    var now = new Date();
+                    var nowTime = new Date((now.getMonth() + 1) + "-" + now.getDate() + "-" + now.getFullYear() + " " + now.getHours() + ":" + now.getMinutes());
+                    if (nowTime.getTime() > userTime.getTime()) {
+
+                     
+                        swal({
+                            icon: "warning",
+                            text: "Fromtime should not less than current time"
+                        });
+                        decider = 0;
+
+                    }
+                }
+
+
+
+                if (decider == 1) {
+
+                    $("#form0").submit();
+                }
+            }
+
+        }
+    });
+
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+
+    function onError(e) {
+
+        if (e.target.status == "401") {
+            var result = 'You had applied a leave in between dates !';
+            swal({ icon: "warning", text: result });
+        }
+        else if (e.target.status == "402") {
+            var result = 'You had applied a permission in between date and time !';
+            swal({ icon: "warning", text: result });
+        }
+        else if (e.target.status == "403") {
+            var result = 'You had applied a vacation in between dates and time !';
+            swal({ icon: "warning", text: result });
+        }
+        else if (e.target.status == "404") {
+            var result = 'Same day permissions && leaves only accepted after rejection of either!';
+            swal({ icon: "warning", text: result });
+        }
+        }
+
+
+    function persuccess() {
+        var result = 'successfully applied';
+        swal({ icon: "success", text: result });
+        loadConfigView('6');
+
+    }
+</script>

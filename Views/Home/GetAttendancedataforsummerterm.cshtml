@@ -1,0 +1,358 @@
+﻿
+@model Gstudent.ViewModels.Studentrecords.Attendancesummary
+
+
+
+<style>
+    .progress {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        border: none;
+        border-radius: 10px;
+        height: 10px;
+    }
+
+        .progress::-webkit-progress-value {
+            border-radius: 10px;
+        }
+
+    .progress3::-webkit-progress-value {
+        background: #007367;
+    }
+
+    .progress4::-webkit-progress-value {
+        background: #2196F3;
+    }
+
+    .progress::-webkit-progress-bar {
+        background-color: #f0f0f0;
+    }
+
+    .ri-circle-fill {
+        margin-right: 5px;
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 50%;
+    }
+
+    .ri-red {
+        background: #007367;
+    }
+
+    .ri-blue {
+        background: #2196f3;
+    }
+
+    .legend {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+        .legend span {
+            margin-left: 15px;
+        }
+</style>
+
+<section class="content-container contentContainer">
+    @if (Model.notes.Count() > 0)
+    {
+        <input type="text" value="@Model.notes.FirstOrDefault().percentage" id="userId" hidden />
+
+    }
+    else
+    {
+        <input type="text" value="0" id="userId" hidden />
+    }
+    @if (Model.notessecond.Count() > 0)
+    {
+        <div class="attendance-container box-inner">
+            @foreach (var atten in Model.notessecond.Select(X => X.datetime).Distinct())
+            {
+                <div class="">
+                    <div class="filter" style="">
+                        <div class="table-heading">
+                            <h5>Attendance Summer Term</h5>
+                        </div>
+                        <div class="table-responsive table_style">
+
+                            <table class="table table-bordered" id="myTablevend6">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Time</th>
+                                        <th>Course name </th>
+                                        <th>Faculty name</th>
+                                        <th>Status</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var attendance in Model.notessecond)
+                                    {
+                                        <tr class="">
+                                            <td>@attendance.sessiondate</td>
+                                            <td>@attendance.subjectname</td>
+                                            <td>@attendance.facultyname</td>
+                                            <td>@attendance.Status</td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    }
+    else
+    {
+<div class="attendance-container box-inner">
+    <div class="filter" style="">
+        <div class="table-heading">
+            <h5>Attendance Summer Term</h5>
+        </div>
+        <div class="table-responsive table_style">
+            <table class="table table-bordered" id="myTablevend6">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Course name</th>
+                        <th>Faculty name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="text-center">No data available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    }
+
+
+
+
+
+
+
+    @if (Model.notes.Count() > 0)
+    {
+        <div class="attendance-summer-container box-inner">
+            @foreach (var atten in Model.notes.Select(X => X.datetime).Distinct())
+            {
+                <div class="filter" style="">
+
+                    <div class="table-responsive">
+                        <div class="legend">
+                            <h5>Subject wise</h5>
+                            <div class="legend-items">
+                                <span><i class="ri-circle-fill ri-red"></i>Below 65</span>
+                                <span><i class="ri-circle-fill ri-blue"></i>Above 65 or equal</span>
+                            </div>
+                        </div>
+
+                        <style>
+                            .legend {
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between; /* Ensures items are spaced apart */
+                            }
+
+                                .legend h5 {
+                                    margin: 0; /* Remove default margin */
+                                }
+
+                            .legend-items {
+                                display: flex;
+                                align-items: center;
+                            }
+
+                                .legend-items span {
+                                    margin-left: 10px; /* Adjust as needed for spacing between spans */
+                                }
+
+                                    .legend-items span:first-child {
+                                        margin-left: 0; /* No margin for the first span */
+                                    }
+                        </style>
+                        <table class="table table-bordered tbl-style" id="myTablevend">
+                            <thead>
+                                <tr>
+                                    <th>Course code</th>
+                                    <th>Course name</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model.notes)
+                                {
+
+                                    <tr class="">
+                                        <td>@attendance.subjectcode</td>
+                                        <td>@attendance.subjectname</td>
+
+                                        @if (Math.Ceiling(Convert.ToDouble(attendance.percentage)) >= 65)
+                                        {
+                                            <td class="text-center"><span>@Convert.ToDouble(attendance.percentage)%</span><progress class="progress progress4" max="100" value="@attendance.percentage"></progress></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center"><span>@Convert.ToDouble(attendance.percentage)%</span><progress class="progress progress3" max="100" value="@attendance.percentage"></progress></td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            }
+        </div>
+    }
+    else
+    {
+<div class="attendance-summer-container box-inner">
+    <div class="filter" style="">
+        <div class="table-heading">
+            <h5>Subject wise</h5>
+        </div>
+        <div class="table-responsive table_style">
+            <table class="table table-bordered" id="myTablevend6">
+                <thead>
+                    <tr>
+                        <th>Course code</th>
+                        <th>Course name</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="text-center">No data available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    }
+
+</section>
+
+
+        <script>
+
+
+            $(document).ready(function () {
+
+                $('#myTablevend6').DataTable({
+                    order: [[2, 'desc']]
+                });
+            });
+
+
+        </script>
+
+
+      
+        <script>
+    /*$('#datatable').DataTable();*/
+
+
+
+
+
+    $(function () {
+        $('.highcharts-credits').hide();
+
+        var percentage = parseFloat($("#userId").val());
+        var roundedPercentage = percentage.toFixed(2);
+        var roundedPercentageNumber = parseFloat(roundedPercentage);
+        var absent = 100 - percentage;
+        var roundedAbsent = absent.toFixed(2);
+        var roundedAbsentNumber = parseFloat(roundedAbsent);
+        //var absent = 100 - percentage;
+        $('#piechart').highcharts({
+           // colors: ['rgb(0 161 27)', 'rgb(255, 69, 96)'],
+            colors: ['rgb(33, 150, 243)', 'rgb(255, 69, 96)'],
+            title: {
+                text: percentage + '%',
+                verticalAlign: 'middle',
+                fontSize: '45',
+               @* legend: {
+                    name: {
+                        fontSize: '40px',
+                    }
+                },*@
+
+
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: false
+                    },
+                    borderWidth: 0,
+                    style: { fontSize: '40px' }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Attendance',
+                innerSize: '95%',
+                data: [{
+                    name: 'Present',
+                    y: roundedPercentageNumber
+                }, {
+                    name: 'Absent',
+                    y: roundedAbsentNumber
+                }]
+            }],
+            accessibility: {
+                enabled: true // Enable accessibility features
+            },
+            credits: {
+                enabled: false
+            },
+
+        });
+
+    });
+    function subject() {
+
+        var currentDate = new Date();
+        $.ajax({
+            type: 'GET',
+            url: "./Home/GetAttendanceSummerTerm",
+            datatype: JSON,
+            data: {
+                'category': "subject",
+                'date': currentDate,
+            },
+            success: (function (response) {
+                $('#available7').html("");
+                $('#available7').html(response);
+                $('#available7').show();
+                if (response.trim() === '<div>No data available</div>') {
+                }
+                else {
+                    $('#myTablevend6').DataTable({
+                    });
+                }
+            })
+        });
+    };
+        </script>
+
+
+
+
+
+
+

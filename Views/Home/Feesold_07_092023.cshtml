@@ -1,0 +1,434 @@
+﻿
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title"></h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <h1 class="h1 page-title">Fees</h1>
+
+        </div>
+
+        <div class="col-md-2 mb-1">
+            <a class="btn btn-primary btn-sm" href="https://gpay.gitam.edu/?REGDNO=@Session["uid"].ToString()&MOBILE=@Session["parentmobile"].ToString()" target="_blank">Pay now</a>
+
+        </div>
+    </div>
+    <div class="box-inner">
+
+        <h3 class="page-title">
+            Hostel
+
+        </h3>
+        <div class="box-inner">
+            <div id="dynamictablehospay" class="">
+
+
+                <div id="dynamictablehospay" class="table-responsive dropdown_filter  table_row_hover">
+                </div>
+            </div>
+
+
+        </div>
+
+        <h3 class="page-title">
+            Tution
+
+        </h3>
+        <div class="box-inner">
+            <div id="dynamic" class="">
+
+
+                <div id="dynamictable" class="table-responsive dropdown_filter  table_row_hover">
+                </div>
+            </div>
+        </div>
+        <h3 class="h3 mb-0 page-title">
+            Evaluation
+        </h3>
+        <div class="box-inner">
+            <div id="dynamicevaul" class="">
+
+
+                <div id="dynamictableevaul" class="table-responsive dropdown_filter  table_row_hover">
+                </div>
+            </div>
+        </div>
+        <h3 class="h3 mb-0 page-title">
+            Others
+        </h3>
+        <div class="box-inner">
+            <div id="dynamicother" class="r">
+
+
+                <div id="dynamictableother" class="table-responsive dropdown_filter  table_row_hover">
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<h1 class="h1 mb-0 page-title">Transaction history</h1>
+        </br>
+        <div class="box-inner">
+            <div class="row">
+
+                <div class="col-md-6 col-xs-12">
+                    <h4 class="h4 mb-0 page-title">
+                        Tution payments
+                    </h4>
+                    <div id="dynamictutpay" class="">
+
+
+                        <div id="dynamictabletutpay" class="table-responsive dropdown_filter  table_row_hover">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <h4 class="h4 mb-0 page-title">
+                        Hostel payments
+                    </h4>
+                    <div id="dynamicevaul" class="">
+
+
+                        <div id="dynamictablehospay" class="table-responsive dropdown_filter  table_row_hover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</section>
+
+
+<script>
+    $(document).ready(function () {
+
+
+        Tutionfees();
+        Otherfees();
+        Evaultionfees();
+
+        tutionpayment();
+        hostelpayment();
+    });
+    function Tutionfees() {
+
+        $.ajax({
+            type: "Get",
+            url: './Home/gettuitionfee',
+            contentType: "application/json; charset=utf-8",
+            data: {
+            },
+            success: function (data) {
+                debugger;
+                console.log(data);
+                if (data.length == 0) {
+                    $('#dynamictable').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl" style="width:100%"><thead><tr><th class="l-w-200">Challan no</th><th>Payment date</th><th>Total fee</th></tr></thead><tbody>';
+                    trHTML += '<tr class="text-center"><td colspan="12">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    $('#dynamictable').append(trHTML);
+                    $("#dynamic").show();
+
+
+                } else {
+
+
+                    $('#dynamictable').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl" style="width:100%"><thead><tr><th class="l-w-200" style="width:450px;">Challan no</th><th>Payment date</th><th>Total fee</th></tr></thead><tbody>';
+
+                    $.each(data, function (key, value) {
+
+
+                        trHTML +=
+
+
+                            "</td><td>" + value.challan_no +
+                            "</td><td>" + value.date +
+                            "</td><td>" + value.total_fee +
+                          /*  "</td><td>" + value.txn_id +*/
+
+
+                            "</td></tr> "
+                    });
+
+
+                    trHTML += "</tbody></table>";
+
+                    $('#dynamictable').append(trHTML);
+                    $('#tbl').dataTable({
+
+
+                    });
+
+                }
+            }
+
+        });
+
+    }
+
+    function Otherfees() {
+
+        $.ajax({
+            type: "Get",
+            url: './Home/getotherfee',
+            contentType: "application/json; charset=utf-8",
+            data: {
+            },
+            success: function (data) {
+                console.log(data);
+
+                if (data.length == 0) {
+                    $('#dynamictableother').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl1" style="width:100%"><thead><tr><th>Challan no</th><th>Payment date</th><th>Total fee</th><th>Description</th></tr></thead><tbody>';
+                    trHTML += '<tr class="text-center"><td colspan="12">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    $('#dynamictableother').append(trHTML);
+                    $(".dynamicother").show();
+
+                } else {
+
+
+                    $('#dynamictableother').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl1" style="width:100%"><thead><tr><th>Challan no</th><th>Payment date</th><th>Total fee</th><th>Description</th></tr></thead><tbody>';
+
+                    $.each(data, function (key, value) {
+
+
+                        trHTML +=
+
+
+                            "</td><td>" + value.challan_no +
+                            "</td><td>" + value.date +
+                            "</td><td>" + value.total_fee +
+                      /*      "</td><td>" + value.txn_id +*/
+                            "</td><td>" + value.description +
+
+                            "</td></tr> "
+                    });
+
+
+                    trHTML += "</tbody></table>";
+
+                    $('#dynamictableother').append(trHTML);
+                    $('#tbl1').dataTable({
+
+
+                    });
+
+                }
+            }
+
+        });
+
+    }
+
+    function Evaultionfees() {
+
+        $.ajax({
+            type: "Get",
+            url: './Home/getevaulfee',
+            contentType: "application/json; charset=utf-8",
+            data: {
+            },
+            success: function (data) {
+
+                console.log(data);
+                if (data.length == 0) {
+                    $('#dynamictableevaul').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl2" style="width:100%"><thead><tr><th>Challan no</th><th>Payment date</th><th>Total fee</th><th>Description</th></tr></thead><tbody>';
+                    trHTML += '<tr class="text-center"><td colspan="12">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    $('#dynamictableevaul').append(trHTML);
+                    $(".dynamicevaul").show();
+
+
+
+                } else {
+
+
+                    $('#dynamictableevaul').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl2" style="width:100%"><thead><tr><th>Challan no</th><th>Payment date</th><th>Total fee</th><th>Description</th></tr></thead><tbody>';
+
+                    $.each(data, function (key, value) {
+
+
+                        trHTML +=
+
+                            "</td><td>" + value.challan_no +
+                            "</td><td>" + value.date +
+                            "</td><td>" + value.total_fee +
+                         /*   "</td><td>" + value.txn_id +*/
+                            "</td><td>" + value.description +
+
+                            "</td></tr> "
+                    });
+
+
+                    trHTML += "</tbody></table>";
+
+                    $('#dynamictableevaul').append(trHTML);
+                    $('#tbl2').dataTable({
+
+
+                    });
+
+
+                }
+            }
+
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function tutionpayment() {
+
+        $.ajax({
+            type: "Get",
+            url: './Home/tutionpayment',
+            contentType: "application/json; charset=utf-8",
+            data: {
+            },
+            success: function (data) {
+
+                console.log(data);
+                if (data.length == 0) {
+                    $('#dynamictabletutpay').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl5" style="width:100%"><thead><tr><th>Payment date</th><th>Total fee</th></tr></thead><tbody>';
+                    trHTML += '<tr class="text-center"><td colspan="12">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    $('#dynamictabletutpay').append(trHTML);
+                    $(".dynamicevaul").show();
+
+
+
+                } else {
+
+
+                    $('#dynamictabletutpay').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl5" style="width:100%"><thead><tr><th>Payment date</th><th>Total fee</th></tr></thead><tbody>';
+
+                    $.each(data, function (key, value) {
+
+
+                        trHTML +=
+
+
+                            "</td><td>" + value.Date +
+                            "</td><td>" + value.total_fee +
+
+
+                            "</td></tr> "
+                    });
+
+
+                    trHTML += "</tbody></table>";
+
+                    $('#dynamictabletutpay').append(trHTML);
+                    $('#tbl5').dataTable({
+
+
+                    });
+
+
+                }
+            }
+
+        });
+
+    }
+
+    function hostelpayment() {
+
+        $.ajax({
+            type: "Get",
+            url: './Home/hostelpayment',
+            contentType: "application/json; charset=utf-8",
+            data: {
+            },
+            success: function (data) {
+
+                console.log(data);
+                if (data.length == 0) {
+                    $('#dynamictablehospay').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl6" style="width:100%"><thead><tr><th>Challan no</th><th>Payment date</th><th>Total fee</th></tr></thead><tbody>';
+                    trHTML += '<tr class="text-center"><td colspan="12">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    $('#dynamictablehospay').append(trHTML);
+                    $(".dynamicevaul").show();
+
+
+
+                } else {
+
+
+                    $('#dynamictablehospay').html('');
+                    trHTML = '<table class="table table-bordered"  id="tbl6" style="width:100%"><thead><tr><th>Challan no</th><th>Payment date</th><th>Total fee</th></tr></thead><tbody>';
+
+                    $.each(data, function (key, value) {
+
+
+                        trHTML +=
+                            "</td><td>" + value.CHALLAN_NO +
+                            "</td><td>" + value.Date +
+                            "</td><td>" + value.total_fee +
+
+                            "</td></tr> "
+                    });
+
+
+                    trHTML += "</tbody></table>";
+
+                    $('#dynamictablehospay').append(trHTML);
+                    $('#tbl6').dataTable({
+
+
+                    });
+
+
+                }
+            }
+
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

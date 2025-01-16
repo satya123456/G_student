@@ -1,0 +1,324 @@
+﻿
+@model IEnumerable<Gstudent.Models.FeedbackMaster>
+
+<style>
+    .academin-track-ul ul {
+        list-style: disc;
+        margin: 20px;
+    }
+    .bg_gray {
+        background: #ccc;
+    }
+
+
+    .legend {
+        color: #ccc;
+        border: none;
+        font-size: 17px;
+    }
+    /* .w-40{
+        width:40px;
+    }*/
+</style>
+@{
+    var feedback = Convert.ToString(Session["fbflag"]);
+}
+<div class="content-container ">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Feedback</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="box-inner">
+        <div class="insertdiv">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Subject<span style="color:red">*</span></label>
+                        @Html.DropDownList("Subject", (IEnumerable<SelectListItem>)ViewBag.subjectlist, "Select subject", new { @class = "form-control", @onchange = "GetselectByType1();", @id = "Subject" })
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Faculty <span style="color:red">*</span></label>
+                        @Html.DropDownList("FacultyId", new SelectList(""), "Select", new { @class = "form-control" })
+
+                    </div>
+                </div>
+
+
+                @if(Session["curr_sem"].ToString().Trim() == "1")
+                {
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>Feedback session <span style="color:red">*</span></label>
+                            @*@Html.DropDownList("Feedbacksession", new SelectList(""), "Even end term", new { @class = "form-control", @Readonly = "readonly" })*@
+                            @Html.DropDownList("Feedbacksession", new List<SelectListItem>() { new SelectListItem { Text = "Even Mid term", Value = "2" } }, new { @class = "form-control", @Readonly = "readonly" })
+                        </div>
+                    </div>
+                }
+
+                else if(Session["curr_sem"].ToString().Trim()== "2" && Session["campus_code"].ToString().Trim() == "VSP" && Session["college_code"].ToString().Trim() == "GIM" && Session["branch_code"].ToString().Trim() == "MBA" && Session["batchstart"].ToString().Trim() == "2024")
+
+                {
+
+
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>Feedback session <span style="color:red">*</span></label>
+                            @*@Html.DropDownList("Feedbacksession", new SelectList(""), "Even end term", new { @class = "form-control", @Readonly = "readonly" })*@
+                            @Html.DropDownList("Feedbacksession", new List<SelectListItem>() { new SelectListItem { Text = "Even Mid term", Value = "1" } }, new { @class = "form-control", @Readonly = "readonly" })
+                        </div>
+                    </div>
+
+
+                }
+                else if(Session["curr_sem"].ToString().Trim() == "3" && Session["campus_code"].ToString().Trim() == "VSP" && Session["college_code"].ToString().Trim() == "GIM" && Session["branch_code"].ToString().Trim() == "MBA" && Session["batchstart"].ToString().Trim() == "2023")
+
+                {
+
+
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>Feedback session <span style="color:red">*</span></label>
+                            @*@Html.DropDownList("Feedbacksession", new SelectList(""), "Even end term", new { @class = "form-control", @Readonly = "readonly" })*@
+                            @Html.DropDownList("Feedbacksession", new List<SelectListItem>() { new SelectListItem { Text = "Even Mid term", Value = "1" } }, new { @class = "form-control", @Readonly = "readonly" })
+                        </div>
+                    </div>
+
+
+                }
+                else
+                {
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>Feedback session <span style="color:red">*</span></label>
+                            @*@Html.DropDownList("Feedbacksession", new SelectList(""), "Even end term", new { @class = "form-control", @Readonly = "readonly" })*@
+                            @Html.DropDownList("Feedbacksession", new List<SelectListItem>() { new SelectListItem { Text = "Even Mid term", Value = "2" } }, new { @class = "form-control", @Readonly = "readonly" })
+                        </div>
+                    </div>
+                }
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <br />
+                        <input type="button" id="Get" value="Get" class="btn btn-primary" />
+
+                    </div>
+                    <div class="text-right" style="float:right;">
+                        <ul class="colours">
+                            <li><span style="color:red;font-size:20px;">*</span><i class="fa fa-circle legend" aria-hidden="true"></i> Already submitted </li>
+
+
+
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
+                @*<hr>*@
+
+
+
+            </div>
+            <div class="row">
+
+            </div>
+
+
+        </div>
+        @*<div class="col-md-12 legend mb-4">
+            
+        </div>*@
+    </div>
+
+
+
+    <div id="academiclist1" style="display:none;">
+
+        @{Html.RenderPartial("Dynamicfeedbackview", Model); }
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var feedback = "@feedback";
+        if (feedback == "Y") {
+            $(".insertdiv").show();
+        }
+        else {
+            swal('You are not allowed to give the feedback at this moment', '', 'error');
+            $(".insertdiv").hide();
+        }
+        $.ajax({
+            type: 'GET',
+            url: './Home/GetFeedbackSubjects',
+            //data: {
+            //    regno: regno
+
+            //},
+            datatype: JSON,
+            success: function (data) {
+                debugger;
+
+                console.log(data);
+                var t = "";
+                var e = document.getElementById('Subject');
+                var strUser = e.options;
+                var arr1 = [];
+                for (var j = 0; j < data.list.length; j++) {
+
+                    for (var k = 0; k < data.emp.length; k++) {
+                        if (data.list[j].subject_code.trim() == data.emp[k].subject_code.trim() ) {
+
+                            arr1.push(data.list[j].subjectname.trim());
+
+                        }
+                    }
+                }
+
+                for (var j = 0; j < data.list.length; j++) {
+                    for (var i = 0; i < strUser.length; i++) {
+                        debugger;
+                        var sub = strUser[i].innerText
+                         var arr = sub.split('#');
+                        var subject = arr[0];
+                        var count = 0;
+
+                        if (data.list[j].subject_code.trim() == subject.trim() && data.list[j].feedbacksession.trim() == "2"   ) {
+
+                            for (var z = 0; z < arr1.length; z++){
+
+                                if (data.list[j].subjectname.trim() == arr1[z].trim()) {
+                                    count++;
+                                }
+
+                             }
+                            if (count == 0) {
+                                var val = strUser[i].outerHTML;
+                                t = val.replace("<option", "<option class='bg_gray'");
+                                strUser[i].outerHTML = t;
+                                $('.bg_gray').attr('disabled', 'disabled');
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+
+
+
+               // console.log(arr);
+                //alert(subject);
+
+                // $("#date").html("<span>" + arr[0] + "</span></br>" + arr[1] + "/" + arr[2]);
+            }
+        });
+
+        //alert(FH);
+    });
+
+
+
+    $("#Get").click(function () {
+        $('#academiclist1').show();
+        var subject = $("#Subject").val();
+        var faculty = $("#FacultyId").val();
+        var dropdown = document.getElementById("Subject");
+        var subjectname = $("#Subject option:selected").text();
+        var dropdown1 = document.getElementById("FacultyId");
+        var facultyname = $("#FacultyId option:selected").text();
+        var groupcode = $("#Subject option:selected").val();
+
+       // var feedbacksession = 1;
+        var feedbacksession = 1;
+        var semester = "@Session["curr_sem"].ToString()";
+        var campus = "@Session["campus_code"].ToString()";
+             var college ="@Session["college_code"].ToString()";
+        var branch = "@Session["branch_code"].ToString()";
+        var batchstart = "@Session["batchstart"].ToString()";
+        if (semester == "1") {
+
+            feedbacksession = 2;
+        }
+        else if (semester == "2" && campus == "VSP" && college == "GIM" && branch == "MBA" && batchstart == "2024") {
+            feedbacksession = 1;
+        }
+        else if (semester == "3" && campus == "VSP" && college == "GIM" && branch == "MBA" && batchstart == "2023") {
+            feedbacksession = 1;
+        }
+        else {
+          feedbacksession = 2;
+        }
+        //var feedbacksession = $("#Feedbacksession option:selected").val();
+       // var feedbacksession = 1;
+        console.log($("#Subject").val());
+
+        if ($("#Subject").val() == "") {
+
+            swal('Please select subject', '', 'error');
+            $('#academiclist1').hide();
+            return false;
+        }
+        else if ($("#FacultyId").val() == "") {
+
+            swal('Please select faculty', '', 'error');
+            $('#academiclist1').hide();
+            return false;
+        }
+        else {
+
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Content("./Home/Getquestions")',
+                data: {
+                    'facultyname': facultyname, 'subject': subject, 'faculty': faculty, 'subjectname': subjectname, 'feedbacksession': feedbacksession,'groupcode': groupcode
+                },
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataType: "html",
+                success: function (result) {
+
+                    $("#academiclist1").html(result);
+                    $('#academiclist1').show();
+                    var Height = $(window).height();
+                    var FH = Height - 270;
+                    $('#eligible').css({
+                        "max-height": FH,
+                        "overflow": "auto"
+
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    $(".loaderm").hide();
+                }
+
+
+            });
+
+
+        }
+
+
+
+
+
+
+    });
+
+</script>

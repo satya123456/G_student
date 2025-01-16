@@ -1,0 +1,297 @@
+﻿@model Gstudent.Models.Buspass
+<section class="content-container contentContainer">
+    @using (Ajax.BeginForm("Insertbuspass", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "nursing_assessment", OnSuccess = "Successassess" }))
+    {
+        <div class="d-flex justify-content-between">
+            <h5 class="page-title">Bus pass enrollment</h5>
+            <div class="back">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-container">
+            <div class="row">
+
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+                    <div class="form-group ">
+                        <label>Campus</label>
+                        @Html.TextBoxFor(model => model.CAMPUS, new { @class = "form-control", @id = "CAMPUS", @onkeydown = "return ValidateNumber(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Institute</label>
+                        @Html.TextBoxFor(model => model.COLLEGE_CODE, new { @class = "form-control", @id = "COLLEGE_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Course</label>
+                        @Html.TextBoxFor(model => model.COURSE_CODE, new { @class = "form-control", @id = "COURSE_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Branch</label>
+                        @Html.TextBoxFor(model => model.BRANCH_CODE, new { @class = "form-control", @id = "BRANCH_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Registration number</label>
+                        @Html.TextBoxFor(model => model.REGDNO, new { @class = "form-control", @id = "REGDNO", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Name</label>
+                        @Html.TextBoxFor(model => model.NAME, new { @class = "form-control", @id = "name", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Class</label>
+                        @Html.TextBoxFor(model => model.CLASS, new { @class = "form-control", @id = "CLASS", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Current semester</label>
+                        @Html.TextBoxFor(model => model.curr_sem, new { @class = "form-control", @id = "curr_sem", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Mobile</label>
+                        @Html.TextBoxFor(model => model.STUDENT_MOBILE, new { @class = "form-control", @id = "STUDENT_MOBILE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Parent mobile</label>
+                        @Html.TextBoxFor(model => model.PARENT_MOBILE, new { @class = "form-control", @id = "PARENT_MOBILE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+
+                @*<div class="col-12 col-sm-6 col-md-2 col-lg-2">
+                        <div class="d-flex justify-content-center">
+                            <img class="img-fluid" src="https://doeresults.gitam.edu/photo/img.aspx?id=@Model.REGDNO">
+                        </div>
+                    </div>*@
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group  ">
+                        <label>Bus category</label>
+                        @Html.DropDownListFor(model => model.bustype, (IEnumerable<SelectListItem>)ViewBag.Semlist, "Select ", new { @class = "form-control", @onchange = "getdepartmentid()", @id = "department_id" })
+
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group  ">
+                        <label>Location</label>
+                        @Html.DropDownListFor(model => model.BOARDING_POINT, Enumerable.Empty<SelectListItem>(), "Select", new { @class = "form-control", @id = "routes", @onchange = "getfareid()", @style = "text-transform:uppercase" })
+
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group  ">
+                        <label>Bus fee</label>
+                        @*@Html.DropDownListFor(model => model.ROUTE_ID, Enumerable.Empty<SelectListItem>(),  new { @class = "form-control", @id = "fare", @style = "text-transform:uppercase" })*@
+                        @Html.TextBoxFor(model => model.buspassfee, new { @class = "form-control", @id = "buspassfee", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="" id="note">
+                <span>I shall : </span>
+                <ul>
+                    <li> 1. Carry my original bus pass issued by the competent authority.</li>
+                    <li> 2. Occupy the seat allotted to me.</li>
+                    <li> 3. Not sit/stand on footsteps.</li>
+                    <li>4. Behave politely with the crew and transport staff.</li>
+                    <li> 5. Not use banned substances such as cigarettes, alcohol, gutka, weed, etc.</li>
+                    <li> 6. Not board-on/alight from the bus in between the specified destinations.</li>
+                    <li> 7. Not play music aloud on board.</li>
+                    <li> 8. Wait at my boarding point 10 minutes before the expected arrival of the bus.</li>
+                    <li> 9. Agree myself with the cancellation of the bus pass in violation of the code of conduct specified by the transport authority of the University.</li>
+                    <li>Promise to abide by the above rules for availing student bus facility :</li>
+                </ul>
+
+                <div class="col-12 btns-group">
+                    <button class="btn btn-primary" onclick="formsubmit(event);">I agree</button>
+                </div>
+            </div>
+
+            <p class="mt-4">
+                <b>Note : </b> Once your request is approved by transport office, you need to pay the amount in G-pay. Upon successful receipt of the amount, transport office assigns the route and issue the bus pass.
+
+                Process: Transport request by Student >> request approval by Transport Office >> Payment by Student in G-Pay >> Route Assign by Transport Office >> Issue Bus Pass by Transport Office.
+            </p>
+        </div>
+
+
+    }
+</section>
+<script>
+    $(document).ready(function () {
+        $("#note").hide();
+    });
+
+
+
+    function getdepartmentid() {
+
+        $("#routes").empty();
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var text = $("#department_id option:selected").text();
+        var value = document.getElementById("department_id");
+
+        if (text != "Select") {
+            $.ajax({
+                type: 'GET',
+                url: './Home/Getroutes',
+                data: { 'typeid': text },
+                datatype: JSON,
+                success: function (Result) {
+
+
+                    console.log(Result);
+                    var dd5 = $("[id*='routes']");
+                    dd5.empty().append('<option selected="selected" value="0">Select</option>');
+                    for (var i = 0; i < Result.notes.length; i++) {
+                        dd5.append($("<option></option>").val(Result.notes[i].BOARDING_POINT).html(Result.notes[i].BOARDING_POINT));
+                    }
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+
+    }
+
+    function getfareid() {
+
+        $("#fare").empty();
+        $("#note").show();
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var text = $("#routes option:selected").text();
+        var val = $("#department_id option:selected").text();
+        $.ajax({
+            type: 'GET',
+            url: './Home/getfare',
+            data: { 'typeid': val, 'Board': text },
+            datatype: JSON,
+            success: function (Result) {
+
+                //debugger;
+                console.log(Result);
+
+                var Count = Result.notes.length;
+                if (Count == "0") {
+                    document.getElementById("buspassfee").value = "";
+                }
+                else {
+                    console.log(Result.notes[0]);
+                    document.getElementById("buspassfee").value = Result.notes[0].buspassfee;
+                }
+
+            },
+            error: function (result) {
+
+            }
+        });
+    }
+
+    function formsubmit(e) {
+        var count = 0;
+        if (count == 0) {
+
+            if ($("#form0").valid()) {
+                swal({
+                    title: "Are you sure to submit?",
+                    type: "warning",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true,
+                    closeOnClickOutside: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete.value) {
+                            $("form:first").submit();
+                        } else {
+                            swal('Cancelled', '', 'error');
+                        }
+                    });
+            }
+        }
+    }
+
+    function Successassess(e) {
+        console.log(e);
+        //debugger;
+
+        var error = e.note.msg;
+        var board = e.note.msg1;
+        var type = e.note.msg2;
+
+        if (error == "Successfully submitted") {
+
+           // swal({ icon: "success", text: "Applied successfully" });
+            swal('Applied successfully', '', 'success');
+            setTimeout(loaddata, 1500);
+        }
+
+        else if (error == "Already submitted") {
+            //swal({
+            //    icon: "error", text: " Bus pass approval is pending for " + board + " -" + type + ""
+            //});
+            swal(' Bus pass approval is pending for ' + board + ' -' + type + '', '', 'error');
+            setTimeout(loaddata, 1500);
+
+        }
+        else if (error == "Opps!!! something went wrong") {
+            //swal({
+            //    icon: "error", text: " Bus pass approved for " + board + " -" + type + ""
+            //});
+
+            swal('Bus pass approved for' + board + ' - ' + type + '', '', 'error');
+            setTimeout(loaddata, 1500);
+        }
+        else {
+            swal('Cancelled', '', 'error');
+          
+            setTimeout(loaddata, 1500);
+        }
+    }
+    function loaddata() {
+        loadConfigView('21');
+    }
+
+</script>

@@ -1,0 +1,168 @@
+﻿@model Gstudent.ViewModels.Studentrecords.sportsscholarshipsummary
+<style>
+    .accordion-button {
+        font-size: 15px !important;
+    }
+</style>
+
+@*<div id="tabs-1">*@
+<section class="content-container contentContainer" id="homeSection">
+    <div class="tabsContainer  ">
+
+        <!-- Tabs line -->
+        <div class="tabsFill">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" onclick="sendimg1(this);" href="#tab2">Sports scholarship</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-bs-toggle="tab" onclick="sendimg(this);" href="#tab3" id="history">History</a>
+                </li>
+              
+
+            </ul>
+
+            <div class="box-container">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab2">
+                        @{Html.RenderPartial("Sports_Scholarship", Model.note);}
+                    </div>
+                    <div class="tab-pane " id="tab3">
+
+                        @if (Model.notes.Count() > 0)
+                        {
+                            <div class="">
+
+                                <div class="filter" style="">
+                                    <div class="table-responsive table_style">
+
+                                        <table class="table table-bordered" id="myTablevend2">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>regdno</th>
+                                                    <th>Name</th>
+                                                    <th>Course</th>
+                                                    <th>GAT rank</th>
+                                                    <th>percentage</th>
+                                                    <th>Exam type</th>
+                                                    <th>Partion percent</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="">
+                                                    <td>@Model.notes.FirstOrDefault().RegID</td>
+                                                    <td>@Model.notes.FirstOrDefault().NAME</td>
+                                                    <td>@Model.notes.FirstOrDefault().COURSE_DISPLAY</td>
+                                                    <td>@Model.notes.FirstOrDefault().GAT_RANK</td>
+                                                    <td>@Model.notes.FirstOrDefault().total_exam_type</td>
+                                                    <td>@Model.notes.FirstOrDefault().total_Partion_Percent</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="filter" style="">
+                                    <div class="table-responsive table_style">
+
+                                        <table class="table table-bordered" id="myTablevend2">
+                                            <thead>
+                                                <tr>
+                                                    <th>slno</th>
+                                                    <th>regdno</th>
+                                                    <th>Sports name</th>
+                                                    <th>competition</th>
+                                                    <th>competition name</th>
+                                                    <th>sport date</th>
+                                                    <th>Entered date</th>
+                                                    <th>remarks</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var attendance in Model.notes)
+                                                {
+                                                <tr class="">
+                                                    <td>@attendance.slno </td>
+                                                    <td>@attendance.RegID </td>
+                                                    <td>@attendance.Sport </td>
+
+                                                    <td>@attendance.Name_of_Competition </td>
+                                                    <td>@attendance.Level_of_Competition </td>
+
+                                                    <td>@attendance.sport_date </td>
+
+                                                    <td>@attendance.Trans_date </td>
+                                                    <td>@attendance.remarks </td>
+                                                </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center">No records found</div>
+                        }
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+ 
+
+    <div id="tabs-2">
+
+
+
+    </div>
+    <div id="tabs-3">
+
+
+    </div>
+</section>
+@*</div>*@
+
+
+<div id="content" class="biach_prints table_style contentprint">
+
+</div>
+<script>
+    $(function () {
+        // $("#tabs-1").tabs();
+        $("#tabs-1").tabs({
+
+
+        });
+
+
+    });
+    function sendimg(mesage) {
+        $('.tpr_history_table').show();
+    }
+    function sendimg1(mesage) {
+        $('.tpr_history_table').hide();
+    }
+
+
+
+</script>

@@ -1,0 +1,784 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Softwareprojectsummary
+
+<style>
+    /*.box-container-project {
+        background: #cafbf8;
+        padding: 20px;
+        border: 1px solid #cafbf8;
+        border-radius: 20px;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }*/
+
+    textarea::placeholder {
+        font-size: 20 !important;
+    }
+
+    textarea.select2-search__field {
+        height: 45px !important;
+        padding: 12px 20px !important;
+        /* font-size: 20px !important; */
+        border-radius: 33px !important;
+    }
+
+    select.form-control {
+        height: 55px;
+        border-radius: 15px;
+        padding: 5px 15px !important;
+        font-size: 18px !important;
+    }
+
+    span.select2-selection.select2-selection--multiple {
+        border: solid #ced4da 1px;
+        outline: 0;
+        border-radius: 15px !important;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+        font-size: 26px !important; /* Adjust the font size as needed */
+        line-height: 1.5; /* Optional: adjust line height */
+    }
+
+    .select2-container .select2-selection__placeholder {
+        font-size: 26px !important; /* Adjust the font size */
+    }
+
+    .table td {
+        color: #464646;
+        font-size: 15px;
+        padding: 6px 10px;
+        line-height: 1.7;
+        letter-spacing: 0.2px;
+        word-spacing: 1px;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+        font-weight: 500;
+        font-size: 14px;
+        /* padding-bottom: 17px; */
+        margin-top: 7px;
+        display: flex;
+        align-items: center;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        font-size: 21px;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        padding-bottom: 5px;
+        margin-bottom: 7px;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        padding-left: 27px;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__clear {
+        width: 1.9em;
+        height: 1.9em;
+        margin-top: 12px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+
+    .tab-content {
+        display: block;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    .t-w-400 {
+        width: 400px !important;
+    }
+
+    .t-w-600 {
+        width: 600px !important;
+    }
+
+    .select2-container--default .select2-results__option--selected {
+        background-color: #eee;
+        margin-bottom: 2px;
+    }
+
+    .select2-container--default .select2-results > .select2-results__options {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .bg_green {
+        background: #92f4e4;
+        padding: 4px 2px 2px 2px;
+    }
+
+    .dataTables_wrapper .form-select, .dataTables_wrapper .form-control {
+        height: 29px;
+    }
+
+    .table thead th {
+        background-color: #cdfff7;
+    }
+
+    .select2-container--default.select2-container--disabled .select2-selection--multiple {
+        background-color: #f9f5f5;
+        cursor: not-allowed;
+    }
+
+    .projectsList {
+        position: relative;
+    }
+
+    .addBtn {
+        position: absolute;
+        left: 210px;
+    }
+
+    #addguestrbtn {
+        cursor: pointer;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        font-size: 18px;
+        margin-top: 10px;
+    }
+
+    i.fa.fa-plus-circle {
+        color: #007367;
+        font-size: 20px;
+    }
+
+    button.btn.btn-link.show-text {
+        color: #007367;
+        padding: 0 8px;
+    }
+
+    .select2-dropdown {
+        z-index: 999999999;
+    }
+
+    .swal2-container.swal2-shown {
+        z-index: 999999999;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        white-space: normal;
+    }
+
+    select#multiSelectproject123 {
+        height: 38px;
+        font-size: 13px !important;
+    }
+
+    option {
+        white-space: normal !important;
+    }
+</style>
+
+
+<section class="content-container contentContainer">
+    <div class="tabsContainer">
+        <div class="tabsFill">
+            <h4 class="text-center">Capstone projects</h4>
+            <input type="text" value="@Convert.ToString(Session["project_count"])" id="project_count" hidden />
+            <div class="d-flex justify-content-between">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link tabfill1 active" data-bs-toggle="tab" href="#tabfill1" aria-selected="true" role="tab" onclick="Getsoftwareprojectslist();">Capstone projects list</a>
+                    </li>
+                    @*<li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" href="#tabfill2" aria-selected="false" role="tab" tabindex="-1">Add project</a>
+
+                        </li>*@
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link tabfill3" data-bs-toggle="tab" href="#tabfill3" aria-selected="false" role="tab" tabindex="-1" onclick="Getselectedsoftwareprojectslist();">Selected projects</a>
+
+
+                    </li>
+                </ul>
+                @*<div><h6 id="addguestrbtn" style="cursor:pointer;"><i class="fa fa-plus-circle"></i> Add project</h6></div>*@
+            </div>
+
+
+            <div class="tab-content">
+                <div class="tab-pane fade" id="tabfill2">
+                    <div class="box-inner">
+                        <div class="box-container-project" id="projectselectid123">
+                            <div class="row">
+
+
+                                <div class="col-md-12">
+                                    <div class="text-center mt-3">
+                                        <button class="btn btn-secondary " onclick="Reset();">Reset</button>
+                                        @*<button class="btn btn-primary btn-left " onclick="submitproject();">Add project</button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="hideshow123"><h6 class="text-center">Already selected</h6></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tabfill3">
+                    <div class="box-inner">
+                        <div id="remarksdiv1">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane active" id="tabfill1">
+
+                    <div class="box-inner">
+
+                        <div id="remarksdiv" class="projectsList">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" id="projectlist" hidden />
+
+    <div class="modal modal-wide fade modal_style" id="myService" role="dialog">
+        <div class="modal-dialog modal-xl custom-model1">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add project</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="Reset();">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="box-inner">
+                        <div class="box-container-project" id="projectselectid">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Select category</label>
+                                        <select class="js-example-basic-multiple form-control" name="states[]" multiple="multiple" id="multiSelect2">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Select projects</label>
+                                        <select multiple
+                                                placeholder="Select projects"
+                                                class="form-control"
+                                                id="multiSelectproject">
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="text-center mt-3">
+                                        <button class="btn btn-secondary " onclick="Reset();">Reset</button>
+                                        <button class="btn btn-primary  btn-left" onclick="submitproject();">Add project</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="hideshow"><h6 class="text-center">Already selected</h6></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-wide fade modal_style" id="myService123" role="dialog">
+        <div class="modal-dialog modal-xl custom-model1">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add project</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="Reset();">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="box-inner">
+                        <div class="box-container-project" id="projectselectid">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Select category</label>
+                                        <input type="text" class="form-control" id="multiSelect123" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6" style="display:none">
+                                    <div class="form-group">
+                                        <label>Title id</label>
+                                        <input type="text" class="form-control" value="" id="title_id" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6" style="display:none">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" class="form-control" value="" id="title" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6" style="display:none">
+                                    <div class="form-group">
+                                        <label>selected count</label>
+                                        <input type="text" class="form-control" value="" id="count" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Select projects</label>
+                                        <select name="batch" id="multiSelectproject123" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="text-center mt-3">
+                                        <button class="btn btn-secondary " onclick="Reset123();">Reset</button>
+                                        <button class="btn btn-primary  btn-left" onclick="changeproject();">Change project</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+</script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var count = $("#project_count").val();
+        if (count == "4") {
+            $("#projectselectid").hide();
+            $("#hideshow").show();
+        } else {
+            $("#hideshow").hide();
+            $("#projectselectid").show();
+        }
+        Getsoftwareprojectslist();
+    });
+
+    function Getdomainslist() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/Getdomainslist_multi',
+            data: {},
+            datatype: JSON,
+            success: function (Result) {
+                debugger;
+                var dd5 = $("[id*='multiSelect2']");
+                dd5.empty();
+
+                dd5.select2({
+                    closeOnSelect: false
+                });
+                for (var i = 0; i < Result.length; i++) {
+                    var newOption = new Option(Result[i].DOMAIN, Result[i].DOMAIN, false, false);
+                    dd5.append(newOption).trigger('change');
+                }
+            },
+            error: function (result) {
+            }
+        });
+    }
+    function Getsoftwareprojectslist() {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: './Home/Getsoftwareprojectslist',
+            data: {
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                $("#remarksContainer").modal("hide");
+                $("#remarksdiv").html('');
+                var tablestring = "";
+                tablestring = tablestring + "<div class='table-responsive'><table id='example555' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                tablestring = tablestring + "<thead class='thead-light'><tr class='bg_green'><td colspan = '7'><div class='d-flex justify-content-center'><div></div><div><h5 class='text-center'>Capstone projects list</h5></div>";
+                tablestring = tablestring + "</div></td></tr><tr><th>#</th> <th class='t-w-400'>Project title</th><th class='t-w-600'>Project description</th><th>Project domain</th><th>Project guide</th></tr></thead><tbody>";
+                for (var i = 0; i < result.length; i++) {
+                    var slno = i + 1;
+                    var description = result[i].Project_Description;
+                    var shortDescription = description.length > 100 ? description.substring(0, 100) + '...' : description;
+                    var remarks = result[i].mentor_remarks;
+                    var encodedRemarks = JSON.stringify(remarks);
+                    tablestring = tablestring + '<tr> <td>' + slno + '</td><td>' + result[i].Project_Title + '</td><td><div class="description-container"><div class="description-short">' + shortDescription + '<button class="btn btn-link show-more show-text">More</button></div><div class="description-full" style="display:none;">' + description + '<button class="btn btn-link show-less show-text">Less</button></div></div>' +
+                        '</td><td>' + result[i].Project_domain + '</td><td>' + result[i].EMP_NAME + '</td></tr>';
+                }
+                tablestring = tablestring + "</tbody></table></div>";
+                $("#remarksdiv").append(tablestring);
+                var title = "Projects list";
+                $('#example555').DataTable({
+                });
+                $('#example555').on('click', '.show-text', function () {
+                    var $container = $(this).closest('.description-container');
+                    var $shortDescription = $container.find('.description-short');
+                    var $fullDescription = $container.find('.description-full');
+                    var $button = $(this);
+
+                    if ($fullDescription.is(':visible')) {
+                        $fullDescription.hide();
+                        $shortDescription.show();
+                        $('.Show-more').show();
+                        $('.Show-less').hide();
+                    } else {
+                        $shortDescription.hide();
+                        $fullDescription.show();
+                        $('.Show-less').show();
+                        $('.Show-more').hide();
+                    }
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $(".loaderm").hide();
+            }
+        });
+    };
+    function Getselectedsoftwareprojectslist() {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: './Home/Getselectedsoftwareprojectslist',
+            data: {
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                $("#remarksContainer").modal("hide");
+                $("#remarksdiv1").html('');
+                var tablestring = "";
+                tablestring = tablestring + "<div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th> <th class='t-w-200'>Project title</th><th class='t-w-400'>Project description</th><th>Project domain</th><th>Expected outcomes</th><th>Project guide</th><th>Status</th></tr></thead><tbody>";
+                for (var i = 0; i < result.length; i++) {
+                    var slno = i + 1;
+                    var description = result[i].Project_Description;
+                    var status = result[i].STATUS;
+                    if (status == "N") {
+                        var statusfinal = "Pending";
+                    }
+                    else if (status == "A") {
+                        var statusfinal = "Rejectd";
+                    }
+                    else {
+                        var statusfinal = "Approved";
+                    }
+                    var shortDescription = description.length > 100 ? description.substring(0, 100) + '...' : description;
+                    
+                    var remarks = result[i].mentor_remarks;
+                    var encodedRemarks = JSON.stringify(remarks);
+                    tablestring = tablestring + '<tr> <td>' + slno + '</td><td>' + result[i].Project_Title + '</td><td>' + '<div class="description-container">' + '<div class="description-short">' + shortDescription + '<button class="btn btn-link show-more show-text">More</button></div>' + '<div class="description-full" style="display:none;">' + description + '<button class="btn btn-link show-less show-text">Less</button></div></div>' +
+                        '</td><td>' + result[i].Project_domain + '</td><td>' + result[i].Expected_Outcomes + '</td><td>' + result[i].EMP_NAME + '</td><td>' + statusfinal + '</td></tr>';
+                }
+                tablestring = tablestring + "</tbody></table></div>";
+                $("#remarksdiv1").append(tablestring);
+                var title = "Projects list";
+                $('#example55').DataTable({
+                });
+                $('#example55').on('click', '.show-text', function () {
+                    var $container = $(this).closest('.description-container');
+                    var $shortDescription = $container.find('.description-short');
+                    var $fullDescription = $container.find('.description-full');
+                    var $button = $(this);
+                    if ($fullDescription.is(':visible')) {
+                        $fullDescription.hide();
+                        $shortDescription.show();
+                        $('.Show-more').show();
+                        $('.Show-less').hide();
+                    } else {
+                        $shortDescription.hide();
+                        $fullDescription.show();
+                        $('.Show-less').show();
+                        $('.Show-more').hide();
+                    }
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $(".loaderm").hide();
+            }
+        });
+    };
+
+</script>
+
+
+<script>
+    $('#multiSelectproject').on('change', function () {
+        debugger;
+        var count = $("#project_count").val();
+        var remain_count = 4 - count;
+        var selectedValues = $('#multiSelectproject').val();
+        $('#projectlist').val(selectedValues);
+        console.log(selectedValues);
+        if (selectedValues.length == remain_count) {
+
+            $('#multiSelectproject').prop('disabled', true);
+            $('#multiSelectproject option').each(function () {
+                $(this).prop('disabled', true);
+            });
+        }
+    })
+
+    $('.js-example-basic-multiple').on('change', function () {
+        debugger;
+        var selectedValues = $(this).val();
+
+        if (selectedValues.length == "1") {
+
+            $('#multiSelect2').prop('disabled', true);
+            $('#multiSelect2 option').each(function () {
+                $(this).prop('disabled', true);
+            });
+        }
+        var selectedValuesJson = JSON.stringify(selectedValues);
+        $.ajax({
+            type: 'POST',
+            url: '/Home/GetProjectsList',
+            data: { selectedValues: selectedValuesJson },
+            success: function (Result) {
+                debugger;
+                var dd5 = $("[id*='multiSelectproject']");
+                dd5.empty();
+
+                dd5.select2({
+                    closeOnSelect: false
+                });
+
+                for (var i = 0; i < Result.length; i++) {
+                    var newOption = new Option(Result[i].Project_Title, Result[i].id, false, false);
+                    dd5.append(newOption).trigger('change');
+                }
+            },
+
+            error: function (xhr, status, error) {
+            }
+        });
+    });
+
+
+    function submitproject() {
+        debugger;
+        var selectedValues = $('#projectlist').val();
+        if (selectedValues == "") {
+            swal('Please select project', '', 'error');
+
+        } else {
+            $.ajax({
+                type: 'GET',
+                url: './Home/btninsert',
+                data: { selectedValues: selectedValues },
+                success: function (Result) {
+                    debugger;
+                    if (Result == "Successfully updated") {
+                        swal('Successfully updated', '', 'success');
+                        setTimeout(loaddata, 1500);
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        $('#multiSelectproject').prop('disabled', false);
+                        $('#multiSelect2').prop('disabled', false);
+                        $('#multiSelectproject').empty();
+                        $('#multiSelect2').empty();
+                        Getselectedsoftwareprojectslist();
+                    } else if (Result == "Already selected") {
+                        swal('Already selected', '', 'error');
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        $('#multiSelectproject').prop('disabled', false);
+                        $('#multiSelect2').prop('disabled', false);
+                        $('#multiSelectproject').empty();
+                        $('#multiSelect2').empty();
+                        Getselectedsoftwareprojectslist();
+                    }
+                    else if (Result == "Max Exceeds") {
+                        swal('Max Exceeds', '', 'error');
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        $('#multiSelectproject').prop('disabled', false);
+                        $('#multiSelect2').prop('disabled', false);
+                        $('#multiSelectproject').empty();
+                        $('#multiSelect2').empty();
+                        Getselectedsoftwareprojectslist();
+                    } else {
+                        swal('Already selection process completed', '', 'error');
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        $('#multiSelectproject').prop('disabled', false);
+                        $('#multiSelect2').prop('disabled', false);
+                        $('#multiSelectproject').empty();
+                        $('#multiSelect2').empty();
+                        Getselectedsoftwareprojectslist();
+                    }
+                    $("#myService").modal("hide");
+                    $('body').removeClass('modal-open');
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+
+    }
+    function loaddata() {
+        loadConfigView('82');
+    }
+    $('#addguestrbtn').click(function () {
+        debugger;
+
+        var count = $("#project_count").val();
+        if (count == "4") {
+            $("#projectselectid123").hide();
+            $("#hideshow123").show();
+            $('#tabfill3, .tabfill3').addClass('active show');
+            $('#tabfill1, .tabfill1').removeClass('active show');
+            $('#tabfill3').removeClass('fade');
+            Getselectedsoftwareprojectslist();
+            swal('Exceeded the limit of selection', '', 'error');
+        } else {
+            $("#hideshow123").hide();
+            $("#projectselectid123").show();
+            $('#myService').modal('show');
+        }
+        Getdomainslist();
+    })
+
+    $('#myService').modal({
+        backdrop: 'static',
+        keyboard: false
+    })
+
+    $("#multiSelect2").select2({
+
+        placeholder: "Select category",
+        allowClear: true,
+        closeOnSelect: false,
+
+        dropdownCssClass: "checkboxSelect",
+
+    });
+
+    function Reset() {
+        debugger;
+        var dd5 = $("[id*='multiSelect2']");
+        dd5.empty();
+        $("#projectlist").val("");
+        Getdomainslist();
+        $('#multiSelectproject').prop('disabled', false);
+        $('#multiSelect2').prop('disabled', false);
+        $('#multiSelectproject').empty();
+        $('#multiSelect2').empty();
+    }
+    function Reset123() {
+        debugger;
+
+        var dd5 = $("[id*='multiSelect123']");
+        dd5.empty();
+        Getdomainslist();
+        $("#projectlist").val("");
+        $('#multiSelectproject123').prop('disabled', false);
+        $('#multiSelect123').prop('disabled', false);
+        $('#multiSelectproject123').empty();
+        $('#multiSelect123').empty();
+    }
+
+
+    function withdraw(title, domain, outcome, emp, title_id, count) {
+        debugger;
+        $("#myService123").modal('show');
+        document.getElementById('multiSelect123').value = domain;
+        document.getElementById('title').value = title;
+        document.getElementById('count').value = count;
+        document.getElementById('title_id').value = title_id;
+        getprojectslist123();
+    }
+
+    function getprojectslist123() {
+        debugger;
+        var domain = document.getElementById('multiSelect123').value;
+        $.ajax({
+            type: 'POST',
+            url: '/Home/GetProjectsListchange',
+            data: { 'domain': domain },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (Result) {
+
+                var dd5 = $("[id*='multiSelectproject123']");
+                dd5.empty().append('<option selected="selected" value="0">Select</option>');
+                for (var i = 0; i < Result.length; i++) {
+                    dd5.append($("<option></option>").val(Result[i]["ID"]).html(Result[i]["Project_Title"]));
+                }
+            }
+
+        });
+    }
+
+    function changeproject() {
+        debugger;
+        var selectedValues = $("#multiSelectproject123 :selected").html();
+        var selectedtitleVal = $("#multiSelectproject123 :selected").val();
+        var title_id = $('#title_id').val();
+        var title = $('#title').val();
+        var count = $('#count').val();
+        var domain = $('#multiSelect123').val();
+        if (selectedValues == "") {
+            swal('Please select project', '', 'error');
+
+        }
+        else {
+            $.ajax({
+                type: 'GET',
+                url: './Home/btnchangeproject',
+                data: { 'selectedValues': selectedValues, 'selectedtitleVal': selectedtitleVal, 'old_title_id': title_id, 'oldtitle': title, 'oldcount': count, 'domain': domain },
+                success: function (Result) {
+                    debugger;
+                    if (Result == "Successfully updated") {
+                        swal('Successfully updated', '', 'success');
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        Getselectedsoftwareprojectslist();
+                    } else if (Result == "Already selected") {
+                        swal('Already selected', '', 'error');
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        Getselectedsoftwareprojectslist();
+                    }
+                    else if (Result == "Max Exceeds") {
+                        swal('Max Exceeds', '', 'error');
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        Getselectedsoftwareprojectslist();
+                    } else {
+                        swal('Already selection process completed', '', 'error');
+                        $('#tabfill3, .tabfill3').addClass('active show');
+                        $('#tabfill1, .tabfill1').removeClass('active show');
+                        Getselectedsoftwareprojectslist();
+                    }
+                    $("#myService123").modal("hide");
+                    $('body').removeClass('modal-open');
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+
+    }
+</script>

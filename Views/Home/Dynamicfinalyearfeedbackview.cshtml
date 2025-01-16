@@ -1,0 +1,279 @@
+﻿@model IEnumerable<Gstudent.Models.FeedbackMaster>
+
+
+<style>
+    .health {
+        padding: 0px;
+    }
+
+        .health li {
+            clear: both;
+            list-style-type: none;
+            position: relative;
+            margin-bottom: 20px;
+            border: none;
+            padding: 30px 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+
+            .health li:nth-child(1), .health li:nth-child(2), .health li:nth-child(3), .health li:nth-child(4), .health li:nth-child(5), .health li:nth-child(6), .health li:nth-child(6) {
+            }
+
+
+
+            .health li > div {
+                float: left;
+                padding: 5px 5px;
+            }
+
+                .health li > div:nth-child(1) {
+                    width: 5px;
+                }
+
+                .health li > div:nth-child(2) {
+                    font-size: 16px;
+                    padding: 5px;
+                    line-height: 30px;
+                    font-weight: bold;
+                }
+
+                .health li > div:nth-child(2), .health li > div:nth-child(3), .health li > div:nth-child(4), .health li > div:nth-child(5), .health li > div:nth-child(6), .health li > div:nth-child(7) {
+                    float: none;
+                    position: relative;
+                    left: 30px;
+                    width: 250px;
+                    white-space: nowrap;
+                }
+
+                /*.health li:nth-child(8), .health li:nth-child(6)
+        {
+           position:relative;
+        }
+
+
+          .health li:nth-child(8):before
+        {
+           position:absolute; top:7px; left:60px; content:"Note :Please Complete Either 8 or 9 (Not Both)"; font-size:16px;font-weight:bold;
+        }
+
+           .health li:nth-child(6):before
+        {
+           position:absolute; top:7px; left:60px; content:"Note :Please Complete Either 6 or 7 (Not Both)"; font-size:16px;font-weight:bold;
+        }*/
+
+                .health li > div input[type="radio"] {
+                    width: 30px;
+                    float: left;
+                    margin-top: 5px;
+                }
+
+            .health li Label {
+                font-weight: normal;
+            }
+
+    .text-center {
+        text-align: center;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .health li > div:nth-child(2), .health li > div:nth-child(3), .health li > div:nth-child(4), .health li > div:nth-child(5), .health li > div:nth-child(6), .health li > div:nth-child(7) {
+            white-space: normal;
+            width: 100%
+        }
+    }
+</style>
+<div class="content-container">
+    @{
+        var msg = Convert.ToString(Session["msgfeedback"]);
+    }
+
+    @if (msg == "You have already given feedback to this subject")
+    {<div class="box-inner scrollbarAll" id="eligible">
+            <div class="text-center" id="already">You have already given your outgoing feedback</div>
+    </div>
+            }
+            else
+            {
+            <div class="d-flex justify-content-between ">
+                <h5 class="page-title">Outgoing Feedback</h5>
+                <div class="back">
+                    <a href="javascript:void(0);" onclick="location.reload();">
+                        <i class='bx bx-arrow-back'></i>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="box-inner scrollbarAll" id="eligible">
+                <div class="health">
+                    <p>You are giving outgoing feedback  </p>
+                    @using (Ajax.BeginForm("createfinalyearquestion", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "", OnSuccess = "Successassess" }))
+                    {
+                        int k = 0;
+
+                        <span id="MainContent_form1">
+
+                            @foreach (var question in Model)
+                            {<input type="text" name="count" id="count" value="@Model.Count()" style="display:none;">
+                                <input type="text" name="ID_@k" value="@question.ID" style="display:none;">
+                                <input type="text" name="NATURE_@k" value="@question.NATURE" style="display:none;">
+                                <input type="text" name="maxmarks_@k" value="@question.maxmarks" style="display:none;">
+                                <input type="text" name="Q_STATUS_@k" value="@question.Q_STATUS" style="display:none;">
+                                //if (question.Q_STATUS.Equals("O"))
+                                //{
+                                <li>
+                                    <div><span>@question.ID</span></div>
+                                    <div><span>@question.NATURE</span></div>
+
+                                    @if (question.Q_STATUS.Equals("O"))
+                                    {
+                                        <div>
+                                            <input id="MainContent_option1_@k" type="radio" name="ctl00$MainContent$ID_@k" value="@question.FEEDBACK1_MARK">
+                                            <label for="MainContent_option1_@k">@question.FEEDBACK1</label>
+                                        </div> <div>
+                                            <input id="MainContent_option2_@k" type="radio" name="ctl00$MainContent$ID_@k" value="@question.FEEDBACK2_MARK">
+                                            <label for="MainContent_option2_@k">@question.FEEDBACK2</label>
+                                        </div>
+                                        <div>
+                                            <span style="display:inline-block;width:160px;">
+                                                <input id="MainContent_option3_@k" type="radio" name="ctl00$MainContent$ID_@k" value="@question.FEEDBACK3_MARK">
+                                                <label for="MainContent_option3_@k">@question.FEEDBACK3</label>
+                                            </span>
+                                        </div><div>
+                                            <span style="display:inline-block;width:160px;">
+                                                <input id="MainContent_option4_@k" type="radio" name="ctl00$MainContent$ID_@k" value="@question.FEEDBACK4_MARK">
+                                                <label for="MainContent_option4_@k">@question.FEEDBACK4</label>
+                                            </span>
+                                        </div>
+                                        <div>
+
+                                            <input id="MainContent_option5_@k" type="radio" name="ctl00$MainContent$ID_@k" value="@question.FEEDBACK5_MARK">
+                                            <label for="MainContent_option5_@k">@question.FEEDBACK5</label>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="width:100%;left:0px;">
+                                            <textarea id="MainContent_option1_@k" name="ctl00$MainContent$ID_@k" class="form-control" cols="50" rows="3" height="50" maxlength="500"> </textarea>
+
+                                        </div>
+
+                                    }
+                                </li>
+
+                                k++;
+                            }
+                        </span>
+                        <div class="row">
+
+                            <div class="col-md-9">
+                                <span style="color:red;font-size:20px;">*</span>Note : Above 1 to 12 questions are mandatory to fill
+                            </div>
+
+
+
+                        </div>
+                        <div class="row">
+
+
+                            <div class="button-group text-center">
+
+                                <button id="btnsubmit" type="button" class="btn btn-primary" onclick="validatetextbox(event);">Submit</button>
+                                @*<button id="Reset" name="Reset" value="Reset" class="btn btn-secondary">Reset</button>*@
+                                <button type="button" onclick="resetscreen();" class="btn btn-secondary">Reset</button>
+
+
+                            </div>
+
+                        </div>
+
+                    }
+                </div>
+            </div>
+            }
+        </div>
+
+        <script>
+
+            $(document).ready(function () {
+                console.log($('#Subject').find(":selected").text());
+                $('#sub').html($('#Subject').find(":selected").text());
+                $('#fac').html($('#FacultyId').find(":selected").text());
+            });
+
+            function Successassess(e) {
+                //debugger;
+                console.log(e);
+                var error = e.param2;
+                if (error == "Successfully submitted") {
+
+                    swal('Submitted successfully', '', 'success');
+                    setTimeout(loaddata, 1500);
+                }
+
+                else if (error == "Already submitted") {
+                    swal('Already submitted', '', 'error');
+                    setTimeout(loaddata, 1500);
+
+                }
+                else {
+                    swal('Cancelled', '', 'error');
+                    setTimeout(loaddata, 1500);
+                }
+            }
+
+            function validatetextbox() {
+                debugger;
+                var isFormValid = true;
+                var count = $("#count").val();
+                var count1 = count - 1;
+                var countnew = 0;
+                for (var i = 0; i <= count1; i++) {
+                    var radioGroupName = "ctl00$MainContent$ID_" + i;
+                    var inputType = $('input[name="' + radioGroupName + '"]').attr('type');
+                    if (inputType == undefined) {
+                        inputType = "textarea";
+                    }
+                    if (inputType == "radio") {
+                        if ($('input[name="' + radioGroupName + '"]:checked').length === 0) {
+                            swal('Please select an option for Question ' + (i + 1), '', 'error');
+
+                            isFormValid = false;
+                            break; // Stop checking if one question is missing
+                        }
+                    }
+
+                }
+                if (isFormValid == true) {
+
+                    swal({
+                        title: "Are you sure to submit?",
+                        type: "warning",
+                        confirmButtonText: "Confirm",
+                        showCancelButton: true,
+
+                    })
+                        .then((willDelete) => {
+                            if (willDelete.value) {
+                                $("#btnsubmit").submit();
+                                return false;
+                            } else {
+                                swal('Cancelled', '', 'error');
+                                return false;
+                            }
+                        });
+                }
+            };
+
+            function resetscreen() {
+                loadConfigView('71');
+
+            }
+            function loaddata() {
+                loadConfigView('71');
+            }
+        </script>

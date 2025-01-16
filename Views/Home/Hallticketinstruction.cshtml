@@ -1,0 +1,150 @@
+﻿@model Gstudent.ViewModels.Studentrecords.hallticketsummary
+@{
+    ViewBag.Title = "Hallticketinstruction";
+}
+
+<style>
+    .instructionsView .logo {
+        text-align: center;
+    }
+
+        .instructionsView .logo img {
+            width: 670px;
+            margin-bottom: 10px;
+        }
+
+    .instructionsContent h6 {
+        color: #007367;
+    }
+
+    .instructionsView {
+        width: 900px;
+        margin: auto;
+        border: 1px solid #007367;
+        padding: 15px;
+        background: #fff;
+    }
+
+        .instructionsView .instructionsContent ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+    /* p{
+            text-align:justify;
+        }*/
+
+
+</style>
+<div class="col-12 col-sm-6 col-md-3 col-lg-3" style="display:none;">
+    <div class="form-group ">
+        <label>Registration number</label>
+        @*<input class="form-control" id="lblgetregistrationnumber" type="text" value="121818601051" readonly>*@
+        @Html.TextBoxFor(model => model.note.regdno, new { @class = "form-control", @id = "regdno" })
+
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-md-3 col-lg-2"style="display:none;">
+    <div class="form-group ">
+        <label>Campus</label>
+        @Html.TextBoxFor(model => model.note.type1, new { @class = "form-control", @id = "type1" })
+
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-md-3 col-lg-3"style="display:none;">
+    <div class="form-group ">
+        <label>College</label>
+        @Html.TextBoxFor(model => model.note.CURRSEM, new { @class = "form-control", @id = "CURRSEM" })
+
+    </div>
+</div>
+<div class="instructionsView">
+    <div class="logo">
+        <img src="https://doeresults.gitam.edu/gitamhallticket/Images/doe-1.jpg" alt="header-C">
+    </div>
+
+    <p>The following penalties imposed for the students who indulged in Malpractice during examinations.</p>
+
+    <div class="sub-box instructionsContent">
+        <h6>Code A :</h6>
+        <p>If a student is found in possession of any study material, a mobile phone or smart devices during exams inside the examination hall:</p>
+        <ul>
+            <li>The student will receive an "F" grade in the respective subject.</li>
+        </ul>
+
+        <h6>Code B :</h6>
+        <p>If a student is found in possession of any study material, a mobile phone, or smart devices for a second time during exams inside the examination hall:</p>
+        <ul>
+            <li>All the subjects in that semester will be awarded “F” grade.</li>
+        </ul>
+
+        <h6>Code C :</h6>
+        <p>If a student is found in possession of any study material, a mobile phone, or smart devices for a third time during exams inside the examination hall:</p>
+        <ul>
+            <li>All the subjects in that semester will be awarded an “F” grade, and the student will be allowed to appear for the examinations after six monthsfrom the last date of the examination of that semester.</li>
+        </ul>
+
+        <h6>Code D :</h6>
+        <p>If a student is found in possession of any study material, a mobile phone, or smart devices for a fourth time during exams inside the examination hall:</p>
+        <ul>
+            <li>All the subjects in that semester will be awarded an “F” grade, and the student will be allowed to appear for the examinations after one year from the last date of the examination of that semester.</li>
+        </ul>
+
+        <h6>Code E :</h6>
+        <p>Reported malpractice is more than four times:</p>
+        <ul>
+            <li>The student will be rusticated from the University.</li>
+        </ul>
+
+
+        <h6>Note :</h6>
+        <p><b>If a student engages in repeated malpractice within six months of a previous infraction, they will be escalated to the next relevant code of conduct.</b></p>
+
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="checkBox1" name="checkbox" value="something">
+            <label class="form-check-label" for="checkBox1">
+                I have read the above rules; I agree to abide by them, failing which I shall be liable to disciplinary action.
+            </label>
+        </div>
+
+        <div class="col-12 btns-group">
+
+            <button type="button" class="btn btn-primary btn-left" id="btnsubmit" onclick="Button_Click()">Download Hallticket</button>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function Button_Click(e) {
+        //debugger;
+
+        var tick = "Y";
+        var regdno = document.getElementById("regdno").value;
+        var type = document.getElementById("type1").value;
+        var semester = document.getElementById("CURRSEM").value;
+
+
+        //  console.log(radio);
+
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        $.ajax({
+            type: "Get",
+            url: "./Home/btnsubmit_Click",
+            data: { 'regdno': regdno, 'type': type, 'semester': semester, 'tick': tick },
+            dataType: "html",
+            success: function (Result) {
+                console.log(Result);
+                $('#hideshow').hide();
+
+                $("#hall").html('');
+                $("#hall").html(Result);
+
+            }
+        });
+
+    }
+</script>

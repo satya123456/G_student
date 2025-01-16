@@ -1,0 +1,566 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_HallLayout.cshtml";
+}
+
+@model Gstudent.ViewModels.Studentrecords.hallticketsummary
+<section class="content-container contentContainer">
+    @if (Model.activecount == 0)
+    {
+
+        <div class="box-container">
+            <h6 class="text-center" style="margin-top:20px;">You could not download the hall ticket , please contact to DOE / HOD's office...!</h6>
+        </div>
+    }
+    else
+    {
+        if (Model.notes != null)
+        {
+            <style>
+                #subModal .modal-body h5 {
+                    color: red;
+                    text-align: center;
+                    font-size: 18px;
+                    margin-top: 15px;
+                }
+
+                .underline {
+                    text-decoration: underline;
+                    border-bottom: 1px solid #3f826D;
+                }
+
+                .ri-corner-down-right-fill {
+                    color: #007367;
+                    font-size: 18px;
+                }
+
+                .instructionsContent ul {
+                    margin-bottom: 20px;
+                }
+            </style>
+            <div id="hideshow">
+                @if (Model.notes.Count() > 0)
+                {
+                    <div class="d-flex justify-content-between">
+                        <h3 class="page-title">
+                            Hall ticket
+
+                        </h3>
+                        @*<div class="back pull-right">
+                            <a href="javascript:void(0);" >
+                                <i class='bx bx-arrow-back'></i>
+                            </a>
+                        </div>*@
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="box-inner">
+                                <div id="dynamictablehospay" class="">
+
+
+                                    <div id="dynamictablehospay" class="table-responsive dropdown_filter  table_row_hover">
+
+
+                                        <table class="table table-bordered" id="tblxyz1" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name of the examination</th>
+                                                    <th>Branch</th>
+                                                    <th>Semester</th>
+                                                    <th>Examination</th>
+                                                    <th>Month & year of the examination</th>
+                                                    <th>Subjects count</th>
+                                                    <th>Download</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.notes.Count() > 0)
+                                                {
+
+
+                                                    foreach (var atten in Model.notes.Where(x => x.CURRSEM != "---").Select(x => new { x.CURRSEM, x.type1 }).Distinct())
+
+
+                                                    {
+                                                        var episodelist = Model.notes.Where(X => X.CURRSEM.Equals(atten.CURRSEM) && X.type1.Equals(atten.type1)).OrderByDescending(X => X.CURRSEM);
+                                                        var totalcount = episodelist.Count();
+                                                        if (atten.type1 == "S")
+                                                        {
+                                                            var eligiblelist = episodelist.Where(X => X.CURRSEM.Equals(atten.CURRSEM) && X.type1.Equals(atten.type1)).OrderByDescending(X => X.CURRSEM);
+                                                            var eligiblcount = eligiblelist.Count();
+                                                            <tr>
+                                                                <td>@episodelist.FirstOrDefault().course_code</td>
+                                                                @if (@episodelist.FirstOrDefault().branch_name == "" || @episodelist.FirstOrDefault().branch_name == "NULL")
+                                                                {
+                                                                    <td>@Model.studentdetailslist.FirstOrDefault().branch_name</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@episodelist.FirstOrDefault().branch_name</td>
+
+                                                                }
+                                                                <td>@episodelist.FirstOrDefault().CURRSEM</td>
+                                                                <td>@episodelist.FirstOrDefault().type2</td>
+                                                                <td>@episodelist.FirstOrDefault().MONTH&nbsp;&nbsp;&nbsp;&nbsp;@episodelist.FirstOrDefault().year</td>
+                                                                @if (eligiblcount == totalcount)
+                                                                {
+                                                                    <td>@eligiblcount/@totalcount</td>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="underline" onclick="return Button1_Click('@episodelist.FirstOrDefault().regdno', '@episodelist.FirstOrDefault().type1', '@episodelist.FirstOrDefault().CURRSEM','@episodelist.FirstOrDefault().tick')">@eligiblcount/@totalcount</td>
+
+                                                                }
+
+                                                                <td class="text-center "><i class="fa fa-eye cursor_pointer" onclick="return innurseprint1234('@episodelist.FirstOrDefault().regdno', '@episodelist.FirstOrDefault().type1', '@episodelist.FirstOrDefault().CURRSEM','@episodelist.FirstOrDefault().tick')"></i></td>
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            var eligiblelist = episodelist.Where(X => X.CURRSEM.Equals(atten.CURRSEM) && X.type1.Equals(atten.type1) && X.ATTENDANCE_STATUS.Equals("Y")).OrderByDescending(X => X.CURRSEM);
+                                                            var eligiblcount = eligiblelist.Count();
+                                                            <tr>
+                                                                <td>@episodelist.FirstOrDefault().course_code</td>
+                                                                @if (@episodelist.FirstOrDefault().branch_name == "" || @episodelist.FirstOrDefault().branch_name == "NULL")
+                                                                {
+                                                                    <td>@Model.studentdetailslist.FirstOrDefault().branch_name</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@episodelist.FirstOrDefault().branch_name</td>
+
+                                                                }
+                                                                @if (@episodelist.FirstOrDefault().CURRSEM == "91")
+                                                                {
+
+
+                                                                    <td>SLM</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@episodelist.FirstOrDefault().CURRSEM</td>
+
+                                                                }
+                                                                <td>@episodelist.FirstOrDefault().type2</td>
+                                                                <td>@episodelist.FirstOrDefault().MONTH&nbsp;&nbsp;&nbsp;&nbsp;@episodelist.FirstOrDefault().year</td>
+                                                                @if (eligiblcount == totalcount)
+                                                                {
+                                                                    <td>@eligiblcount/@totalcount</td>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="underline" onclick="return Button1_Click('@episodelist.FirstOrDefault().regdno', '@episodelist.FirstOrDefault().type1', '@episodelist.FirstOrDefault().CURRSEM','@episodelist.FirstOrDefault().tick')">@eligiblcount/@totalcount</td>
+
+                                                                }
+
+                                                                <td class="text-center "><i class="fa fa-eye cursor_pointer" onclick="return innurseprint1234('@episodelist.FirstOrDefault().regdno', '@episodelist.FirstOrDefault().type1', '@episodelist.FirstOrDefault().CURRSEM','@episodelist.FirstOrDefault().tick')"></i></td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr><td colspan="12" class="text-center">No data available</td></tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" id="tick">
+                                        <input type="hidden" id="regdno">
+                                        <input type="hidden" id="type">
+                                        <input type="hidden" id="semester">
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <h6>Instructions to be followed before downloading the hallticket</h6>
+                    <div class="box-inner">
+
+                        <p>The following penalties imposed for the students who indulged in Malpractice during examinations.</p>
+
+                        <div class="sub-box instructionsContent">
+                            <h6>Code A :</h6>
+                            <ul>
+                                <li>If a student is found in possession of any study material, a mobile phone or smart devices during exams inside the examination hall:</li>
+
+                                <li><i class="ri-corner-down-right-fill"></i>The student will receive an "F" grade in the respective subject.</li>
+                            </ul>
+
+                            <h6>Code B :</h6>
+                            <ul>
+                                <li>If a student is found in possession of any study material, a mobile phone, or smart devices for a second time during exams inside the examination hall:</li>
+
+                                <li><i class="ri-corner-down-right-fill"></i>All the subjects in that semester will be awarded “F” grade.</li>
+                            </ul>
+
+                            <h6>Code C :</h6>
+                            <ul>
+                                <li>If a student is found in possession of any study material, a mobile phone, or smart devices for a third time during exams inside the examination hall:</li>
+
+                                <li><i class="ri-corner-down-right-fill"></i>All the subjects in that semester will be awarded an “F” grade, and the student will be allowed to appear for the examinations after six monthsfrom the last date of the examination of that semester.</li>
+                            </ul>
+
+                            <h6>Code D :</h6>
+                            <ul>
+                                <li>If a student is found in possession of any study material, a mobile phone, or smart devices for a fourth time during exams inside the examination hall:</li>
+
+                                <li><i class="ri-corner-down-right-fill"></i>All the subjects in that semester will be awarded an “F” grade, and the student will be allowed to appear for the examinations after one year from the last date of the examination of that semester.</li>
+                            </ul>
+
+                            <h6>Code E :</h6>
+                            <ul>
+                                <li>Reported malpractice is more than four times:</li>
+
+                                <li><i class="ri-corner-down-right-fill"></i>The student will be rusticated from the University.</li>
+                            </ul>
+
+
+                            <h6>Note :</h6>
+                            <p><b>If a student engages in repeated malpractice within six months of a previous infraction, they will be escalated to the next relevant code of conduct.</b></p>
+
+
+
+
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-between">
+                        <h3 class="page-title">
+                            Hall ticket
+
+                        </h3>
+                        <div class="back pull-right">
+                            <a href="javascript:void(0);" onclick="location.reload();">
+                                <i class='bx bx-arrow-back'></i>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box-container">
+                        <h6 class="text-center" style="margin-top:20px;">You could not able to generate the hall ticket , please contact to HOD's office...!</h6>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-between">
+                <h3 class="page-title">
+                    Hall ticket
+
+                </h3>
+                <div class="back pull-right">
+                    <a href="javascript:void(0);" onclick="location.reload();">
+                        <i class='bx bx-arrow-back'></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-container">
+                <h6 class="text-center" style="margin-top:20px;">You could not generate the hall ticket , please contact HOD's office...!</h6>
+            </div>
+        }
+
+    }
+
+
+</section>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" style="--bs-modal-width: 931px!important;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div id="printdiv" class="w-700">
+                    <style>
+                        @@media (min-width: 992px) {
+                            .modal-lg, .modal-xl {
+                                --bs-modal-width: 931px;
+                            }
+                        }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+                        }
+                    </style>
+                    <div id="inner">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer ">
+                <div class="col-md-12 text-center">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="subModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" style="--bs-modal-width: 931px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>You are not eligible to write the examination on following subjects.</h5>
+                <div id="printsubdiv" class="w-700" style="margin-top:40px;">
+                    <style>
+                        @@media (min-width: 992px) {
+                            .modal-lg, .modal-xl {
+                                --bs-modal-width: 931px;
+                            }
+                        }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+                        }
+                    </style>
+                    <div id="innersub">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mb-3">
+                @*<button type="button" class="btn btn-success" OnClick="innurseprint1234()">Print</button>*@
+                <div class="col-md-12 text-center">
+                    @*<input type="button"  class="btn btn-primary" value="Confirm" onclick="innurseprint1234()" />
+                        <input type="button"  class="btn btn-primary btn-left" value="Cancel" id="cancelbtn" />*@
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<p style="display:none" id="subjectList"></p>
+@*<input type="hidden" value="@Model.note.msg" id="atd_msg">*@
+<div class="loading-overlay"></div>
+<div class="loaderContainer ">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+</div>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.loaderContainer').hide();
+        $('.loading-overlay').hide();
+        debugger;
+        //var msg = $('#atd_msg').val();
+        //if (msg == "Please contact HOD's office..") {
+        //    swal({
+        //        title: "Warning!",
+        //        text: "Your attendence is low, Please contact HoD's office..!",
+        //        type: "warning",
+        //        icon: "warning",
+        //        closeOnClickOutside: false,
+        //        allowOutsideClick: false,
+        //    });
+        //    $('.box-container, .page-title').hide();
+
+        //}
+    })
+    function innurseprint1234(regdno, type, semester, tick) {
+        $('.loaderContainer').show();
+        $('.loading-overlay').show();
+        debugger;
+        //var token = $('input[name="__RequestVerificationToken"]').val();
+        //var tick = $('#tick').val();
+        //var regdno = $('#regdno').val();
+        //var type = $('#type').val();
+        //var semester = $('#semester').val();
+        $.ajax({
+            type: "Get",
+            url: "./Home/btnsubmit_Click",
+            data: { 'regdno': regdno, 'type': type, 'semester': semester, 'tick': tick },
+            dataType: "html",
+            success: function (Result) {
+                //debugger;
+                console.log(Result);
+                //$('#hideshow').hide();
+                $('#subModal').modal('hide');
+                $("#printdiv").html('');
+                $("#printdiv").html(Result);
+                $('#myModal').modal('show');
+
+                //$("#qrcode").html("");
+                //var qrcode = new QRCode("qrcode");
+                //qrcode.makeCode(result.qr);
+                $('.loaderContainer').hide();
+                $('.loading-overlay').hide();
+            }
+        });
+
+    }
+    $("#radioBtn2, #radioBtn7, #radioBtn9").click(function () {
+        $("#semester").show();
+    });
+
+    $("#radioBtn1, #radioBtn3, #radioBtn4, #radioBtn5, #radioBtn6, #radioBtn8").click(function () {
+        $("#semester").hide();
+        $("#Semlist").val("");
+    });
+    function Button1_Click(regdno, type, semester, tick) {
+        debugger;
+        document.getElementById('regdno').value = regdno;
+        document.getElementById('type').value = type;
+        document.getElementById('semester').value = semester;
+        document.getElementById('tick').value = tick;
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/gethalleligiblesubjectlist',
+            data: { 'regdno': regdno, 'type': type, 'semester': semester, 'tick': tick },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                var count = result.noteligiblesub.length;
+                if (count == 0) {
+                    $.ajax({
+                        type: "Get",
+                        url: "./Home/btnsubmit_Click",
+                        data: { 'regdno': regdno, 'type': type, 'semester': semester, 'tick': tick },
+                        dataType: "html",
+                        success: function (Result) {
+                            console.log(Result);
+                            $("#printdiv").html('');
+                            $("#printdiv").html(Result);
+                            $('#myModal').modal('show');
+                        }
+                    });
+                }
+                else {
+                    debugger;
+                    var noneligiblesub = "";
+                    noneligiblesub += "<table class='table table-bordered tbl_style'><thead><tr><th>Subject code</th><th>Subject name</th></tr></thead><tbody>";
+                    for (var i = 0; i < result.noteligiblesub.length; i++) {
+                        noneligiblesub += "<tr><td>" + result.noteligiblesub[i].subject_code + "</td><td>" + result.noteligiblesub[i].subject_name + "</td></tr>";
+                    }
+                    noneligiblesub += "</tbody></table>";
+                    noneligiblesub += "<b style='margin-top:30px;'>Note : You can still click <span><i class='fa fa-eye cursor_pointer'></i></span> to generate the hall ticket for the eligible subjects.<br>For any additional inquiries, kindly get in touch with DOE.</b>";
+                    document.getElementById('subjectList').innerHTML = noneligiblesub;
+                    var test = document.getElementById('subjectList').innerHTML;
+                    $("#printsubdiv").html('');
+                    $("#printsubdiv").html(test);
+                    $('#subModal').modal('show');
+                }
+            }
+
+        });
+    }
+    $("#cancelbtn").click(function () {
+        $('#subModal').modal('hide');
+        swal('Cancelled', '', 'error');
+    });
+
+</script>

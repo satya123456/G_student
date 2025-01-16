@@ -1,0 +1,203 @@
+﻿@model Gstudent.Models.LmsResource
+@Html.Hidden("subcode", Model.subcode)
+@Html.Hidden("subname", Model.subname)
+@Html.Hidden("radiovalue", Model.radiovalue)
+@Html.Hidden("groupcode", Model.groupcode)
+<style>
+    .fa-file-image {
+        color: #007367;
+        font-size: 18px;
+    }
+
+    .accordion {
+        margin-bottom: 15px;
+        border-radius: 4px
+    }
+
+    .accordion-item {
+        border: 1px solid #fff;
+        padding: 2px 0px;
+        margin-bottom:15px;
+    }
+
+    .accordion-button {
+        box-shadow: none !important;
+        padding: 11px 15px 9px !important;
+    }
+    .bg1 {
+        background: #eafff5;
+    }
+
+    .bgBox {
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .bg2 {
+        background: #e4e6ed;
+    }
+    .bg3 {
+        background: #f0eee5;
+    }
+    .accordion-button {
+        background: #fff !important;
+    }
+
+    .nodata {
+        background: #eafff5;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #006c61;
+        /* box-shadow: 0 2px 4px rgb(0 0 0 / 8%); */
+        /* border-radius: 10px; */
+        margin-top: 4px;
+        border-top: 1px solid #007367;
+    }
+
+    .boxWithShadow {
+        padding-top: 10px;
+        border-top: 1px solid #fff;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: #333;
+        font-size: 14px;
+    }
+
+    .accordion-body {
+        border-top: 1px solid #ddd;
+    }
+</style>
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Lesson plan (@ViewBag.subjectcode - @ViewBag.subjectname)</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="Lmsback()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+          <div class="box-inner inner_wrapper">
+              @*<h6 style="" class="mt-3 mb-3"> @ViewBag.subjectcode - @ViewBag.subjectname</h6>*@
+              <div class="grid-container">
+                  <div class="bgBox bg1">
+                      <div class="d-sm-flex align-items-center justify-content-between">
+                          <h1 class="h3 mb-2  page-title"><span id="date"></span> Unit-wise course materials</h1>
+                      </div>
+                      <div class="boxWithShadow" id="foldersDivmdl" style="display:none">
+                          <div id="accordiandivmdl">
+                          </div>
+                      </div>
+                      <div class="nodata" style="display:none" id="noFoldersmdl">
+                          <h6 class="text-center">Faculty not yet posted</h6>
+                      </div>
+                  </div>
+                  <br>
+                  <br>
+
+              </div>
+          </div>
+</section>
+<script>
+        $(document).ready(function () {
+            courseunitwise();
+            
+        });
+        function courseunitwise() {
+            $.ajax({
+                type: "Get",
+                url: './Home/getresource_unit',
+                contentType: "application/json; charset=utf-8",
+                dataSrc: "",
+                data: { sub_code: $("#subcode").val() },
+                success: function (data) {
+                   // debugger;
+                    console.log(data);
+                    var cnt = 0;
+
+                    if (data.length == 0) {
+                        $('#noFoldersmdl').show();
+                        $('#foldersDivmdl').hide();
+
+
+
+                    } else {
+                        $('#foldersDivmdl').show();
+                        $('#noFoldersmdl').hide();
+
+                        $('#accordiandivmdl').empty();
+
+                        trHTML = '<div class="" id="courseAccordionmdl"><div class="accordion" id="accordionExample">';
+                        var i = 0;
+                        $.each(data, function (key, value) {
+                            cnt++;
+                            var _id = "\'" + value.id + "\'";
+                            var _order_id = "\'" + value.order_id + "\'";
+                            var _year = "\'" + value.year + "\'";
+                            var _name = "\'" + value.name + "\'";
+                            var _sub_code = "\'" + $("#subcode").val() + "\'";
+                            var sanitized_name = _name.replace(/'/g, '');
+                            trHTML += ' <div class="accordion-item"> <h2 class="accordion-header" id="headingOne' + value.id + '_' + value.order_id + '" >    <button class="accordion-button" type="button" data-bs-toggle="collapse"  data-bs-target="#collapseOne' + value.id + '_' + value.order_id + '" aria-expanded="false" aria-controls="collapseOne' + value.id + '_' + value.order_id + '" >' + sanitized_name + '  (Duration : ' + value.Module_duration+' hrs) </button> </h2>';
+                            trHTML += '<div id="collapseOne' + value.id + '_' + value.order_id + '" class="accordion-collapse collapse" aria-labelledby="headingOne' + value.id + '_' + value.order_id + '" data-bs-parent="#accordionExample" >';
+                            $.ajax({
+                                type: "GET",
+                                url: './Home/getresource_unittopicwise',
+                                contentType: "application/json; charset=utf-8", async: false,
+                                data: {
+                                    sub_code: $("#subcode").val(),
+                                    module_id: value.order_id
+                                },
+                                success: function (data1) {
+                                    console.log(data1);
+                                    trHTML += '<div class="accordion-body">';
+                                    if (data1.length > 0) {
+                                       
+                                        trHTML += '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Sno</th><th>Topic name</th><th>Session</th><th>CO mapping</th><th>Last date</th><th>Delivery method</th> </tr></thead><tbody>';
+                                        var k = 1;
+                                        $.each(data1, function (key, value1) {
+                                            i++;
+                                            trHTML += '<tr><td>' + k + '</td><td>' + value1.Topic_name + '</td><td>' + value1.Periods + '</td><td>' + value1.TYPE + '</td><td>' + value1.date + '</td><td>' + value1.Delivery_method + '</td> </tr>';
+
+                                            k++;
+                                        });
+                                        trHTML += '</tbody></table></div>';
+                                    }
+                                  
+                                    trHTML += '</div>';
+                                }
+                            })
+
+                            trHTML += "</div></div>";
+                        });
+                        trHTML += "</div></div>";
+                        $('#accordiandivmdl').append(trHTML);
+                        trHTML = "";
+
+
+
+                    }
+                }
+            })
+        }
+        function Lmsback() {
+
+
+            $('#maindiv').html("");
+            $.ajax({
+
+                type: 'GET',
+                url: './Home/getlmssubjects',
+
+                success: (function (result) {
+
+                    $('#maindiv').html(result);
+
+
+                })
+            });
+
+        }
+</script>
+
+

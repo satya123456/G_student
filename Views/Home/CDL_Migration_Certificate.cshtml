@@ -1,0 +1,131 @@
+﻿
+@model List<Gstudent.Models.CDLCertificates>
+
+<section class="content-container contentContainer">
+
+    <div class="box-inner" id="contentdiv">
+        <div class="row">
+            <div class="container">
+                <div class="page" style="text-align: center; border: 0px solid" id="divmgg">
+
+                    <div style="padding: 20px; text-align:justify; border: 5px solid #787878">
+                        <div style="text-align:right">
+                            <Label ID="lblregdno" Text="" Style="font-size: 19px;font-weight:bold;">Regdno. @Model.FirstOrDefault().REGDNO</Label>
+                        </div>
+                        <div class="header">
+                            <img src="images/academiccert1.jpg" style="width:670px;margin-left:-10px;" />
+                            @*<img src="images/academiccert1.jpg" />*@
+                        </div>
+                        <div style="font-size: 35px; font-weight: bold; background-color: whitesmoke;text-align:center;">MIGRATION CERTIFICATE</div>
+                        <center style="font-size: 20px; font-weight: bold;"></center>
+
+                        <br />
+                        <br /> <br />
+                        <br />
+                        <div style="text-align:left;">
+                            <span style="font-size: 19px;text-align:left;">It is here by to certified that Mr. / Ms.</span>
+                            <Label ID="lblname" Style="font-size: 19px;font-weight:bold;width:50px;" Text="">@Model.FirstOrDefault().NAME</Label>
+                            <span style="font-size: 19px">&nbsp;&nbsp;appeared for the Final Semester / </span><br /><br />
+                            <span style="font-size: 19px"> Trimester /Year end examination of&nbsp;</span>
+
+                            <Label ID="lblpr" Text="" Style="font-size: 19px;font-weight:bold;">@Model.FirstOrDefault().course_name</Label>
+                            @{ 
+                                string data = "";
+                                if (Model.FirstOrDefault().COURSE_CODE == "MBA")
+                                {
+                                    data = " in " + Model.FirstOrDefault().Month_Year + " from this";
+                                }
+                                else
+                                {
+                                    data = " in " + Model.FirstOrDefault().Month_Year + " from this University.";
+                                }
+                            }
+                            <Label ID="lblbatch" Text="" Style="font-size: 19px;font-weight:bold;">@data</Label><br />
+                            <Label ID="pgraph" style="font-size: 19px">The University has no objection for the candidate to prosecute his / her further studies in any University or inistitute or Board established by law. He / She has not been debarred for any malpractice at the examinations of the University.</Label>
+                            <br /><br /><br /><br />
+                            <div style="text-align:justify;">
+                                <table align="justify;">
+                                    <tr>
+                                        <td><div style="width:550px;font-size:17px;"><span><b>Mode of delivery&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>ODL</span></div></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="width:550px;font-size:17px;">
+                                                <span><b>Date of Admission&nbsp;&nbsp;&nbsp;:</b></span>
+                                                <Label ID="lbldoa" Text="">@Model.FirstOrDefault().DOA</Label>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="width:550px;font-size:17px;">
+                                                <span><b>Date of completion&nbsp;&nbsp;: </b></span>
+                                                <Label ID="lbldoc" Text="">@Model.FirstOrDefault().DOC</Label>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><div style="width:550px;font-size:17px;"><span><b>Name and address of all Learner Support Centres : ---</b></span></div></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><div style="width:800px;font-size:17px;"><span><b>Name and address of all Examination Centres&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:  </b><br />GITAM (Deemed to be University),VISAKHAPATNAM.</span></div></td>
+
+                                    </tr>
+
+
+                                </table>
+                                <table align="left;" style="margin-top:50px;">
+                                    <tr>
+                                        <td><div style="width:250px;font-size:18px;"><span><b>Visakhapatnam </b></span></div></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><div style="width:250px;font-size:18px;"><Label ID="dttm" Text="" Font-Size="15px" Font-Bold="true">Printed On : @Model.FirstOrDefault().sysdate</Label></div></td>
+                                        <td><div style="width:250px;font-size:18px;"><span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span></div></td>
+                                        <td><div style="width:250px;font-size:18px;text-align:right;"><span style="display:none;"><b>Controller of Examnation</b></span></div></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                            <div class="sign">
+                                <table>
+                                    
+                                    <tr>
+
+                                        <td style="width:600px">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td> <img src="images/Sumanth-Kumar.png" style="height:30px;margin-left:24px;margin-top:-19px;" /> </td>
+                                    </tr>
+
+
+
+                                </table>
+                                <table>
+
+                                    <tr>
+
+                                        <td>
+                                            <span style="margin-left: 565px;"><b>controller of examinations</b></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+

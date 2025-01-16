@@ -1,0 +1,762 @@
+﻿@model Gstudent.ViewModels.permissions
+<section class="content-container contentContainer">
+    <div class="tabsContainer  ">
+
+        <!-- Tabs line -->
+        <div class="tabsFill">
+            <div class="d-flex justify-content-between">
+                <h3 class="page-title  mb-2">
+                    Permissions &amp; Leaves (For residence only)
+                    <div class="back pull-right">
+                        <a href="javascript:void(0);" onclick="location.reload();">
+                            <i class='bx bx-arrow-back'></i>
+                        </a>
+                    </div>
+                </h3>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab1"><span class="dtab">Request</span><span class="mtab" title="Request"><i class="ri-git-pull-request-line"></i></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab2" onclick="getUnderProcess()"><span class="dtab">Under process </span><span class="mtab"><i class="ri-hourglass-fill"></i></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab3" onclick="getApproved()"><span class="dtab">Approved</span><span class="mtab"><i class="ri-checkbox-circle-line"></i></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab4" onclick="getRejected()"><span class="dtab">Rejected</span><span class="mtab"><i class="ri-close-circle-line"></i></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab5" onclick="getHistory()"><span class="dtab">History</span><span class="mtab"><i class="ri-history-fill"></i></span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="box-container">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane  active" id="tab1">
+                        @{Html.RenderPartial("Request", Model); }
+
+                    </div>
+                    <div class="tab-pane " id="tab2">
+                        @{Html.RenderPartial("Underprocess");}
+                    </div>
+                    <div class="tab-pane  " id="tab3">
+                        @{Html.RenderPartial("Approved");}
+                    </div>
+                    <div class="tab-pane  fade" id="tab4">
+                        @{Html.RenderPartial("Rejected"); }
+                    </div>
+                    <div class="tab-pane  fade" id="tab5">
+                        @{Html.RenderPartial("History");}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    window.timepicker = new tempusDominus.TempusDominus(
+        document.getElementById("Totimepicker"),
+        {
+            localization: {
+                format: 'hh:mm T',
+            },
+            display: {
+                viewMode: "clock",
+                components: {
+
+                    decades: false,
+                    year: false,
+                    month: false,
+                    date: false,
+                    hours: true,
+                    minutes: true,
+                    seconds: false
+                }
+            }
+        });
+
+    window.timepicker = new tempusDominus.TempusDominus(
+        document.getElementById("fromtimepicker"),
+        {
+            restrictions: {
+                minDate: undefined,
+            },
+            localization: {
+                format: 'hh:mm T',
+
+            },
+            display: {
+                viewMode: "clock",
+                components: {
+
+                    decades: false,
+                    year: false,
+                    month: false,
+                    date: false,
+                    hours: true,
+                    minutes: true,
+                    seconds: false
+                },
+
+            }
+        }
+    );
+    window.timepicker = new tempusDominus.TempusDominus(
+        document.getElementById("LeaveFromtimepicker"),
+        {
+            localization: {
+                format: 'hh:mm T',
+            },
+            display: {
+                viewMode: "clock",
+                components: {
+                    decades: false,
+                    year: false,
+                    month: false,
+                    date: false,
+                    hours: true,
+                    minutes: true,
+                    seconds: false
+                }
+            }
+        }
+    );
+    window.timepicker = new tempusDominus.TempusDominus(
+        document.getElementById("LeaveTotimepicker"),
+        {
+            localization: {
+                format: 'hh:mm T',
+            },
+            display: {
+                viewMode: "clock",
+                components: {
+                    decades: false,
+                    year: false,
+                    month: false,
+                    date: false,
+                    hours: true,
+                    minutes: true,
+                    seconds: false
+                }
+            }
+        }
+    );
+
+
+    $(document).ready(function () {
+
+        GetType();
+        @* $('#fromtimepicker').wickedpicker();
+        $('#Totimepicker').wickedpicker();
+        $('#LeaveFromtimepicker').wickedpicker();
+        $('#LeaveTotimepicker').wickedpicker();
+        $('#fdatetimepicker').wickedpicker();
+        $('#Tdatetimepicker').wickedpicker();*@
+        $('#FromdatePicker, #TodatePicker').datepiker();
+        $('#dataTable').DataTable();
+
+    })
+
+
+    $('.tab-link').click(function () {
+
+        var tabID = $(this).attr('data-tab');
+
+        $(this).addClass('active').siblings().removeClass('active');
+
+        $('#tab-' + tabID).addClass('active').siblings().removeClass('active');
+    });
+
+    function GetType() {
+        if ($('#Leave').is(':checked')) {
+            $(this).prop('checked', true);
+            $('.prmsn_time').hide();
+            $('.leave_time').show();
+            $('#Reason').val('');
+            $('#travelinfo').val('');
+            window.timepicker = new tempusDominus.TempusDominus(
+                document.getElementById("Tdatetimepicker"),
+                {
+                    localization: {
+                        format: 'hh:mm T',
+                    },
+                    display: {
+                        viewMode: "clock",
+                        components: {
+                            decades: false,
+                            year: false,
+                            month: false,
+                            date: false,
+                            hours: true,
+                            minutes: true,
+                            seconds: false
+                        }
+                    }
+                }
+            );
+            window.timepicker = new tempusDominus.TempusDominus(
+                document.getElementById("fdatetimepicker"),
+                {
+                    localization: {
+                        format: 'hh:mm T',
+                    },
+                    display: {
+                        viewMode: "clock",
+                        components: {
+                            decades: false,
+                            year: false,
+                            month: false,
+                            date: false,
+                            hours: true,
+                            minutes: true,
+                            seconds: false
+                        }
+                    }
+                }
+            );
+        } else {
+            $(this).prop('checked', false);
+            $('#Permission').prop('checked', true);
+            $('.leave_time').hide();
+            $('.prmsn_time').show();
+            $('#Reason').val('');
+            $('#travelinfo').val('');
+        }
+
+    }
+
+
+
+    function getUnderProcess() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getUnderProcess',
+            datatype: JSON,
+            success: function (result) {
+               // //debugger;
+                console.log(result);
+                $('#underprocess').html("");
+                var tablestring = "";
+                var a = 1;
+                var type = "";
+                var date = "";
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].Type == "P") {
+                        type = "Permission";
+                        date = result[i].Date;
+                    }
+                    else if (result[i].Type == "V") {
+                        type = "Vacation";
+                        date = result[i].From_date + " to " + result[i].To_date;
+                    }
+                    else {
+                        type = "Leave";
+                        date = result[i].From_date + " to " + result[i].To_date;
+                    }
+                  //  tablestring = tablestring + "<tr><td>" + a + "</td><td>" + result[i].Reason + "</td><td>" + type + "</td><td class='nowrap'>" + date + "</td><td>" + result[i].fromtime + "</td><td>" + result[i].totime + "</td></tr>"
+                    tablestring = tablestring + "<tr><td>" + a + "</td><td>" + result[i].Reason + "</td><td>" + type + "</td><td class='nowrap'>" + date + "</td><td>" + result[i].fromtime + "</td><td>" + result[i].totime + "</td><td><button class='btn btn-primary' onclick='withdraw(" + result[i].id + ")'>withdraw</button></td></tr>"
+
+                    a = parseInt(a) + 1;
+                }
+                if ($.fn.DataTable.isDataTable('#dataTable')) {
+                    $('#dataTable').DataTable().destroy();
+                }
+
+                $('#underprocess').html(tablestring);
+                $('#dataTable').DataTable();
+            }
+        });
+    }
+
+
+
+    function getApproved() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getApproved',
+            datatype: JSON,
+            success: function (result) {
+                //debugger;
+                console.log(result);
+                $('#Approved').html("");
+                var tablestring = "";
+                var a = 1;
+                var type = "";
+                var date = "";
+                var time = "";
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].Type == "P") {
+                        type = "Permission";
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        date = dateString;
+                        // date = result[i].Fromdate;
+                        time = result[i].fromtime + " to " + result[i].totime;
+                    }
+                    else if (result[i].Type == "V") {
+                        type = "Vacation";
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        var todate = moment(result[i].Todate);
+                        var dateString1 = todate.format('DD-MM-YYYY');
+                        date = dateString + " to " + dateString1;
+                        // date = result[i].Fromdate + " to " + result[i].Todate;
+                        if (result[i].fromtime != "0") {
+                            if (result[i].fromtime != "") {
+                                time = result[i].fromtime + " to " + result[i].totime;
+                            }
+                            else {
+                                time = "";
+                            }
+                        }
+                        else {
+                            time = "";
+                        }
+
+                    }
+                    else {
+                        type = "Leave";
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        var todate = moment(result[i].Todate);
+                        var dateString1 = todate.format('DD-MM-YYYY');
+                        date = dateString + " to " + dateString1;
+                        // date = result[i].Fromdate + " to " + result[i].Todate;
+                        if (result[i].fromtime != "0") {
+                            if (result[i].fromtime != "") {
+                                time = result[i].fromtime + " to " + result[i].totime;
+                            }
+                            else {
+                                time = "";
+                            }
+                        }
+                        else {
+                            time = "";
+                        }
+                    }
+                    var ApprovedDate = moment(result[i].ApprovedDate);
+                    var ApprovedDatestring = ApprovedDate.format('DD-MM-YYYY');
+
+                    tablestring = tablestring + "<tr><td>" + a + "</td><td>" + result[i].Reason + "</td><td>" + type + "</td><td>" + result[i].emp_name + "</td><td>" + ApprovedDatestring + "</td><td>" + date + "</td><td>" + time + "</td></tr>"
+                    a = parseInt(a) + 1;
+                }
+
+                //$('#Approved').html(tablestring);
+                //$('#Approvetbl').DataTable();
+                if ($.fn.DataTable.isDataTable('#Approvetbl')) {
+                    $('#Approvetbl').DataTable().destroy();
+                }
+
+                $('#Approved').html(tablestring);
+                $('#Approvetbl').DataTable();
+            }
+        });
+    }
+
+
+
+    function getRejected() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getRejected',
+            datatype: JSON,
+            success: function (result) {
+
+                console.log(result);
+                $('#Reject').html("");
+                var tablestring = "";
+                var a = 1;
+                var type = "";
+                var date = "";
+                var time = "";
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].Type == "P") {
+                        type = "Permission";
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        date = dateString;
+                        // date = result[i].Fromdate;
+                        time = result[i].fromtime + " to " + result[i].totime;
+                    }
+                    else if (result[i].Type == "V") {
+                        type = "Vacation";
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        var todate = moment(result[i].Todate);
+                        var dateString1 = todate.format('DD-MM-YYYY');
+                        date = dateString + " to " + dateString1;
+                        if (result[i].fromtime != "0") {
+                            if (result[i].fromtime != "") {
+                                time = result[i].fromtime + " to " + result[i].totime;
+                            }
+                            else {
+                                time = "";
+                            }
+                        }
+                        else {
+                            time = "";
+                        }
+                    }
+                    else {
+                        type = "Leave";
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        var todate = moment(result[i].Todate);
+                        var dateString1 = todate.format('DD-MM-YYYY');
+
+                        date = dateString + " to " + dateString1;
+                        //date = result[i].Fromdate + " to " + result[i].Todate;
+                        if (result[i].fromtime != "0") {
+                            if (result[i].fromtime != "") {
+                                time = result[i].fromtime + " to " + result[i].totime;
+                            }
+                            else {
+                                time = "";
+                            }
+                        }
+                        else {
+                            time = "";
+                        }
+                    }
+
+                    tablestring = tablestring + "<tr><td>" + a + "</td><td>" + result[i].Reason + "</td><td>" + type + "</td><td>" + date + "</td><td>" + time + "</td></tr>"
+                    a = parseInt(a) + 1;
+                }
+
+                //$('#Reject').html(tablestring);
+                //$('#RejectTable').DataTable();
+                if ($.fn.DataTable.isDataTable('#RejectTable')) {
+                    $('#RejectTable').DataTable().destroy();
+                }
+
+                $('#Reject').html(tablestring);
+                $('#RejectTable').DataTable();
+            }
+        });
+    }
+
+    function getHistory() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getHistory',
+            datatype: JSON,
+            success: function (result) {
+                //debugger;
+                console.log(result);
+                $('#History').html("");
+                var tablestring = "";
+                var a = 1;
+                var type = "";
+                var date = "";
+                var time = "";
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].Type == "P") {
+                        type = "Permission";
+                        // date = result[i].Fromdate;
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        date = dateString;
+                        time = result[i].fromtime + " to " + result[i].totime;
+                    }
+                    else if (result[i].Type == "V") {
+                        type = "Vacation";
+
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        var todate = moment(result[i].Todate);
+                        var dateString1 = todate.format('DD-MM-YYYY');
+
+                        date = dateString + " to " + dateString1;
+                        if (result[i].fromtime != "0") {
+                            if (result[i].fromtime != "") {
+                                time = result[i].fromtime + " to " + result[i].totime;
+                            }
+                            else {
+                                time = "";
+                            }
+                        }
+                        else {
+                            time = "";
+                        }
+                    }
+                    else {
+                        type = "Leave";
+                        var fromDate = moment(result[i].Fromdate);
+                        var dateString = fromDate.format('DD-MM-YYYY');
+                        var todate = moment(result[i].Todate);
+                        var dateString1 = todate.format('DD-MM-YYYY');
+
+                        date = dateString + " to " + dateString1;
+                        if (result[i].fromtime != "0") {
+                            if (result[i].fromtime != "") {
+                                time = result[i].fromtime + " to " + result[i].totime;
+                            }
+                            else {
+                                time = "";
+                            }
+                        }
+                        else {
+                            time = "";
+                        }
+                    }
+
+                    tablestring = tablestring + "<tr><td>" + a + "</td><td>" + result[i].Reason + "</td><td>" + type + "</td><td>" + date + "</td><td>" + time + "</td></tr>"
+                    a = parseInt(a) + 1;
+                }
+
+                //$('#History').html(tablestring);
+                //$('#HistoryTable').DataTable();
+                if ($.fn.DataTable.isDataTable('#HistoryTable')) {
+                    $('#HistoryTable').DataTable().destroy();
+                }
+
+                $('#History').html(tablestring);
+                $('#HistoryTable').DataTable();
+            }
+        });
+    }
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#Reason').on('keypress', function (event) {
+            var keyPressed = event.keyCode || event.which;
+            if (String.fromCharCode(keyPressed) === "'") {
+                event.preventDefault();
+            }
+        });
+        $('#travelinfo').on('keypress', function (event) {
+            var keyPressed = event.keyCode || event.which;
+            if (String.fromCharCode(keyPressed) === "'") {
+                event.preventDefault();
+            }
+        });
+
+
+    });
+
+
+
+    $(document).ready(function () {
+        $('#FromdatePicker').datepicker({
+            minDate: 0,
+            maxDate: "+1M",
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2100'
+        });
+
+        $('#TodatePicker').datepicker({
+            minDate: 0,
+            maxDate: "+1M",
+            dateFormat: 'd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2100'
+        });
+
+        const monthNames = ["Jan", "Feb", "Mar", "Apr",
+            "May", "Jun", "Jul", "Aug",
+            "Sep", "Oct", "Nov", "Dec"];
+
+        const day = new Date().getDate();
+
+        const monthIndex = new Date().getMonth();
+        const monthName = monthNames[monthIndex];
+
+        const year = new Date().getFullYear();
+
+
+        $('#datePicker').val(day + "-" + monthName + "-" + year);
+        $('#datePicker').datepicker({
+
+            minDate: 0,
+            maxDate: "+1M",
+            dateFormat: 'd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2100'
+        });
+
+
+
+        GetType();
+        //$('#fromtimepicker').wickedpicker();
+        //$('#Totimepicker').wickedpicker();
+        //$('#LeaveFromtimepicker').wickedpicker();
+        //$('#LeaveTotimepicker').wickedpicker();
+        //$('#FromdatePicker, #TodatePicker').datepiker();
+    })
+
+    $('.tab-link').click(function () {
+
+        var tabID = $(this).attr('data-tab');
+
+        $(this).addClass('active').siblings().removeClass('active');
+
+        $('#tab-' + tabID).addClass('active').siblings().removeClass('active');
+    });
+
+    function GetType() {
+
+        const monthNames = ["Jan", "Feb", "Mar", "Apr",
+            "May", "Jun", "Jul", "Aug",
+            "Sep", "Oct", "Nov", "Dec"];
+
+        const day = new Date().getDate();
+
+        const monthIndex = new Date().getMonth();
+        const monthName = monthNames[monthIndex];
+
+        const year = new Date().getFullYear();
+
+        $('#datePicker').val(day + "-" + monthName + "-" + year);
+        if ($('#Leave').is(':checked')) {
+            $(this).prop('checked', true);
+            $('#Reason').val('');
+            $('#travelinfo').val('');
+            // $('.time_line').hide();
+            $('.prmsn_time').hide();
+            $('.leave_time').show();
+            window.timepicker = new tempusDominus.TempusDominus(
+                document.getElementById("Tdatetimepicker"),
+                {
+                    localization: {
+                        format: 'hh:mm T',
+                    },
+                    display: {
+                        viewMode: "clock",
+                        components: {
+                            decades: false,
+                            year: false,
+                            month: false,
+                            date: false,
+                            hours: true,
+                            minutes: true,
+                            seconds: false
+                        }
+                    }
+                }
+            );
+            window.timepicker = new tempusDominus.TempusDominus(
+                document.getElementById("fdatetimepicker"),
+                {
+                    localization: {
+                        format: 'hh:mm T',
+                    },
+                    display: {
+                        viewMode: "clock",
+                        components: {
+                            decades: false,
+                            year: false,
+                            month: false,
+                            date: false,
+                            hours: true,
+                            minutes: true,
+                            seconds: false
+                        }
+                    }
+                }
+            );
+        }
+
+        else if ($('#Vacation').is(':checked')) {
+            $(this).prop('checked', true);
+            // $('.time_line').hide();
+            $('.prmsn_time').hide();
+            $('.leave_time').show();
+            $('#Reason').val("");
+            $('#travelinfo').val("");
+            window.timepicker = new tempusDominus.TempusDominus(
+                document.getElementById("Tdatetimepicker"),
+                {
+                    localization: {
+                        format: 'hh:mm T',
+                    },
+                    display: {
+                        viewMode: "clock",
+                        components: {
+                            decades: false,
+                            year: false,
+                            month: false,
+                            date: false,
+                            hours: true,
+                            minutes: true,
+                            seconds: false
+                        }
+                    }
+                }
+            );
+            window.timepicker = new tempusDominus.TempusDominus(
+                document.getElementById("fdatetimepicker"),
+                {
+                    localization: {
+                        format: 'hh:mm T',
+                    },
+                    display: {
+                        viewMode: "clock",
+                        components: {
+                            decades: false,
+                            year: false,
+                            month: false,
+                            date: false,
+                            hours: true,
+                            minutes: true,
+                            seconds: false
+                        }
+                    }
+                }
+            );
+        }
+        else {
+            $(this).prop('checked', false);
+            $('#Permission').prop('checked', true);
+            $('.leave_time').hide();
+            $('.prmsn_time').show();
+            $('#Reason').val("");
+            $('#travelinfo').val("");
+        }
+    }
+
+    function getCurrentTime(date) {
+        var hours = date.getHours(),
+            minutes = date.getMinutes(),
+            ampm = hours >= 12 ? 'pm' : 'am';
+
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+        return hours + ':' + minutes + ' ' + ampm;
+    }
+
+
+
+    function withdraw(id) {
+        var id = id;
+        $.ajax({
+            type: 'GET',
+            url: './Home/withdraw',
+            data: { id: id },
+            datatype: JSON,
+            success: function (result) {
+
+
+                swal(result, '', 'success');
+                getUnderProcess();
+            }
+        });
+
+    }
+
+</script>

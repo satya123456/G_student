@@ -1,0 +1,69 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Attendancesummary  
+
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Course structure</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+
+                    @Html.DropDownListFor(model => model.note.SEMESTER, (IEnumerable<SelectListItem>)ViewBag.Semlist, "Select", new { @class = "form-control", @id = "semester", @onchange = "Semesterchange()" })
+
+                </div>
+            </div>
+        </div>
+        <div id="available">
+
+        </div>
+    </div>
+
+
+
+</section>
+<script>
+    $(document).ready(function () {
+        $('#myTablevend1').DataTable({});
+    });
+    function Semesterchange() {
+       
+        var val = $('#semester').find(":selected").val();
+        if (val == "" || val == null) {
+        
+            $('#available').hide();
+            swal('No data available', '', 'error');
+        }
+        else {
+            $.ajax({
+                type: "Get",
+                url: './Home/GetSemesterdata',
+                data: { 'semester': val, },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    var Ids = 1;
+                    $('#available').html('');
+                    trHTML = '<hr /><div class="table_style"><table class="table table-bordered"  id="tbl" style="width:100%"><thead ><tr></th><th>Course code</th><th>Subject</th><th>Subject type/category</th><th>Credits</th></tr></thead><tbody>';
+                    $.each(data, function (key, value) {
+                        trHTML +=
+                            "<tr><td>" + value.subjectcode + "</td><td>" + value.subjectname + "</td><td>" + value.Subject_type + "</td><td>" + value.credits + "</td></tr>";
+                        Ids++;
+                    });
+                    trHTML += "</tbody></table></div>";
+                    $('#available').append(trHTML);
+                    $('#available').show();
+                    $('#tbl').DataTable({
+                        order: [[0, 'asc']],
+                    });
+                }
+            });
+        }
+    }
+</script>
+

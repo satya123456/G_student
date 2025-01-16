@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Gstudent.Models.Timetable>
+@{
+    ViewBag.Title = "Timetable";
+}
+@{
+    var days = ViewBag.days;
+    var session = ViewBag.list;
+    var i = 0;
+
+}
+<style>
+    .table td {
+        padding: 12px 15px;
+    }
+
+    .table tr th {
+        background-color: #ffb4b9;
+        padding: 10px;
+    }
+
+    .table tr:nth-child(even) {
+        background: #fff1f1;
+    }
+    /*  .table tr:nth-child(1) {
+        background: #d2f9d4;
+    }
+    .table tr:nth-child(2) {
+        background: #ffdae0;
+    }
+    .table tr:nth-child(3) {
+        background: #ffffcb;
+    }
+    .table tr:nth-child(4) {
+        background: #dbfffd;
+    }
+    .table tr:nth-child(5) {
+        background: #f3dbff;
+    }
+    .table tr:nth-child(6) {
+        background: #fff0d0;
+    }*/
+</style>
+<section class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Time table</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+        @*@if (Session["Courseregistrationopen"].ToString() == "99")
+        {*@
+
+
+        @if (Model.Count() > 0)
+        {
+            if (session.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>WEEKDAY</th>
+                                @foreach (var val in session)
+                                {
+                                    <th>@val[0].timeslots</th>
+                                }
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var val in days)
+                            {
+                                <tr>
+                                    <td>@val</td>
+                                    @foreach (var val1 in session)
+                                    {
+                                        i = 0;
+                                        <td>
+                                            @foreach (var value in Model)
+                                            {
+
+                                                if (value.WEEKDAY == val && value.timeslots == val1[0].timeslots)
+                                                {
+
+                                                    if (i == 0)
+                                                    {
+                                                        @value.SUBJECT_CODE
+
+                                                    }
+                                                    @*else
+                                                    {
+                                                        <span>/ @value.SUBJECT_CODE - @value.name</span>
+                                                    }*@
+
+                                                    i++;
+
+                                                }
+
+                                            }
+                                        </td>
+
+
+                                    }
+                                </tr>
+                            }
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="">
+                    <h6 class="text-center">Time table yet to be published</h6>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="">
+                <h6 class="text-center">Time table yet to be published</h6>
+            </div>
+        }
+        <!--}
+    else
+    {
+        <div class="">
+            <h6 class="text-center">Time table yet to be published</h6>
+        </div>
+    }-->
+    </div>
+</section>

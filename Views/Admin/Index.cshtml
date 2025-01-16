@@ -1,0 +1,1053 @@
+﻿
+<style>
+
+
+    @@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    body {
+        font-family: 'Mulish', sans-serif;
+        font-style: 16px;
+    }
+
+    .reservation {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+
+    #booking {
+        font-family: 'Mulish', sans-serif;
+        background-image: url('../img/background.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    /*#booking::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: rgba(47, 103, 177, 0.6);
+    }*/
+    /*.logo {
+        padding: 0 0 15px 0;
+        border-bottom: 4px solid rgb(181, 28, 33);
+    }*/
+
+    .logo img {
+        width: 150px;
+        display: block;
+        margin: auto;
+        /*margin-bottom: 20px;*/
+    }
+
+    .booking-form {
+        background-color: #fff;
+        padding: 30px 30px 40px 30px;
+        -webkit-box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        width: 400px;
+        margin-bottom: 30px;
+        border: 1px solid #b51c21;
+    }
+
+    .page-title {
+        margin-top: 0px;
+        margin-bottom: 30px;
+        color: #fff
+    }
+
+    .booking-form .form-group {
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    .booking-form .form-control {
+        background-color: #ebecee;
+        border-radius: 4px;
+        border: none;
+        height: 45px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        color: #3e485c;
+        font-size: 15px;
+        /*border: 1px solid #facbc8;*/
+    }
+
+        .booking-form .form-control::-webkit-input-placeholder {
+            color: rgba(62, 72, 92, 0.3);
+        }
+
+        .booking-form .form-control:-ms-input-placeholder {
+            color: rgba(62, 72, 92, 0.3);
+        }
+
+        .booking-form .form-control::placeholder {
+            color: rgba(62, 72, 92, 0.3);
+        }
+
+    .booking-form input[type="date"].form-control:invalid {
+        color: rgba(62, 72, 92, 0.3);
+    }
+
+    .booking-form select.form-control {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+        .booking-form select.form-control + .select-arrow {
+            position: absolute;
+            right: 0px;
+            bottom: 2px;
+            width: 35px;
+            line-height: 32px;
+            height: 35px;
+            text-align: center;
+            pointer-events: none;
+            /*color: rgb(158, 162, 169);*/
+            color: rgb(244,67,54);
+            font-size: 20px;
+        }
+
+            .booking-form select.form-control + .select-arrow:after {
+                content: "\f107";
+                display: block;
+                /*-webkit-transform: rotate(90deg);
+        transform: rotate(90deg);*/
+                font-family: FontAwesome;
+            }
+
+    .booking-form .form-label {
+        display: inline-block;
+        /*color: #3e485c;
+        font-weight: 700;*/
+        margin-bottom: 6px;
+        margin-left: 7px;
+        font-size: 15px;
+    }
+
+    .booking-form .submit-btn {
+        display: inline-block;
+        color: #fff;
+        background-color: rgb(181, 28, 33);
+        /*background: rgb(244,67,54);*/
+        font-weight: 700;
+        padding: 12px 20px;
+        border-radius: 4px;
+        border: none;
+        -webkit-transition: 0.2s all;
+        transition: 0.2s all;
+        font-size: 17px;
+        outline: none;
+    }
+
+        .booking-form .submit-btn:hover,
+        .booking-form .submit-btn:focus {
+            opacity: 0.9;
+        }
+
+    .booking-cta {
+        margin-top: 80px;
+        margin-bottom: 30px;
+    }
+
+        .booking-cta h1 {
+            font-size: 52px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .booking-cta p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+    .datepicker {
+        border-radius: 0;
+        padding: 0;
+    }
+
+    .datepicker-days table thead, .datepicker-days table tbody, .datepicker-days table tfoot {
+        padding: 10px;
+        display: list-item;
+    }
+
+    .datepicker-days table thead, .datepicker-months table thead, .datepicker-years table thead, .datepicker-decades table thead, .datepicker-centuries table thead {
+        background: #3546b3;
+        color: #ffffff;
+        border-radius: 0;
+    }
+
+        .datepicker-days table thead tr:nth-child(2n+0) td, .datepicker-days table thead tr:nth-child(2n+0) th {
+            border-radius: 3px;
+        }
+
+        .datepicker-days table thead tr:nth-child(3n+0) {
+            text-transform: uppercase;
+            font-weight: 300 !important;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+    .table-condensed > tbody > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > thead > tr > th {
+        padding: 11px 13px;
+    }
+
+    .datepicker-months table thead td, .datepicker-months table thead th, .datepicker-years table thead td, .datepicker-years table thead th, .datepicker-decades table thead td, .datepicker-decades table thead th, .datepicker-centuries table thead td, .datepicker-centuries table thead th {
+        border-radius: 0;
+    }
+
+    .datepicker td, .datepicker th {
+        border-radius: 50%;
+        padding: 0 12px;
+    }
+
+    .datepicker-days table thead, .datepicker-months table thead, .datepicker-years table thead, .datepicker-decades table thead, .datepicker-centuries table thead {
+        background: rgb(244,67,54);
+        color: #ffffff;
+        border-radius: 0;
+    }
+
+    .datepicker table tr td:hover {
+        cursor: pointer;
+    }
+
+    .datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover {
+        background-image: none;
+        background: #f44336;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .datepicker .prev, .datepicker .next {
+        color: rgba(255, 255, 255, 0.5);
+        transition: 0.3s;
+        width: 37px;
+        height: 37px;
+    }
+
+        .datepicker .prev:hover, .datepicker .next:hover {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.99);
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+    .datepicker .datepicker-switch {
+        font-size: 24px;
+        font-weight: 400;
+        transition: 0.3s;
+    }
+
+        .datepicker .datepicker-switch:hover {
+            color: rgba(255, 255, 255, 0.7);
+            background: transparent;
+        }
+
+    .datepicker table tr td span {
+        border-radius: 2px;
+        margin: 3%;
+        width: 27%;
+    }
+
+        .datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover {
+            background-color: #3546b3;
+            background-image: none;
+        }
+
+    .dropdown-menu {
+        border: 1px solid rgba(0,0,0,.1);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    }
+
+    .datepicker-dropdown.datepicker-orient-top:before {
+        border-top: 7px solid rgba(0,0,0,.1);
+    }
+
+    .disabled {
+        cursor: not-allowed !important;
+        color: #c1b8b8
+    }
+
+        .disabled:hover {
+            cursor: not-allowed !important;
+        }
+
+    .wickedpicker__controls__control-down::after, .wickedpicker__controls__control-up::before {
+        font-family: FontAwesome;
+    }
+
+    .wickedpicker__controls__control-up::before {
+        content: "\f106";
+    }
+
+    .wickedpicker__controls__control-down::after {
+        content: "\f107";
+    }
+
+    .wickedpicker__title {
+        display: none;
+    }
+
+    .wickedpicker {
+        width: 190px;
+        height: 100px;
+        font-size: 16px;
+    }
+
+    .wickedpicker__controls__control-down, .wickedpicker__controls__control-up {
+        color: #f44336;
+        position: relative;
+        display: block;
+        margin: 3px auto;
+        font-size: 21px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+
+    .class-room option {
+        padding-right: 20px;
+    }
+
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
+        border-color: #f44336;
+        background-color: #f44336;
+    }
+
+    .headerFixed {
+        position: fixed;
+        background: #fff;
+        z-index: 9999 !important;
+        transition: 0.5s;
+        top: 0px;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .right_profile h6, .right_profile .logout {
+        display: inline-block;
+    }
+
+    h6.profile_name {
+        color: #007367;
+        font-size: 17px;
+        text-transform: uppercase;
+        font-weight: 700;
+        /*padding-top: 16px;*/
+    }
+
+    .logout a {
+        /* color: #fff;*/
+        text-decoration: none;
+        color: #007367;
+    }
+
+    .logout h6 {
+        padding-top: 2px !important;
+        margin-bottom: 0px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .profile_name i, .logout i {
+        color: #dc4552 !important;
+        background: #e3dcdc;
+        padding: 6px;
+        border-radius: 18px;
+        font-size: 15px !important;
+        margin-right: 5px;
+    }
+
+    #menu-content .row {
+        width: 100%;
+    }
+
+    .menu .navbar {
+        box-shadow: 0px 5px 20px -5px rgb(0 0 0 / 30%);
+    }
+
+    .right_profile .pull-right {
+        padding: 28px 0px
+    }
+
+    /*.content-wrapper {
+        border: 1px solid #ccc;
+        padding: 20px;
+    }*/
+
+    .tab-wrapper {
+        padding-bottom: 0px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .tabs {
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .tab-content {
+        display: none;
+        /*text-align: center;
+      color: #888;
+      font-weight: 300;
+      font-size: 15px;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeIn 0.5s ease 1 forwards;*/
+    }
+
+        .tab-content.active {
+            display: block;
+        }
+
+    .tabs {
+        /*margin: 0;
+      padding: 0;*/
+        display: flex;
+        /*justify-content: center;*/
+    }
+
+    /*.tab-link {
+        margin: 0 0%;
+        list-style: none;
+        color: #333;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all ease 0.5s;*/
+    /* border-bottom: solid 3px rgba(255, 255, 255, 0);*/
+    /*padding: 5px 15px;
+        border: 1px solid #ccc;
+    }
+
+        .tab-link:hover {
+            color: #999;
+            border-color: #999;
+        }*/
+
+    /*.tab-link.active {
+      color: #333;
+      border-color: #333; }*/
+
+    /*.tab-link.active {
+            background: #007367;
+            border-bottom: 0px;
+            border: 1px solid #007367;
+            color: #fff;
+        }*/
+
+
+    .content-wrapper p {
+        font-size: 18px;
+        line-height: 1.9;
+        color: #000;
+        font-weight: 400;
+        letter-spacing: 0px;
+        word-spacing: 1px;
+        text-align: justify;
+    }
+
+    .container-fluid {
+        padding-left: 40px;
+        padding-right: 15px;
+    }
+
+    .container-sec {
+        position: absolute;
+        margin: 20px 0px;
+        top: 15%;
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    .btn-success {
+        background: #fff;
+        color: #007367;
+        border: 2px solid #007367;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 5px 15px;
+        box-shadow: 0;
+    }
+
+    .btn-info {
+        background: #007367 !important;
+        color: #fff;
+        border: 2px solid #007367;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 5px 15px;
+        outline: none;
+    }
+
+        .btn-info:focus, .btn-info:hover, .btn-info:active,
+        .btn-success:focus, .btn-success:hover, .btn-success:active,
+        .btn-info:not(:disabled):not(.disabled):active {
+            border-color: #007367;
+            box-shadow: none;
+        }
+
+    .box-inner {
+        border: 1px solid #e8e2e2;
+        border-top: 2px solid #007367;
+        padding: 20px;
+        margin-bottom: 35px;
+        background-color: #fff;
+        --box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
+    }
+
+    .checkin h4, .checkout h4, .reports h4 {
+        font-size: 17px;
+        color: #007367;
+    }
+
+    .box-inner .form-group {
+        margin-bottom: 20px;
+    }
+
+    .box-inner label {
+        margin-bottom: 3px;
+    }
+
+    .empimg img {
+        display: block;
+        margin: auto;
+        height: 175px;
+    }
+
+    .reports .table thead tr {
+        background: #daafb4;
+    }
+
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #007367;
+        border-color: #007367;
+    }
+
+    .filter_btn {
+        background: #007367;
+        border-radius: 15px;
+    }
+
+        .filter_btn input {
+            background: #007367;
+            color: #fff;
+            border: none;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            width: 175px;
+            outline: none;
+        }
+
+    .daterangepicker .ranges li.active {
+        background-color: #007367;
+        color: #fff;
+    }
+
+    .btn-calender, .btn-calender:hover {
+        color: #fff;
+        background-color: #007367;
+        border-color: #007367;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #007367;
+        border-color: transparent;
+        color: #fff;
+    }
+
+    .daterangepicker .ranges li.active {
+        background-color: #007367;
+        border-color: transparent;
+        color: #fff;
+    }
+
+    .drp-buttons .btn-primary {
+        color: #fff;
+        background-color: #007367;
+        border-color: #00987f;
+    }
+
+    .btn-calender:not(:disabled):not(.disabled).active, .btn-calender:not(:disabled):not(.disabled):active, .show > .btn-calender.dropdown-toggle {
+        color: #fff;
+        background-color: #007367;
+        border-color: #007367;
+    }
+
+    .btn-success:hover, .btn-success:not(:disabled):not(.disabled):active {
+        color: #fff;
+        background-color: #007367;
+        border-color: #007367;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .swal-button {
+        background-color: #137e04;
+        color: #fff;
+        border: none;
+        box-shadow: none;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 8px 20px;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .swal-text {
+        font-size: 20px;
+        color: #000;
+    }
+
+    .cats {
+        background: #bc3236;
+        color: #fff;
+        font-weight: 600;
+        font-size: 18px;
+    }
+</style>
+
+
+
+
+<div id="booking">
+    <div class="reservation">
+        <h1 class="">Admin Screen</h1>
+        <div class="header">
+            <div class="logo">
+                <img src="~/Content/images/gitam-logo.png" />
+
+            </div>
+        </div>
+        <div class="booking-form">
+
+            <div class="booking-inner">
+                @using (Ajax.BeginForm("Loginuser", "Admin", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "drugs", OnSuccess = "return successSubmit(event);" }, new { id = "loginform" }))
+                {
+
+
+                    <div class="form-group">
+                        <span class="form-label">User ID</span>
+                        <input class="form-control" type="text" id="user_id" name="user_id" onkeypress="removemsg()">
+                        <br />
+                        <span class="form-label">Password </span>
+                        <input class="form-control" type="password" id="password" name="password" onkeypress="removemsg()">
+                    </div>
+
+
+
+
+                    <div class="form-btn">
+                        <button class="submit-btn btn-block text-center" type="button" onclick="Button2_Click()">Login</button>
+
+                    </div>
+
+                }
+            </div>
+
+
+
+        </div>
+        <h6 class="text-center">POWERED BY <span class="cats">CATS</span></h6>
+
+    </div>
+</div>
+
+@*<div id="classrooms">
+        @{ Html.RenderPartial("loginpage", Model); }
+    </div>*@
+<div id="welcome_div"></div>
+<style>
+    .reservation {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+
+    #page {
+        font-family: 'Mulish', sans-serif;
+        background-image: url('');
+        background-size: cover;
+        background-position: center;
+    }
+
+
+    .logo img {
+        width: 250px;
+        display: block;
+        margin: auto;
+        /*margin-bottom: 20px;*/
+    }
+
+    .page-form {
+        background-color: #fff;
+        padding: 30px 30px 40px 30px;
+        -webkit-box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        width: 400px;
+        margin-bottom: 30px;
+        border: 1px solid #b51c21;
+    }
+
+    .page-title {
+        margin-top: 0px;
+        margin-bottom: 30px;
+        color: #fff
+    }
+
+    .page-form .form-group {
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    .page-form .form-control {
+        background-color: #ebecee;
+        border-radius: 4px;
+        border: none;
+        height: 45px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        color: #3e485c;
+        font-size: 15px;
+        /*border: 1px solid #facbc8;*/
+    }
+
+        .page-form .form-control::-webkit-input-placeholder {
+            color: rgba(62, 72, 92, 0.3);
+        }
+
+        .page-form .form-control:-ms-input-placeholder {
+            color: rgba(62, 72, 92, 0.3);
+        }
+
+        .page-form .form-control::placeholder {
+            color: rgba(62, 72, 92, 0.3);
+        }
+
+    .page-form input[type="date"].form-control:invalid {
+        color: rgba(62, 72, 92, 0.3);
+    }
+
+    .page-form select.form-control {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+        .page-form select.form-control + .select-arrow {
+            position: absolute;
+            right: 0px;
+            bottom: 2px;
+            width: 35px;
+            line-height: 32px;
+            height: 35px;
+            text-align: center;
+            pointer-events: none;
+            /*color: rgb(158, 162, 169);*/
+            color: rgb(244,67,54);
+            font-size: 20px;
+        }
+
+            .page-form select.form-control + .select-arrow:after {
+                content: "\f107";
+                display: block;
+                /*-webkit-transform: rotate(90deg);
+        transform: rotate(90deg);*/
+                font-family: FontAwesome;
+            }
+
+    .page-form .form-label {
+        display: inline-block;
+        /*color: #3e485c;
+        font-weight: 700;*/
+        margin-bottom: 6px;
+        margin-left: 7px;
+        font-size: 15px;
+    }
+
+    .page-form .submit-btn {
+        display: inline-block;
+        color: #fff;
+        background-color: rgb(181, 28, 33);
+        /*background: rgb(244,67,54);*/
+        font-weight: 700;
+        padding: 12px 20px;
+        border-radius: 4px;
+        border: none;
+        -webkit-transition: 0.2s all;
+        transition: 0.2s all;
+        font-size: 17px;
+        outline: none;
+    }
+
+        .page-form .submit-btn:hover,
+        .page-form .submit-btn:focus {
+            opacity: 0.9;
+        }
+
+    .page-cta {
+        margin-top: 80px;
+        margin-bottom: 30px;
+    }
+
+        .page-cta h1 {
+            font-size: 52px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .page-cta p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+    .icon_center i {
+        text-align: center;
+        color: #ef4019;
+        font-size: 16px;
+    }
+
+    .white_space {
+        white-space: nowrap
+    }
+
+    #wrapper {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex
+    }
+
+        #wrapper #content-wrapper {
+            background-color: #f4f9fc;
+            width: 100%;
+            overflow-x: hidden
+        }
+
+            #wrapper #content-wrapper #content {
+                -webkit-box-flex: 1;
+                -ms-flex: 1 0 auto;
+                flex: 1 0 auto
+            }
+</style>
+<script src="https://cdn.gitam.edu/js/jquery-3.6.0.js"></script>
+
+<script>
+
+
+
+
+    $("#password").keyup(function (event) {
+        if (event.keyCode === 13) {
+            Button2_Click();
+        }
+    });
+
+
+
+
+
+    $(document).ready(function () {
+        $('.checkin, .checkout, .reports').hide();
+        // $('#example').DataTable();
+    })
+    $('.tab-link').click(function () {
+
+        $('.checkin, .checkout').hide();
+        var tabID = $(this).attr('data-tab');
+        if (tabID == '2') {
+            $('.reports').show();
+        } else $('.reports').hide();
+        $(this).addClass('active').siblings().removeClass('active');
+
+        $('#tab-' + tabID).addClass('active').siblings().removeClass('active');
+        $('#tab-' + tabID).parent('li.nav-item').addClass('active');
+    });
+
+    $('#btn_checkin').click(function () {
+        $('#btn_checkin').addClass('btn-info').removeClass('btn-success');
+        $('#btn_checkout').addClass('btn-success').removeClass('btn-info');
+        $('.checkin').show();
+        $('.checkout').hide();
+    })
+    $('#btn_checkout').click(function () {
+        $(this).addClass('btn-info').removeClass('btn-success');
+        $('#btn_checkin').addClass('btn-success').removeClass('btn-info');
+        $('.checkout').show();
+        $('.checkin').hide();
+    })
+
+
+</script>
+<script>
+
+    function Button2_Click() {
+
+        //debugger;
+        $('#validmsg').remove();
+        $('#validmsg1').remove();
+
+        var userid = document.getElementById('user_id').value;
+        var pwd = document.getElementById('password').value;
+
+
+
+        if (userid == "") {
+            $('#user_id').parent().append('<span class="error" id="validmsg">Please enter valid User ID</span>');
+
+            return false;
+        }
+        else if (pwd == "") {
+            $('#password').parent().append('<span class="error" id="validmsg">Please enter valid password</span>');
+
+            return false;
+        }
+
+        $('#loginform').submit();
+        //$.ajax({
+        //    url: "../Login/Loginuser",
+        //    type: "POST",
+        //    data: { 'userid': userid, 'password': passwrd },
+
+        //    success: function (data1) {
+
+        //    }
+        //});
+    }
+
+
+    $(function () {
+
+        var start = moment();
+        var end = moment();
+
+
+        $('#demo').daterangepicker({
+            maxDate: new Date(),
+            startDate: start,
+            endDate: end,
+
+            locale: {
+                format: 'DD/MMM/YY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+        $(this).val('');
+        function cb(start, end, label) {
+
+            if (label == 'Today' || label == 'Yesterday') {
+                $('#demo').val(start.format('DD-MMM-YYYY'));
+            }
+            else {
+                $('#demo').val(start.format('DD-MMM-YYYY') + ' to ' + end.format('DD-MMM-YYYY'));
+
+            }
+
+        }
+
+    });
+
+
+
+
+
+
+
+
+    function removevalidmsgGen() {
+        var e = document.getElementById('Gender_dwn');
+        var gender = e.options[e.selectedIndex].value;
+
+        if (gender != "Select") {
+
+            $('#validmsg').remove();
+
+        }
+
+    }
+
+    function removevalidmsgSta() {
+
+        var f = document.getElementById('status_dwn');
+        var status = f.options[f.selectedIndex].value;
+
+        if (status != "Select") {
+            $('#validmsg1').remove();
+        }
+    }
+
+
+
+    //function signOut() {
+    //    window.location.reload();
+    //}
+
+
+
+    function removevalidmsg() {
+        $('#validmsg5').remove();
+    }
+</script>
+<script type="text/javascript">
+
+
+    function removemsg() {
+        $('#validmsg').remove();
+    }
+</script>
+
+

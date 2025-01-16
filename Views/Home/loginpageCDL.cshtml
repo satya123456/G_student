@@ -1,0 +1,650 @@
+﻿
+@*@{
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+@model Gstudent.Models.StudentProfile
+<div class="content-container contentContainer">
+    <h3 class="page-title">Profile</h3>
+
+
+
+    <div class="box-container">
+        <div class="">Personal Details</div>
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input ID="lblName" value="@Model.name" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Father /Guardian Name</label>
+                    <input ID="lblName" value="@Model.FATHER_NAME" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input ID="lblName" value="@Model.dob" class="form-control" readonly />
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        <h4 class="sub-title">Course Details</h4>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Program</label>
+                    <input ID="lblName" value="@Model.COURSE_CODE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Electives / Specialization</label>
+                    <input ID="lblName" value="@Model.BRANCH_CODE / @Model.specialization_code" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Medium</label>
+                    <input ID="lblName" value="@Model.MEDIUM" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Second Language</label>
+                    <input ID="lblName" value="@Model.SECOND_LANGUAGE" class="form-control" readonly />
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        <h4 class="sub-title">Permanent Address</h4>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Door No/Plot No.</label>
+                    <input ID="lblName" value="@Model.TEMP_DRNO" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    <input ID="lblName" value="@Model.TEMP_AREA" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>City</label>
+                    <input ID="lblName" value="@Model.TEMP_CITY" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>State</label>
+                    <input ID="lblName" value="@Model.TEMP_STATE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>PIN</label>
+                    <input ID="lblName" value="@Model.TEMP_PIN" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Mobile No</label>
+                    <input ID="lblName" value="@Model.TEMP_MOBILE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Telephone No.</label>
+                    <input ID="lblName" value="@Model.TEMP_TELEPHONE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>E-Mail</label>
+                    <input ID="lblName" value="@Model.TEMP_EMAIL" class="form-control" readonly />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <h4 class="sub-title">Address for Communication</h4>
+    <div class="box-container">
+
+        @using (Ajax.BeginForm("UpdateCDLProfile", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", OnSuccess = "successSubmit", OnFailure = "return onError(event)" }))
+        {
+            @Html.HiddenFor(m => m.regdno, new { @id = "regdno" })
+
+
+        <div class="row">
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <label>Door No/Plot No.</label>
+                    @Html.TextBoxFor(m => m.TEMP_DRNO, new { @class = "form-control", @id = "txtdrno", @readonly = "true", @mxlength = "50" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    @Html.TextBoxFor(m => m.TEMP_AREA, new { @class = "form-control", @id = "txtarea", @readonly = "true", @mxlength = "80" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>City</label>
+                    @Html.TextBoxFor(m => m.TEMP_CITY, new { @class = "form-control", @id = "txtcity", @readonly = "true", @mxlength = "50" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>State</label>
+                    @Html.TextBoxFor(m => m.TEMP_STATE, new { @class = "form-control", @id = "txtstate", @readonly = "true", @mxlength = "50" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>PIN</label>
+                    @Html.TextBoxFor(m => m.TEMP_PIN, new { @class = "form-control", @id = "txtpin", @readonly = "true", @mxlength = "8" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Mobile No</label>
+                    @Html.TextBoxFor(m => m.TEMP_MOBILE, new { @class = "form-control", @id = "txtmobileno", @readonly = "true", @mxlength = "10" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Telephone No.</label>
+                    @Html.TextBoxFor(m => m.TEMP_TELEPHONE, new { @class = "form-control", @id = "txtteleno", @readonly = "true", @mxlength = "15" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>E-Mail</label>
+                    @Html.TextBoxFor(m => m.TEMP_EMAIL, new { @class = "form-control", @id = "txtemail", @readonly = "true", @mxlength = "30" })
+                </div>
+            </div>
+
+
+        </div>
+
+            <!--Address for Communication starts here-->
+            <div class="row">
+                <div class="col-md-12">
+
+
+                </div>
+            </div>
+
+
+
+            <div class="btns-group">
+                <span>Click on Update to modify the details</span>
+                <button type="button" class="btn btn-primary" id="LinkButton1" onclick="LinkButton2_Click()">Update</button>
+                <button type="button" class="btn btn-primary btn-left" id="LinkButton2" onclick="Button1_Click()">Save</button>
+            </div>
+
+        }
+    </div>
+    <hr />
+    <h4 class="sub-title">Socio-Economic Details</h4>
+    <div class="box-container">
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Gender</label>
+                    @if (Model.GENDER == "M")
+                    {
+                        <input ID="lblName" value="MALE" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <input ID="lblName" value="FEMALE" class="form-control" readonly />
+                    }
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Nationality</label>
+                    <input ID="lblName" value="@Model.nationality" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Marital Status</label>
+                    @if (Model.MARITAL_STATUS == "N")
+                    {
+                        <input ID="lblName" value="UNMARRIED" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <input ID="lblName" value="MARRIED" class="form-control" readonly />
+                    }
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Social Status</label>
+                    <input ID="lblName" value="@Model.SOCIAL_STATUS" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    <input ID="lblName" value="@Model.AREA" class="form-control" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="sub-title">Work Experience</h4>
+    <div class="box-container">
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Organization</label>
+                    <input ID="lblName" value="@Model.AREA" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input ID="lblName" value="@Model.DESIGNATION1" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Salary</label>
+                    <input ID="lblName" value="@Model.SALARY" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Total Service</label>
+                    <input ID="lblName" value="@Model.TOTAL_SERVICE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    <input ID="lblName" value="@Model.AREA" class="form-control" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="sub-title">Educational Background</h3>
+    <div class="table-responsive box-container">
+        <table class="table table-bordered tbl-style">
+            <tr>
+                <td>
+                    <lable ID="Label18">Qualification</lable>
+                    @*<asp:Label ID="Label18" runat="server"
+                        Text="Qualification"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="Label20">Year of Passing</lable>
+                    @*<asp:Label ID="Label20" runat="server"
+                        style="font-weight: 700"
+                        Text="Year of Passing"></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label58">Regd No</lable>
+                    @*<asp:Label ID="Label58" runat="server"
+                        style="font-weight: 700"
+                        Text="Regd No"></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label59">% of Marks Obtained</lable>
+                    @*<asp:Label ID="Label59" runat="server"
+                        style="font-weight: 700"
+                        Text="% of Marks Obtained"></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label60">Class/Rank Obtained</lable>
+                    @*<asp:Label ID="Label60" runat="server"
+                        style="font-weight: 700"
+                        Text="Class/Rank Obtained"></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label61">Board / University</lable>
+                    @*<asp:Label ID="Label61" runat="server"
+                        style="font-weight: 700"
+                        Text="Board / University"></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label62">Electives</lable>
+                    @*<asp:Label ID="Label62" runat="server"
+                        style="font-weight: 700"
+                        Text="Electives"></asp:Label>*@
+                </td>
+            </tr>
+            <tr>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label63">X Std.</lable>
+                    @*<asp:Label ID="Label63" runat="server"
+                        style="font-weight: 700"
+                        Text="X Std."></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="lblXyrpass">@Model.SSC_YEAR</lable>
+                    @*<asp:Label ID="lblXyrpass" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="lblXregdno">@Model.SSC_REGDNO</lable>
+                    @*<asp:Label ID="lblXregdno" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td width="108">
+                    <lable ID="lblxmarks">@Model.SSC_PERCENTAGE</lable>
+                    @*<asp:Label ID="lblxmarks" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblxclass">@Model.SSC_CLASS</lable>
+                    @*<asp:Label ID="lblxclass" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblxboard">@Model.SSC_BOARD</lable>
+                    @*<asp:Label ID="lblxboard" runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblxelect">@Model.SSC_ELECTIVE</lable>
+                    @*<asp:Label ID="lblxelect" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lable ID="Label64">Inter</lable>
+                    @*<asp:Label ID="Label64" runat="server"
+                        style="font-weight: 700"
+                        Text="Inter"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblInteryrpass">@Model.INTER_YEAR</lable>
+                    @*<asp:Label ID="lblInteryrpass"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblinterregdno">@Model.INTER_REGDNO</lable>
+                    @*<asp:Label ID="lblinterregdno"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblintermarks">@Model.INTER_PERCENTAGE</lable>
+                    @*<asp:Label ID="lblintermarks"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblinterclass">@Model.INTER_CLASS</lable>
+                    @*<asp:Label ID="lblinterclass"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblinterboard">@Model.INTER_BOARD</lable>
+                    @*<asp:Label ID="lblinterboard"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblinterelect">@Model.INTER_ELECTIVE</lable>
+                    @*<asp:Label ID="lblinterelect"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lable ID="Label65">Degree</lable>
+                    @*<asp:Label ID="Label65" runat="server"
+                        style="font-weight: 700"
+                        Text="Degree"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lbldegYrpass">@Model.DEGREE_YEAR</lable>
+                    @*<asp:Label ID="lbldegYrpass" runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lbldegregdno">@Model.GRADUATION_REGDNO</lable>
+                    @*<asp:Label ID="lbldegregdno"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lbldegmarks">@Model.DEGREE_PERCENTAGE</lable>
+                    @*<asp:Label ID="lbldegmarks" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="lbldegclass">@Model.UG_CLASS</lable>
+                    @*<asp:Label ID="lbldegclass" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lbldegboard">@Model.DEGREE_BOARD</lable>
+                    @*<asp:Label ID="lbldegboard" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lbldegelect">@Model.GRADUATION_ELECTIVE</lable>
+                    @*<asp:Label ID="lbldegelect" runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lable ID="Label66">Post Graduation</lable>
+                    @*<asp:Label ID="Label66" runat="server"
+                        Text="Post Graduation"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblpgyrpass">@Model.PG_YEAR</lable>
+                    @*<asp:Label ID="lblpgyrpass" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblpgregdno">@Model.PG_REGDNO</lable>
+                    @*<asp:Label ID="lblpgregdno" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblpgmarks">@Model.PG_PERCENTAGE</lable>
+                    @*<asp:Label ID="lblpgmarks" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblpgclass">@Model.PG_CLASS</lable>
+                    @*<asp:Label ID="lblpgclass" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblpgboard">@Model.PG_BOARD</lable>
+                    @*<asp:Label ID="lblpgboard" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblpgelect">@Model.PG_ELECTIVE</lable>
+                    @*<asp:Label ID="lblpgelect" runat="server"
+                        Text="Regdno"></asp:Label>*@
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <lable ID="Label67">Entrance Examination</lable>
+                    @*<asp:Label ID="Label67" runat="server" Text="Entrance Examination"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblentryrpass">@Model.ENTRANCE_YEAR</lable>
+                    <asp:Label ID="lblentryrpass" runat="server" Text="Regdno"></asp:Label>
+                </td>
+                <td>
+                    <lable ID="lblentrregdno">@Model.ENTRANCE_REGDNO</lable>
+                    @*<asp:Label ID="lblentrregdno" runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblentrmarks">@Model.ENTRANCE_MARKS</lable>
+                    @*<asp:Label ID="lblentrmarks" runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblentrclass">@Model.ENTRANCE_RANK</lable>
+                    @*<asp:Label ID="lblentrclass"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td width="108">
+                    <lable ID="lblentrboard">@Model.ENTRANCE_BOARD</lable>
+                    @*<asp:Label ID="lblentrboard"
+                        runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+                <td>
+                    <lable ID="lblentrelect">@Model.ENTRANCE_ELECTIVE</lable>
+                    @*<asp:Label ID="lblentrelect" runat="server" Text="Regdno"></asp:Label>*@
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    var counter = 0;
+
+    function successSubmit(e) {
+
+
+        var error = e;
+        if (error == "Successfully submitted") {
+
+            swal({ icon: "success", text: "Submitted successfully" });
+            setTimeout(loaddata, 1500);
+        }
+
+        else {
+            swal({ icon: "error", text: "Cancel!" });
+            setTimeout(loaddata, 1500);
+        }
+    }
+    function loaddata() {
+        loadConfigView('8');
+    }
+
+
+    function LinkButton2_Click() {
+        $("#txtdrno").attr("readonly", false);
+        $("#txtarea").attr("readonly", false);
+        $("#txtcity").attr("readonly", false);
+        $("#txtstate").attr("readonly", false);
+        $("#txtpin").attr("readonly", false);
+        $("#txtmobileno").attr("readonly", false);
+        $("#txtteleno").attr("readonly", false);
+        $("#txtemail").attr("readonly", false);
+        counter = 1;
+    }
+
+
+    //function Button1_Click() {
+    //    if (counter == 1) {
+    //        swal({
+    //            title: "Are you sure to ?",
+    //            type: "warning",
+    //            confirmButtonText: "Confirm",
+    //            showCancelButton: true,
+    //            closeOnClickOutside: false,
+    //        })
+    //            .then((willDelete) => {
+    //                //debugger;
+    //                if (willDelete.value) {
+    //                    $("#LinkButton2").submit();
+    //                    //swal({ icon: "success", text: "Submitted successfull" });
+    //                } else {
+    //                    swal('Cancelled', '', 'error')
+    //                }
+    //            });
+    //    }
+    //    else {
+    //        swal({ icon: "error", text: "Please click on update first to save." });
+    //    }
+    //}
+
+    function Button1_Click() {
+
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var txtdrno = document.getElementById('txtdrno').value;
+        var txtarea = document.getElementById('txtarea').value;
+        var txtcity = document.getElementById('txtcity').value;
+        var txtstate = document.getElementById('txtstate').value;
+        var txtpin = document.getElementById('txtpin').value;
+        var txtmobileno = document.getElementById('txtmobileno').value;
+        var txtteleno = document.getElementById('txtteleno').value;
+        var txtemail = document.getElementById('txtemail').value;
+        //txtdrno, txtarea, txtcity, txtstate, txtpin, txtmobileno, txtteleno, txtemail
+        if (counter == 1) {
+            swal({
+                title: "Are you sure to submit?",
+                type: "warning",
+                confirmButtonText: "Confirm",
+                showCancelButton: true,
+                closeOnClickOutside: false,
+            })
+                .then((willDelete) => {
+                    if (willDelete.value) {
+                        $.ajax({
+                            type: "Post",
+                            url: "./Home/UpdateCDLProfile",
+                            data: { '__RequestVerificationToken': token, 'txtdrno': txtdrno, 'txtarea': txtarea, 'txtcity': txtcity, 'txtstate': txtstate, 'txtpin': txtpin, 'txtmobileno': txtmobileno, 'txtteleno': txtteleno, 'txtemail': txtemail },
+                            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                            dataType: "json",
+                            success: function (Result) {
+                                var error = Result;
+
+                                if (error == "Successfully submitted") {
+
+                                    swal('Submitted successfully', '', 'success');
+                                    setTimeout(loaddata, 1500);
+                                }
+
+                                else {
+                                    swal('Cancelled', '', 'error');
+                                    setTimeout(loaddata, 1500);
+                                }
+
+
+
+
+
+
+                            }
+                        });
+
+                    } else {
+                        swal('Cancelled', '', 'error');
+                    }
+                });
+        }
+        else {
+            swal('Please click on update first to save.', '', 'error');
+        }
+    }
+</script>

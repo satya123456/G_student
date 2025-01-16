@@ -1,0 +1,783 @@
+﻿
+@model Gstudent.ViewModels.Studentrecords.trackrecords
+
+<style>
+    .academin-track-ul ul {
+        list-style: disc;
+        margin: 20px;
+    }
+
+    .innerdiv {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 20px !important;
+        border: 2px solid #000;
+        width: 700px;
+        margin: auto;
+        height: auto;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: #fff;
+    }
+
+    .tab {
+        border: 2px solid #026B5C;
+    }
+
+        .tab tr td {
+            border-right: 2px solid #026B5C;
+            border-left: 2px solid #026B5C;
+        }
+
+            .tab tr td p {
+                font-size: 12px;
+                margin-bottom: 0px;
+            }
+
+    .sgpa table {
+        display: flex;
+        justify-content: end;
+    }
+
+    .b5 td span span i, .b5 td span i {
+        font-size: 11px;
+    }
+    .assess_proc a, .assess_proc a:hover{
+        font-size: 16px;
+        text-decoration: none;
+        font-style: normal;
+        color:#333;
+        display:flex;
+    }
+        .assess_proc a .bx-image {
+            color: #007367;
+            font-size: 21px;
+        }
+    /* .w-40{
+        width:40px;
+    }*/
+</style>
+
+<div class="content-container ">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Academic track</h5>
+        <div class="assess_proc">
+            <a href="~/Content/images/assessment_procedure.jpeg" target="_blank">
+                <i class='bx bx-image'></i>  Assessment procedure
+                
+            </a>
+        </div>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+        <div class="insertdiv">
+            <div class="row">
+            
+                <div class="col-md-6 col-lg-2">
+                    <h6 class="sem_grades">Semester end grades</h6>
+                    <div class="form-group">
+                        <label>Semester</label>
+                        @Html.DropDownListFor(model => model.list.SEMESTER, (IEnumerable<SelectListItem>)ViewBag.semslist, "Select semester", new { @class = "form-control", @onchange = "GetselectByType();", @id = "semester" })
+                        <input type="text" value="@Convert.ToString(Session["userid"])" id="userid" hidden />
+                    </div>
+                    @*<div id="academiclist">
+                            <div id="div_datatable"></div>
+
+                        </div>*@
+                </div>
+
+                <div class="col-md-6 col-lg-4 gradeDiv" style="display:none;" >
+                    <h6>&nbsp;</h6>
+                    <div id="grade_div">
+                    </div>
+                </div>
+                <div class="col-lg-6" id="marks_table">
+                    @*<div id="academiclist1">*@
+                    <div class="table-responsive">
+                        <div class="div_datatable1"></div>
+
+
+                    </div>
+
+                    @*</div>*@
+                </div>
+                <div class="col-lg-6">
+                    <div id="academiclist">
+                        <div class="table-responsive">
+                            <div id="div_datatable"></div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                @*<hr>*@
+                @*<div class="row" id="perform">
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group ">
+                                <label>Total credits</label>
+                                <input type="text" id="sem_credits" class="form-control" name="sem_credits" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group ">
+                                <label>SGPA</label>
+                                <input type="text" id="sgpa" class="form-control" name="sgpa" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group ">
+                                <label>CGPA</label>
+                                <input type="text" id="cgpa" class="form-control" name="cgpa" readonly>
+                            </div>
+                        </div>
+
+                    </div>*@
+
+
+                @*<div class="row academin-track-ul" id="static">
+                        <div class="col-md-6">
+                            <ul>
+                                <li><span class="w-40">O (Outstanding) </span>: 90 and above</li>
+                                <li><span class="w-40">A+ (Excellent) </span> : 80 to 89</li>
+                                <li><span class="w-40">A (very good) </span> : 70 to 79</li>
+                                <li><span class="w-40">B+ (Good) </span> : 60 to 69</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>B (Above average) : 50 to 59</li>
+                                <li>C (Average) : 45 to 49</li>
+                                <li>P (Pass) : 40 to 44</li>
+                                <li>F (Fail) : Less than 40, Ab(Absent)</li>
+                            </ul>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="row">
+
+            </div>
+
+
+        </div>
+        <div class="blocktable">
+            <div class="table-responsive">
+                <div id="dynamictable" class="table-responsive" style="display:none">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+       <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div id="printdiv">
+                    <style>
+                        .logo {
+                            width: 650px;
+                        }
+
+                        .text-right {
+                            text-align: right;
+                        }
+
+                        .sign .qr {
+                            display: flex;
+                            justify-content: end;
+                        }
+
+                        .table-responsive table {
+                            width: 650px;
+                        }
+
+                        .note i {
+                            font-size: 13px;
+                        }
+
+                            .note i a {
+                                font-size: 14px;
+                            }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+
+                            .table-responsive table, .logo {
+                                width: 700px;
+                            }
+                        }
+
+                        @@media screen and (max-width:991px) {
+                            .innerdiv {
+                                width: 100%;
+                            }
+
+                            .logo {
+                                width: 100%;
+                            }
+                        }
+                    </style>
+                    <div id="inner">
+                    </div>
+                </div>
+                <div class="text-center mb-5">
+                    <button class="btn btn-primary" onclick="PrintGradecard()">Print</button>
+                </div>
+            </div>
+           
+        </div>
+
+    </div>
+</div>-->
+
+
+<div id="myResultModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" style="max-width:600px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                @{Html.RenderPartial("Resultsview"); }
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#perform").hide();
+        $("#static").hide();
+    })
+    //function GetResults(semester, userid) {
+
+    //    var e = document.getElementById('COURSE1');
+    //    var strUser = e.options[e.selectedIndex].value;
+
+    //    semester = $("#COURSE1").val();
+
+    //    if (semester == "select") {
+
+    //        $('#COURSE1').parent().append('<span class="error" id="validmsg">Please select semester</span>');
+
+    //        return false;
+    //    }
+
+    //    else {
+
+    //        semester: $('#semester').val();
+    //        userid: $('#userid').val();
+
+
+
+    //    }
+
+
+
+    //})
+    function GetselectByType() {
+        //debugger;
+
+        var semester = $("#semester :selected").html();
+        var userid = $('#userid').val();
+        search(semester, userid);
+        // GetResults(semester, userid);
+
+    }
+    function GetselectByType1() {
+        //debugger;
+
+        var semester = $("#COURSE1 :selected").html();
+        var userid = $('#userid').val();
+        search1(semester, userid);
+
+    }
+
+    function search(semester, userid) {
+        //debugger;
+        var e = document.getElementById('semester');
+        var strUser = e.options[e.selectedIndex].value;
+
+        semester = $("#semester").val();
+
+        if (semester == "select") {
+
+            $('#semester').parent().append('<span class="error" id="validmsg">Please select semester</span>');
+
+            return false;
+        }
+
+        else {
+
+            semester: $('#semester').val();
+            userid: $('#userid').val();
+
+            $.ajax({
+                type: 'GET',
+                url: './Home/getsubjectslist',
+                data: {
+                    semester: $("#semester").val(),
+                    userid: $("#userid").val(),
+
+                },
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+
+                    $.ajax({
+                        type: 'GET',
+                        url: './Home/getProcessDropDwn',
+                        data: {
+                            semester: $("#semester").val(),
+                            userid: $("#userid").val(),
+
+                        },
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        dataType: "json",
+                        success: function (process) {
+                          debugger;
+                            $("#div_datatable").html('');
+                            $("#grade_div").html('');
+                            if (result.lists.length > 0) {
+
+                                var tablestring = "";
+                                tablestring = tablestring + "<div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                                tablestring = tablestring + "<thead class='thead-light'><tr><th>Subject</th><th>Grade</th></tr></thead><tbody>";
+                                for (var i = 0; i < result.lists.length; i++) {
+
+                                    tablestring = tablestring + '<tr> <td>' + result.lists[i].Subject + '</td> <td>' + result.lists[i].subject_grade + '</td></tr>';
+                                }
+                              //  tablestring = tablestring + '<tr><td colspan="2" style="font-size:14px;background-color:#e1e1e1;text-align:right"><div class="d-flex justify-content-end"><span>Total credits: <b>' + result.performance[0].sem_credits + '</b></span>&nbsp;&nbsp;&nbsp; <span>SGPA: <b>' + result.performance[0].sgpa + '</b></span>&nbsp;&nbsp;&nbsp; <span>CGPA: <b>' + result.performance[0].cgpa + '</b></span></div></td>   </tr>';
+                                tablestring = tablestring + '<tr><td colspan="2" style="font-size:14px;background-color:#e1e1e1;text-align:right"><div class="d-flex justify-content-end">&nbsp;&nbsp;&nbsp; <span>SGPA: <b>' + result.performance[0].sgpa + '</b></span>&nbsp;&nbsp;&nbsp; <span>CGPA: <b>' + result.performance[0].cgpa + '</b></span></div></td>   </tr>';
+
+                                tablestring = tablestring + "</tbody></table></div>";
+                                // tablestring = tablestring + "";
+                                var str = "";
+                                if (process.length > 0) {
+                                    str = str + "<div class='col-md-12'><div class='row'><div class='col-lg-6'><div class='form-group'><label>Examination type</label><select id='process' class='form-control' onchange = 'removeerror()'>";
+                                    str = str + "<option value='Select'>Select</option>";
+                                    for (var i = 0; i < process.length; i++) {
+                                        if (process[i].process_type == "R") {
+                                            str = str + "<option value='" + process[i].process_type + "'>Regular</option>";
+                                        } else {
+                                            str = str + "<option value='" + process[i].process_type + "'>Supplementary</option>";
+
+                                        }
+                                    }
+                                    str = str + "</select></div></div><div class='col-6 col-lg-2'><button class='btn btn-primary btn-sm mt-4' onclick='resultBtn()'>Results</button></div><div class='col-6 col-lg-4'><button type='button' class='btn btn-primary btn-sm pull-right nowrap mt-4' id='LinkButton1' style='display:None;' onclick='getgradecard()'>Grade card</button></div></div></div>";
+
+                                }
+                                // tablestring = str + tablestring;
+                                $("#div_datatable").append(tablestring);
+                                $("#grade_div").append(str);
+
+                            }
+
+                            if (result.performance.length > 0) {
+
+                                $("#sem_credits").val(result.performance[0].sem_credits);
+                                $("#sgpa").val(result.performance[0].sgpa);
+                                $("#cgpa").val(result.performance[0].cgpa);
+
+                            }
+                            $("#perform").show();
+                            $("#static").show();
+
+                            if (result.lists.length == 0 && result.performance.length == 0) {
+                                $("#perform").hide();
+                                $("#static").hide();
+
+                                // swal({ icon: "error", text: "no data available" });
+                                swal('No data available', '', 'error');
+                                // setTimeout(loaddata, 1500);
+
+                            }
+
+
+                            /*$('#data_tables1').DataTable();*/
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+
+                            $(".loaderm").hide();
+                        }
+
+
+                    });
+                }
+            });
+
+
+
+
+        }
+
+    };
+
+    function search1(semester, userid) {
+        debugger;
+        var e = document.getElementById('COURSE1');
+        var strUser = e.options[e.selectedIndex].value;
+
+        semester = $("#COURSE1").val();
+
+        if (semester == "select") {
+
+            $('#COURSE1').parent().append('<span class="error" id="validmsg">Please select semester</span>');
+
+            return false;
+        }
+
+        else {
+            debugger;
+            semester: $('#COURSE1').val();
+            userid: $('#userid').val();
+
+            $.ajax({
+                type: 'GET',
+                url: './Home/getcourse',
+                data: {
+                    semester: $("#COURSE1").val(),
+                    userid: $("#userid").val(),
+
+                },
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    //debugger;
+                    $(".div_datatable1").html('');
+                    if (result.lists.length > 0) {
+
+                        var tablestring = "";
+                        tablestring = tablestring + "<div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                        tablestring = tablestring + "<thead class='thead-light'><tr><th>Course name</th><th>Course code</th><th>Marks</th></tr></thead><tbody>";
+                        for (var i = 0; i < result.lists.length; i++) {
+
+                            tablestring = tablestring + '<tr> <td>' + result.lists[i].SUBJECT_NAME + '</td> <td>' + result.lists[i].SUBJECT_CODE + '</td><td>' + result.lists[i].int_mark + '</td></tr>';
+                        }
+
+                        tablestring = tablestring + "</tbody></table></div>";
+                        $(".div_datatable1").append(tablestring);
+
+
+                    }
+
+
+
+                    if (result.lists.length == 0) {
+
+                        //swal({ icon: "error", text: "no data available" });
+                        swal('No data available', '', 'error');
+                        // setTimeout(loaddata, 1500);
+
+                    }
+
+
+                    /*$('#data_tables1').DataTable();*/
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    $(".loaderm").hide();
+                }
+
+
+            });
+
+        }
+
+    };
+
+
+
+
+    //function getgradecard() {
+
+    //    var e = document.getElementById('semester');
+    //    var strUser = e.options[e.selectedIndex].value;
+
+    //    semester = $("#semester").val();
+
+    //    if (semester == "select") {
+
+    //        $('#semester').parent().append('<span class="error" id="validmsg">Please select semester</span>');
+
+    //        return false;
+    //    }
+
+    //    else {
+    //        $('#validmsgexam').remove();
+    //        var e1 = document.getElementById('process');
+    //        var strUser1 = e1.options[e1.selectedIndex].value;
+
+
+    //        if (strUser1 == "Select") {
+
+    //            $('#process').parent().append('<span class="error" id="validmsgexam">Please select examination type</span>');
+
+    //            return false;
+    //        }
+
+
+    //        else {
+
+    //            //semester: $('#semester').val();
+    //            //userid: $('#userid').val();
+
+    //            $.ajax({
+    //                type: 'GET',
+    //                url: './Home/getGradecard',
+    //                data: {
+    //                    semester: $("#semester").val(),
+    //                    userid: $("#userid").val(),
+    //                    process: $('#process').val()
+    //                },
+    //                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+    //                dataType: "json",
+    //                success: function (result) {
+    //                    console.log(result);
+    //                    $("#inner").html('');
+    //                    $('#inner').append(result);
+    //                    $("#myModal").modal('show');
+    //                }
+
+    //            });
+    //        }
+    //    }
+
+
+    //}
+
+
+
+    function closemodal() {
+        $("#myModal").modal('hide');
+    }
+
+    function PrintGradecard() {
+        //debugger;
+        setTimeout(function () {
+
+            var contents = document.getElementById('printdiv').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    }
+
+
+    function removeerror() {
+        $('#validmsgexam').remove();
+    }
+
+
+    function resultBtn() {
+        //alert("hai");
+        //debugger;
+        var e = document.getElementById('semester');
+        var strUser = e.options[e.selectedIndex].value;
+
+        semester = $("#semester").val();
+
+        if (semester == "select") {
+
+            $('#semester').parent().append('<span class="error" id="validmsg">Please select semester</span>');
+
+            return false;
+        }
+
+        else {
+            $('#validmsgexam').remove();
+            var e1 = document.getElementById('process');
+            var strUser1 = e1.options[e1.selectedIndex].value;
+
+
+            if (strUser1 == "Select") {
+
+                $('#process').parent().append('<span class="error" id="validmsgexam">Please select examination type</span>');
+
+                return false;
+            }
+
+
+            else {
+                $.ajax({
+                    type: 'GET',
+                    url: './Home/Resultsview',
+                    data: {
+                        semester: $("#semester").val(),
+                        userid: $("#userid").val(),
+
+                    },
+
+                    success: function (result) {
+                        //debugger;
+                        console.log(result);
+
+
+
+                        console.log(result.length);
+                        if (result.length > 0) {
+                            $("#div_datatable2").html("");
+                            $('#lblsem').html(result[0].SEMESTER);
+                            $('#lblmonth').html(result[0].Month);
+                            $('#lblyear').html(result[0].Year);
+                            $('#lblname').html(result[0].name);
+                            $('#lblregdno').html(result[0].regdno);
+                            //$('#lblinstitute').html(result[0].college_code);
+                            $('#lblbranch').html(result[0].Branch_name);
+                            $('#lblgpa').html(result[0].sgpa);
+                            $('#lblcgpa').html(result[0].cgpa);
+                            $('#lblcourse').html(result[0].course_name);
+
+
+                            var tablestring = "";
+                            tablestring = tablestring + "<table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                            tablestring = tablestring + "<thead class='thead-light'><tr><th>Course Code</th><th>Course Name</th><th>Credits</th><th>Grade</th></tr></thead><tbody>";
+                            for (var i = 0; i < result.length; i++) {
+
+                                tablestring = tablestring + '<tr> <td>' + result[i].SUBJECT_CODE + '</td> <td>' + result[i].SUBJECT_NAME + '</td><td>' + result[i].credits + '</td><td>' + result[i].Grade + '</td></tr>';
+                            }
+
+                            tablestring = tablestring + "</tbody></table>";
+                            $("#div_datatable2").append(tablestring);
+                            $('#resultview').show();
+                            var width = $(window).width();
+                            if (width <= "460") {
+                                debugger
+                                $('#div_datatable2').addClass('table-responsive');
+                            }
+                            $('#myResultModal').modal('show');
+                        } else {
+
+                            swal('No data available', '', 'error');
+                            $('#resultview').hide();
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+
+                        $(".loaderm").hide();
+                    }
+
+
+                });
+            }
+        }
+    };
+
+
+
+    $(document).ready(function () {
+        var width = $(window).width();
+        //alert(width);
+        if (width <= "767") {
+            $("#academiclist1").show();
+            $("#marks_table, .gradeDiv h6").hide();
+            $('.sem_grades').addClass('mt-4');
+            $('#insertdiv .col-6 .btn.mt-4').removeClass('mt-4');
+        } else if ((width > "768") && (width < "991")) {
+            $("#academiclist1").show();
+            $("#marks_table, .gradeDiv h6").hide();
+            $('.sem_grades').removeClass('mt-4');
+            $('#insertdiv .col-6 .btn').addClass('mt-4');
+        } else {
+            $("#academiclist1").hide();
+            $("#marks_table, .gradeDiv h6").show();
+            $('.sem_grades').removeClass('mt-4');
+            $('#insertdiv .col-6 .btn').addClass('mt-4');
+        }
+    })
+</script>

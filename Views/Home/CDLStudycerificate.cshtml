@@ -1,0 +1,237 @@
+﻿<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Study certificate</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner" id="contentdiv">
+
+
+        <div id="divstudy">
+
+            <style>
+                .study_crtf {
+                    width: 800px;
+                    padding: 20px;
+                    text-align: center;
+                    border: 5px solid #787878;
+                    margin: auto;
+                }
+
+                .logo img {
+                    width: 100%;
+                }
+
+                .title {
+                    font-size: 35px;
+                    font-weight: bold;
+                    background-color: whitesmoke;
+                    margin-top: 20px;
+                }
+
+                .content {
+                    text-align: left;
+                    line-height: 34px;
+                }
+
+                    .content span {
+                        font-size: 17px;
+                    }
+
+                .address_sec {
+                    text-align: justify;
+                    margin: 50px auto;
+                }
+
+                .text-right {
+                    text-align: right;
+                }
+
+                .sign .qr {
+                    display: flex;
+                    justify-content: end;
+                }
+
+                .font-bold {
+                    font-weight: bold;
+                }
+
+                @@media screen and (max-width: 905px) {
+                    .study_crtf {
+                        padding: 5px;
+                        text-align: justify;
+                        border: 2px solid #787878;
+                        width: 100%;
+                        margin: auto;
+                    }
+
+                    .title {
+                        font-size: 14px;
+                        margin-bottom: 10px;
+                        text-align: center;
+                    }
+
+                    .content {
+                        line-height: 20px;
+                        margin-top: 20px;
+                    }
+
+                        .content span {
+                            font-size: 11px;
+                        }
+
+                    .sign {
+                        margin-top: 70px;
+                    }
+                }
+            </style>
+
+            <div class="study_crtf">
+                <div class="logo">
+                    <img src="~/Content/images/cdl-header.jpg?v=1" />
+                </div>
+                <div class="title">STUDY CERTIFICATE</div>
+                <h6 class="text-center">Original</h6>
+                <div class="text-right">
+                    <Label ID="dttm" Text=""></Label>
+
+                </div>
+
+                <div class="content">
+                    <span>This is to certify that Ms. / Mr.</span>
+                    <span class="font-bold" ID="lblname"></span>
+                    <span>&nbsp;&nbsp;S/O. / D/O.</span>
+                    <span class="font-bold" ID="lblfname"></span>
+                    <span>studied </span>
+                    <span class="font-bold" ID="lblpr"></span>
+                    <span>programme with </span>
+                    <span class="font-bold" ID="lblregdno"></span>
+                    <span>&nbsp;during</span>
+                    <span class="font-bold" ID="lblbatch"></span>
+                    <span>in the Centre for Distance </span> @*<div style="height:10px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>*@
+                    <span>Learning, <b>GITAM Deemed to be University,</b> Visakhapatnam.</span>
+
+
+                    <div style="text-align:center;display:none;">
+                        <table align="center;">
+                            <tr>
+                                <td><div style="width:250px;font-size:20px;"><span><b>Prepared & Verified</b></span></div></td>
+                                <td><div style="width:250px;font-size:20px;"><span><b>Superintendent</b></span></div></td>
+                                <td><div style="width:250px;font-size:20px;"><span><b>Director</b></span></div></td>
+                            </tr>
+                        </table>
+
+
+
+                    </div>
+                    <div class="sign">
+                        <div class="qr" id="QRIMG">
+                            @*<img src="images/StdDynamicQR.jpg" style="width:175px;margin-left:-22px;margin-top:-70px;" />*@
+                        </div>
+                        <div class="text-right">
+                            <img src="~/Content/images/signature_cdl_new.png" style="height:30px;" />
+                            <div><b>Director</b></div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="box-inner" id="nodatadiv">
+        <div class="row text-center">
+            <label style="text-align:center;">No data available</label>
+        </div>
+    </div>
+    <div class="text-center mb-5 mt-4" id="printbtn">
+        <button class="btn btn-primary" onclick="PrintCDLStudyCertificate()">Print</button>
+    </div>
+</section>
+<script>
+
+    $(document).ready(function () {
+
+
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/getCDLStudyCertificateData',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.length > 0) {
+                    $('#contentdiv').show();
+                    $('#nodatadiv').hide();
+                    $('#printbtn').show();
+                    document.getElementById('dttm').innerText = "Printed On :" + data[0].sysdate;
+                    document.getElementById('lblname').innerText = data[0].NAME;
+                    document.getElementById('lblfname').innerText = data[0].FATHER_NAME;
+                    document.getElementById('lblpr').innerText = data[0].COURSE;
+                    document.getElementById('lblregdno').innerText = data[0].REGDNO;
+                    document.getElementById('lblbatch').innerText = data[0].Batch;
+
+                    $('#QRIMG').append(data[0].qrtext);
+                }
+                else {
+
+
+                    $('#contentdiv').hide();
+                    $('#nodatadiv').show();
+                    $('#printbtn').hide();
+                }
+
+
+                //document.getElementById('lblbatch').value = data.NAME;
+
+
+                console.log(data);
+
+
+
+            }
+        });
+    })
+
+
+
+    function PrintCDLStudyCertificate() {
+        //debugger;
+        setTimeout(function () {
+
+            var contents = document.getElementById('divstudy').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    }
+
+
+
+</script>

@@ -1,0 +1,353 @@
+﻿@model Gstudent.Models.Scholarship
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Scholarship</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-control" id="category" onchange="categorychange()">
+                        <option value="">Select</option>
+                        <option value="S">Siblings</option>
+                        <option value="A">Alumni</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-3" id="application" style="display: none;">
+                <div class="form-group">
+                    <label>Enter application number</label>
+                    <input type="text" class="form-control" id="empid" maxlength="15" onkeypress="removemsg();return ValidateNumber(event);">
+                </div>
+            </div>
+            <div class="col-md-3" id="getbtn" style="display: none;">
+                <div class="form-group mt-2">
+                    <label>&nbsp;</label>
+                    <button type="button" class="btn btn-primary mt-3" onclick="getDetails()">Get details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @using (Ajax.BeginForm("CreateScholarship", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "visitSummary", OnSuccess = "successSubmit" }, new { enctype = "multipart/form-data", id = "uploadForm" }))
+    {
+        <div id="details" style="display:none;">
+            <input type="text" class="form-control" id="ApplicationNumber" name="ApplicationNumber" hidden>
+            <input type="text" class="form-control" id="category1" name="category1" hidden>
+
+            <div class="box-container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Applicant Name</label>
+                                    <input class="form-control" id="applicationname" name="StudentName" type="text" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Applicant Mobile</label>
+                                    <input class="form-control" id="Applicant_Mobile" name="StudentMobile" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Applicant Email</label>
+                                    <input class="form-control" id="Applicant_Email" name="StudentEmailId" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Campus</label>
+                                    <input class="form-control" id="Campus" name="campusname" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>College</label>
+                                    <input class="form-control" id="College" name="collegename" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Degree</label>
+                                    <input class="form-control" id="Degree" name="DegreeCode" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Applicant alloted branch</label>
+                                    <input class="form-control" id="branch" name="counselling_coursename" type="text" readonly>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="box-container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Name</label>
+                                    <input class="form-control" id="Name" name="name1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Registration number</label>
+                                    <input class="form-control" id="Registration_number" name="regdno1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Campus</label>
+                                    <input class="form-control" id="Campus1" name="CAMPUS1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>College</label>
+                                    <input class="form-control" id="College1" name="COLLEGE_CODE1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Degree</label>
+                                    <input class="form-control" id="Degree1" name="DEGREE_CODE1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Branch</label>
+                                    <input class="form-control" id="Branch1" name="BRANCH_CODE1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Course</label>
+                                    <input class="form-control" id="Course1" name="COURSE_CODE1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Batch</label>
+                                    <input class="form-control" id="Batch1" name="batch1" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group ">
+                                    <label>Scholarship % applicable</label>
+                                    <input class="form-control" id="Scholarship" name="Scholarshipper" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-7 col-md-7 col-lg-7 ">
+                                <div class="form-group">
+                                    <label>Upload your Brother or Sister 10th Class Marks statement / Pass Certificate in PDF or JPG format only</label>
+                                    <input type="file" name="uploadForm" class="form-control" id="uploadForm" />
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mt-4">
+                                <label></label>
+                                <button type="button" class="btn btn-primary" id="btnUpload">Upload</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="text-center main_from" style="display:none;" id="btnsubmithide">
+                <button type="submit" class="btn btn-primary" id="btnsubmit" onclick="validatetextbox(event);">Submit</button>
+            </div>
+        </div>
+    }
+</section>
+
+<script>
+    function successSubmit(e) {
+      
+     
+        var error = e;
+        if (error == "Successfully submitted") {
+            swal('Submitted successfully', '', 'success');
+           // swal({ icon: "success", text: "Submitted successfully" });
+            setTimeout(loaddata, 1500);
+        }
+       
+        else {
+            swal('Cancelled', '', 'error');
+          //  swal({ icon: "error", text: "Cancel!" });
+            setTimeout(loaddata, 1500);
+        }
+    }
+    function loaddata() {
+        loadConfigView('4');
+    }
+    function removemsg() {
+        $('#validmsg1').remove();
+    }
+    function categorychange() {
+        if ($('#category').val() == "A" || $('#category').val() == "S") {
+            $('#application').show();
+            $('#getbtn').show();
+            $("#empid").val("");
+            $('#details').hide();
+            $('#details input').val('');
+            $('#validmsg').remove();
+            $('#validmsg1').remove();
+        }
+
+        else {
+            $('#application').hide();
+            $('#getbtn').hide();
+            $("#empid").val("");
+            $('#details').hide();
+            $('#details input').val('');
+            $('#validmsg').remove();
+            $('#validmsg1').remove();
+        }
+    }
+
+      $(function () {
+          $('#btnUpload').on('click', function () {
+              var val = $("#empid").val();
+               var category = $('#category').find(":selected").val();
+              var formData = new FormData($('#uploadForm')[0]);
+              var fileInput = $('#uploadForm input[type="file"]').get(0);
+              formData.append('category', category);
+              formData.append('applicationno', val);
+              if (fileInput.value != "") {
+                  $.ajax({
+                      url: "./Home/UploadFile",
+                      type: 'POST',
+                      data: formData,
+                      processData: false,
+                      contentType: false,
+                      success: function (response) {
+                          if (response == "File upload was done") {
+                              $('#btnUpload').parent().append('<span class="error" id="validmsg">File saved</span>');
+                              $('#btnsubmithide').show();
+                          }
+                          else if (response == "File not found") {
+                              alert("Please upload file");
+                          }
+                          else {
+                              alert("Please upload files in PDF or JPG format only ")
+                              $('#btnsubmithide').hide();
+                          }
+                      },
+                      error: function (xhr, status, error) {
+                          // Handle error response
+                      }
+                  });
+              }
+              else {
+                  alert("Please upload file")
+              }
+        });
+    });
+    function getDetails() {
+        $('#validmsg1').remove();
+        var val = $("#empid").val();
+        var category = $('#category').find(":selected").val();
+        if (val == "") {
+            $('#details').hide();
+            document.getElementById('empid').focus();
+            $('#empid').parent().append('<span class="error" id="validmsg1">Please enter application number</span>');
+            $('#empid').val("");
+        }
+        else {
+            $.ajax({
+                type: "GET",
+                url: "./Home/Getdetails",
+                data: {
+
+                    'Applicationo': val,
+                    'category': category,
+                },
+                success: function (response) {
+                    if (response.othersdata.length > 0) {
+                       
+                        $("#category1").val(category);
+                        $("#ApplicationNumber").val(val);
+                        $("#applicationname").val(response.othersdata[0].StudentName);
+                        $("#Applicant_Mobile").val(response.othersdata[0].StudentMobile);
+                        $("#Applicant_Email").val(response.othersdata[0].StudentEmailId);
+                        $("#Campus").val(response.othersdata[0].campusname);
+                        $("#College").val(response.othersdata[0].collegename);
+                        $("#Degree").val(response.othersdata[0].DegreeCode);
+                        $("#branch").val(response.othersdata[0].counselling_coursename);
+                        
+                    }
+                    else {
+                      
+                        document.getElementById('empid').focus();
+                        $('#empid').parent().append('<span class="error" id="validmsg1">Invalid application number or you are not eligible for scholarship</span>');
+                        $('#empid').val("");
+                        $('#details').hide();
+                    }
+                    if (response.studentData.length > 0) {
+                        $("#Name").val(response.studentData[0].name1);
+                        $("#Registration_number").val(response.studentData[0].regdno1);
+                        $("#Campus1").val(response.studentData[0].CAMPUS1);
+                        $("#College1").val(response.studentData[0].COLLEGE_CODE1);
+                        $("#Degree1").val(response.studentData[0].DEGREE_CODE1);
+                        $("#Branch1").val(response.studentData[0].BRANCH_CODE1);
+                        $("#Course1").val(response.studentData[0].COURSE_CODE1);
+                        $("#Batch1").val(response.studentData[0].batch1);
+                        $("#Scholarship").val("10");
+                       
+                    }
+                    else if (response.studentData.length <= 0 && response.othersdata.length > 0 ) {
+                        document.getElementById('empid').focus();
+                        $('#empid').parent().append('<span class="error" id="validmsg1">Invalid application number or you are not eligible as alumni</span>');
+                        $('#empid').val("");
+                        $('#details').hide();
+                    }
+                    if (response.othersdata.length > 0 && response.studentData.length > 0) {
+                        $('#details').show();
+                    }
+                }
+            });
+        }
+    }
+
+    function validatetextbox(e) {
+
+     
+            if ($("#form0").valid()) {
+                swal({
+                    title: "Are you sure to submit?",
+                    type: "warning",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true,
+                    closeOnClickOutside: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete.value) {
+                            $("#btnsubmit").submit();
+                        } else {
+                            swal('Cancelled', '', 'error');
+                        }
+                    });
+            }
+      
+
+
+    }
+
+</script>
+

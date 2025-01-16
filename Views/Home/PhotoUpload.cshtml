@@ -1,0 +1,565 @@
+﻿
+@model Gstudent.Models.StudentPhoto
+
+<script type="text/javascript">
+    function Confirm() {
+        var confirm_value = "";
+        confirm_value = document.createElement("INPUT");
+        confirm_value.type = "hidden";
+        confirm_value.name = "confirm_value";
+        if (confirm("Once submitted no changes will be permitted?Do you want to Proceed?")) {
+            confirm_value.value = "Yes";
+        } else {
+            confirm_value.value = "No";
+        }
+        document.forms[0].appendChild(confirm_value);
+    }
+</script>
+
+<style type="text/css">
+    .auto-style1 {
+        margin-left: 16px;
+    }
+
+    ul li {
+        list-style: disc;
+    }
+</style>
+
+
+<section class="content-container contentContainer">
+    @using (Ajax.BeginForm("CreateStudentPhoto", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "nursing_assessment", OnSuccess = "Successassess" }, new { enctype = "multipart/form-data" }))
+    {
+        <div class="d-flex justify-content-between">
+            <h5 class="page-title">Photo upload</h5>
+            <div class="back">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-inner">
+
+
+
+            <div class="row">
+                <div class="col-md-10">
+
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label9">Program</label>
+
+                                @Html.TextBoxFor(model => model.COURSE, new { @class = "form-control", @id = "txtcourse", @name = "txtcourse", @readonly = true })
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label11">Branch</label>
+
+                                @Html.TextBoxFor(model => model.BRANCH, new { @class = "form-control", @id = "txtbranch", @name = "txtbranch", @readonly = true })
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label12">Month</label>
+
+                                @Html.TextBoxFor(model => model.MONTH, new { @class = "form-control", @id = "txtmonth", @name = "txtmonth", @readonly = true })
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label13">Year</label>
+
+                                @Html.TextBoxFor(model => model.YEAR, new { @class = "form-control", @id = "txtyear", @name = "txtyear", @readonly = true })
+
+
+                            </div>
+                        </div>
+                        @*<div class="row" style="margin-bottom:10px;" id="extra" runat="server" visible="true">*@
+
+
+
+
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label10">Mobile number</label>
+
+                                @Html.TextBoxFor(model => model.MOBILE, new { @class = "form-control", @id = "txtmobile", @name = "txtmobile", @MinLength = "10", @MaxLength = "10", @onkeypress = "removevalid('validmsg1')", @onkeydown = "return ValidateNumber(event);" })
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label8">Alternative number</label>
+                                @Html.TextBoxFor(model => model.AADHAR, new { @class = "form-control", @id = "txtalter", @name = "txtalter", @MinLength = "10", @MaxLength = "10", @onkeypress = "removevalid('validmsg2')", @onkeydown = "return ValidateNumber(event);" })
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label7">Email</label>
+                                @Html.TextBoxFor(model => model.EMAIL, new { @class = "form-control", @id = "txtemail", @name = "txtemail", @MaxLength = "50", @onkeypress = "removevalid('validmsg3')" })
+                                @*<input type="text" class="form-control" MaxLength="100" ID="txtemail" />*@
+
+                                @*<asp:Label ID="Label7" runat="server" Text="Email"></asp:Label>
+
+                                    <asp:TextBox ID="txtemail" runat="server" MaxLength="100" AutoCompleteType="Disabled" class="form-control"></asp:TextBox>
+
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtemail" Display="Dynamic" ErrorMessage="* Enter Email address" ForeColor="Red"></asp:RequiredFieldValidator>
+
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
+                                                                    runat="server" ControlToValidate="txtemail"
+                                                                    Display="Dynamic" ErrorMessage="Invalid Email address."
+                                                                    ValidationExpression="\w+([-+.']\w+)*\w+([-.]\w+)*\.\w+([-.]\w+)*"
+                                                                    ForeColor="Red">*Invalid Email address.</asp:RegularExpressionValidator>*@
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label16">Aadhar</label>
+                                @Html.TextBoxFor(model => model.NADNO, new { @class = "form-control", @id = "txtnad", @name = "txtnad", @MinLength = "12", @MaxLength = "12", @onkeypress = "removevalid('validmsg4')", @onkeydown = "return ValidateNumber(event);" })
+
+                            </div>
+                        </div>
+                        @*<div class="row" style="margin-bottom:10px;">*@
+
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    @if (Model.ImageUrl != null)
+                    {
+                        <img src="@Model.ImageUrl" style="height: 130px; width: 130px; display: block; margin: auto;" id="image" />
+
+
+                    }
+                    else
+                    {
+                        <img src="https://doeresults.gitam.edu/photo/img.aspx?id=@Context.Session["uid"]" alt="" style="height:130px;width:130px;display:block;margin:auto;" id="image" name="image">
+                    }
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label ID="Label14">Address</label>
+                                @Html.TextBoxFor(model => model.ADDRESS, new { @class = "form-control", @id = "Address", @name = "Address", @MaxLength = "100", @onkeypress = "removevalid('validmsg5')" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label ID="Label15">Pincode</label>
+                                @Html.TextBoxFor(model => model.PINNO, new { @class = "form-control", @id = "Pincode", @name = "Pincode", @MinLength = "6", @MaxLength = "6", @onkeypress = "removevalid('validmsg6')", @onkeydown = "return ValidateNumber(event);" })
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label ID="Label15">Replace photo(.jpg, .jpeg only)</label>
+                        <input type="file" class="form-control" Width="260" ID="FileUpload4" name="uploadForm" onchange="removevalid('validmsg7')" />
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="text-center">
+
+
+                @if (Model.page_status == "1")
+                {
+                    <button class="btn btn-primary btn-gap" type="button" OnClick="btngetdata1_Click()">Update</button>
+                }
+                else
+                {
+                    <button class="btn btn-primary btn-gap" type="button" OnClick="btngetdata1_Click()">Submit</button>
+                }
+
+                <button class="btn btn-primary" type="button" OnClick="btnclear_Click()">Clear</button>
+
+                @Html.HiddenFor(m => m.REGDNO, new { id = "regno", @name = "regno" })
+                @Html.HiddenFor(m => m.NAME, new { id = "name", @name = "name" })
+                @Html.HiddenFor(m => m.CAMPUS, new { id = "campus", @name = "campus" })
+                @Html.HiddenFor(m => m.img_status, new { id = "img_status", @name = "img_status" })
+
+
+
+            </div>
+
+            <hr>
+
+            <section class="ins mt-2">
+                <div>
+                    <h5><b>Instructions</b></h5>
+
+
+                    <div>
+
+                        <h6>  All applicants have to upload the following:</h6>
+                        <ul class="auto-style1">
+                            <li>
+                                A recent formal Color Passport size Photo (4.5 cm Height x 3.5 cm width) in Jpg, Jpeg format (With resolution between 20
+                                KB - 100 KB).
+                            </li>
+                            <li>
+                                Candidates are advised
+                                to upload only recent, clear formal Color Photographs as per the above specifications, which will be incorporated on the degree certificate.
+                            </li>
+
+
+
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+            </section>
+
+
+        </div>
+
+    }
+</section>
+<style>
+    .navbar-inverse {
+        background-color: #007367 !important;
+        border-radius: 0 !important;
+    }
+
+    .navbar-default {
+        background-color: #007367 !important;
+        border-color: #007367 !important;
+        border-radius: 0 !important;
+    }
+</style>
+
+
+<script>
+    function btngetdata1_Click() {
+
+
+
+
+        $('#validmsg1').remove();
+        $('#validmsg2').remove();
+        $('#validmsg3').remove();
+        $('#validmsg4').remove();
+        $('#validmsg5').remove();
+        $('#validmsg6').remove();
+        $('#validmsg7').remove();
+
+        debugger;
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        var regno = document.getElementById('regno').value;
+        var link = "https://doeresults.gitam.edu/photo/img.aspx?id=";
+
+
+        var name = document.getElementById('name').value;
+        var txtcourse = document.getElementById('txtcourse').value;
+        var txtbranch = document.getElementById('txtbranch').value;
+        var txtmonth = document.getElementById('txtmonth').value;
+        var txtyear = document.getElementById('txtyear').value;
+        var txtmobile = document.getElementById('txtmobile').value;
+        var txtalter = document.getElementById('txtalter').value;
+        var txtemail = document.getElementById('txtemail').value;
+        var txtnad = document.getElementById('txtnad').value;
+        var Address = document.getElementById('Address').value;
+        var Pincode = document.getElementById('Pincode').value;
+        var FileUpload4 = document.getElementById('FileUpload4').value;
+        var imgstatus = document.getElementById('img_status').value;
+        var count = 0;
+
+
+
+
+        var fileUpload = $("#FileUpload4").get(0);
+        var files = fileUpload.files;
+
+        var fileData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            var name = files[i].name;
+            name = name.toLowerCase();
+            var exten1 = name.split(".");
+
+            var size = parseFloat(files[i].size) / 1024;
+            if (size > 100) {
+
+                swal('File size must not exceed 100 KB.', '', 'error');
+                // count = 1;
+                return false;
+            }
+            else if (size < 20) {
+                swal('File size must not be less than 20 KB.', '', 'error');
+
+                return false;
+            }
+            else {
+                fileData.append(files[i].name, files[i]);
+            }
+            count = 1;
+            if (exten1[1] == "jpg") {
+                fileData.append(files[i].name, files[i]);
+                count = 0;
+            }
+            if (exten1[1] == "jpeg") {
+                fileData.append(files[i].name, files[i]);
+                count = 0;
+            }
+            if (exten1[1] == "JPG") {
+                fileData.append(files[i].name, files[i]);
+                count = 0;
+            }
+            if (count == 1) {
+                swal('File must be in .Jpg format.', '', 'error');
+                return false;
+            }
+
+
+
+
+
+        }
+
+
+
+
+
+        if (txtmobile.trim() == "") {
+
+            document.getElementById('txtmobile').focus();
+            $('#txtmobile').parent().append('<span class="error" id="validmsg1">Please enter mobile number</span>');
+            $('#txtmobile').val("");
+            count++;
+
+        }
+        else if (txtmobile.trim().length < 10) {
+            document.getElementById('txtmobile').focus();
+            $('#txtmobile').parent().append('<span class="error" id="validmsg1">Please enter valid mobile number</span>');
+            $('#txtmobile').val("");
+            count++;
+        }
+        //if (txtalter.trim() == "") {
+
+        //    document.getElementById('txtalter').focus();
+        //    $('#txtalter').parent().append('<span class="error" id="validmsg2">Please enter alternative number</span>');
+        //    $('#txtalter').val("");
+        //    count++;
+
+        //} else if (txtalter.trim().length < 10) {
+
+        //    document.getElementById('txtalter').focus();
+        //    $('#txtalter').parent().append('<span class="error" id="validmsg2">Please enter valid alternative number</span>');
+        //    $('#txtalter').val("");
+        //    count++;
+
+        //}
+        if (txtemail.trim() == "") {
+
+            document.getElementById('txtemail').focus();
+            $('#txtemail').parent().append('<span class="error" id="validmsg3">Please enter email</span>');
+            $('#txtemail').val("");
+            count++;
+
+        }
+        else {
+
+            var regex = /^\w+([.-]?\w+)*@@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+            var val = regex.test(txtemail);
+            if (val == false) {
+                $('#txtemail').parent().append('<span class="error" id="validmsg3">Please enter valid email</span>');
+                $('#txtemail').val("");
+                count++;
+            }
+
+
+        }
+        if (txtnad.trim() == "") {
+
+            document.getElementById('txtnad').focus();
+            $('#txtnad').parent().append('<span class="error" id="validmsg4">Please enter aadhar number</span>');
+            $('#txtnad').val("");
+            count++;
+
+        }
+        else if (txtnad.trim().length < 12) {
+
+            document.getElementById('txtnad').focus();
+            $('#txtnad').parent().append('<span class="error" id="validmsg4">Please enter valid aadhar number</span>');
+            $('#txtnad').val("");
+            count++;
+
+        }
+        if (Address.trim() == "") {
+
+            document.getElementById('Address').focus();
+            $('#Address').parent().append('<span class="error" id="validmsg5">Please enter address</span>');
+            $('#Address').val("");
+            count++;
+
+        }
+        if (Pincode.trim() == "") {
+
+            document.getElementById('Pincode').focus();
+            $('#Pincode').parent().append('<span class="error" id="validmsg6">Please enter pincode</span>');
+            $('#Pincode').val("");
+            count++;
+
+        }
+        else if (Pincode.trim().length < 6) {
+
+            document.getElementById('Pincode').focus();
+            $('#Pincode').parent().append('<span class="error" id="validmsg6">Please enter valid pincode</span>');
+            $('#Pincode').val("");
+            count++;
+
+        }
+        //if (imgstatus != "1") {
+        //    if (FileUpload4 == "") {
+        //        document.getElementById('FileUpload4').focus();
+        //        $('#FileUpload4').parent().append('<span class="error" id="validmsg7">Please upload file</span>');
+        //        $('#FileUpload4').val("");
+        //        // swal('Please upload file', '', 'error');
+        //        count++;
+        //    }
+        //}
+
+
+
+
+
+        if (count == 0) {
+            swal({
+                title: "Are you sure to submit?",
+                type: "warning",
+                confirmButtonText: "Confirm",
+                showCancelButton: true,
+                closeOnClickOutside: false,
+            })
+                .then((willDelete) => {
+                    if (willDelete.value) {
+
+
+                        $("form:first").submit();
+
+
+
+                    } else {
+                        swal('Cancelled', '', 'error')
+                    }
+                });
+
+        }
+
+
+
+    }
+
+
+
+    function Successassess(e) {
+        var error = e.msg;
+        if (error == "Successfully Uploaded!") {
+            swal('Submit successfully', '', 'success');
+
+            setTimeout(loaddata, 1500);
+        }
+        else if (error == "Inserted fail") {
+            swal('Inserted fail', '', 'error');
+            /*  swal({ icon: "success", text: "Successfully updated" });*/
+            setTimeout(loaddata, 1500);
+        }
+        else if (error == "After 01-APR-2023 can apply") {
+            swal('After 01-APR-2023 can apply', '', 'error');
+            /*  swal({ icon: "success", text: "Successfully updated" });*/
+            setTimeout(loaddata, 1500);
+        }
+        else {
+
+            swal('Cancelled', '', 'error');
+            setTimeout(loaddata, 1500);
+        }
+    }
+
+    function loaddata() {
+
+        loadConfigView('70');
+    }
+
+
+    function removevalid(e) {
+        $('#' + e).remove();
+    }
+
+
+
+    function ValidateNumber(e) {
+        var specialKeys = new Array();
+        specialKeys.push("Backspace"); //Backspace
+        specialKeys.push("Delete"); //Delete
+        specialKeys.push("Enter"); //Enter
+        specialKeys.push("Tab"); //Tab
+        specialKeys.push("."); //dot
+        var keyCode = e.keyCode != 32 ? e.key : -1;
+        var ret = ((keyCode >= 0 && keyCode <= 10) || specialKeys.indexOf(keyCode) != -1 || (keyCode >= 106 && keyCode <= 115) || keyCode == 46);
+        return ret;
+    };
+
+
+    function btnclear_Click() {
+
+
+        document.getElementById('txtmobile').value = "";
+        document.getElementById('txtalter').value = "";
+        document.getElementById('txtemail').value = "";
+        document.getElementById('FileUpload4').value = "";
+
+
+        $('#image').remove();
+
+
+        //const img = document.getElementById('image');
+
+
+        //img.setAttribute('src', '');
+
+
+
+    }
+
+
+
+</script>
+
+

@@ -1,0 +1,871 @@
+﻿@model Gstudent.Models.Mac_details
+
+<style>
+    .ri-corner-down-right-fill {
+        color: #b1040e;
+        font-size: 18px;
+    }
+
+    .sub-box {
+        border: 1px solid #e8e2e2;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+    }
+
+    ol {
+        padding-left: 15px;
+        margin-bottom: 0;
+    }
+    /*  .modal-backdrop.show {
+        z-index: 100;
+    }
+
+    .swal2-popup.swal2-modal.swal2-show {
+        z-index: 999999999999999999;
+    }
+
+    .modal {
+        z-index: 1000;
+    }*/
+    .swal2-container {
+        z-index: 1000000000 !important;
+    }
+
+    .modal-backdrop.show {
+    }
+</style>
+
+
+<div class="content-container contentContainer">
+
+    @*<h3 class="page-title">Mac details</h3>*@
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Internet access</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    @using (Ajax.BeginForm("Createmac_details", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", OnSuccess = "persuccess", OnFailure = "return onError(event)" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id, new { @id = "id", @name = "id" })
+        @Html.HiddenFor(model => model.otp, new { @id = "otp", @name = "otp" })
+
+<div class="box-container">
+    @if (Model.MAC1 != null && Model.id != 0)
+    { }
+                else { 
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-xl-2">
+            <div class="form-group">
+                <label>Registration number</label>
+                <input class="form-control" style="height: 32px; overflow: hidden;" name="regdno" id="regdno" value="@Model.Regdno" readonly />
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-xl-4">
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" style="height: 32px; overflow: hidden;" name="name" id="name" value="@Model.Name" readonly />
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+            <div class="form-group">
+                <label>MAC address 1<span style="color:red">*</span></label>
+                <input class="form-control nospace" style="height: 32px; overflow: hidden;" name="MAC1" id="MAC1" value="@Model.MAC1" maxlength="17" onkeypress=" removemsg('validmsg2'); return ValidateText(event);" onkeyup="removemsg1('validmsg3');" />
+                <div id="validationMessage" class="error"></div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+            <div class="form-group">
+                <label>MAC address 2</label>
+                <input class="form-control nospace" style="height: 32px; overflow: hidden;" name="MAC2" id="MAC2" value="@Model.MAC2" maxlength="17" onkeypress="removemsg('validmsg1'); return ValidateText(event);" onkeyup="removemsg1('validmsg3');" />
+                <div id="validationMessage1" class="error"></div>
+            </div>
+        </div>
+    </div>
+    <div id="validationMessage2" class="error text-center"></div>
+    }
+    <div class="row">
+        <div class="col-12 btns-group" id="submitarea">
+            @*@if (Model.MAC1 != null && Model.id != 0)
+                {
+                    <button type="button" class="btn btn-primary" id="btnsubmit" onclick="validatetextbox_update(event);">Update</button>
+
+                }
+                else
+                {*@
+            @if (Model.MAC1 != null && Model.id != 0)
+            { }
+            else
+            {
+                <button type="button" class="btn btn-primary" id="btnsubmit" onclick="validatetextbox_update(event);">Submit</button>
+
+                @*}*@
+                <button class="btn btn-secondary" type="button" onclick="Reset_mac();">Reset</button>
+            }
+        </div>
+
+    </div>
+
+    @if (Model.MAC1 != null && Model.id != 0)
+    {
+        <div class="row exam_tbl">
+
+
+            <h5 class="text-center">Mac details</h5>
+            <div class="table-responsive table_style ">
+                <table class="table table-bordered tbl-style sub_table">
+                    <thead>
+                        <tr>
+
+                            <th>Regdno</th>
+                            <th>Name</th>
+                            <th>MAC1</th>
+                            <th>MAC2</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="el3 upload_item">
+
+
+                        <tr class="upload_docs">
+
+                            <td>@Model.Regdno</td>
+                            <td>@Model.Name</td>
+                            <td>@Model.MAC1</td>
+                            <td>@Model.MAC2</td>
+
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+        </div>
+    }
+    <p style="text-align:right;font-size:20px;"><b>E.g.:</b> 00:1b:1a:c0:11:e6 @*or  00-1B-63-84-45-E6*@</p>
+    <hr>
+    <h6>Instructions to candidates</h6>
+
+    <div class="instsPara">
+
+        <p class="mb-1">1. Only 2 devices (MAC addresses) are allowed per student.</p>
+        <ul>
+            <li><i class="ri-corner-down-right-fill"></i><a href="#" data-bs-toggle="modal" data-bs-target="#myModal"> Click here</a> for instructions to find your mac address for Windows, iMac, Linux, Android, iPhone</li>
+        </ul>
+        <p class="mb-1">
+            2. Disable mac address randomization (wireless privacy) on your device.
+        </p>
+        <ul>
+            <li><i class="ri-corner-down-right-fill"></i><a href="#" data-bs-toggle="modal" data-bs-target="#myModal12"> Click here</a> for instructions for Windows, iMac, Linux, Android, iPhone</li>
+        </ul>
+        <p><strong>*Changes might take up to 1 hour to reflect in the system</strong></p>
+    </div>
+
+
+</div>
+
+    }
+
+</div>
+
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly">Instructions to find your device’s MAC address:</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="box-container">
+
+                    <h6><a>Windows 10, 8, 7, Vista</a></h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>
+                                Click&nbsp;<b>Windows</b>&nbsp;<b>Start&nbsp;</b>or press
+                                the&nbsp;<b>Windows</b>&nbsp;key.
+                            </li>
+                            <li>In the search box, type&nbsp;<b>cmd</b>.&nbsp;&nbsp;</li>
+                            <li>
+                                Press the <b>Enter</b> key.<br />
+                                A command window displays.
+                            </li>
+                            <li>Type&nbsp;<b>ipconfig /all</b>.</li>
+                            <li>
+                                Press&nbsp;<b>Enter</b>.<br />
+                                A physical address displays for each adapter. The physical address is your
+                                device&rsquo;s MAC address.
+                            </li>
+                        </ol>
+                    </div>
+
+
+                    <h6><a>Windows 2000, 2003, XP, NT</a></h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>
+                                Click&nbsp;<b>Start &gt; Run</b>.<br />
+                                A Run text box appears.
+                            </li>
+                            <li value="2">In the Run text box, type&nbsp;<b>cmd</b>.</li>
+                            <li value="3">
+                                Press <b>Enter</b>.<br />
+                                A command prompt displays.
+                            </li>
+                            <li value="4">In the command prompt, type&nbsp;<b>ipconfig /all</b>.</li>
+                            <li value="5">
+                                Press&nbsp;<b>Enter</b>.<br />
+                                Under Ethernet adapter wireless network connection, a Physical address displays. This is
+                                your computer&rsquo;s Ethernet MAC address.
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h6><a><b>Macintosh OS X</b></a></h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>
+                                Select&nbsp;<b>
+                                    Apple Icon &gt; System Preferences &gt; Network &gt;
+                                    Advanced.&nbsp;
+                                </b><br />
+                                A network box displays.
+                            </li>
+                            <li>
+                                Select&nbsp;<b>WiFi.&nbsp;</b><br />
+                                A WiFi address or Airport address displays. This is your device&rsquo;s MAC address.
+                            </li>
+                        </ol>
+                    </div>
+
+
+                    <h6><a id="linux" name="linux">Linux / Unix</a></h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>Launch the terminal</li>
+                            <li>Type <b>fconfig</b> in terminal</li>
+                            <li>Your MAC address is displayed</li>
+                        </ol>
+                    </div>
+
+
+                    <h6><a id="ios" name="ios">IOS</a></h6>
+                    <div class="sub-box">
+                        <p>
+                            Select&nbsp;<b>Settings &gt; General &gt; About.</b><br />
+                            A Wi-Fi address displays. This is your device&rsquo;s MAC address.
+                        </p>
+                    </div>
+
+
+                    <h6><a id="android" name="android">Android</a></h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>In most cases, you can follow this procedure to locate your MAC address:</li>
+
+                            <li>
+                                Select&nbsp;<b>Settings &gt; About device &gt; status.</b><br />
+                                A WiFi address or WiFi MAC address displays. This is your device&rsquo;s MAC address.
+                            </li>
+
+                            <li>If this does not work, refer to your device&rsquo;s user manual.</li>
+                        </ol>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="myModalOTP" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly">Otp for MAC</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <!--<div class="modal-body">
+
+                <div id="inner">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label> OTP<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" ID="otp_modal" placeholder="Enter your otp" name="otp_modal" value="" maxlength="6" onkeypress=" removemsg('validmsg4'); return ValidateNumberdot(event);" />
+                                <div>Resend OTP in <span id="timer"></span>Seconds</div>-->
+            @*<p> Resend OTP in <span id="countdowntimer"> </span> Seconds</p>*@
+            <!--<input type="hidden" id="otp_original" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 mt-3">
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-primary" value="Confirm" id="Submitform" onclick="ConfirmForm();" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 mt-3">
+                            <div class="text-center">
+                                <input type="button" class="btn btn-primary" value="Resend" id="btnsubmit1" onclick="validatetextbox_resend(event);" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>-->
+
+        </div>
+
+    </div>
+</div>
+<div id="myModal12" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly">How to turn off MAC randomization, step by step</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="box-container">
+                    <p class="mb-1">
+                        Here are the steps to turn off MAC randomization on wireless clients for different devices.
+                    </p>
+
+                    <p class="mb-1">
+                        Note that depending on the manufacturer and version of operating system, some devices may have
+                        different settings or differently worded options.
+                    </p>
+
+
+                    <h6>iOS (iPhone/iPad) steps to disable MAC randomization</h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>Go to <b>Settings > Wi-Fi.</b></li>
+                            <li>
+                                Tap the (i) icon next to the network for which you want to disable MAC randomization.
+                            </li>
+                            <li>
+                                Toggle off the Private address option.
+                            </li>
+
+                        </ol>
+                    </div>
+
+
+                    <h6>Android steps to disable MAC randomization</h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>Go to <b>Settings > Wi-Fi.</b></li>
+                            <li>Tap the icon next to the network you for which want to disable MAC randomization.</li>
+                            <li>Under Privacy, select use device MAC address.</li>
+
+                        </ol>
+                    </div>
+
+                    <h6>Windows steps to disable MAC randomization</h6>
+                    <div class="sub-box">
+                        <p class="mb-1">
+                            Note that randomization is disabled by default in Windows, so you only need to
+                            disable it if it has actively been enabled in the past. The steps are mostly the same for
+                            Windows 10 and 11.
+                        </p>
+                        <p class="mb-1">If randomization is generally enabled for all networks :</p>
+                        <ol>
+                            <li>
+                                Go to <b> Settings > Networks & Internet > Wi-Fi.</b>
+                            </li>
+                            <li>
+                                Turn off <b> Random Hardware addresses.</b>
+                            </li>
+
+                        </ol>
+                        <p class="mb-1">If randomization is turned on for one or some networks :</p>
+                        <ol>
+                            <li>
+                                Go to <b> Settings > Networks & Internet > Wi-Fi.</b>
+                            </li>
+
+                            <li>Click "Manage Known Networks".</li>
+                            <li>
+                                Select the network for which you want to disable MAC randomization. In windows 10 you
+                                also need to click <b> Properties.</b>
+                            </li>
+                            <li> Turn off <b> Random Hardware addresses.</b></li>
+                        </ol>
+                    </div>
+
+
+                    <h6>MAC randomization on Mac OS X</h6>
+                    <div class="sub-box">
+                        <p class="mb-1">
+                            On Mac OS X, Mac randomization currently only applies to AirPlay and AirDrop and
+                            there are no settings to disable this.
+                        </p>
+                    </div>
+
+
+                    <h6>MAC randomization on Linux></h6>
+                    <div class="sub-box">
+                        <p>
+                            Linux operating systems do not have MAC randomization by default and require additional
+                            packages such as the "macchanger" package on Ubuntu to enable MAC address randomization.
+                        </p>
+                    </div>
+
+
+                    <h6><a id="android" name="android">Android</a></h6>
+                    <div class="sub-box">
+                        <ol>
+                            <li>In most cases, you can follow this procedure to locate your MAC address :</li>
+
+                            <li>
+                                Select&nbsp;<b>Settings &gt; About device &gt; status.</b><br />
+                                A WiFi address or WiFi MAC address displays. This is your device&rsquo;s MAC address.
+                            </li>
+
+                            <li>If this does not work, refer to your device&rsquo;s user manual.</li>
+                        </ol>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    var flag = 0;
+    var flag1 = 0;
+    var otp_mac = "";
+
+    function ValidateText(evt) {
+        var keyCode = (evt.which) ? evt.which : evt.keyCode
+        if ((keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 123) && keyCode != 32 && !(keyCode >= 48 && keyCode <= 57) && !(keyCode == 38) && !(keyCode == 40) && !(keyCode == 41) && !(keyCode == 44) && !(keyCode == 45) && !(keyCode == 47) && !(keyCode == 46) && !(keyCode == 58) && !(keyCode == 13))
+            return false;
+        return true;
+
+    }
+
+    let timerOn = false;
+    function timer(remaining) {
+
+        var m = Math.floor(remaining / 60);
+        var s = remaining % 60;
+
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        document.getElementById('timer').innerHTML = m + ':' + s;
+        remaining -= 1;
+
+        if (remaining >= 0 && timerOn) {
+            setTimeout(function () {
+                timer(remaining);
+            }, 1000);
+            return;
+        }
+
+        if (!timerOn) {
+
+            return;
+        }
+
+        $("#btnsubmit1").prop("disabled", false);
+        $("#Submitform").prop("disabled", true);
+        // alert('Timeout for otp');
+    }
+
+
+    function ValidateNumberdot(e) {
+        var specialKeys = new Array();
+        specialKeys.push("Backspace"); //Backspace
+        specialKeys.push("Delete"); //Delete
+        specialKeys.push("Enter"); //Enter
+        specialKeys.push("Tab"); //Tab
+        specialKeys.push("."); //dot
+        var keyCode = e.keyCode != 32 ? e.key : -1;
+        //var ret = ((keyCode >= 48 && keyCode <= 57) || keyCode == 13 || specialKeys.indexOf(keyCode) != -1 || keyCode == 66 || keyCode == 68 || keyCode == 84 || keyCode == 98 || keyCode == 100 || keyCode == 115 || keyCode == 109 || keyCode == 77);
+        var ret = ((keyCode >= 0 && keyCode <= 9) || specialKeys.indexOf(keyCode) != -1 || (keyCode >= 106 && keyCode <= 115) || keyCode == 46);
+        return ret;
+    };
+    $('#MAC1').on('input', function () {
+        // debugger;
+        var macAddress = $(this).val();
+        var macRegex = /^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$/;
+        if (macRegex.test(macAddress) && macAddress == "") {
+            $('#validationMessage').text('');
+            flag = 0;
+        }
+        else if (macRegex.test(macAddress) && macAddress != "") {
+            $.ajax({
+                type: 'GET',
+                url: "./Home/macdetailscheck",
+                datatype: JSON,
+                data: {
+                    'macid': macAddress,
+
+                },
+                success: (function (response) {
+
+                    if (response == 1) {
+                        $('#validationMessage').text('This mac id was already accessed');
+                        flag = 1;
+                    }
+                    else {
+                        $('#validationMessage').text('');
+                        flag = 0;
+
+                    }
+
+                })
+            });
+        }
+        else {
+            $('#validationMessage').text('Invalid MAC address');
+            flag = 1;
+        }
+    });
+    $('.nospace').keyup(function () {
+        this.value = this.value.replace(/\s/g, '');
+    });
+    $('#MAC2').on('input', function () {
+        // debugger;
+        var macAddress = $(this).val();
+        var macRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
+
+        if (macRegex.test(macAddress) && macAddress != "") {
+            $.ajax({
+                type: 'GET',
+                url: "./Home/macdetailscheck",
+                datatype: JSON,
+                data: {
+                    'macid': macAddress,
+
+                },
+                success: (function (response) {
+
+                    if (response == 1) {
+                        $('#validationMessage1').text('This mac id was already accessed');
+                        flag1 = 1;
+                    }
+                    else {
+                        $('#validationMessage1').text('');
+                        flag1 = 0;
+
+                    }
+
+                })
+            });
+        }
+        else if (macAddress == "") {
+            $('#validationMessage1').text('');
+            flag1 = 0;
+        }
+        else {
+            $('#validationMessage1').text('Invalid MAC address');
+            flag1 = 1;
+        }
+    });
+    function persuccess(e) {
+        var error = e;
+        if (error == "Successfully submitted") {
+            swal('Submitted successfully', '', 'success');
+            $('.modal-backdrop.show').css('display', 'none');
+            timerOn = false;
+            setTimeout(loaddata, 1500);
+        }
+        else if (error == "Successfully updated") {
+            swal('Updated successfully', '', 'success');
+            timerOn = false;
+            $('.modal-backdrop.show').css('display', 'none');
+            setTimeout(loaddata, 1500);
+        }
+        else if (error == "Please enter valid otp") {
+            swal('Please enter valid otp', '', 'warning');
+
+            setTimeout(loaddata, 1500);
+        }
+        else {
+            swal('Cancelled', '', 'error');
+            setTimeout(loaddata, 1500);
+        }
+    }
+    function loaddata() {
+        loadConfigView('69');
+    }
+    function ConfirmForm() {
+
+        var count = 0;
+        $('#validmsg1').remove(); $('#validmsg2').remove(); $('#validmsg3').remove(); $('#validmsg4').remove();
+        var val1 = $("#MAC1").val();
+        var val2 = $("#MAC2").val();
+        document.getElementById("otp").value = $("#otp_modal").val();
+        var otpmodal = $("#otp").val();
+        var otp_mac = $("#otp_original").val();
+        if (val1 == 0 || val1 == null) {
+            document.getElementById('MAC1').focus();
+            $('#MAC1').parent().append('<span class="error" id="validmsg2"> Please enter MAC address 1</span>');
+            $('#MAC1').val("");
+            count++;
+        }
+        if (val1 == val2 && val1 != null && val2 != null) {
+            $('#validationMessage2').append('<span class="error" id="validmsg3">Both MAC addresses should not be same</span>');
+            $('#validationMessage2').val("");
+            count++;
+        }
+        else if (otp_mac != otpmodal) {
+            $('#otp_modal').parent().append('<span class="error" id="validmsg4">Please enter valid otp</span>');
+            $('#otp_modal').val("");
+            count++;
+        }
+        if (count == 0 && flag == 0 && flag1 == 0) {
+            if ($("#form0").valid()) {
+                swal({
+                    title: "Are you sure to confirm?",
+                    type: "warning",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true,
+                    closeOnClickOutside: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete.value) {
+                            $("#btnsubmit").submit();
+                            return false;
+                        } else {
+                            swal('Cancelled', '', 'error');
+                            return false;
+                        }
+                    });
+            }
+        }
+    }
+    function validatetextbox(e) {
+        var count = 0;
+        $('#validmsg1').remove(); $('#validmsg2').remove(); $('#validmsg3').remove();
+        var val1 = $("#MAC1").val();
+        var val2 = $("#MAC2").val();
+        if (val1 == 0 || val1 == null) {
+            document.getElementById('MAC1').focus();
+            $('#MAC1').parent().append('<span class="error" id="validmsg2"> Please enter MAC address 1</span>');
+            $('#MAC1').val("");
+            count++;
+        }
+        if (val1 == val2 && val1 != null && val2 != null) {
+            $('#validationMessage2').append('<span class="error" id="validmsg3">Both MAC addresses should not be same</span>');
+            $('#validationMessage2').val("");
+            count++;
+        }
+
+        if (count == 0 && flag == 0 && flag1 == 0) {
+            if ($("#form0").valid()) {
+                swal({
+                    title: "Are you sure to submit?",
+                    type: "warning",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true,
+                    closeOnClickOutside: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete.value) {
+                            $.ajax({
+                                type: 'POST',
+                                url: "./Home/getotp_mac",
+                                datatype: JSON,
+                                data: {},
+                                success: (function (response) {
+                                    debugger;
+                                    if (response.msg == "successfull") {
+                                        $("#myModalOTP").modal("show");
+                                        document.getElementById("otp_original").value = response.otp;
+                                        timerOn = true;
+                                        timer(300);
+                                        $("#btnsubmit1").prop("disabled", true);
+                                        $("#Submitform").prop("disabled", false);
+                                    }
+                                    else if (response.msg == "Please update your mobile number in the View and update profile page") {
+                                        swal('Please update your mobile number in the View and update profile page', '', 'warning');
+                                    }
+
+
+                                })
+                            });
+                            //return false;
+                        } else {
+                            swal('Cancelled', '', 'error');
+                            return false;
+                        }
+                    });
+            }
+        }
+    };
+    function validatetextbox_resend(e) {
+
+        $.ajax({
+            type: 'POST',
+            url: "./Home/getotp_mac",
+            datatype: JSON,
+            data: {},
+            success: (function (response) {
+                debugger;
+                if (response.msg == "successfull") {
+                    $("#myModalOTP").modal("show");
+                    document.getElementById("otp_original").value = response.otp;
+                    timerOn = true;
+                    timer(300);
+                    $("#btnsubmit1").prop("disabled", true);
+                    $("#Submitform").prop("disabled", false);
+                }
+                else if (response.msg == "Please update your mobile number in the View and update profile page") {
+                    swal('Please update your mobile number in the View and update profile page', '', 'warning');
+                }
+
+
+            })
+        });
+    };
+
+    function validatetextbox_update(e) {
+
+        var count = 0;
+        $('#validmsg1').remove(); $('#validmsg2').remove(); $('#validmsg3').remove();
+        var val1 = $("#MAC1").val();
+        var val2 = $("#MAC2").val();
+        if (val1 == 0 || val1 == null) {
+            document.getElementById('MAC1').focus();
+            $('#MAC1').parent().append('<span class="error" id="validmsg2"> Please enter MAC address 1</span>');
+            $('#MAC1').val("");
+            count++;
+        }
+        if (val1 == val2 && val1 != null && val2 != null) {
+            $('#validationMessage2').append('<span class="error" id="validmsg3">Both MAC addresses should not be same</span>');
+            $('#validationMessage2').val("");
+            count++;
+        }
+        if (count == 0 && flag == 0 && flag1 == 0) {
+            if ($("#form0").valid()) {
+                //swal({
+                //    title: "Are you sure to update?",
+                //    type: "warning",
+                //    confirmButtonText: "Confirm",
+                //    showCancelButton: true,
+                //    closeOnClickOutside: false,
+                //})
+                //    .then((willDelete) => {
+                //        if (willDelete.value) {
+                //$.ajax({
+                //    type: 'POST',
+                //    url: "./Home/getotp_mac",
+                //    datatype: JSON,
+                //    data: {},
+                //    success: (function (response) {
+
+                //        if (response.msg == "successfull") {
+                //            $("#myModalOTP").modal("show");
+                //            document.getElementById("otp_original").value = response.otp;
+                //            timerOn = true;
+                //            timer(300);
+                //            $("#btnsubmit1").prop("disabled", true);
+                //            $("#Submitform").prop("disabled", false);
+                //        }
+                //        else if (response.msg == "Please update your mobile number in the View and update profile page") {
+                //            swal('Please update your mobile number in the View and update profile page', '', 'warning');
+                //        }
+
+                //    })
+                //});
+                //return false;
+
+
+                /*   if ($("#form0").valid()) {*/
+                swal({
+                    title: "Are you sure to confirm?",
+                    type: "warning",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true,
+                    closeOnClickOutside: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete.value) {
+                            $("#btnsubmit").submit();
+                            return false;
+                        } else {
+                            swal('Cancelled', '', 'error');
+                            return false;
+                        }
+                    });
+                /* }*/
+            }
+            //else {
+            //                swal('Cancelled', '', 'error');
+            //                return false;
+            //            }
+            /* });*/
+        }
+    }
+
+    function removemsg1(id) {
+
+        var val1 = $("#MAC1").val();
+        var val2 = $("#MAC2").val();
+        $('#validationMessage2').text('');
+        if (val1 == val2 && val1 != null && val2 != null) {
+            $('#validationMessage2').append('<span class="error" id="validmsg3">Both MAC addresses should not be same</span>');
+        }
+
+    }
+    function removemsg(id) {
+        $('#validationMessage2').text('');
+        $('#' + id).remove();
+
+    }
+    function Reset_mac() {
+
+        $('#validationMessage1').text('');
+        $('#validationMessage').text('');
+        $('#validationMessage2').text('');
+        loadConfigView('69');
+    }
+
+</script>
+

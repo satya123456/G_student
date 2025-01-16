@@ -1,0 +1,27 @@
+﻿@{ // Assuming that the username is stored in session
+    string username = Context.Session["GLearnnew"]?.ToString();
+    string redirectUrl = $"https://glearn.gitam.edu/signon/index?val={username}"; }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Page Title</title>
+</head>
+<body>
+    <h1>Welcome to Your Page</h1>
+
+    <script type="text/javascript">
+        // Redirect to the constructed URL
+        window.location.href = '@redirectUrl';
+    </script>
+</body>
+</html>
+
+
+<style>
+    #container {
+        width: 100%;
+    }
+</style>
+

@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://code.highcharts.com/modules/data.js"></script>
+
+@*<script src="~/Scripts/highcharts.js"></script>*@
+<script src="~/Scripts/exporting.js"></script>
+@*<body onload="dashboard();">
+    </body>*@
+
+@if (Session["college_code"].ToString() == "CDL")
+{
+    //Html.RenderPartial("CDLProfile");
+    <input id="windowwidth" value="" type="hidden">
+
+    <div id="mbwelcome">
+        @{Html.RenderPartial("Welcome");
+        }
+    </div>
+    <div id="dtprofile">
+        @{Html.RenderPartial("CDLProfile");
+        }
+    </div>
+
+
+}
+    else
+    {
+        Html.RenderPartial("Welcome");
+
+    }
+
+    <script>
+        $(document).ready(function () {
+            //debugger;
+            var width = $(window).width();
+            //alert(width);
+            $('#windowwidth').val(width);
+        })
+
+        function dashboard() {
+
+        }
+
+
+    </script>

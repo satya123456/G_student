@@ -1,0 +1,850 @@
+﻿
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<style>
+
+    rect {
+        fill: #ccffef !important;
+        filter: none;
+    }
+    .dash_large_card_colors .cardBox .subTitle {
+        margin-bottom: 0px;
+        font-size: 13px!important;
+        color: var(--secondary-dark-color);
+    }
+    @*.leaves {
+        background: #ffeaeb;
+    }*@
+
+        .leaves .cardBox {
+            background: transparent;
+            border-radius: 10px;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: none;
+            border-top: 1px solid #f3f3f3;
+            padding: 0px;
+            display: block;
+        }
+
+            .leaves .cardBox .leave_name {
+                border-radius: 5px 5px 6px 6px;
+                color: #333;
+                background:#ccffef;
+            }
+
+           @* .leaves .cardBox.cas .leave_name {
+                background: #0dcaf0;
+            }
+
+            .leaves .cardBox.earn .leave_name {
+                background: #d55307;
+            }
+
+            .leaves .cardBox.med .leave_name {
+                background: #06bb99;
+            }*@
+
+            .leaves .cardBox .leave_name h6 {
+                text-align: center;
+                vertical-align: middle;
+                padding: 20px;
+                padding-bottom:0px;
+            }
+            .leaves .cardBox .leave_name h4 {
+                padding-bottom:10px;
+            }
+                .leaves .cardBox .card_middle {
+                text-align: center;
+                padding: 20px 5px;
+            }
+
+            .leaves .cardBox.cas .card_middle {
+                color: #0dcaf0;
+            }
+
+            .leaves .cardBox.earn .card_middle {
+                color: #d55307;
+            }
+
+            .leaves .cardBox.med .card_middle {
+                color: #06bb99;
+            }
+
+            .leaves .cardBox .card_middle h6 {
+                font-size: 13px;
+            }
+
+            .leaves .cardBox .card_middle h4 {
+                font-size: 27px;
+            }
+
+            .leaves .cardBox .card-footer {
+                text-align: center;
+                padding-bottom: 20px;
+            }
+
+                .leaves .cardBox .card-footer h6 {
+                    font-size: 14px;
+                }
+
+                    .leaves .cardBox .card-footer h6 span {
+                        color: #007367;
+                    }
+    .dash_card_count .cardBox .top_text {
+        padding:10px 10px 0px 10px;
+    }
+    @*.results {
+        background: #fff1ea;
+    }*@
+    .dashboardCardContainer{
+        margin-bottom:20px;
+    }
+    .dashboardCardContainer table, .graphBoxContainer table {
+        background: #fff;
+    }
+   @* .hostel_bio {
+        background: #eaf9ff;
+    }
+    .hostel_pay {
+        background: #fbeaff;
+    }
+    .tution_pay {
+        background: #f3ffea;
+    }
+    .campus_bio {
+        background: #ffeaf5;
+    }*@
+    .up h6 {
+        font-size: 16px;
+        white-space: nowrap;
+        /*text-align: left !important;*/
+        padding-left: 2px !important;
+    }
+        @* .attendance .dashboardCardContainer .cardBox {
+        display:inline-flex;
+    }*@
+
+    .circle {
+        border-radius: 50%;
+        border: 5px solid #5f6b9b;
+        margin: 20px auto;
+        width: 150px;
+        height: 150px;
+        position: relative;
+    }
+
+    .highcharts-title {
+        font-size: 20px !important;
+        color: rgb(0 161 27) !important;
+        font-weight: bold !important;
+        fill: rgb(0 161 27) !important;
+    }
+    #highcharts-57u1skn-4 {
+        max-height: 114px !important;
+        display: block !important;
+    }
+    .highcharts-background, rect{
+        background:#fff;
+        fill:#fff !important;
+        width:0px;
+    }
+    .cardsWithChart .card-body {
+        padding: 10px 10px 0px 15px;
+        height: 80px;
+margin-bottom:10px;
+    }
+    .cardsWithChart hr{
+        margin-bottom:0px;
+    }
+    .cardsWithChart .d-flex.justify-content-between {
+        padding: 5px 15px 0px;
+    }
+    .cardsWithChart  #piechart {
+        height: 115px;
+        width:150px;
+    }
+    .cardsWithChart .card-footer {
+        padding: 10px 10px 7px 15px;
+    }
+    .feedback p {
+        background: #ccffef;
+        animation: blinker 10s linear infinite;
+        padding: 3px 0px;
+        border-radius: 4px;
+        color: #242323;
+        text-align: center;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .feedback p:hover {
+            color: red;
+            animation: none;
+        }
+
+    .fa-hand-point-right {
+        color: red;
+    }
+
+    @@keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    @@media(max-width:400px) {
+        .feedback p {
+            font-size: 10px;
+        }
+    }
+</style>
+@{
+    var hostler = Convert.ToString(Session["hostler"]);
+}
+
+<script src="https://code.highcharts.com/modules/data.js"></script>
+
+<script src="~/Scripts/highcharts.js"></script>
+<script src="~/Scripts/exporting.js"></script>
+<div class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title"></h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    @{ var feedback = Convert.ToString(Session["fbflag"]); }
+    @if (feedback == "Y")
+    {
+        <div class="row">
+            <div class="feedback">
+                <p onclick="loadConfigView('37');">
+                    @*<i class="fa-solid fa-hand-point-right"></i>*@
+                    <img src="~/images/new.gif" />Please provide a feedback on faculty for Odd semester Ignore if you have already given.
+
+                </p>
+            </div>
+        </div>
+    }
+    else { }
+    <div class="row">
+        <div class="col-md-6 col-xl-4" id="leaves_div">
+            <div class="graphBoxContainer leaves">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Leaves &amp; Permissions</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('6')">More..</a>
+                </div>
+                <hr>
+                <div class="row dashboardCardContainer ">
+                    <div class="col-md-4">
+                        <div class="cardBox cas up">
+                            <div class="leave_name ">
+                                <h6>Pending</h6>
+                                <h4 class="text-center" id="under">@ViewBag.underprocess</h4>
+                            </div>
+                            @*<div class="card_middle">
+                                    <h6>Under process</h6>
+                                    <h4>4</h4>
+                                </div>
+                                <div class="card-footer">
+                                    <h6>Used : <span>3</span></h6>
+                                    <h6>Total : <span>4</span></h6>
+                                </div>*@
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="cardBox earn">
+                            <div class="leave_name ">
+                                <h6>Approved</h6>
+                                <h4 class="text-center" id="approve">@ViewBag.approved</h4>
+                            </div>
+                            @*<div class="card_middle">
+                                    <h6>Approved</h6>
+                                    <h4>4</h4>
+                                </div>
+                                <div class="card-footer">
+                                    <h6>Used : <span>3</span></h6>
+                                    <h6>Total : <span>4</span></h6>
+                                </div>*@
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="cardBox med">
+                            <div class="leave_name ">
+                                <h6>Availed</h6>
+                                <h4 class="text-center" id="reject">@ViewBag.rejected</h4>
+                            </div>
+                            @*<div class="card_middle">
+                                    <h6>Available</h6>
+                                    <h4>4</h4>
+                                </div>
+                                <div class="card-footer">
+                                    <h6>Used : <span>3</span></h6>
+                                    <h6>Total : <span>4</span></h6>
+                                </div>*@
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-3">
+                            <div class="cardBox">
+                                <div class="leave_name">
+                                    <h6>Casual</h6>
+                                </div>
+                                <div class="card_middle">
+                                    <h6>Available</h6>
+                                    <h4>4</h4>
+                                </div>
+                                <div class="card-footer">
+                                    <h6>Used : <span>3</span></h6>
+                                    <h6>Total : <span>4</span></h6>
+                                </div>
+                            </div>
+
+                        </div>*@
+                </div>
+            </div>
+        </div>
+        @*<div class="col-md-3 cardsWithChart attendance">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Attendance</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('2')">More..</a>
+                </div>
+                <hr>
+                <div class="cardBox">
+                    <div class="card-body">
+
+                        <i class="bx bx-rupee"></i>
+
+                        <div>
+                            <div id="radialBarSmall" </div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div>
+                            <h5 class="cardTitle cardTitleLight">Tuition demand</h5>
+                            <h3 class="cardValue"> 2,56,780</h3>
+                        </div>
+                        <div>
+                            <h5 class="cardTitle cardTitleLight">Tuition paid</h5>
+                            <h3 class="cardValue"> 2,32,231</h3>
+                        </div>
+
+                    </div>
+                </div>
+            </div>*@
+        <div class="col-md-6 col-xl-4" id="attendance_div">
+            @*<div class="graphBoxContainer attendance">*@
+
+            <div class="dashboardCardContainer ">
+                <div class="row dash_large_card_colors ">
+                    <div class="col-md-12 cardsWithChart">
+                        <div class="cardBox">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="sub-title">Attendance</h6>
+                                <a class="btn btn-primary btn-sm" onclick="loadConfigView('2')">More..</a>
+                            </div>
+                            <hr>
+                            <div class="card-body">
+
+                                <h5 class="cardTitle cardTitleLight">Total</h5>
+
+                                <div>
+                                    <div id="piechart"> </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer bg_red">
+                                <div>
+                                    <h5 class="cardTitle cardTitleLight">Today's</h5>
+                                    <h3 class="cardValue" id="todayattendance"> Present</h3>
+                                </div>
+                                <div>
+                                    <h5 class="cardTitle cardTitleLight">P</h5>
+                                    <h3 class="cardValue" id="attendance_status"> N/A</h3>
+                                </div>
+                                <div>
+                                    <h5 class="cardTitle cardTitleLight">A</h5>
+                                    <h3 class="cardValue" id="attendance_absebt_count"> N/A</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+            @*</div>*@
+
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="graphBoxContainer results">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Results</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('13')">More..</a>
+                </div>
+                <hr>
+                <div class="dashboardCardContainer ">
+                    <div class="row dash_large_card_colors dash_card_count">
+                        <div class="col-md-12">
+                            <div class="cardBox cas ">
+                                <div class="top_text">
+                                 
+                                    @*<div>
+                                        <h5 class="cardTitle">Latest credits</h5>
+
+                                    </div>
+                                    <div><h3 class="cardValue" id="tcred">N/A</h3></div>*@
+                                 
+
+                                </div>
+
+                                <div class="card-footer bg_red">
+                                    <div>
+                                        <h5 class="subTitle">CGPA</h5>
+                                        <h6 id="cgpa">N/A</h6>
+                                    </div>
+                                    <div>
+                                        <h5 class="subTitle">SGPA</h5>
+                                        <h6 id="sgpa">N/A</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-4" id="hostel_bio_div">
+            <div class="graphBoxContainer hostel_bio" id="hostel_bio_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Hostel biometric attendance</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('24')">More..</a>
+                </div>
+                <hr>
+                <div id="dataTable">
+                </div>
+
+
+            </div>
+        </div>
+
+        @*@if (Session["dept_code"].ToString().ToUpper() == "CSE" && Session["batchend"].ToString().ToUpper() == "2025")
+            {
+
+
+                <div class="col-md-6 col-xl-4" id="capstone">
+                    <div class="graphBoxContainer tution_pay" id="capstone">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="sub-title">Capstone projects list</h6>
+                            <a class="btn btn-primary btn-sm" onclick="loadConfigView('82')">More..</a>
+                        </div>
+                        <hr>
+                        <div id="div_datatable1"></div>
+
+
+                    </div>
+                </div>
+            }*@
+        <div class="col-md-6 col-xl-4" id="tution_pay_div">
+            <div class="graphBoxContainer tution_pay" id="tution_pay_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Tuition payments</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('33')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable1"></div>
+
+
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4" id="hostel_pay_div">
+            <div class="graphBoxContainer hostel_pay" id="hostel_pay_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Hostel Payments</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('33')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable"></div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4" id="timetable_div">
+            <div class="graphBoxContainer tution_pay" id="timetable_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Today's time table</h6>
+                    @*<a class="btn btn-primary btn-sm" onclick="loadConfigView('23')">More..</a>*@
+                </div>
+                <hr>
+                <div id="div_datatable5"></div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-xl-4" id="Course_div">
+            <div class="graphBoxContainer tution_pay" id="Course_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Current semester courses</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('3')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable6"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4" id="event_div">
+            <div class="graphBoxContainer tution_pay" id="event_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">My events</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('38')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable8" class="scrollbarAll scrollbarDB"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Charts -->
+
+
+<script>
+
+
+    $.post("./Home/Dashboardvisit", function (data) {
+
+        if (data.presentcount > 0) { $('#todayattendance').html("Present");}
+        else { $('#todayattendance').html("Absent");}
+        $('#under').html(data.underprocess);
+        $('#approve').html(data.approved);
+        $('#reject').html(data.rejected);
+        $('#attendance_status').html(data.presentcount);
+        $('#attendance_absebt_count').html(data.absentcount);
+
+         var percentage = parseFloat(data.percentage);
+        var roundedPercentage = percentage.toFixed(2);
+        var roundedPercentageNumber = parseFloat(roundedPercentage);
+        var absent = 100 - percentage;
+        var roundedAbsent = absent.toFixed(2);
+        var roundedAbsentNumber = parseFloat(roundedAbsent);
+        //var absent = 100 - percentage;
+
+           $('#piechart').highcharts({
+            colors: ['rgb(0 161 27)', 'rgb(255, 69, 96)'],
+
+            chart: {
+                height: 120,
+                type: 'line'
+            },
+            title: {
+                text: percentage + '%',
+                verticalAlign: 'middle',
+                fontSize: '45',
+               @* legend: {
+            name: {
+                fontSize: '40px',
+                    }
+        },*@
+
+
+            },
+        plotOptions: {
+        pie: {
+            dataLabels: {
+                enabled: false
+            },
+            borderWidth: 0,
+            style: { fontSize: '40px' }
+            }
+    },
+        series: [{
+            type: 'pie',
+            name: 'Attendance',
+            innerSize: '95%',
+            data: [{
+                name: 'Present',
+                y: roundedPercentageNumber
+            }, {
+                name: 'Absent',
+                y: roundedAbsentNumber
+            }]
+        }],
+        accessibility: {
+        enabled: false // Enable accessibility features
+    },
+        credits: {
+        enabled: false
+    },
+
+        });
+
+
+           $('.highcharts-button').hide();
+
+        $("#dataTable").html('');
+
+        if (data.news.length > 0) {
+            debugger;
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example5' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example5_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>Event name</th><th>Event date</th></tr></thead><tbody>";
+            for (var i = 0; i < data.news.length; i++) {
+
+                tablestring = tablestring + '<tr><td>' + data.news[i].EventName + '</td> <td>' + data.news[i].Eventmonth + "-" + data.news[i].Event_dates + '</td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable8").append(tablestring);
+
+        }
+        else {
+
+            $("#event_div").hide();
+
+        }
+        if (data.timetable.length > 0) {
+            //debugger;
+            var tablestring = "";
+
+
+            var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var today = new Date();
+            var todayDayName = daysOfWeek[today.getDay()];
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example5_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th style='width:100px'>Time</th><th>Course code</th></tr></thead><tbody>";
+
+            var seenEntries = new Set();
+
+            for (var i = 0; i < data.timetable.length; i++) {
+                var entry = data.timetable[i];
+                var uniqueKey = entry.timeslots + '-' + entry.SUBJECT_CODE;
+                if (entry.SUBJECT_CODE && entry.WEEKDAY === todayDayName && !seenEntries.has(uniqueKey)) {
+                    tablestring += '<tr><td>' + entry.timeslots + '</td><td>' + entry.SUBJECT_CODE + '</td></tr>';
+                    seenEntries.add(uniqueKey);
+                }
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable5").append(tablestring);
+
+        }
+        else {
+
+            $("#timetable_div").hide();
+
+        }
+        if (data.Course.length > 0) {
+            //debugger;
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example6' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example5_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th style='width:100px'>subject code</th><th>Name of the Subject</th></tr></thead><tbody>";
+            for (var i = 0; i < data.Course.length; i++) {
+
+                tablestring = tablestring + '<tr><td>' + data.Course[i].course_code + '</td> <td>' + data.Course[i].subject + '</td></td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable6").append(tablestring);
+
+        }
+        else {
+
+            $("#Course_div").hide();
+
+        }
+        if (data.hostlefee.length > 0) {
+
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date and time</th><th>Amount</th></tr></thead><tbody>";
+            for (var i = 0; i < data.hostlefee.length; i++) {
+
+                tablestring = tablestring + '<tr><td>' + data.hostlefee[i].slno + '</td> <td>' + data.hostlefee[i].Date + '</td><td>' + data.hostlefee[i].total_fee + " ₹ " + '</td></td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable").append(tablestring);
+        }
+        else {
+
+            $("#hostel_pay_div").hide();
+
+        }
+
+        if (data.tutionfee.length > 0) {
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date and time</th><th>Amount</th></tr></thead><tbody>";
+            for (var i = 0; i < data.tutionfee.length; i++) {
+
+                tablestring = tablestring + '<tr> <td>' + data.tutionfee[i].slno + '</td><td>' + data.tutionfee[i].Date + '</td><td>' + data.tutionfee[i].total_fee + " ₹ " + '</td></td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable1").append(tablestring);
+        }
+        else {
+            $("#tution_pay_div").hide();
+        }
+
+        if (data.biometric.length > 0) {
+            var tablestring = "";
+            tablestring = tablestring + "<div class='table-responsive'><table id='example57' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date and Time</th><th>Location</th></tr></thead><tbody>";
+            for (var i = 0; i < data.biometric.length; i++) {
+                var sino = i + 1;
+                var formattedDate = moment(data.biometric[i].EventDateTime, 'MM/DD/YYYY HH:mm:ss').format('DD-MM-YYYY');
+                console.log(formattedDate);
+                tablestring = tablestring + '<tr> <td>' + sino + '</td> <td>' + formattedDate + '</td><td>' + data.biometric[i].Location + '</td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div>";
+            $("#dataTable").append(tablestring);
+
+        }
+        else {
+            //debugger;
+            $('#hostel_bio_div').hide();
+        }
+
+
+        var percentage = parseFloat(data.percentage);
+        var roundedPercentage = percentage.toFixed(2);
+        var roundedPercentageNumber = parseFloat(roundedPercentage);
+        var absent = 100 - percentage;
+        var roundedAbsent = absent.toFixed(2);
+        var roundedAbsentNumber = parseFloat(roundedAbsent);
+
+        $('#attendance_percentile').html(roundedPercentageNumber+ "%");
+        $('#attendance_percentile_absent').html(roundedAbsentNumber+ "%");
+        var hostler = "@hostler";
+
+        if (hostler == "Y") {
+            $("#leaves_div").show();
+        }
+        else {
+            $("#leaves_div").hide();
+        }
+        $('#tcred').html(data.Marks[0].sem_credits);
+        $('#sgpa').html(data.Marks[0].sgpa);
+        $('#cgpa').html(data.Marks[0].cgpa);
+    });
+    @*var width = $(window).width();
+        if (width <= "1024") {
+            $('.sidebar.close').css('width', '200px');
+            $('#menuToggle, .sidebar ').hide();
+             if ("@Session["course_code"].ToString()" == "PHD") {
+            $('.sidebar.close').css('width', '155px');
+            }
+
+
+            $.post("./Home/Welcome", function (data) {
+
+                console.log(data);
+                $('#maindiv').html(data);
+            });
+
+            }
+
+
+
+})*@
+
+        var areaOptions2 = {
+            series: [{
+                data: [
+                    [1327359600000, 31],
+
+                    [1328482800000, 40],
+
+                    [1331593200000, 37],
+                    [1331679600000, 40],
+                    [1331766000000, 30],
+
+                ]
+            }],
+            chart: {
+                id: 'area-datetime',
+                type: 'area',
+                height: 350,
+                zoom: {
+                    autoScaleYaxis: true
+                }
+            },
+            annotations: {
+                yaxis: [{
+                    y: 30,
+                    borderColor: '#999',
+                    label: {
+                        show: true,
+                        text: 'Support',
+                        style: {
+                            color: "#fff",
+                            background: '#00E396'
+                        }
+                    }
+                }],
+                xaxis: [{
+                    x: new Date('14 Nov 2012').getTime(),
+                    borderColor: '#999',
+                    yAxisIndex: 0,
+                    label: {
+                        show: true,
+                        text: 'Rally',
+                        style: {
+                            color: "#fff",
+                            background: '#775DD0'
+                        }
+                    }
+                }]
+            },
+            dataLabels: {
+                enabled: false
+            },
+            markers: {
+                size: 0,
+                style: 'hollow',
+            },
+            xaxis: {
+                type: 'datetime',
+                min: new Date('01 Mar 2012').getTime(),
+                tickAmount: 6,
+            },
+            tooltip: {
+                theme: 'dark',
+                x: {
+                    format: 'dd MMM yyyy'
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.9,
+                    stops: [0, 100]
+                }
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#areaChart22"), areaOptions2);
+        chart.render();
+
+
+
+</script>

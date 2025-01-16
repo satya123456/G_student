@@ -1,0 +1,167 @@
+﻿@model IEnumerable<Gstudent.Models.Students>
+
+@{
+    var list = ViewBag.list;
+    var year = ViewBag.years;
+
+    var month = "";
+    var i = "";
+}
+<style>
+    h4 label {
+        font-size: 23px;
+    }
+
+    .inner label {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333 !important;
+        margin-top: 10px;
+    }
+
+    .inner {
+        /*  border: 1px solid #eee;*/
+        padding: 10px;
+    }
+
+        .inner ul li {
+            color: #000;
+            padding-bottom: 5px;
+        }
+
+            .inner ul li a {
+                color: #000;
+                font-size: 14px;
+            }
+
+    .back i {
+        padding: 3px 8px;
+        background: #007367;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+
+    .b_red {
+        background: #f1fff9;
+    }
+</style>
+<div class="d-flex justify-content-between">
+    <h3 class="page-title">Notice board</h3>
+    <div class="back" onclick="back()"><i class="ri-arrow-left-line"></i></div>
+</div>
+<div class="box-inner">
+
+    @if (Model.ElementAt(0).flag != "0")
+    {
+        i = "";
+        foreach (var list1 in year)
+        {
+            <h4>
+                <Label ID="lblyear">@list1[0].year</Label>
+            </h4>
+            <div class="b_red">
+                <div class="box-container-border">
+                    <div class="row">
+                        <div class="inner">
+                            <ul style="padding:0px">
+                                @foreach (var item in Model)
+                                {
+                                    if (item.year == list1[0].year)
+                                    {
+
+
+                                        if (item.Month == "1")
+                                        {
+                                            month = "January";
+                                        }
+                                        else if (item.Month == "2")
+                                        {
+                                            month = "February";
+                                        }
+                                        else if (item.Month == "3")
+                                        {
+                                            month = "March";
+                                        }
+                                        else if (item.Month == "4")
+                                        {
+                                            month = "April";
+                                        }
+                                        else if (item.Month == "5")
+                                        {
+                                            month = "May";
+                                        }
+                                        else if (item.Month == "6")
+                                        {
+                                            month = "June";
+                                        }
+                                        else if (item.Month == "7")
+                                        {
+                                            month = "July";
+                                        }
+                                        else if (item.Month == "8")
+                                        {
+                                            month = "August";
+                                        }
+                                        else if (item.Month == "9")
+                                        {
+                                            month = "September";
+                                        }
+                                        else if (item.Month == "10")
+                                        {
+                                            month = "October";
+                                        }
+                                        else if (item.Month == "11")
+                                        {
+                                            month = "November";
+                                        }
+                                        else if (item.Month == "12")
+                                        {
+                                            month = "December";
+                                        }
+
+
+
+                                        if (i != month)
+                                        {
+                                            <Label ID="lblname">@month</Label>
+                                        }
+                                        {
+                                            i = @month;
+                                        }
+
+
+
+                            <li>
+                                @*<Label ID="lbltype1" Text="" Visible="false"></Label>*@
+                                <Label ID="lbltype1" style="display:none;">@item.content_type</Label>
+
+                                @if (item.CONTENT_URL != "")
+                                {
+                                    <a href="http://gnotice.gitam.edu/Hardcopydownloads.aspx?id=@item.SEARCH_ID" target="_blank">@item.TITLE</a>
+                                }
+                                else
+                                {
+                                    <span>@item.TITLE</span>
+                                }
+    @*<HyperLink ID="linkid" NavigateUrl='<%#"http://gnotice.gitam.edu/Hardcopydownloads.aspx?id="+Eval("SEARCH_ID") %>' Text="" Target="_blank" Enabled="false"></HyperLink>*@
+
+                            </li>
+
+
+
+
+
+                                    }
+
+                                }
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

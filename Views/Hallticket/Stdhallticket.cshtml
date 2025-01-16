@@ -1,0 +1,690 @@
+﻿<link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.gitam.edu/vendor/sweetAlert/sweetalert2.min.css" />
+<link rel="stylesheet" href="https://cdn.gitam.edu/icon/remixIcon-3.1.1/remixicon.css">
+<link rel="stylesheet" href="https://cdn.gitam.edu/css/root.css">
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<style>
+    .ui-helper-hidden-accessible {
+        display: none;
+    }
+
+    .ui-autocomplete {
+        width: 545px;
+        background: #fff;
+        max-height: 350px;
+        overflow: auto;
+    }
+
+    .ui-menu-item {
+        padding: 4px 7px;
+    }
+
+        .ui-menu-item:hover {
+            background: #007367;
+        }
+
+    .fa-eye:before {
+        content: "\f06e";
+    }
+
+    .box-container {
+        /*  width: 1500px;*/
+        padding-right: 30px;
+    }
+
+    .fa-classic, .fa-regular, .fa-solid, .far, .fas, .fa {
+        font-family: "Poppins", sans-serif !important;
+    }
+
+    .ri-eye-line {
+        color: #007367;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .underline {
+        text-decoration: underline;
+        border-bottom: 1px solid #3f826D;
+    }
+
+    #subModal .modal-body h5 {
+        color: red;
+        text-align: center;
+        font-size: 18px;
+        margin-top: 15px;
+    }
+</style>
+<div class="container mt-5" id="hall">
+    <div class="d-flex justify-content-between">
+        <h4>Hall ticket</h4>
+        <button class="btn btn-primary mb-1" id="Button3" OnClick="reset()">Logout</button>
+    </div>
+    <div class="box-inner xs-margin-bottom-75">
+        <div class="row m-t-4">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xl-7 mx-auto student_search ">
+                <div class="student_search_inner">
+                    <div class="input-group mr-4">
+                        <input type="text" class="form-control" ID="regid" placeholder="Search by Registration number" MaxLength="15" onkeypress="callrelease()" />
+                        <div class="input-group-append">
+
+                            <button class="btn btn-primary btn-left" type="button" id="Button1" OnClick="get_hallticket()">Get hallticket</button>
+                            @*<button class="btn btn-primary" type="button" id="Button2" OnClick="loaddata()">Reset</button>*@
+
+
+                        </div>
+                        <label class="error" id="validmsg" style="display:none;">Please enter valid student ID</label>
+                    </div>
+                    <div class="d-flex">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5" id="student_details" style="display:none;">
+            <h5 class="text-center">Student details</h5>
+            <div class="box-container-border xs-margin-bottom-75">
+                <div class="row wel">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <div class="form-group">
+                                    <label> Registration number </label>
+                                    <input type="text" class="form-control" ID="txtregdno" value="" readonly />
+                                    @*<TextBox ID="txtregdno" class="form-control" ReadOnly="True"></TextBox>*@
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <div class="form-group">
+                                    <label> Student name </label>
+                                    <input type="text" class="form-control" ID="txtname" value="" readonly />
+                                    @*<TextBox ID="txtname" class="form-control" ReadOnly="True"></TextBox>*@
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <div class="form-group">
+                                    <label> Parent name </label>
+                                    <input type="text" class="form-control" ID="txtfathername" value="" readonly />
+                                    @*<TextBox ID="txtfathername" class="form-control" ReadOnly="True"></TextBox>*@
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label> Campus</label>
+                                    <input type="text" class="form-control" ID="txtcampus" value="" readonly />
+                                    @*<TextBox ID="txtcampus" class="form-control" ReadOnly="True"></TextBox>*@
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label> Institute </label>
+                                    <input type="text" class="form-control" ID="txtinstitute" value="" readonly />
+                                    @*<TextBox ID="txtinstitute" class="form-control" ReadOnly="True"></TextBox>*@
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <div class="form-group">
+                                    <labe> Branch </labe>
+                                    <input type="text" class="form-control" ID="txtbranch" value="" readonly />
+                                    @*<TextBox ID="txtbranch" class="form-control" ReadOnly="True"></TextBox>*@
+                                </div>
+                            </div>
+                            <div class="col-md-2" hidden>
+                                <div class="form-group">
+                                    <label> Current semester </label>
+                                    <input type="text" class="form-control" ID="txtsen" value="" readonly />
+                                    <TextBox ID="txtsen" class="form-control" ReadOnly="True"></TextBox>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label> Section </label>
+                                    <input type="text" class="form-control" ID="txtsection" value="" readonly />
+                                    @*<TextBox ID="txtsection" class="form-control" ReadOnly="True"></TextBox>*@
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-xs-12 col-sm-2" id="QRIMG">
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                @*<button id="Btnreset" class="btn btn-primary" OnClick="get_hallticket()">Get hallticket</button>*@
+                <Label ID="sucess" class="error" Style="text-align: center;"></Label>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+<div id="div_datatable" class="container"></div>
+
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" style="--bs-modal-width: 931px!important;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div id="printdiv" class="w-700">
+                    <style>
+                        @@media (min-width: 992px) {
+                            .modal-lg, .modal-xl {
+                                --bs-modal-width: 931px;
+                            }
+                        }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+                        }
+                    </style>
+                    <div id="inner">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer ">
+                <div class="col-md-12 text-center">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="subModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" style="--bs-modal-width: 931px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>You are not eligible to write the examination on following subjects.</h5>
+                <div id="printsubdiv" class="w-700" style="margin-top:40px;">
+                    <style>
+                        @@media (min-width: 992px) {
+                            .modal-lg, .modal-xl {
+                                --bs-modal-width: 931px;
+                            }
+                        }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+                        }
+                    </style>
+                    <div id="innersub">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mb-3">
+                <div class="col-md-12 text-center">
+                    @*<input type="button" class="btn btn-primary" value="Confirm" onclick="innurseprint1234()" />
+                        <input type="button" class="btn btn-primary btn-left" value="Cancel" id="cancelbtn" />*@
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<input type="hidden" id="regdno">
+<input type="hidden" id="type">
+<input type="hidden" id="semester">
+<input type="hidden" id="tick">
+<p style="display:none" id="subjectList"></p>
+
+<script src="https://cdn.gitam.edu/js/jquery-3.6.0.js"></script>
+
+<!-- Jquery UI -->
+<script src="https://cdn.gitam.edu/vendor/jquery-ui/js/jquery-ui.js"></script>
+
+
+<!-- Bootstrap js -->
+<script src="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/js/bootstrap.min.js"></script>
+<script src="https://cdn.gitam.edu/vendor/sweetAlert/sweetalert2.all.min.js"></script>
+
+
+<script>
+    $(document).on('click', '#Btnreset', function (e) {
+
+    });
+
+
+    function btn_get() {
+        //debugger;
+        var regno = document.getElementById('regid').value;
+
+        $.ajax({
+            type: 'GET',
+            url: './btn_get',
+            data: {
+                regno: regno
+
+            },
+            datatype: JSON,
+            success: function (data) {
+                //debugger;
+                // console.log(data);
+                if (data != null) {
+                    if (data.qrtext == "Invalid student") {
+                        swal('Invalid student', '', 'error');
+                    }
+                    else {
+                        $('#student_details').show();
+                        document.getElementById('txtregdno').value = data.regdno;
+                        document.getElementById('txtname').value = data.name;
+                        document.getElementById('txtfathername').value = data.father_name;
+                        document.getElementById('txtcampus').value = data.CAMPUS;
+                        document.getElementById('txtinstitute').value = data.COLLEGE_CODE;
+                        document.getElementById('txtbranch').value = data.BRANCH_CODE;
+                        document.getElementById('txtsen').value = data.CURRSEM;
+                        document.getElementById('txtsection').value = data.section;
+                        document.getElementById('QRIMG').innerHTML = "";
+                        $('#QRIMG').append(data.qrtext);
+                    }
+                }
+
+            }
+        });
+    }
+    function get_hallticket() {
+        //debugger;
+        $('#student_details').show();
+        $('#div_datatable').show();
+
+        var regno = document.getElementById('regid').value;
+
+        $.ajax({
+            type: 'GET',
+            url: './Gethalltickets',
+
+            data: {
+                regno: regno
+
+            },
+            datatype: JSON,
+            success: function (result) {
+                var msg = result.note.msg;
+                if (result.note.msg != "Please contact HOD's office..") {
+                    var count = result.notes.length;
+                }
+                else {
+                    var count = '';
+                }
+                if (msg == "Please contact HOD's office..") {
+                    swal({
+                        title: "Warning!",
+                        text: "Your attendence is low, Please contact HoD's office..!",
+                        type: "warning",
+                        icon: "warning",
+                        closeOnClickOutside: false,
+                        allowOutsideClick: false,
+                    });
+                    $('.box-container, .page-title').hide();
+                }
+                else if (count == 0 || count == '') {
+                    swal({
+
+                        text: "You could not able to generate the hall ticket , please contact to DOE / HOD's office...!",
+                        type: "warning",
+                        icon: "warning",
+                        closeOnClickOutside: false,
+                        allowOutsideClick: false,
+                    });
+
+                    $('.box-container, .page-title').hide();
+                    $('#student_details').hide();
+
+                }
+                else {
+
+                    $("#div_datatable").html('');
+                    if (result.studentdetails != null) {
+                        if (result.studentdetails[0].qrtext == "Invalid student") {
+                            swal('Invalid student', '', 'error');
+                        }
+                        else {
+                            $('#student_details').show();
+                            document.getElementById('txtregdno').value = result.studentdetails[0].regdno;
+                            document.getElementById('txtname').value = result.studentdetails[0].NAME;
+                            document.getElementById('txtfathername').value = result.studentdetails[0].FATHER_NAME;
+                            document.getElementById('txtcampus').value = result.studentdetails[0].campus;
+                            document.getElementById('txtinstitute').value = result.studentdetails[0].college_code;
+                            document.getElementById('txtbranch').value = result.studentdetails[0].branch_code;
+                            document.getElementById('txtsen').value = result.studentdetails[0].CURRSEM;
+                            document.getElementById('txtsection').value = result.studentdetails[0].section;
+                            document.getElementById('QRIMG').innerHTML = "";
+                            $('#QRIMG').append(result.studentdetails[0].qrtext);
+                        }
+                    }
+                    var filteredData = result.notes.filter(function (atten) {
+                        return atten.CURRSEM !== "---";
+                    });
+
+                    var uniquePairs = [];
+                    filteredData.forEach(function (atten) {
+                        var pair = { CURRSEM: atten.CURRSEM, type1: atten.type1 };
+                        if (!uniquePairs.some(item => item.CURRSEM === pair.CURRSEM && item.type1 === pair.type1)) {
+                            uniquePairs.push(pair);
+                        }
+                    });
+                    if (uniquePairs.length > 0) {
+                        var tablestring = '';
+                        tablestring = tablestring + "<div class='box-inner'><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                        tablestring = tablestring + "<thead class='thead-light'><tr><th>Name of the examination</th><th>Branch</th><th >Semester</th><th>Examination</th><th>Month & year of the examination</th><th>Subjects count</th><th></th></tr></thead><tbody>";
+
+                        uniquePairs.forEach(function (pair) {
+                            var episodelist = filteredData.filter(function (atten) {
+                                return atten.CURRSEM == pair.CURRSEM && atten.type1 == pair.type1;
+                            });
+                            episodelist.sort(function (a, b) {
+                                return b.CURRSEM.localeCompare(a.CURRSEM);
+                            });
+                            var totalcount = episodelist.length;
+                            var eligiblelist = filteredData.filter(function (atten) {
+                                console.log(atten);
+                                if (atten.type1 == "S") {
+                                    return atten.CURRSEM == pair.CURRSEM && atten.type1 == pair.type1;
+                                }
+                                else {
+                                    return atten.CURRSEM == pair.CURRSEM && atten.type1 == pair.type1 && atten.ATTENDANCE_STATUS == "Y";
+                                }
+                            });
+                            var eligiblecount = eligiblelist.length;
+                            tablestring += '<tr>';
+                            tablestring += '<td>' + episodelist[0].course_code + '</td>';
+                            if (episodelist[0].branch_name == "" || episodelist[0].branch_name == "") {
+                                tablestring += '<td>' + studentdetailslist[0].branch_name + '</td>';
+                            }
+                            else {
+                                tablestring += '<td>' + episodelist[0].branch_name + '</td>';
+                            }
+                            debugger;
+                            if (episodelist[0].CURRSEM == "91") {
+                                tablestring += '<td >SLM</td>';
+
+                            } else if (episodelist[0].CURRSEM == "92") {
+                                tablestring += '<td >Summer term</td>';
+
+                            }
+                            else if (episodelist[0].CURRSEM == "94") {
+                                tablestring += '<td >Re Registartion</td>';
+
+                            }
+                            else {
+                                tablestring += '<td >' + episodelist[0].CURRSEM + '</td>';
+                            }
+                            tablestring += '<td id="type">' + episodelist[0].type2 + '</td>';
+                            tablestring += '<td>' + episodelist[0].MONTH + ' ' + episodelist[0].year + '</td>';
+                            if (eligiblelist.length == episodelist.length) {
+                                tablestring += '<td >' + eligiblelist.length + ' / ' + episodelist.length + '</td>';
+                            }
+                            else if (eligiblelist.length == 0) {
+                                tablestring += '<td class="underline" onclick="Button1_Click(\'' + episodelist[0].regdno + '\', \'' + episodelist[0].type1 + '\', \'' + episodelist[0].CURRSEM + '\', \'' + episodelist[0].tick + '\')">' + eligiblecount + ' / ' + totalcount + '</td>';
+                            }
+                            else {
+                                tablestring += '<td class="underline" onclick="Button1_Click(\'' + episodelist[0].regdno + '\', \'' + episodelist[0].type1 + '\', \'' + episodelist[0].CURRSEM + '\', \'' + episodelist[0].tick + '\')">' + eligiblecount + ' / ' + totalcount + '</td>';
+
+                            }
+                            tablestring += '<td class="text-center"><i class="ri-eye-line cursor_pointer" onclick="innurseprint1234(\'' + episodelist[0].regdno + '\', \'' + episodelist[0].type1 + '\', \'' + episodelist[0].CURRSEM + '\', \'' + episodelist[0].tick + '\')"></i></td>';
+                            tablestring += '</tr>';
+                        });
+                        $('#div_datatable').html(tablestring);
+                    } else {
+                        $('#div_datatable').html('<tr><td colspan="6" class="text-center">No data available</td></tr>');
+                    }
+                }
+            },
+            error: function () {
+                debugger;
+                const newUrl = "https://login.gitam.edu";
+                window.location.replace(newUrl);
+
+            }
+        });
+    }
+    function loaddata() {
+        location.reload();
+    }
+    function reset() {
+        history.back();
+    }
+
+    function callrelease() {
+        $('#student_details').hide();
+        $('#div_datatable').hide();
+    }
+
+
+    $('#regid').autocomplete({
+        source: function (request, response) {
+            //debugger;
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                url: "./GetSearchAutocompletestudent",
+                type: "GET",
+                dataType: "json",
+                data: { '__RequestVerificationToken': token, 'SearchName': $("#regid").val(), 'check': 'false' },
+                success: function (data) {
+                    //debugger;
+
+
+                    if (data.length > 0) {
+
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.regdno + " => " + item.name
+                            };
+                        }))
+
+                    } else {
+                        response([{ label: 'No results found.', val: -1 }]);
+                    }
+                }
+            });
+        },
+        select: function (event, ui) {
+            var id = ui.item.value;
+            var final = id.split("=>")[0];
+            $("#hfAutoID").val(final);
+            document.getElementById("regid").value = id.split("=>")[0];
+            return false;
+        }
+    });
+    function innurseprint1234(regdno, type, semester, tick) {
+
+        $.ajax({
+            type: "Get",
+            url: "./btnsubmit_Click",
+            data: { 'regdno': regdno, 'type': type, 'semester': semester, 'tick': tick },
+            dataType: "html",
+            success: function (Result) {
+                ////debugger;
+                console.log(Result);
+                //$('#hideshow').hide();
+                $('#subModal').modal('hide');
+                $("#printdiv").html('');
+                $("#printdiv").html(Result);
+                $('#myModal').modal('show');
+
+            }
+        });
+
+    }
+    function Button1_Click(regdno, type, semester, tick) {
+        //debugger;
+        document.getElementById('regdno').value = regdno;
+        document.getElementById('type').value = type;
+        document.getElementById('semester').value = semester;
+        document.getElementById('tick').value = tick;
+        $.ajax({
+            type: 'GET',
+            url: './gethalleligiblesubjectlist',
+            data: { 'regdno': regdno, 'type': type, 'semester': semester, 'tick': tick },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                //debugger;
+                var count = result.noteligiblesub.length;
+                if (count == 0) {
+                    $.ajax({
+                        type: "Get",
+                        url: "./btnsubmit_Click",
+                        data: { 'regdno': regdno, 'type': type, 'semester': semester, 'tick': tick },
+                        dataType: "html",
+                        success: function (Result) {
+                            console.log(Result);
+                            $("#printdiv").html('');
+                            $("#printdiv").html(Result);
+                            $('#myModal').modal('show');
+                        }
+                    });
+                }
+                else {
+                    //debugger;
+                    var noneligiblesub = "";
+                    noneligiblesub += "<table class='table table-bordered tbl_style'><thead><tr><th>Subject code</th><th>Subject name</th></tr></thead><tbody>";
+                    for (var i = 0; i < result.noteligiblesub.length; i++) {
+                        noneligiblesub += "<tr><td>" + result.noteligiblesub[i].subject_code + "</td><td>" + result.noteligiblesub[i].subject_name + "</td></tr>";
+                    }
+                    noneligiblesub += "</tbody></table>";
+                    noneligiblesub += "<b style='margin-top:30px;'>Note : You can still click <i class='fa fa-eye'></i> to generate the hall ticket for the eligible subjects.<br>For any additional inquiries, kindly get in touch with DOE.</b>";
+                    document.getElementById('subjectList').innerHTML = noneligiblesub;
+                    var test = document.getElementById('subjectList').innerHTML;
+                    $("#printsubdiv").html('');
+                    $("#printsubdiv").html(test);
+                    $('#subModal').modal('show');
+                }
+            }
+
+        });
+    }
+    $("#cancelbtn").click(function () {
+        $('#subModal').modal('hide');
+        swal('Cancelled', '', 'error');
+    });
+
+    $("#regid").click(function () {
+        //debugger;
+        $('.box-container, .page-title').hide();
+
+    });
+</script>
+
+
+
+

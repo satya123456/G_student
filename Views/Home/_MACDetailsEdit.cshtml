@@ -1,0 +1,150 @@
+﻿@model Gstudent.Models.Mac_details
+<script src="https://cdn.gitam.edu/js/jquery-3.6.0.js"></script>
+
+<!-- Jquery UI -->
+<script src="https://cdn.gitam.edu/vendor/jquery-ui/js/jquery-ui.js"></script>
+
+
+<!-- Bootstrap js -->
+<script src="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/js/bootstrap.min.js"></script>
+
+<!-- Popper  js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+
+
+<!-- Jquery validations -->
+<script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.validate.min.js"></script>
+<script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.validate.unobtrusive.min.js"></script>
+<script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.unobtrusive-ajax.min.js"></script>
+
+<style>
+    .ri-corner-down-right-fill {
+        color: #b1040e;
+        font-size: 18px;
+    }
+
+    .sub-box {
+        border: 1px solid #e8e2e2;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+    }
+
+    ol {
+        padding-left: 15px;
+        margin-bottom: 0;
+    }
+    /*  .modal-backdrop.show {
+        z-index: 100;
+    }
+
+    .swal2-popup.swal2-modal.swal2-show {
+        z-index: 999999999999999999;
+    }
+
+    .modal {
+        z-index: 1000;
+    }*/
+    .swal2-container {
+        z-index: 1000000000 !important;
+    }
+
+    .modal-backdrop.show {
+    }
+</style>
+
+<table class="table table-bordered tbl-style sub_table">
+    <thead>
+        <tr>
+            <th>Registration Number</th>
+            <th>Name</th>
+            <th>MAC Address 1</th>
+            @if (!string.IsNullOrEmpty(Model.MAC2))
+            {
+                <th>MAC Address 2</th>
+            }
+        </tr>
+    </thead>
+    <tbody class="el3 upload_item">
+        <tr class="upload_docs">
+            <td>@Model.Regdno</td>
+            <td>@Model.Name</td>
+            <td>
+                <input class="form-control nospace" style="height: 32px; overflow: hidden;" name="MAC11" id="MAC11" value="@Model.MAC1" maxlength="17" onkeyup="validateMACAddress(event)" />
+                <div id="validationMessagenew" class="error"></div>
+            </td>
+            @if (!string.IsNullOrEmpty(Model.MAC2))
+            {
+                <td>
+                    <input class="form-control nospace" style="height: 32px; overflow: hidden;" name="MAC22" id="MAC22" value="@Model.MAC2" maxlength="17" onkeyup="validateMACAddress2(event)" />
+                    <div id="validationMessagenew1" class="error"></div>
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>
+
+
+
+<script>
+
+    //function validateMACAddress(macAddress, validationElement) {
+    //    var macRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
+
+    //    // Check for randomized MAC (2, 6, A, E in second position)
+    //    if (macAddress.length > 1 && ['2', '6', 'A', 'E', 'a', 'e'].includes(macAddress[1])) {
+    //        $(validationElement).text('MAC address is randomized and cannot be used.');
+    //        return Promise.reject('Invalid MAC address');
+    //    }
+
+    //    // Check if the MAC address is already used
+    //    if (macRegex.test(macAddress)) {
+    //        return $.ajax({
+    //            type: 'GET',
+    //            url: "./Home/macdetailscheck",
+    //            datatype: 'JSON',
+    //            data: { 'macid': macAddress }
+    //        }).then(function (response) {
+    //            if (response == 1) {
+    //                $(validationElement).text('This MAC address is already used.');
+    //                return Promise.reject('MAC address is already used');
+    //            } else {
+    //                $(validationElement).text('');
+    //                return Promise.resolve();
+    //            }
+    //        });
+    //    } else {
+    //        $(validationElement).text('Invalid MAC address.');
+    //        return Promise.reject('Invalid MAC address');
+    //    }
+    //}
+
+
+
+    function perupdate(e) {
+        var error = e;
+        if (error == "success") {
+            swal({
+                title: 'Updated successfully',
+                icon: 'success',
+                buttons: 'OK'
+            })
+
+            $('.modal-backdrop.show').css('display', 'none');
+            timerOn = false;
+            // setTimeout(loaddata, 1500);
+            loadConfigView('69');
+        }
+
+        else {
+            swal('Cancelled', '', 'error');
+            setTimeout(loaddata, 1500);
+        }
+    }
+
+
+</script>
+
+<script>
+</script>

@@ -1,0 +1,144 @@
+﻿
+@model IEnumerable<Gstudent.Models.Students>
+
+<style>
+
+    .table thead th {
+        background-color: #cddbda !important;
+        color: #131313;
+    }
+</style>
+
+<div class="graphBoxContainer content-container contentContainer">
+
+    @*<div class="d-flex justify-content-between">
+        <h6 class="sub-title">Exam timetable</h6>
+
+    </div>*@
+  
+        <table class="table table_style table-bordered" id="tblxyz1" style="width:100% ">
+            <thead class="thead-light">
+                <tr>
+
+                    <th><i>Course code</i></th>
+                    <th><i>Course name</i></th>
+                    <th><i>Exam date</i></th>
+                    <th><i>Semester</i></th>
+                    <th><i>Type</i></th>
+                    <th><i>Building</i></th>
+                    <th colspan="2"><i>Room details</i></th>
+                    @*<th><i>Bench</i></th>
+                    <th><i>Session</i></th>*@
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="9" style="text-align: center;  "><i>Branch:  @Session["course_code"]. @Session["branch_code"]</i></td>
+
+                </tr>
+
+                @try
+                {
+                foreach (var exam in Model)
+                {
+
+            <tr>
+
+                @{ dynamic jsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(exam.roomjson);
+                }
+                <td>@exam.COURSE_CODE</td>
+                <td>@exam.course_name</td>
+                <td>@Convert.ToDateTime(exam.exam_date).ToString("dd-MMM-yyyy")</td>
+                <td>@exam.sem</td>
+                <td>@exam.student_type</td>
+
+                @if (jsonObject == null)
+                {
+                    <td>Not Assigned yet </td>
+                    <td>Not Assigned yet </td>
+                    <td>Not Assigned yet </td>
+                }
+                else
+                {
+                    <td>@jsonObject.building_name</td>
+                    <td>@jsonObject.room_no</td>
+                    <td>@jsonObject.bench</td>
+                }
+
+                @*<td>@exam.timings</td>*@
+
+            </tr>
+                    }
+                    }
+                    catch(Exception e)
+            {
+
+
+            }
+                @*<tr>
+
+
+                    <td>19ECB201</td>
+                    <td>Formal Language and Automata Theory</td>
+                    <td>19-Apr-24</td>
+                    <td>8</td>
+                    <td>Regular</td>
+                    <td>ICT (chandrahas)</td>
+                    <td>401-A</td>
+                    <td>FN</td>
+
+                </tr>
+                <tr>
+
+
+                    <td>19ECB231</td>
+                    <td>Computer Organization and Architecture</td>
+                    <td>24-Apr-24</td>
+                    <td>8</td>
+                    <td>Regular</td>
+                    <td>ICT (chandrahas)</td>
+                    <td>401-A</td>
+                    <td>AN</td>
+                </tr>
+                <tr>
+
+
+                    <td>19ECB233</td>
+                    <td>Object Oriented Programming</td>
+                    <td>26-Apr-24</td>
+                    <td>8</td>
+                    <td>Regular</td>
+                    <td>ICT (chandrahas)</td>
+                    <td>401-A</td>
+                    <td>AN</td>
+                </tr>
+                <tr>
+
+
+                    <td>19EMA209</td>
+                    <td>Computational Statistics</td>
+                    <td>28-Apr-24</td>
+                    <td>8</td>
+                    <td>Regular</td>
+                    <td>ICT (chandrahas)</td>
+                    <td>401-A</td>
+                    <td>AN</td>
+                </tr>
+                <tr>
+
+
+                    <td>19EMA209P</td>
+                    <td>Computational Statistics Lab</td>
+                    <td>30-Apr-24</td>
+                    <td>8</td>
+                    <td>Supply</td>
+                    <td>ICT (chandrahas)</td>
+                    <td>401-A</td>
+                    <td>AN</td>
+                </tr>*@
+            </tbody>
+        </table>
+   
+</div>
+

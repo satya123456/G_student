@@ -1,0 +1,186 @@
+﻿@model Gstudent.ViewModels.Studentrecords.CDLSupplimentaryFeesSummary
+
+<style>
+    .custom-checkbox .form-check-input {
+        margin-left: 0px !important;
+    }
+</style>
+
+@{
+    string[] semester = new string[] { "1", "2", "3", "4", "5", "6" };
+    var i = "";
+
+    var sem = Model.subjects.Select(X => X.SEMESTER).Distinct();
+
+
+}
+
+@using (Ajax.BeginForm("ProceedPay", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", OnSuccess = "successSubmit", OnFailure = "return onError(event)" }))
+{
+    <div class="row">
+
+        @if (Model.subjects.Count > 0)
+        {
+            for (int j = 0; j < sem.Count(); j++)
+            {
+                for (int k = 0; k < semester.Count(); k++)
+                {
+                    if (sem.ElementAt(j) == semester[k])
+                    {
+       
+                        <div class="col-md-6">
+                            <span>Sem : @sem.ElementAt(j)</span>
+                            <div class="table-responsive">
+                                <table class="table table-bordered tbl-style">
+                                    <thead>
+                                        <tr>
+                                            <th class="t-w-20"></th>
+                                            <th>Couse code</th>
+                                            <th>Course name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var val in Model.subjects)
+                                        {
+
+                                            if (val.SEMESTER == sem.ElementAt(j))
+                                            {
+                                                <input type="text" name="count" id="count" value="@Model.subjects.Count()" style="display:none;">
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <div class="custom-checkbox">
+
+                                                            <input type="checkbox" class="form-check-input" id="checkBox1_@val.SUBJECT_CODE" name="checkbox_@val.SEMESTER" value="@val.SUBJECT_CODE" onclick="addTotal('@val.SEMESTER','@val.SUBJECT_CODE')">
+                                                            <label class="form-check-label" for="checkBox1_@val.SUBJECT_CODE"></label>
+                                                            <input type="text" class="form-control" id="subjectcode" name="subjectcode_@val.SEMESTER" value="@val.SUBJECT_CODE" hidden>
+                                                            <input type="text" class="form-control" id="subjectname" name="subjectname_@val.SEMESTER" value="@val.SUBJECT_NAME" hidden>
+                                                            <input type="text" class="form-control" id="semester" name="semester_@val.SEMESTER" value="@val.SEMESTER" hidden>
+                                                        </div>
+                                                    </td>
+                                                    <td>@val.SUBJECT_CODE</td>
+                                                    <td>@val.SUBJECT_NAME</td>
+                                                    @*<td hidden><input id="sem" value="@val.SEMESTER" /></td>*@
+                                                </tr>
+                                                i = val.SEMESTER;
+                                            }
+
+                                        }
+                                    <tr>
+                                        <td>Total</td>
+                                        <td colspan="2" id="Total_@i">0</td>
+                                        <input type="text" class="form-control" id="totalsem_@i" name="totalsem_@i" value="0" hidden>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+
+
+                }
+
+            }
+
+        }
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Centre</label>
+                <select class="form-select" name="examcenter" id="examcenter">
+                    <option value="Select">Select</option>
+                    @foreach (var val in Model.exam_centers)
+                    {
+                        <option value="@val.exam_centre">@val.exam_centre</option>
+                    }
+
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Total fee</label>
+                <input type="text" class="form-control" id="Total_fee" value="0" name="totalfee" readonly>
+                <input type="text" class="form-control" id="Total_fee1" value="0" hidden>
+                <input type="text" class="form-control" id="Total_fee2" value="0" hidden>
+                <input type="text" class="form-control" id="Total_fee3" value="0" hidden>
+                <input type="text" class="form-control" id="Total_fee4" value="0" hidden>
+                <input type="text" class="form-control" id="Total_fee5" value="0" hidden>
+                <input type="text" class="form-control" id="Total_fee6" value="0" hidden>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="form-check mt-4">
+                    @if (Model.data.FirstOrDefault().readmit == "Y")
+                    {
+                        <input type="checkbox" class="form-check-input" id="Re-admission" name="checkbox" value="something"  onclick="Readmission()" checked="">
+                        <label class="form-check-label" for="Re-admission">Re-admission fee</label>
+                        @*<label class="form-check-label" id="Re-admission_total">1500</label>*@
+                        <input type="text" class="form-control" id="Re-admission_total" name="Re-admission_total" value="1500">
+                        <input type="text" class="form-control" id="readmit" name="readmit" value="Y" hidden>
+
+                    }
+                    else
+                    {
+                        <input type="text" class="form-control" id="Re-admission_total" name="Re-admission_total" value="0" hidden>
+                        <input type="text" class="form-control" id="readmit" name="readmit" value="N" hidden>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="form-check mt-4">
+                    @if (Model.projectresult.Count() > 0)
+                    {
+                        <input type="checkbox" class="form-check-input" id="Projects" name="checkbox" value="something" onclick="projectviva()" checked="">
+                        <label class="form-check-label" for="Projects">Projects & viva :</label>
+                       <input type="text" class="form-control" id="Projects_total" name="Projects_total" readonly value="500">
+                        <input type="text" class="form-control" id="projectresult" name="projectresult" value="Y" hidden>
+
+                    }
+                    else
+                    {
+                        <input type="text" class="form-control" id="Projects_total" value="0" hidden>
+                        <input type="text" class="form-control" id="projectresult" value="N" hidden>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="text-center">
+            <button class="btn btn-primary mt-4" onclick="ProceedPaySubmit()" type="button" id="ProceedPay">Proceed</button>
+        </div>
+    </div>
+}
+<script>
+    function ProceedPaySubmit() {
+
+        var e = document.getElementById('examcenter');
+        var strUser = e.options[e.selectedIndex].value;
+
+        if (strUser == "Select") {
+
+            swal('Please select exam center', '', 'error');
+
+        }
+        else {
+            $('#ProceedPay').submit();
+        }
+
+
+    }
+</script>

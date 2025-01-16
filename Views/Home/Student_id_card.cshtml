@@ -1,0 +1,198 @@
+﻿@model Gstudent.Models.CDL_academictrack
+<div id="idcard">
+    <style>
+        #idcard {
+            width: 622px;
+            margin: 18px auto;
+            padding: 10px;
+            border: #999 1px solid;
+        }
+
+        .Icard {
+            font-size: 25px;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #2e3192;
+            font-weight: bold;
+            margin: 3px 0 10px 0;
+        }
+
+        #container .rgtcontnt {
+            width: 100px;
+            float: right;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .leftcontnt p {
+            white-space: normal;
+            text-align: justify;
+        }
+
+        @@media print {
+
+            body {
+                width: 650px;
+                margin: 20px auto 10px;
+                padding: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 13px;
+                line-height: 20px;
+            }
+
+            #idcard {
+                width: 590px;
+                margin: 0 auto;
+                padding: 10px;
+                border: 1px solid #000;
+            }
+
+            .leftcontnt p {
+                white-space: normal;
+                text-align: justify;
+                line-height: 30px;
+            }
+
+            .Icard {
+                font-size: 24px;
+                text-align: center;
+                font-family: Arial, Helvetica, sans-serif;
+                color: #2e3192;
+                font-weight: bold;
+                margin: 10px 0 10px 0;
+                padding-top: 15px;
+            }
+
+            #container {
+                height: 190px;
+            }
+
+                #container .rgtcontnt {
+                    width: 100px;
+                    float: right;
+                    text-align: center;
+                    font-size: 12px;
+                }
+
+            .btn {
+                margin: 10px auto;
+                width: 120px;
+            }
+
+            .button {
+                height: 28px;
+            }
+
+            .img-fluid {
+                width: 100%;
+            }
+        }
+
+        @@media screen and (max-width:676px) {
+            #idcard {
+                width: 100%;
+                margin: 18px auto;
+                padding: 10px;
+                border: #999 1px solid;
+            }
+
+            .Icard {
+                font-size: 24px;
+            }
+        }
+    </style>
+    <div class="back pull-right">
+        <a href="javascript:void(0);" onclick="location.reload();">
+            <i class='bx bx-arrow-back'></i>
+        </a>
+    </div>
+    <div class="card_border">
+        <div class="header">
+            <div><img class="img-fluid" src="~/images/logo_title2.jpg" alt="GITAM CDL" /> </div>
+
+        </div>
+        <!--/.header -->
+        <div id="container">
+            <p class="Icard">LEARNER IDENTITY CARD</p>
+            <div class="leftcontnt">
+                <p>
+                    Certified that Mr./Ms. <strong><u>@Model.name</u></strong> is a bonafide learner of <strong><u>@(Model.COURSE_CODE + "_" + Model.BRANCH_CODE)</u></strong> in Centre for Distance Learning, GITAM University, Visakhapatnam with ID No.: <strong><u>@Model.regdno</u></strong>
+                </p>
+            </div>
+            <div class="row">
+                <div class="rgtcontnt photo">
+                    <img src="http://cdlimages.gitam.edu/img.aspx?id=@Model.regdno" width="100px" height="120px" />
+                </div>
+            </div>
+            <div class="clr"></div>
+            <div><img class="img-fluid" src="~/images/img_footer.jpg" alt="cdl gitam" /> </div>
+        </div>
+
+
+    </div>
+</div>
+<div class="text-center">
+
+    <input type="button" class="btn btn-primary" value="Print this page" onclick="printpage()" />
+
+</div>
+
+<script type="text/javascript">
+
+    //function printpage() {
+
+
+    //    $('#idcard').printThis({
+    //        importCSS: true,
+    //        // header: "<h1>Look at all of my kitties!</h1>"
+    //    });
+
+    //}
+    function printpage() {
+        setTimeout(function () {
+
+            var contents = document.getElementById('idcard').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    }
+    //function PrintClick(id) {
+    //    //debugger;
+
+    //    var divToPrint = document.getElementById("idcard" );
+    //        var newWin = window.open('', '', 'width=1200,height=700');
+    //        newWin.document.open();
+    //        newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+    //        newWin.document.close();
+
+    //        setTimeout(function () { newWin.close(); }, 10);
+    //    }
+
+
+
+
+</script>
+

@@ -1,0 +1,504 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Lmsdirectorysummary
+
+
+<style>
+    .table {
+        background: #fff;
+    }
+
+    .bg1 {
+        background: #eafff5;
+    }
+
+    .bgBox {
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .bg2 {
+        background: #e4e6ed;
+    }
+
+    .bg3 {
+        background: #f0eee5;
+    }
+
+    .bgBox h4 {
+        margin-bottom: 10px;
+    }
+
+    .bx-info-circle {
+        font-size: 22px;
+        color: #007367;
+    }
+
+    #myinfoModal1 p {
+        margin-bottom: 5px;
+    }
+</style>
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            <h5 class="page-title">CE Marks( @ViewBag.subjectcode - @ViewBag.subjectname ) </h5>
+            <span class="info-left" onclick="myinfoModal();"><i class="bx bx-info-circle"></i></span>
+        </div>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="Lmsback()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    @{ var mid = Model.Totalall.Where(m => m.section == "Mid");
+        var assignment = Model.Totalall.Where(m => m.section == "Assignment");
+        var quiz = Model.Totalall.Where(m => m.section == "Quiz");
+        var counter = 0;
+        var assimaxmarks = 0;
+        double assiobtmarks = 0;
+    }
+    <div class="box-inner">
+
+        @if (Model.Totalall.Count() > 0)
+        {
+            foreach (var total in Model.Quizmarks.Select(x => new { x.section }).Distinct())
+            {
+                double addmarks = 0;
+                int p = 0;
+                double sum = 0;
+                var sectionlist = Model.Totalall.Select(x => new { x.section, x.SUB_SECTION_ID, x.SUB_SECTION_NAME, x.MAX_MARKS, x.Status, x.MARKS, x.section_type, x.best, x.marks, x.date, x.from_date, x.todate, x.maxxx_marks, x.ASSIG_FLAG, x.BESTOF_COUNT, x.TOTAL_COUNT, x.semester }).Distinct();
+                var lastfinallist = sectionlist.Where(x => x.section.Equals(total.section)).Select(x => new { x.section, x.SUB_SECTION_ID, x.SUB_SECTION_NAME, x.MAX_MARKS, x.Status, x.MARKS, x.section_type, x.maxxx_marks, x.best, x.marks, x.date, x.from_date, x.todate, x.ASSIG_FLAG, x.BESTOF_COUNT, x.TOTAL_COUNT }).Distinct();
+                var assignlist = Model.Assignmentmarks.Select(x => new { x.ASSIG_FLAG, x.SUB_SECTION_ID, x.semester }).Distinct();
+                var finalmarkscom = Model.finalmarks.Select(x => new { x.ASSIG_FLAG, x.final_marks });
+                var finalcoompcount = lastfinallist.Count();
+                if (total.section == "Assignment")
+                {
+
+                    foreach (var val in lastfinallist)
+                    {
+                        sum += val.maxxx_marks;
+                    }
+                    if (lastfinallist.Count() > 0)
+                    {
+                        <div class="bgBox bg1">
+                            <h4 class="sub-title">@total.section</h4><span>Total assessment marks : @lastfinallist.FirstOrDefault().marks, Type : @lastfinallist.FirstOrDefault().section_type, Evaluated assessments : @lastfinallist.FirstOrDefault().BESTOF_COUNT</span>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+
+                                    <thead>
+                                        <tr>
+                                            <th class="t-w-400">Name</th>
+                                            <th class="t-w-400">Max marks</th>
+                                            <th>Obtained marks</th>
+                                            <th>Semester</th>
+                                        </tr>
+                                    </thead>
+                                    @{ int i = 0;
+                                        int totalMarks = 0;
+                                        int totalMarks2 = 0;
+                                    }
+                                    @foreach (var listfinal in sectionlist.Where(x => x.section.Equals(total.section)))
+                                    {
+                                        var counting = 0;
+                                        <tr>
+                                            <td>@listfinal.SUB_SECTION_NAME</td>
+                                            <td>@listfinal.maxxx_marks</td>
+                                            @if (Model.Assignmentmarks.Count() > 0)
+                                            {
+                                                foreach (var data in assignlist)
+                                                {
+                                                    if (listfinal.SUB_SECTION_ID == data.SUB_SECTION_ID)
+                                                    {
+
+                                                        if (data.ASSIG_FLAG == "09")
+                                                        {
+                                                            var marksassign = Model.Assignmentmarks.Where(x => x.SUB_SECTION_ID == data.SUB_SECTION_ID).Select(x => new { x.MARKS }).Distinct();
+                                                            if (marksassign.FirstOrDefault().MARKS != null)
+                                                            {
+
+                                                                <td>@marksassign.FirstOrDefault().MARKS</td>
+                                                                {
+                                                                    counter = 1;
+                                                                    counting = 1;
+                                                                    addmarks = addmarks + Convert.ToDouble(marksassign.FirstOrDefault().MARKS);
+                                                                }
+
+
+                                                            }
+                                                        }
+
+                                                        else if (Model.finalmarks.Count() > 0)
+                                                        {
+                                                            counter = 0;
+                                                            foreach (var val in Model.finalmarks)
+                                                            {
+
+
+                                                                if (val.ASSIG_FLAG == data.ASSIG_FLAG)
+                                                                {
+                                                                    var marksassign = Model.finalmarks.Where(x => x.ASSIG_FLAG == data.ASSIG_FLAG).Select(x => new { x.final_marks }).Distinct();
+                                                                    if (marksassign.FirstOrDefault().final_marks != null)
+                                                                    {
+                                                                        if (val.ASSIG_FLAG == data.ASSIG_FLAG)
+                                                                        {
+                                                                            <td>@marksassign.FirstOrDefault().final_marks</td>
+                                                                            {
+                                                                                counter = 1;
+                                                                                counting = 1;
+                                                                                addmarks = addmarks + Convert.ToDouble(marksassign.FirstOrDefault().final_marks);
+                                                                            }
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                            }
+
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                            }
+                                            @if (counting == 0)
+                                            {
+                                                <td>Yet to be posted</td>
+                                            }
+
+                                            @if (listfinal.semester == "92")
+                                            {
+                                                <td>Summer term</td>
+                                            }
+
+                                            else
+                                            {
+                                                <td>@listfinal.semester</td>
+                                            }
+
+                                        </tr>
+                                        i++;
+                                        totalMarks += Convert.ToInt32(listfinal.maxxx_marks); // Add MARKS to totalMarks
+                                        totalMarks2 += Convert.ToInt32(listfinal.MARKS);
+
+                                    }
+
+                                    @*<tr>
+                                            <td class="text-right"><b>Total Marks</b></td>
+                                            <td><b>@lastfinallist.FirstOrDefault().marks</b></td>
+                                            @{
+                                                assimaxmarks = totalMarks;
+                                                assiobtmarks = addmarks;
+                                            }
+
+                                            <td><b></b></td>
+
+                                        </tr>*@
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        i++;
+
+                    }
+                    else
+                    {
+                        <div class="bgBox bg1">
+                            <h4 class="sub-title">@total.section</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="t-w-400">Name</th>
+                                            <th class="t-w-400">Max marks</th>
+                                            <th>Obtained marks</th>
+                                            <th>Semester</th>
+                                        </tr>
+                                    </thead>
+                                    @{ int i = 0;
+                                        int totalMarks = 0;
+                                        int totalMarks2 = 0; }
+
+                                    @foreach (var listfinal in sectionlist.Where(x => x.section.Equals(total.section)))
+                                    {
+                                        <tr>
+                                            <td>Yet to be posted</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        i++;
+                    }
+                }
+                else
+                {
+                    foreach (var val in lastfinallist)
+                    {
+                        sum += val.maxxx_marks;
+                    }
+                    if (lastfinallist.Count() > 0)
+                    {
+                        <div class="bgBox bg1">
+                            <h4 class="sub-title">@total.section</h4><span>Total assessment marks : @lastfinallist.FirstOrDefault().marks, Type : @lastfinallist.FirstOrDefault().section_type, Evaluated assessments : @lastfinallist.FirstOrDefault().BESTOF_COUNT</span>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+
+                                    <thead>
+                                        <tr>
+                                            <th class="t-w-400">Name</th>
+                                            <th class="t-w-400">Max marks</th>
+                                            <th>Obtained marks</th>
+                                            <th>Semester</th>
+                                            @*@if (total.section == "Quiz")
+                                                {<th>Action</th>
+                                                }*@
+                                        </tr>
+                                    </thead>
+                                    @{ int i = 0;
+                                        int totalMarks = 0;
+                                        int totalMarks2 = 0; }
+
+                                    @foreach (var listfinal in sectionlist.Where(x => x.section.Equals(total.section)))
+                                    {
+                                        <tr>
+                                            <td>@listfinal.SUB_SECTION_NAME</td>
+                                            <td>@listfinal.maxxx_marks</td>
+                                            @if (Model.Assignmentmarks.Count() > 0)
+                                            {
+                                                counter = 0;
+                                                foreach (var val in Model.Assignmentmarks)
+                                                {
+                                                    if (val.SUB_SECTION_ID == listfinal.SUB_SECTION_ID && val.Status == "Y")
+                                                    {
+                                                        <td>@val.MARKS</td>
+                                                        {
+                                                            counter = 1;
+                                                            addmarks = addmarks + Convert.ToDouble(val.MARKS);
+                                                        }
+
+                                                        @*if (total.section == "Quiz")
+                                                            {
+                                                                <td><button class='form-control' onclick="getquiz('@val.mid')" >View</button></td>
+                                                            }*@
+                                                    }
+
+                                                }
+                                                if (counter == 0)
+                                                {
+                                                    <td>Yet to be posted</td>
+                                                }
+                                            }
+
+                                            else
+                                            {
+                                                <td>Yet to be posted</td>
+                                            }
+
+                                            @if (listfinal.semester == "92")
+                                            {
+                                                <td>Summer term</td>
+                                            }
+
+                                            else
+                                            {
+                                                <td>@listfinal.semester</td>
+                                            }
+                                        </tr>
+                                        i++;
+                                        totalMarks += Convert.ToInt32(listfinal.maxxx_marks); // Add MARKS to totalMarks
+                                        totalMarks2 += Convert.ToInt32(listfinal.MARKS);
+                                    }
+                                    <!--<tr>
+                                        <td class="text-right"><b>Total Marks</b></td>
+                                        <td><b>@lastfinallist.FirstOrDefault().marks</b></td>
+                                        @{
+                                            assimaxmarks = totalMarks;
+                                            assiobtmarks = addmarks;
+                                        }-->
+                                    @*<td><b>@assiobtmarks</b></td>*@
+                                    <!--<td><b></b></td>
+
+                                    </tr>-->
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        i++;
+                    }
+                    else
+                    {
+                        <div class="bgBox bg1">
+                            <h4 class="sub-title">@total.section</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="t-w-400">Name</th>
+                                            <th class="t-w-400">Max marks</th>
+                                            <th>Obtained marks</th>
+                                            <th>Semester</th>
+                                        </tr>
+                                    </thead>
+                                    @{ int i = 0;
+                                        int totalMarks = 0;
+                                        int totalMarks2 = 0; }
+
+                                    @foreach (var listfinal in sectionlist.Where(x => x.section.Equals(total.section)))
+                                    {
+                                        <tr>
+                                            <td>Yet to be posted</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        i++;
+                    }
+                }
+            }
+        }
+
+        @if (Model.Totalall.Count() == 0)
+        {
+            <div class="bgBox bg2">
+                <div class="nodata" id="noFolders">
+                    <h6 class="text-center">Faculty not yet posted</h6>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
+<div class="modal" id="myinfoModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Information</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @*<p>
+                        This page represents the all types of assessment marks can be categorized into the following sub section type:
+                        <ul>
+                            <li>Total</li>
+                            <li>Best of</li>
+                            <li>Average</li>
+                            <li>Best of average</li>
+                        </ul>
+
+                    </p>*@
+                <p><b>Total :</b> Represents the Total assessment marks</p>
+                <p><b>Type :</b> Represents the section type. That is Total, Average, Best of or Best of average</p>
+                <p><b>Evaluated Assessments :</b> Represents the number of assessments</p>
+                @*<p><b>Total :</b> Represents the Total assessment marks</p>*@
+                <p><b>Case study:</b> Assignment-1 of subject-A Total marks-20, Tpe-Total, Evaluated assesspents-2 then the evaluation will be as follows</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Max marks</th>
+                            <th>Obtained marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Assignment-1</td>
+                            <td>10</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>Assignment-1</td>
+                            <td>10</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total marks</b></td>
+                            <td><b>20</b></td>
+                            <td><b>12</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function Lmsback() {
+
+
+        $('#maindiv').html("");
+        $.ajax({
+
+            type: 'GET',
+            url: './Home/getlmssubjects',
+
+            success: (function (result) {
+
+                $('#maindiv').html(result);
+
+
+            })
+        });
+
+    }
+
+    function myinfoModal() {
+        $('#myinfoModal1').modal('show');
+    }
+
+    function getquiz(id) {
+        // var url = 'https://apiserver.gitam.edu/moodle/login.php?username=@Session["REGDNO"].ToString()&mid=' + id;
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/moodlequizjson',
+            contentType: "application/json; charset=utf-8",
+            data: {
+                'mid': id,
+            },
+
+            success: function (data) {
+
+                console.log(data);
+                if (data.length == 0) {
+
+
+                } else {
+
+                    var url = data;
+                    if (url) {
+
+                        var newTab = window.open(url, '_blank');
+                        if (newTab) {
+
+                            newTab.focus();
+                        } else {
+
+                            alert('Popup blocker prevented opening the new tab.');
+                        }
+                    } else {
+
+                        alert('URL is not provided.');
+                    }
+
+                }
+            }
+
+
+        });
+
+
+
+    }
+</script>

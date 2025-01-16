@@ -1,0 +1,956 @@
+﻿@model Gstudent.ViewModels.Studentrecords.lmstextbooks
+@Html.Hidden("subcode", Model.textbook.subcode)
+@Html.Hidden("subname", Model.textbook.subname)
+@Html.Hidden("radiovalue", Model.textbook.radiovalue)
+@Html.Hidden("groupcode", Model.textbook.groupcode)
+@Html.Hidden("facultyid", Model.textbook.faculty_id)
+
+<style>
+    .fa-file-image {
+        color: #007367;
+        font-size: 18px;
+    }
+
+    .accordion {
+        margin-bottom: 15px;
+        border-radius: 4px
+    }
+
+    .accordion-item {
+        border: 1px solid #fff;
+        padding: 2px 0px;
+        margin-bottom: 15px;
+        border-radius: 0 !important;
+    }
+
+    .accordion-button {
+        box-shadow: none !important;
+        padding: 11px 15px 9px !important;
+        background: #fff !important;
+    }
+
+    .bg1 {
+        background: #eafff5;
+    }
+
+    .bgBox {
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .bg2 {
+        background: #e4e6ed;
+    }
+
+    .bg3 {
+        background: #f0eee5;
+    }
+
+    .nodata {
+        background: #eafff5;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #006c61;
+        /* box-shadow: 0 2px 4px rgb(0 0 0 / 8%); */
+        /* border-radius: 10px; */
+        margin-top: 4px;
+        border-top: 1px solid #007367;
+    }
+
+    .boxWithShadow {
+        padding-top: 10px;
+        border-top: 1px solid #fff;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: #333;
+        font-size: 14px;
+    }
+
+    .accordion-body {
+        border-top: 1px solid #ddd;
+    }
+
+    .ri-file-download-line {
+        color: #007367;
+        font-size: 20px;
+    }
+
+    table tr td:last-child {
+        text-align: right;
+        white-space: nowrap;
+        vertical-align: bottom;
+    }
+
+    #Textbooks table, #Reference table {
+        background: #fff;
+    }
+
+        #Textbooks table tr td:last-child, #Reference table tr td:last-child {
+            text-align: left;
+        }
+
+    .t-w-800 {
+        width: 800px;
+    }
+
+    .date {
+        margin-right: 10px;
+    }
+    @@media(max-width:575px) {
+        #accordiandivmdl .accordion-body .table tr {
+            display: flex;
+            flex-wrap: wrap;
+            border: 1px solid #ccc;
+        }
+
+        #accordiandivmdl .accordion-body .table > :not(caption) > * > * {
+            border-bottom-width: 0px;
+        }
+
+        #accordiandivmdl .accordion-body .t-w-800 {
+            width: 100%;
+        }
+    }
+</style>
+@*@{var facultyid = ViewBag.faculty_id;}*@
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Resources (@ViewBag.subjectcode - @ViewBag.subjectname)</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="Lmsback()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="box-inner inner_wrapper">
+        @*<h6 style="" class="mt-3 mb-3"> @ViewBag.subjectcode - @ViewBag.subjectname</h6>*@
+        <div class="grid-container">
+            <div class="bgBox bg1">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <h1 class="h3 mb-2  page-title"><span id="date"></span> Unit-wise course materials</h1>
+                </div>
+                <div class="boxWithShadow" id="foldersDivmdl" style="display:none">
+                    <div id="accordiandivmdl">
+                    </div>
+                </div>
+                <div class="nodata" style="display:none" id="noFoldersmdl">
+                    <h6 class="text-center">Faculty not yet posted</h6>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div class="bgBox bg2">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <h1 class="h3 mb-2  page-title"><span id="date"></span> Additional resources</h1>
+                </div>
+                <div class="boxWithShadow" id="foldersDiv" style="display:none">
+                    <div id="accordiandiv">
+                    </div>
+                </div>
+                <div class="nodata" style="display:none" id="noFolders">
+                    <h6 class="text-center">Faculty not yet posted</h6>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div class="bgBox bg1" style="display:none;">
+                <div id="courseRepoDiv">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h1 class="h3 mb-2  page-title"><span id="date"></span> Shared repository</h1>
+                    </div>
+                    <div class="boxWithShadow" id="foldersDivrepo" style="display:none">
+                        <div id="accordiandivrepo">
+                        </div>
+                    </div>
+                    <div class="nodata" style="display:none" id="noFoldersrepo">
+                        <h6 class="text-center">Faculty not yet posted</h6>
+                    </div>
+                </div>
+
+
+            </div>
+            
+            <div class="bgBox bg2">
+                <div id="Textbooks">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h1 class="h3 mb-2  page-title"><span id="date"></span> Textbooks</h1>
+                    </div>
+                    @if (Model.textbooksummary.Count() > 0)
+                    {
+                        var textbooks = Model.textbooksummary.Where(X => X.TYPE.Equals("T")).OrderByDescending(X => X.GENERATED_DATE);
+
+                        if (textbooks.Count() > 0)
+                        {
+                            <div id="dynamictable_text" class="table-responsive dropdown_filter mt-3">
+                                <table class="table table-bordered " id="tbl">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Title</th>
+                                            <th>Unit mapping</th>
+                                            <th>Author</th>
+                                            <th>Year</th>
+                                            <th>Edition</th>
+                                            <th>Publisher</th>
+                                            <th>Place of publication</th>
+                                            <th>ISBN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int k = 1;}
+                                        @foreach (var course in Model.textbooksummary.Where(x => x.TYPE == "T").Select(x => new { x.GENERATED_DATE }).Distinct())
+                                        {
+                                            var assignlist = Model.textbooksummary.Where(X => X.TYPE.Equals("T") && X.GENERATED_DATE.Equals(course.GENERATED_DATE)).OrderByDescending(X => X.GENERATED_DATE);
+
+                                            <tr>
+                                                <td>@k</td>
+                                                <td>@assignlist.FirstOrDefault().TEXTBOOK_NAME</td>
+                                                <td>@assignlist.FirstOrDefault().UNIT_MAPPING</td>
+                                                <td>@assignlist.FirstOrDefault().AUTHOR</td>
+                                                <td>@assignlist.FirstOrDefault().year</td>
+                                                <td>@assignlist.FirstOrDefault().EDITION</td>
+                                                <td>@assignlist.FirstOrDefault().PUBLICATION</td>
+                                                <td>@assignlist.FirstOrDefault().PUBLICATION_PLACE</td>
+                                                <td>@assignlist.FirstOrDefault().ISBN</td>
+
+                                            </tr>
+                                            k++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="nodata" id="">
+                                <h6 class="text-center">Faculty not yet posted</h6>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="nodata" id="">
+                            <h6 class="text-center">Faculty not yet posted</h6>
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+            <br />
+            <br />
+            <div class="bgBox bg1">
+                <div id="Reference">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <h1 class="h3 mb-2  page-title"><span id="date"></span> References</h1>
+                    </div>
+                    @if (Model.textbooksummary.Count() > 0)
+                    {
+                        var references = Model.textbooksummary.Where(X => X.TYPE.Equals("R")).OrderByDescending(X => X.GENERATED_DATE);
+                        if (references.Count() > 0)
+                        {
+                            <div id="dynamictable_text" class="table-responsive dropdown_filter mt-3">
+                                <table class="table table-bordered " id="tbl">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Title</th>
+                                            <th>Chapters</th>
+                                            <th>Author</th>
+                                            <th>Year</th>
+                                            <th>Edition</th>
+                                            <th>Publisher</th>
+                                            <th>Place of publication</th>
+                                            <th>ISBN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int m = 1;}
+                                        @foreach (var course1 in Model.textbooksummary.Where(x => x.TYPE == "R").Select(x => new { x.GENERATED_DATE }).Distinct())
+                                        {
+                                            var assignlist1 = Model.textbooksummary.Where(X => X.TYPE.Equals("R") && X.GENERATED_DATE.Equals(course1.GENERATED_DATE)).OrderByDescending(X => X.GENERATED_DATE);
+
+                                            <tr>
+                                                <td>@m</td>
+                                                <td>@assignlist1.FirstOrDefault().TEXTBOOK_NAME</td>
+                                                <td>@assignlist1.FirstOrDefault().UNIT_MAPPING</td>
+                                                <td>@assignlist1.FirstOrDefault().AUTHOR</td>
+                                                <td>@assignlist1.FirstOrDefault().year</td>
+                                                <td>@assignlist1.FirstOrDefault().EDITION</td>
+                                                <td>@assignlist1.FirstOrDefault().PUBLICATION</td>
+                                                <td>@assignlist1.FirstOrDefault().PUBLICATION_PLACE</td>
+                                                <td>@assignlist1.FirstOrDefault().ISBN</td>
+
+                                            </tr>
+                                            m++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="nodata" id="">
+                                <h6 class="text-center">Faculty not yet posted</h6>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="nodata" id="">
+                            <h6 class="text-center">Faculty not yet posted</h6>
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+            <br>
+            <br>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        courseunitwise();
+        courseadditionalres();
+       // courserepoready();
+    });
+    function courseunitwise() {
+       
+        $.ajax({
+            type: "Get",
+            url: './Home/getresource_unit',
+            contentType: "application/json; charset=utf-8",
+            dataSrc: "",
+            data: { sub_code: $("#subcode").val(), facultyid: $("#facultyid").val() },
+            success: function (data) {
+                // debugger;
+                console.log(data);
+                var cnt = 0;
+
+                if (data.length == 0) {
+                    $('#noFoldersmdl').show();
+                    $('#foldersDivmdl').hide();
+
+
+
+                } else {
+                    $('#foldersDivmdl').show();
+                    $('#noFoldersmdl').hide();
+
+                    $('#accordiandivmdl').empty();
+
+                    trHTML = '<div class="" id="courseAccordionmdl"><div class="accordion" id="accordionExample">';
+                    var i = 0;
+                    $.each(data, function (key, value) {
+                        cnt++;
+                        var _id = "\'" + value.id + "\'";
+                        var _order_id = "\'" + value.order_id + "\'";
+                        var _year = "\'" + value.year + "\'";
+                        var _name = "\'" + value.name + "\'";
+                        var _sub_code = "\'" + $("#subcode").val() + "\'";
+                        var sanitized_name = _name.replace(/'/g, '');
+                        trHTML += ' <div class="accordion-item"> <h2 class="accordion-header" id="headingOne' + value.id + '_' + value.order_id + '" >    <button class="accordion-button" type="button" data-bs-toggle="collapse"  data-bs-target="#collapseOne' + value.id + '_' + value.order_id + '" aria-expanded="false" aria-controls="collapseOne' + value.id + '_' + value.order_id + '" >' + sanitized_name + '</button> </h2>';
+                        trHTML += '<div id="collapseOne' + value.id + '_' + value.order_id + '" class="accordion-collapse collapse" aria-labelledby="headingOne' + value.id + '_' + value.order_id + '" data-bs-parent="#accordionExample" >';
+                        $.ajax({
+                            type: "GET",
+                            url: './Home/Getfolderpdf_img_mdl',
+                            contentType: "application/json; charset=utf-8", async: false,
+                            data: {
+                                folder_id: value.order_id,
+                                group_code: $("#subcode").val(),
+                                folder_name: value.name,
+                                year: value.year,
+                            },
+                            success: function (data1) {
+
+                                trHTML += '<div class="accordion-body">';
+                                var obj = JSON.parse(data1);
+
+                                $.each(obj, function (key, value1) {
+
+                                    i++;
+                                    var ext = value1.GalleryImagePath.substr((value1.GalleryImagePath.lastIndexOf('.') + 1));
+                                    var icn = "";
+                                    if (ext.toLowerCase() == "pdf") {
+                                        icn = "<i class='far fa-file-pdf'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "doc") {
+                                        icn = "<i class='far fa-file-word'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "xlsx") {
+                                        icn = "<i class='far fa-file-excel'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "png") {
+                                        icn = "<i class='far fa-file-image'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg") {
+                                        icn = "<i class='far fa-file-image'></i>"
+                                    }
+                                    else {
+                                        icn = "<i class='<i class='far fa-file'></i>'></i>"
+                                    }
+                                    var FileName = value1.GalleryImagePath.slice(0, -4);
+
+                                    /**/
+                                    trHTML += ' <table class="table"><tr> <input type="hidden" id="imagename1" value=\'' + value1.GalleryImagePath + '\'><td class="fileh6 courseFileName t-w-800"><a onclick="modalshowmdl(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.order_id + '\',\'' + value.name + '\',\'' + value.year + '\',\'' + $("#subcode").val() + '\',\'' + ext.toLowerCase() + '\',\'' + FileName + '\')"><span>' + FileName + '</span></a></td><td><a onclick="modalshowmdl(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.order_id + '\',\'' + value.name + '\',\'' + value.year + '\',\'' + $("#subcode").val() + '\',\'' + ext.toLowerCase() + '\',\'' + FileName + '\')"><span class="date">' + value1.Date + '</span><span><i class="ri-file-download-line"></i></span></a></td></tr></table>'
+                                    // trHTML += ' <table class="table"><tr> <input type="hidden" id="imagename1" value=\'' + value1.GalleryImagePath + '\'><td class="fileh6 courseFileName"><a onclick="modalshowmdl(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.order_id + '\',\'' + value.name + '\',\'' + value.year + '\',\'' + $("#subcode").val() + '\',\'' + ext.toLowerCase() + '\')"><i class="far fa-file-image"></i> <span>' + FileName + '</span></a></td> <td>File type : ' + ext.toLowerCase() + '</td><td>Created on : ' + value1.Date + '</td><td>Created by : ' + value1.Generated_by + '</td><td>File size : ' + value1.Img_Len + '</td> </tr></table>'
+                                    /**/
+                                });
+                                trHTML += '</div>';
+                            }
+                        })
+
+                        trHTML += "</div></div>";
+                    });
+                    trHTML += "</div></div>";
+                    $('#accordiandivmdl').append(trHTML);
+                    trHTML = "";
+
+
+
+                }
+            }
+        })
+    }
+    function courseadditionalres() {
+        debugger;
+        $.ajax({
+            type: "Get",
+            url: './Home/getresource_additional',
+            contentType: "application/json; charset=utf-8",
+            dataSrc: "",
+            data: { group_code: $("#groupcode").val() },
+            success: function (data) {
+
+                var cnt = 0;
+
+                if (data.length == 0) {
+                    /*$(".addDisciplinaryBox").hide();*/
+                    $('#noFolders').show();
+                    $('#foldersDiv').hide();
+
+
+
+                } else {
+                    $('#foldersDiv').show();
+
+                    $('#noFolders').hide();
+
+                    $('#accordiandiv').empty();
+
+                    trHTML = '<div class="" id="courseAccordion"><div class="accordion" id="accordionExample1">';
+                    var i = 0;
+                    $.each(data, function (key, value) {
+
+                        cnt++;
+                        var _id = "\'" + value.id + "\'";
+                        var _order_id = "\'" + value.order_id + "\'";
+                        var _status = "\'" + value.status + "\'";
+                        var _name = "\'" + value.name + "\'";
+                        var action = "\'" + value.action_name + "\'";
+                        var sanitized_name = _name.replace(/'/g, '');
+                        trHTML += ' <div class="accordion-item"> <h2 class="accordion-header" id="headingOne' + value.id + '" >    <button class="accordion-button" type="button" data-bs-toggle="collapse"  data-bs-target="#collapseOne' + value.id + '" aria-expanded="false" aria-controls="collapseOne' + value.id + '" >' + sanitized_name + '</button> </h2>';
+                        trHTML += '<div id="collapseOne' + value.id + '" class="accordion-collapse collapse" aria-labelledby="headingOne' + value.id + '" data-bs-parent="#accordionExample1" >';
+                        $.ajax({
+                            type: "GET",
+                            url: './Home/getcrseresrctrns',
+                            contentType: "application/json; charset=utf-8", async: false,
+                            data: {
+
+                                folder_id: value.id,
+                                group_code: $("#groupcode").val()
+
+                            },
+                            success: function (data1) {
+
+                                var _data1 = "\'" + data1.name + "\'";
+                                var _cnt = "\'" + cnt + "\'";
+                                trHTML += ' <table class="table"><tr> <td>' + data1.name + '</td></tr></table>';
+
+                            }
+
+                        });
+                        $.ajax({
+                            type: "GET",
+                            url: './Home/Getmodulepdf_img',
+                            contentType: "application/json; charset=utf-8", async: false,
+                            data: {
+                                folder_id: value.id,
+                                group_code: $("#groupcode").val(),
+                                folder_name: value.name,
+                            },
+                            success: function (data1) {
+                                trHTML += '<div class="accordion-body">';
+                                var obj = JSON.parse(data1);
+
+                                $.each(obj, function (key, value1) {
+
+                                    i++;
+                                    var ext = value1.GalleryImagePath.substr((value1.GalleryImagePath.lastIndexOf('.') + 1));
+                                    var icn = "";
+                                    if (ext.toLowerCase() == "pdf") {
+                                        icn = "<i class='far fa-file-pdf'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "doc") {
+                                        icn = "<i class='far fa-file-word'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "xlsx") {
+                                        icn = "<i class='far fa-file-excel'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "png") {
+                                        icn = "<i class='far fa-file-image'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg") {
+                                        icn = "<i class='far fa-file-image'></i>"
+                                    }
+                                    else {
+                                        icn = "<i class='<i class='far fa-file'></i>'></i>"
+                                    }
+                                    var FileName = value1.GalleryImagePath.slice(0, -4);
+                                    trHTML += ' <table class="table"><tr> <input type="hidden" id="imagename1" value=\'' + value1.GalleryImagePath + '\'><td class="fileh6 courseFileName t-w-800"><a onclick="modalshow_additional(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.name + '\',\'' + $("#groupcode").val() + '\',\'' + ext.toLowerCase() + '\',\'' + FileName + '\')"><span>' + FileName + '</span></a></td><td><a onclick="modalshow_additional(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.name + '\',\'' + $("#groupcode").val() + '\',\'' + ext.toLowerCase() + '\',\'' + FileName + '\')"><span class="date">' + value1.Date + '</span><span><i class="ri-file-download-line"></i></span></a></td></tr></table>'
+                                    // trHTML += ' <table class="table"><tr> <input type="hidden" id="imagename1" value=\'' + value1.GalleryImagePath + '\'><td class="fileh6 courseFileName"><a onclick="modalshow_additional(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.name + '\',\'' + $("#groupcode").val() + '\',\'' + ext.toLowerCase() + '\')"><i class="far fa-file-image"></i> <span>' + value1.GalleryImagePath + '</span></a></td> <td>File type : ' + ext.toLowerCase() + '</td><td>Created on : ' + value1.Date + '</td><td>File size : ' + value1.Img_Len + '</td> </tr></table>'
+
+
+
+                                });
+
+                                trHTML += '</div>';
+                            }
+                        })
+                        trHTML += "</div></div>";
+                    });
+                    trHTML += "</div></div>";
+                    $('#accordiandiv').append(trHTML);
+                    trHTML = "";
+                }
+            }
+        })
+    }
+    function courserepoready() {
+        $.ajax({
+            type: "Get",
+            url: './Home/getcrseresrcrepo',
+            contentType: "application/json; charset=utf-8",
+            dataSrc: "",
+            data: { group_code: $("#subcode").val(), type: "R" },
+            success: function (data) {
+                var cnt = 0;
+                if (data.length == 0) {
+
+                    $('#noFoldersrepo').show();
+                    $('#foldersDivrepo').hide();
+                } else {
+                    $('#foldersDivrepo').show();
+                    $('#noFoldersrepo').hide();
+                    $('#accordiandivrepo').empty();
+
+                    trHTML = '<div class="" id="courseAccordionrepo"><div class="accordion" id="accordionExample2">';
+                    var i = 0;
+                    $.each(data, function (key, value) {
+
+
+                        cnt++;
+                        var _id = "\'" + value.id + "\'";
+                        var _order_id = "\'" + value.order_id + "\'";
+                        var _status = "\'" + value.status + "\'";
+                        var _name = "\'" + value.name + "\'";
+                        var _accessright = "\'" + value.action_name + "\'";
+                        var sanitized_name = _name.replace(/'/g, '');
+                        trHTML += ' <div class="accordion-item"> <h2 class="accordion-header" id="headingOne' + value.id + '" >    <button class="accordion-button" type="button" data-bs-toggle="collapse"  data-bs-target="#collapseOne' + value.id + '" aria-expanded="false" aria-controls="collapseOne' + value.id + '" >' + sanitized_name + '</button> </h2>';
+                        trHTML += '<div id="collapseOne' + value.id + '" class="accordion-collapse collapse" aria-labelledby="headingOne' + value.id + '" data-bs-parent="#accordionExample2" >';
+
+                        $.ajax({
+                            type: "GET",
+                            url: './Home/getcrseresrctrnsrepo',
+                            contentType: "application/json; charset=utf-8", async: false,
+                            data: {
+
+                                folder_id: value.order_id,
+                                group_code: $("#subcode").val()
+                            },
+                            success: function (data1) {
+                                var _data1 = "\'" + data1.name + "\'";
+                                var _cnt = "\'" + cnt + "\'";
+                                //trHTML += '<div>' + data1.name + '</div>';
+                                trHTML += ' <table class="table"><tr> <td>' + data1.name + '</td></tr></table>';
+                            }
+
+                        });
+
+
+                        $.ajax({
+                            type: "GET",
+                            url: './Home/Getfolderpdf_imgrepo',
+                            contentType: "application/json; charset=utf-8", async: false,
+                            data: {
+                                folder_id: value.order_id,
+                                group_code: $("#subcode").val(),
+                                folder_name: value.name,
+                            },
+                            success: function (data1) {
+                                trHTML += '<div class="accordion-body">';
+                                var obj = JSON.parse(data1);
+
+                                $.each(obj, function (key, value1) {
+
+                                    i++;
+                                    var ext = value1.GalleryImagePath.substr((value1.GalleryImagePath.lastIndexOf('.') + 1));
+                                    var icn = "";
+                                    if (ext.toLowerCase() == "pdf") {
+                                        icn = "<i class='far fa-file-pdf'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "doc") {
+                                        icn = "<i class='far fa-file-word'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "xlsx") {
+                                        icn = "<i class='far fa-file-excel'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "png") {
+                                        icn = "<i class='far fa-file-image'></i>"
+                                    }
+                                    else if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg") {
+                                        icn = "<i class='far fa-file-image'></i>"
+                                    }
+                                    else {
+                                        icn = "<i class='<i class='far fa-file'></i>'></i>"
+                                    }
+
+                                    var FileName = value1.GalleryImagePath.slice(0, -4);
+                                    trHTML += ' <table class="table"><tr> <input type="hidden" id="imagename1" value=\'' + value1.GalleryImagePath + '\'><td class="fileh6 courseFileName t-w-800"><a onclick="modalshowrepo(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.name + '\',\'' + $("#subcode").val() + '\',\'' + ext.toLowerCase() + '\',\'' + FileName + '\')"><i class="far fa-file-image"></i> <span>' + FileName + '</span></a></td><td class="fileh6 courseFileName"><a onclick="modalshowrepo(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.name + '\',\'' + $("#subcode").val() + '\',\'' + ext.toLowerCase() + '\',\'' + FileName + '\')"><span class="date">' + value1.Date + '</span><span><i class="ri-file-download-line"></i></span></a></td></tr></table>'
+                                    // trHTML += ' <table class="table"><tr> <input type="hidden" id="imagename1" value=\'' + value1.GalleryImagePath + '\'><td class="fileh6 courseFileName t-w-800"><a onclick="modalshowrepo(\'' + i + '\',\'' + value.id + '\',\'' + value1.GalleryImagePath + '\',\'' + value.name + '\',\'' + $("#subcode").val() + '\')"><i class="far fa-file-image"></i> <span>' + value1.GalleryImagePath + '</span></a></td> <td>File type : ' + ext.toLowerCase() + '</td><td>Created on : ' + value1.Date + '</td><td>Created by : ' + value1.Generated_by + '</td><td>File size : ' + value1.Img_Len + '</td> </tr></table>'
+
+                                });
+                                trHTML += '</div>';
+                            }
+                        })
+                        trHTML += "</div></div>";
+
+                    });
+                    trHTML += "</div></div>";
+                    $('#accordiandivrepo').append(trHTML);
+
+                    trHTML = "";
+
+
+
+                }
+            }
+        })
+    }
+
+    function modalshowmdl(i, id, path, folderid, foldername, year, groupcode, extension, filename) {
+
+        //debugger;
+        ViewPdf_mdl(id, path, folderid, foldername, year, groupcode, extension, filename);
+    }
+    function modalshow_additional(i, id, path, foldername, groupcode, extension, filename) {
+
+        //  debugger;
+        ViewPdf_additional(id, path, foldername, groupcode, extension, filename);
+    }
+    function modalshowrepo(i, id, path, foldername, groupcode, extension, filename) {
+
+        //  debugger;
+        ViewPdf_repo(id, path, foldername, groupcode, extension, filename);
+    }
+    function Base64ToBytes(base64) {
+        var s = window.atob(base64);
+        var bytes = new Uint8Array(s.length);
+        for (var i = 0; i < s.length; i++) {
+            bytes[i] = s.charCodeAt(i);
+        }
+        return bytes;
+    };
+    function ViewPdf_repo(id, path, foldername, groupcode, extension, filename) {
+        //  debugger;
+        $.ajax({
+            type: "GET",
+            url: './Home/PdfGet_repo',
+            data: { PDFID: id, 'path': path, 'foldername': foldername, 'groupcode': groupcode },
+            success: function (data, fileType1) {
+                var fileData = data.Base64Content;
+                var fileType = data.FileType;
+                var fileName = filename + "." + extension;
+
+                if (fileData != "") {
+                    downloadFile(fileData, fileType, fileName);
+                } else {
+                    alert("File not available!");
+                }
+            },
+
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+    function ViewPdf_additional(id, path, foldername, groupcode, extension, filename) {
+        //  debugger;
+        $.ajax({
+            type: "GET",
+            url: './Home/PdfGet_additional',
+            data: { PDFID: id, 'path': path, 'foldername': foldername, 'groupcode': groupcode },
+            success: function (data, fileType1) {
+                var fileData = data.Base64Content;
+                var fileType = data.FileType;
+                var fileName = filename + "." + extension;
+
+                if (fileData != "") {
+                    downloadFile(fileData, fileType, fileName);
+                } else {
+                    alert("File not available!");
+                }
+            },
+
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+
+    function downloadFile(fileData, fileType, fileName) {
+        var urlSafeData = fileData;
+        var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+
+        var byteCharacters = window.atob(base64Data);
+        var byteArrays = [];
+
+        for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+            var slice = byteCharacters.slice(offset, offset + 512);
+
+            var byteNumbers = new Array(slice.length);
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            var byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        var blob = new Blob(byteArrays, { type: fileType });
+        var blobUrl = window.URL.createObjectURL(blob);
+
+        var link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+    }
+
+    function ViewPdf_mdl(id, path, folderid, foldername, year, groupcode, extension, filename) {
+        $.ajax({
+            type: "GET",
+            url: './Home/PdfGet1',
+            data: { PDFID: id, 'path': path, 'folderid': folderid, 'foldername': foldername, 'year': year, 'groupcode': groupcode, 'extension': extension },
+            success: function (data, fileType1) {
+                var fileData = data.Base64Content;
+                var fileType = data.FileType;
+                var fileName = filename + "." + extension;
+
+                if (fileData != "") {
+                    downloadFile(fileData, fileType, fileName);
+                } else {
+                    alert("File not available!");
+                }
+            },
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+
+    //function ViewPdf_repo(id, path, foldername, groupcode) {
+    //    //  debugger;
+    //    $.ajax({
+    //        type: "GET",
+    //        url: './Home/PdfGet_repo',
+    //        data: { PDFID: id, 'path': path, 'foldername': foldername, 'groupcode': groupcode },
+    //        success: function (data, fileType1) {
+    //            //  debugger;
+    //            console.log(data);
+    //            var fileData = data.Base64Content;
+    //            var fileType = data.FileType; // Assuming the data contains the file content
+    //            if (fileData != "") {
+    //                var fileWindow = window.open("");
+    //                if (fileWindow) {
+    //                    var urlSafeData = fileData;
+    //                    var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+
+    //                    var byteCharacters = window.atob(base64Data);
+    //                    var byteArrays = [];
+
+    //                    for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+    //                        var slice = byteCharacters.slice(offset, offset + 512);
+
+    //                        var byteNumbers = new Array(slice.length);
+    //                        for (var i = 0; i < slice.length; i++) {
+    //                            byteNumbers[i] = slice.charCodeAt(i);
+    //                        }
+
+    //                        var byteArray = new Uint8Array(byteNumbers);
+    //                        byteArrays.push(byteArray);
+    //                    }
+
+    //                    var blob = new Blob(byteArrays, { type: fileType });
+    //                    var blobUrl = window.URL.createObjectURL(blob);
+    //                    setTimeout(function () {
+    //                        fileWindow.document.write(
+    //                            "<iframe width='100%' height='100%' src='" + blobUrl + "' frameborder='0' style='border: 0; top: 0px; left: 0px; bottom: 0px; right: 0px; width: 100%; height: 100%;' allowfullscreen></iframe>"
+    //                        );
+    //                        fileWindow.document.title = "GITAM | Student portal";
+    //                    }, 500); // Delay in milliseconds (adjust as needed)
+    //                } else {
+    //                    alert("Failed to open file window.");
+    //                }
+    //            } else {
+    //                alert("File not available!");
+    //            }
+    //        },
+
+    //        error: function (request, status, error) {
+    //            var val = request.responseText;
+    //            alert("PDF file not available! " + val);
+    //        }
+    //    });
+    //}
+    //function ViewPdf_additional(id, path, foldername, groupcode, extension) {
+    //    //  debugger;
+    //    $.ajax({
+    //        type: "GET",
+    //        url: './Home/PdfGet_additional',
+    //        data: { PDFID: id, 'path': path, 'foldername': foldername, 'groupcode': groupcode },
+    //        success: function (data, fileType1) {
+    //            //  debugger;
+    //            console.log(data);
+    //            var fileData = data.Base64Content;
+    //            var fileType = data.FileType; // Assuming the data contains the file content
+    //            if (fileData != "") {
+    //                var fileWindow = window.open("");
+    //                if (fileWindow) {
+    //                    var urlSafeData = fileData;
+    //                    var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+
+    //                    var byteCharacters = window.atob(base64Data);
+    //                    var byteArrays = [];
+
+    //                    for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+    //                        var slice = byteCharacters.slice(offset, offset + 512);
+
+    //                        var byteNumbers = new Array(slice.length);
+    //                        for (var i = 0; i < slice.length; i++) {
+    //                            byteNumbers[i] = slice.charCodeAt(i);
+    //                        }
+
+    //                        var byteArray = new Uint8Array(byteNumbers);
+    //                        byteArrays.push(byteArray);
+    //                    }
+
+    //                    var blob = new Blob(byteArrays, { type: fileType });
+    //                    var blobUrl = window.URL.createObjectURL(blob);
+    //                    setTimeout(function () {
+    //                        fileWindow.document.write(
+    //                            "<iframe width='100%' height='100%' src='" + blobUrl + "' frameborder='0' style='border: 0; top: 0px; left: 0px; bottom: 0px; right: 0px; width: 100%; height: 100%;' allowfullscreen></iframe>"
+    //                        );
+    //                        fileWindow.document.title = "GITAM | Student portal";
+    //                    }, 500); // Delay in milliseconds (adjust as needed)
+    //                } else {
+    //                    alert("Failed to open file window.");
+    //                }
+    //            } else {
+    //                alert("File not available!");
+    //            }
+    //        },
+
+    //        error: function (request, status, error) {
+    //            var val = request.responseText;
+    //            alert("PDF file not available! " + val);
+    //        }
+    //    });
+    //}
+    //function ViewPdf_mdl(id, path, folderid, foldername, year, groupcode, extension) {
+    //    //  debugger;
+    //    $.ajax({
+    //        type: "GET",
+    //        url: './Home/PdfGet',
+    //        data: { PDFID: id, 'path': path, 'folderid': folderid, 'foldername': foldername, 'year': year, 'groupcode': groupcode, 'extension': extension },
+    //        success: function (data, fileType1) {
+    //            //  debugger;
+    //            console.log(data);
+    //            var fileData = data.Base64Content;
+    //            var fileType = data.FileType; // Assuming the data contains the file content
+    //            if (fileData != "") {
+    //                var fileWindow = window.open("");
+    //                if (fileWindow) {
+    //                    var urlSafeData = fileData;
+    //                    var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+
+    //                    var byteCharacters = window.atob(base64Data);
+    //                    var byteArrays = [];
+
+    //                    for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+    //                        var slice = byteCharacters.slice(offset, offset + 512);
+
+    //                        var byteNumbers = new Array(slice.length);
+    //                        for (var i = 0; i < slice.length; i++) {
+    //                            byteNumbers[i] = slice.charCodeAt(i);
+    //                        }
+
+    //                        var byteArray = new Uint8Array(byteNumbers);
+    //                        byteArrays.push(byteArray);
+    //                    }
+
+    //                    var blob = new Blob(byteArrays, { type: fileType });
+    //                    var blobUrl = window.URL.createObjectURL(blob);
+    //                    setTimeout(function () {
+    //                        fileWindow.document.write(
+    //                            "<iframe width='100%' height='100%' src='" + blobUrl + "' frameborder='0' style='border: 0; top: 0px; left: 0px; bottom: 0px; right: 0px; width: 100%; height: 100%;' allowfullscreen></iframe>"
+    //                        );
+    //                        fileWindow.document.title = "GITAM | Student portal";
+    //                    }, 500); // Delay in milliseconds (adjust as needed)
+    //                } else {
+    //                    alert("Failed to open file window.");
+    //                }
+    //            } else {
+    //                alert("File not available!");
+    //            }
+    //        },
+
+    //        error: function (request, status, error) {
+    //            var val = request.responseText;
+    //            alert("PDF file not available! " + val);
+    //        }
+    //    });
+    //}
+
+    function Lmsback() {
+
+
+        $('#maindiv').html("");
+        $.ajax({
+
+            type: 'GET',
+            url: './Home/getlmssubjects',
+
+            success: (function (result) {
+
+                $('#maindiv').html(result);
+
+
+            })
+        });
+
+    }
+</script>

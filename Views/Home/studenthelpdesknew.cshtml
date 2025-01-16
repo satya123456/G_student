@@ -1,0 +1,37 @@
+﻿@{          // Assuming that the username is stored in session
+    string username = Context.Session["helpdesk_user"]?.ToString();
+    string password = Context.Session["helpdesk_password"]?.ToString();
+    string redirectUrl = $"https://bellthecats.gitam.edu/login.php?type=g-student&username={username}&password={password}";
+
+
+
+
+    }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Page Title</title>
+</head>
+<body>
+    <h1>Welcome to Your Page</h1>
+
+    <script type="text/javascript">
+        // Redirect to the constructed URL
+      window.location.href = '@Html.Raw(redirectUrl)';
+        @*window.open('@Html.Raw(redirectUrl)', '_blank');*@
+    </script>
+</body>
+</html>
+
+
+<style>
+    #container {
+        width: 100%;
+    }
+</style>
+
+
+
+

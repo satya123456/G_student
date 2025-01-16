@@ -1,0 +1,306 @@
+﻿
+@model Gstudent.ViewModels.Studentrecords.Attendancesummary
+
+
+<style>
+    .progress {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        border: none;
+        border-radius: 10px;
+        height: 15px;
+    }
+
+    progress {
+        text-align: left;
+    }
+
+        progress:after {
+            content: attr(value)'%';
+        }
+
+    .progress::-webkit-progress-value {
+        border-radius: 10px;
+    }
+
+    .progress3::-webkit-progress-value {
+        background: rgb(44, 175, 254) !important;
+    }
+
+    .progress::-webkit-progress-bar {
+        background-color: #f0f0f0;
+    }
+</style>
+<style>
+    /*.circle {
+        border-radius: 50%;
+        border: 5px solid #5f6b9b;
+        margin: 20px auto;
+        width: 150px;
+        height: 150px;
+        position: relative;
+    }*/
+
+    .highcharts-title {
+        font-size: 20px !important;
+        color: rgb(44, 175, 254) !important;
+        font-weight: bold !important;
+        fill: #007367 !important;
+    }
+
+    .degree {
+        font-size: 15px !important;
+        color: #007367 !important;
+        font-weight: bold !important;
+        fill: #007367 !important;
+    }
+
+    .red {
+        background-color: red;
+    }
+
+    .green {
+        background-color: green;
+    }
+
+    .box {
+        height: 20px;
+        width: 20px;
+        margin-bottom: 15px;
+        border: 1px solid black;
+        float: left;
+    }
+</style>
+
+
+<section class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">My credits</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="box-inner">
+        <p> <div class='box green'></div>&nbsp; &nbsp; Green color in the Pending Credits, indicates additional credits taken.</p>
+        <p>
+            <div class='box red'></div>&nbsp; &nbsp;  Red color in the Pending credits indicates shortage of credits.
+        </p>
+        <p>For any queries, please send an email to <b style="color:blue;font-size:20px;">support_creditdeficit@gitam.in</b></p>
+        <p>
+            <b style="color:red;font-size:20px;"> Note:</b><b style="color:blue;font-size:20px;"> Please note that, the credit requirements have to be fulfilled for graduation</b>
+        </p>
+        <div class="row">
+
+            <div class="col-md-12">
+                <h6>&nbsp;</h6>
+                <div class="box-container-border">
+                    <h6 class="text-center">Credits per course type</h6>
+                    @if (Model.degreeplan != null)
+                    {
+
+
+
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>UC</th>
+                                    <th>FC</th>
+                                    <th>PC</th>
+                                    <th>PE</th>
+                                    <th>OE</th>
+                                    <th>MIC</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var abs in Model.degreeplan)
+                                {
+
+
+
+                                <tr>
+                                    @if (abs.Category == "Pending credits (Yet to register)")
+                                    {
+                                        <td>@abs.Category</td>
+                                        if (abs.UC.Contains("-"))
+                                        {
+                                            <td style='background-color:green;color:#fff;'>@abs.UC</td>
+                                        }
+                                        else if (abs.UC == "0")
+                                        {
+                                            <td>@abs.UC</td>
+                                        }
+                                        else
+                                        {
+                                            <td style='background-color:red;color:#fff;'>@abs.UC</td>
+                                        }
+                                        if (abs.FC.Contains("-"))
+                                        {
+                                            <td style='background-color:green;color:#fff;'>@abs.FC</td>
+                                        }
+                                        else if (abs.FC == "0")
+                                        {
+                                            <td>@abs.FC</td>
+                                        }
+                                        else
+                                        {
+                                            <td style='background-color:red;color:#fff;'>@abs.FC</td>
+                                        }
+                                        if (abs.PC.Contains("-"))
+                                        {
+                                            <td style='background-color:green;color:#fff;'>@abs.PC</td>
+                                        }
+                                        else if (abs.PC == "0")
+                                        {
+                                            <td>@abs.PC</td>
+                                        }
+                                        else
+                                        {
+                                            <td style='background-color:red;color:#fff;'>@abs.PC</td>
+                                        }
+                                        if (abs.PE.Contains("-"))
+                                        {
+                                            <td style='background-color:green;color:#fff;'>@abs.PE</td>
+                                        }
+                                        else if (abs.PE == "0")
+                                        {
+                                            <td>@abs.PE</td>
+                                        }
+                                        else
+                                        {
+                                            <td style='background-color:red;color:#fff;'>@abs.PE</td>
+                                        }
+                                        if (abs.OE.Contains("-"))
+                                        {
+                                            <td style='background-color:green;color:#fff;'>@abs.OE</td>
+                                        }
+                                        else if (abs.OE == "0")
+                                        {
+                                            <td>@abs.OE</td>
+                                        }
+                                        else
+                                        {
+                                            <td style='background-color:red;color:#fff;'>@abs.OE</td>
+                                        }
+
+
+                                        if (abs.MIC.Contains("-"))
+                                        {
+                                            <td style='background-color:green;color:#fff;'>@abs.MIC</td>
+                                        }
+                                        else if (abs.MIC == "0")
+                                        {
+                                            <td>@abs.MIC</td>
+                                        }
+                                        else
+                                        {
+                                            <td style='background-color:red;color:#fff;'>@abs.MIC</td>
+                                        }
+
+                                        if (abs.Total.Contains("-"))
+                                        {
+                                            <td style='background-color:green;color:#fff;'>@abs.Total</td>
+                                        }
+                                        else if (abs.Total == "0")
+                                        {
+                                            <td>@abs.Total</td>
+                                        }
+                                        else
+                                        {
+                                            <td style='background-color:red;color:#fff;'>@abs.Total</td>
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        <td>@abs.Category</td>
+                                        <td>@abs.UC</td>
+                                        <td>@abs.FC</td>
+                                        <td>@abs.PC</td>
+                                        <td>@abs.PE</td>
+                                        <td>@abs.OE</td>
+                                        <td>@abs.MIC</td>
+                                        <td>@abs.Total</td>
+
+                                    }
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+    @{Html.RenderPartial("Course_structurenew", Model);}
+
+</section>
+
+<script>
+    $(function () {
+        debugger;
+        $('.highcharts-credits').hide();
+        var percentage = parseFloat($("#userId").val());
+        var total = $("#total").val();
+        if (percentage > total) {
+            totalpercentage = 100;
+        }
+        else {
+            totalpercentage = (percentage / total) * 100;
+        }
+
+        var absent = total - percentage;
+        $('#degreePiechart').highcharts({
+            colors: ['rgb(44, 175, 254) ', 'rgb(231, 231, 231)'],
+            title: {
+                text: totalpercentage + '%',
+                verticalAlign: 'middle',
+                fontSize: '85',
+            },
+            plotOptions: {
+                radialBar: {
+                    hollow: {
+                        size: '5%',
+                    }
+                },
+                track: {
+                    background: "#e7e7e7",
+                    strokeWidth: '75%',
+                },
+            },
+            series: [{
+                type: 'pie',
+                name: 'credits',
+                innerSize: '80%',
+                data: [{
+                    name: 'registered',
+                    y: percentage
+                }, {
+                    name: 'remaining',
+                    y: absent
+                }]
+            }],
+            chart: {
+                height: 300,
+                type: '',
+            },
+        });
+    });
+</script>
+

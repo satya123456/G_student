@@ -1,0 +1,1399 @@
+﻿
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<style>
+
+    rect {
+        fill: #ccffef !important;
+        filter: none;
+    }
+    .dash_large_card_colors .cardBox .subTitle {
+        margin-bottom: 0px;
+        font-size: 13px!important;
+        color: var(--secondary-dark-color);
+    }
+    @*.leaves {
+        background: #ffeaeb;
+    }*@
+
+        .leaves .cardBox {
+            background: transparent;
+            border-radius: 10px;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: none;
+            border-top: 1px solid #f3f3f3;
+            padding: 0px;
+            display: block;
+        }
+
+            .leaves .cardBox .leave_name {
+                border-radius: 5px 5px 6px 6px;
+                color: #333;
+                background:#ccffef;
+            }
+
+           @* .leaves .cardBox.cas .leave_name {
+                background: #0dcaf0;
+            }
+
+            .leaves .cardBox.earn .leave_name {
+                background: #d55307;
+            }
+
+            .leaves .cardBox.med .leave_name {
+                background: #06bb99;
+            }*@
+
+            .leaves .cardBox .leave_name h6 {
+                text-align: center;
+                vertical-align: middle;
+                padding: 20px 0px;
+                padding-bottom:2px;
+                font-size:15px;
+            }
+                .leaves .cardBox .leave_name h4 {
+                    padding-bottom: 15px;
+                    font-size: 18px;
+                    color: #007367;
+                }
+                .leaves .cardBox .card_middle {
+                text-align: center;
+                padding: 20px 5px;
+            }
+
+            .leaves .cardBox.cas .card_middle {
+                color: #0dcaf0;
+            }
+
+            .leaves .cardBox.earn .card_middle {
+                color: #d55307;
+            }
+
+            .leaves .cardBox.med .card_middle {
+                color: #06bb99;
+            }
+
+            .leaves .cardBox .card_middle h6 {
+                font-size: 13px;
+            }
+
+            .leaves .cardBox .card_middle h4 {
+                font-size: 27px;
+            }
+
+            .leaves .cardBox .card-footer {
+                text-align: center;
+                padding-bottom: 20px;
+            }
+
+                .leaves .cardBox .card-footer h6 {
+                    font-size: 14px;
+                }
+
+                    .leaves .cardBox .card-footer h6 span {
+                        color: #007367;
+                    }
+    .dash_card_count .cardBox .top_text {
+        padding:10px 10px 0px 10px;
+    }
+    .dashboardCardContainer {
+        margin: 20px -12px 10px;
+    }
+    @*.results {
+        background: #fff1ea;
+    }*@
+   /* .dashboardCardContainer{
+        margin-bottom:20px;
+    }*/
+    .dashboardCardContainer table, .graphBoxContainer table {
+        background: #fff;
+    }
+   @* .hostel_bio {
+        background: #eaf9ff;
+    }
+    .hostel_pay {
+        background: #fbeaff;
+    }
+    .tution_pay {
+        background: #f3ffea;
+    }
+    .campus_bio {
+        background: #ffeaf5;
+    }*@
+   /* .up h6 {
+        font-size: 16px;
+        white-space: nowrap;
+        padding-left: 2px !important;
+    }*/
+        @* .attendance .dashboardCardContainer .cardBox {
+        display:inline-flex;
+    }*@
+
+    .circle {
+        border-radius: 50%;
+        border: 5px solid #5f6b9b;
+        margin: 20px auto;
+        width: 150px;
+        height: 150px;
+        position: relative;
+    }
+
+    .highcharts-title {
+        font-size: 19px !important;
+        color: rgb(0 161 27) !important;
+        font-weight: bold !important;
+        fill: rgb(0 161 27) !important;
+    }
+    #highcharts-57u1skn-4 {
+        max-height: 114px !important;
+        display: block !important;
+    }
+    .highcharts-background, rect{
+        background:#fff;
+        fill:#fff !important;
+        width:0px;
+    }
+    .cardsWithChart .card-body {
+        padding: 10px 10px 0px 15px;
+        height: 80px;
+margin-bottom:10px;
+    }
+    .cardsWithChart hr{
+        margin-bottom:0px;
+    }
+    .cardsWithChart .d-flex.justify-content-between {
+        padding: 5px 15px 0px;
+    }
+    .cardsWithChart  #piechart {
+        height: 115px;
+        width:150px;
+    }
+    .cardsWithChart .card-footer {
+        padding: 10px 10px 7px 15px;
+    }
+    .scrollbarDB{
+        max-height:220px;
+        overflow:auto;
+    }
+    .tution_pay, .hostel_bio, .hostel_pay {
+        min-height: 320px;
+    }
+    .dashboardCardContainer .cardBox {
+        min-height:95px;
+    }
+    .graphBoxContainer .sub-title {
+        margin-top: 5px;
+    }
+
+    .graphBoxContainer hr {
+        margin-top: 10px;
+    }
+
+    .graphBoxContainer .btn-sm {
+        padding: 2px 5px 0px;
+        font-size: 13px;
+    }
+    .feedback p {
+        background: #ccffef;
+        animation: blinker 10s linear infinite;
+        padding: 3px 0px;
+        border-radius: 4px;
+        color: #242323;
+        text-align: center;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .feedback p:hover {
+            color: red;
+            animation: none;
+        }
+
+    .fa-hand-point-right {
+        color: red;
+    }
+
+    @@keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    @@media(max-width:400px) {
+        .feedback p {
+            font-size: 10px;
+        }
+    }
+    #mail table tr{
+        cursor:pointer;
+    }
+    #mail table tr:hover {
+        box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+        z-index: 2;
+    }
+
+    #mail table tr td {
+        white-space: nowrap;
+    }
+
+        #mail table tr td .ellipsis {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 500px;
+            color: #9f9c9c;
+        }
+
+        #mail table tr td.mailfrom {
+            padding-right: 50px;
+        }
+        #mail table tr td a{
+            color:#333;
+        }
+    /*.events {
+        background: #f1f1f1;
+    }
+
+    .notifications {
+        background: #f1f1f1;
+    }
+
+    .proceedings {
+        background: #f1f1f1;
+    }*/
+</style>
+@{
+    var hostler = Convert.ToString(Session["hostler"]);
+}
+
+<script src="https://code.highcharts.com/modules/data.js"></script>
+
+<script src="~/Scripts/highcharts.js"></script>
+<script src="~/Scripts/exporting.js"></script>
+<div class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title"></h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    @{ var feedback = Convert.ToString(Session["fbflag"]); }
+    @if (feedback == "Y")
+    {
+        if (Convert.ToString(Session["Curr_sem"]) != "2")
+        {
+            <div class="row">
+                <div class="feedback">
+                    <p onclick="loadConfigView('37');">
+                        @*<i class="fa-solid fa-hand-point-right"></i>*@
+                        <img src="~/images/new.gif" /> Please provide  a feedback on faculty  for Odd semester Ignore if you have already given.
+
+                    </p>
+                </div>
+            </div>
+        }
+
+    }
+    else { }
+
+    <div class="row">
+        @*<div class="col-md-12 col-xl-12" id="mail">
+                <div class="graphBoxContainer hostel_bio" id="">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="sub-title">Proceedings, Notifications and mails</h6>
+                        <a class="btn btn-primary btn-sm" onclick="loadConfigView('66')">More..</a>
+                    </div>
+                    <hr>
+                    <div id="" class="scrollbarAll scrollbarDB">
+                        <table class="table">
+                            <tr onclick="getmailmodal();">
+                                <td class="mailfrom">Noreply Broadcast</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>New arrivals of Print Books-KRC-November-2023 - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            Dear Sir or Madam,
+                                            Greetings from KRC, Visakhapatnam!
+                                            I would like to inform you that KRC has been expanding its print databases with new titles. We received new books on many topics in November 2023 on three campuses.
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a></td>
+                                <td>08-Dec</td>
+                            </tr>
+                            <tr onclick="getmailmodal();">
+                                <td class="mailfrom">cto gitam</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>CATS Bulletin - G-Student - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            Dear Sir or Madam,
+                                            Greetings from KRC, Visakhapatnam!
+                                            I would like to inform you that KRC has been expanding its print databases with new titles. We received new books on many topics in November 2023 on three campuses.
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a>
+                                </td>
+                                <td>08-Dec</td>
+                            </tr>
+                            <tr onclick="getmailmodal();">
+                                <td class="mailfrom">cto gitam</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>CATS Bulletin - G-Student - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            Dear Sir or Madam,
+                                            Greetings from KRC, Visakhapatnam!
+                                            I would like to inform you that KRC has been expanding its print databases with new titles. We received new books on many topics in November 2023 on three campuses.
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a>
+                                </td>
+                                <td>08-Dec</td>
+                            </tr>
+                            <tr class="events" onclick="getmailmodal();">
+                                <td class="mailfrom">G-Events</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>New event info : Quantum Cryptography and Quantum Computation - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            G-Events ( Meetings and Workshops )
+                                            Dear Sir / Madam,
+
+                                            GITAM new event details
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a>
+                                </td>
+                                <td>06-Dec</td>
+                            </tr>
+                            <tr class="events" onclick="getmailmodal();">
+                                <td class="mailfrom">G-Events</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>New event info : Campus drive - Intellipaat - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            G-Events ( Meetings and Workshops )
+                                            Dear Sir / Madam,
+
+                                            GITAM new event details
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a>
+                                </td>
+                                <td>06-Dec</td>
+                            </tr>
+                            <tr class="proceedings" onclick="getmailmodal();">
+                                <td class="mailfrom">Pro VC</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>Proceedings :  Campus drive - TATA - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            G-Events ( Meetings and Workshops )
+                                            Dear Sir / Madam,
+
+                                            GITAM new event details
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a>
+                                </td>
+                                <td>06-Dec</td>
+                            </tr>
+                            <tr class="notifications" onclick="getmailmodal();">
+                                <td class="mailfrom">noreply</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>Notifications :  Campus drive - TATA - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            G-Events ( Meetings and Workshops )
+                                            Dear Sir / Madam,
+
+                                            GITAM new event details
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a>
+                                </td>
+                                <td>06-Dec</td>
+                            </tr>
+                            <tr class="events" onclick="getmailmodal();">
+                                <td class="mailfrom">G-Events</td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <div>New event info :  Campus drive - TATA - &nbsp;&nbsp;</div>
+                                        <div class="ellipsis">
+                                            G-Events ( Meetings and Workshops )
+                                            Dear Sir / Madam,
+
+                                            GITAM new event details
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="~/images/student-handbook.pdf" target="_blank"><i class="ri-attachment-2"></i></a>
+                                </td>
+                                <td>06-Dec</td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>*@
+        <div class="col-md-6 col-xl-4" id="leaves_div">
+            <div class="graphBoxContainer leaves">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Leaves &amp; Permissions</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('6')">More..</a>
+                </div>
+                <hr>
+                <div class="row dashboardCardContainer ">
+                    <div class="col-md-4">
+                        <div class="cardBox cas up">
+                            <div class="leave_name ">
+                                <h6>Pending</h6>
+                                <h4 class="text-center" id="under">@ViewBag.underprocess</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="cardBox earn">
+                            <div class="leave_name ">
+                                <h6>Approved</h6>
+                                <h4 class="text-center" id="approve">@ViewBag.approved</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="cardBox med">
+                            <div class="leave_name ">
+                                <h6>Availed</h6>
+                                <h4 class="text-center" id="reject">@ViewBag.rejected</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4" id="attendance_div">
+            <div class="graphBoxContainer leaves">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Attendance</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('2')">More..</a>
+                </div>
+                <hr>
+                <div class="row dashboardCardContainer ">
+                    <div class="col-md-4">
+                        <div class="cardBox cas up">
+                            <div class="leave_name ">
+                                <h6>Total</h6>
+                                <h4 class="text-center" id="tot_atd">N/A</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="cardBox earn">
+                            <div class="leave_name ">
+                                <h6>Present</h6>
+                                <h4 class="text-center" id="attendance_status">N/A</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="cardBox med">
+                            <div class="leave_name ">
+                                <h6>Absent</h6>
+                                <h4 class="text-center" id="attendance_absebt_count">N/A</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4" id="attendance_div">
+            <div class="graphBoxContainer leaves">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Results</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('13')">More..</a>
+                </div>
+                <hr>
+                <div class="row dashboardCardContainer ">
+                    @*<div class="col-md-4">
+                        <div class="cardBox cas up">
+                            <div class="leave_name ">
+                                <h6>Latest credits</h6>
+                                <h4 class="text-center" id="tcred">N/A</h4>
+                            </div>
+
+                        </div>
+
+                    </div>*@
+                    <div class="col-md-6">
+                        <div class="cardBox earn">
+                            <div class="leave_name ">
+                                <h6>CGPA</h6>
+                                <h4 class="text-center" id="cgpa">N/A</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="cardBox med">
+                            <div class="leave_name ">
+                                <h6>SGPA</h6>
+                                <h4 class="text-center" id="sgpa">N/A</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @*<div class="col-md-6 col-xl-4" id="attendance_div">
+
+                <div class="dashboardCardContainer ">
+                    <div class="row dash_large_card_colors ">
+                        <div class="col-md-12 cardsWithChart">
+                            <div class="cardBox">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="sub-title">Attendance</h6>
+                                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('2')">More..</a>
+                                </div>
+                                <hr>
+                                <div class="card-body">
+
+                                    <h5 class="cardTitle cardTitleLight">Total</h5>
+
+                                    <div>
+                                        <div id="piechart"> </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-footer bg_red">
+                                    <div>
+                                        <h5 class="cardTitle cardTitleLight">Today's</h5>
+                                        <h3 class="cardValue" id="todayattendance"> Present</h3>
+                                    </div>
+                                    <div>
+                                        <h5 class="cardTitle cardTitleLight">P</h5>
+                                        <h3 class="cardValue" id="attendance_status"> N/A</h3>
+                                    </div>
+                                    <div>
+                                        <h5 class="cardTitle cardTitleLight">A</h5>
+                                        <h3 class="cardValue" id="attendance_absebt_count"> N/A</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="graphBoxContainer results">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="sub-title">Results</h6>
+                        <a class="btn btn-primary btn-sm" onclick="loadConfigView('13')">More..</a>
+                    </div>
+                    <hr>
+                    <div class="dashboardCardContainer ">
+                        <div class="row dash_large_card_colors dash_card_count">
+                            <div class="col-md-12">
+                                <div class="cardBox cas ">
+                                    <div class="top_text">
+                                        <div>
+                                            <h5 class="cardTitle">Total credits</h5>
+
+                                        </div>
+                                        <div><h3 class="cardValue" id="tcred">N/A</h3></div>
+
+                                    </div>
+
+                                    <div class="card-footer bg_red">
+                                        <div>
+                                            <h5 class="subTitle">CGPA</h5>
+                                            <h6 id="cgpa">N/A</h6>
+                                        </div>
+                                        <div>
+                                            <h5 class="subTitle">SGPA</h5>
+                                            <h6 id="sgpa">N/A</h6>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>*@
+
+        @if (Session["hostler"].ToString() == "Y")
+        {
+            <div class="col-md-6 col-xl-4" id="hostel_bio_div">
+                <div class="graphBoxContainer hostel_bio" id="hostel_bio_div2">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="sub-title">Hostel biometric attendance</h6>
+                        <a class="btn btn-primary btn-sm" onclick="loadConfigView('24')">More..</a>
+                    </div>
+                    <hr>
+                    <div id="dataTable" class="scrollbarAll scrollbarDB">
+                    </div>
+
+
+                </div>
+            </div>
+        }
+
+
+
+        <div class="col-md-6 col-xl-4" id="tution_pay_div">
+            <div class="graphBoxContainer tution_pay" id="tution_pay_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Tuition payments</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('33')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable1" class="scrollbarAll scrollbarDB"></div>
+
+
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4" id="hostel_pay_div">
+            <div class="graphBoxContainer hostel_pay" id="hostel_pay_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Hostel payments</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('33')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable" class="scrollbarAll scrollbarDB"></div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4" id="Course_div">
+            <div class="graphBoxContainer tution_pay" id="Course_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Current semester courses</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('3')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable6" class="scrollbarAll scrollbarDB"></div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-xl-4" id="timetable_div">
+            <div class="graphBoxContainer tution_pay" id="timetable_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">Today's time table</h6>
+                    @if (Session["Timetablebatch"].ToString() == "Y")
+                    {
+                        <a class="btn btn-primary btn-sm" onclick="loadConfigView('27')">More..</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary btn-sm" onclick="loadConfigView('14')">More..</a>
+                    }
+
+                </div>
+                <hr>
+                <div id="div_datatable5" class="scrollbarAll scrollbarDB"></div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4" id="event_div">
+            <div class="graphBoxContainer tution_pay" id="event_div2">
+                <div class="d-flex justify-content-between">
+                    <h6 class="sub-title">My events</h6>
+                    <a class="btn btn-primary btn-sm" onclick="loadConfigView('38')">More..</a>
+                </div>
+                <hr>
+                <div id="div_datatable8" class="scrollbarAll scrollbarDB"></div>
+            </div>
+        </div>
+        @*<div class="col-md-6 col-xl-4" id="to_do_list_div">
+                <div class="graphBoxContainer tution_pay" id="to_do_list_div2">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="sub-title">To Do list</h6>
+                        <a class="btn btn-primary btn-sm" onclick="loadConfigView('67')">More..</a>
+                    </div>
+                    <hr>
+                    <div id="div_datatable10" class="scrollbarAll scrollbarDB"></div>
+                </div>
+            </div>*@
+
+    </div>
+
+</div>
+
+<!-- Charts -->
+<!-- The Modal -->
+<div class="modal" id="mymailModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">New arrivals of Print Books-KRC-November-2023</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p>
+                    Dear Sir or Madam,<br>
+                    Greetings from KRC, Visakhapatnam!<br>
+                    I would like to inform you that KRC has been expanding its print databases with new titles. We received new books on many topics in November 2023 on three campuses.
+                </p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End  modal -->
+<!-- End  modal -->
+<div class="modal" id="mySydModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">syd™super-app</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p class="text-justify">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   The <b>syd™ super-app</b> is your go-to source for science-backed, personalized recommendations designed to enhance your life quality. From emotional health to financial well-being, syd™ helps you <b>discover the life you love.</b>
+                    <br>
+                    <b>Imagine syd™ as a friend-and an expert in all matters!</b>-who's always there when you need someone to talk to. Whether you're seeking advice, eager to learn something new, or just want to share how your day went and discuss your mood, syd™ has you covered.
+
+                </p>
+                <div class="d-flex justify-content-between mb-3">
+                    <p><a href="https://form.typeform.com/to/xPeRwnXd?typeform-source=qrcode-button" target="_blank">Click here</a> or scan the QR code to join our waiting list and complete the questionnaire.</p>
+                    <div id="qrcode"></div>
+                </div>
+                <div class="mb-3">
+                    <h6>Directorate of Student Life</h6>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            @*<div class="modal-footer justify-content-center">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>*@
+        </div>
+    </div>
+</div>
+@*<div class="modal" id="myAlertModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+
+                <div class="modal-header" style="padding-top:15px;">
+                    <h4 class="modal-title">Alert</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+
+                <div class="modal-body" style="text-align:justify;">
+
+                    <p>If you are using any unlicensed version of software – SOLIDWORKS, CATIA, DALMIA, BIOVIA, ENOVIA, SIMULIA, 3DVIA, GEOVIA and CST – on any of desktop or laptop in GITAM university network, including GITAM classrooms and hostels, please stop using it immediately and uninstall the unlicensed software immediately.</p>
+
+                    <p>If you are using any of these softwares in your desktop, laptop etc., but not aware whether it’s licensed, please contact CATS immediately at <a href="mailto:catsoffice@gitam.edu">catsoffice@gitam.edu</a> or <a href="mailto:cto@gitam.edu">cto@gitam.edu</a> for assistance.</p>
+
+                    <p>Respecting the anti-piracy laws of the country, GITAM does not allow any pirated/unauthorized software installation on the computers connected to the university campus network. In case of any such instances, GITAM will hold the individual personally responsible for any unlicensed software installed on their computers.  For any compliance claims by any software vendor, you will take full responsibility of the violation and its consequences.</p>
+
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+
+<style>
+
+    #qrcode {
+        margin-top: -25px;
+    }
+
+        #qrcode img {
+            width: 100px;
+        }
+
+    .text-justify {
+        text-align: justify;
+    }
+</style>
+<div class="modal" id="myAlertModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+
+            <div class="modal-header" style="padding-top:15px;">
+                <h4 class="modal-title">Alert</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                    </svg>
+                </button>
+            </div>
+
+
+            <div class="modal-body" style="text-align:justify;">
+
+                <p>This is to inform you that, from today onwards for outing purposes online application is mandatory. Permission will be given only for the students who apply through the portal.</p>
+
+                <p>N.B : For day outing apply prior to 04 hours and for overnight outing apply 24 hours prior to avoid any inconvenience.</p>
+
+                <p>Thanking you in advance for your support and understanding.</p>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myMACModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+
+            <div class="modal-header" style="padding-top:15px;">
+                <h4 class="modal-title">Enroll MAC Address</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                    </svg>
+                </button>
+            </div>
+
+
+            <div class="modal-body" style="text-align:justify;">
+
+                <p>
+                    @*Dear Students,<br />*@
+                    Dear Students,<br /> WiFi authentication will be enabled on 12th December. If you haven't registered your device yet, do so before the 12th. After that, WiFi access will be denied for unregistered devices.
+                    <br />To register:
+                    <ul>
+                        <li> Go to MyGITAM.</li>
+                        <li> Click on MAC Registration and follow the instructions.</li>
+
+                     </ul>
+                    </p><p>
+    Ensure timely registration to avoid disruption.
+
+
+</p>
+                <div>
+                    Please click here to
+
+                    <form action="https://macenrollment.gitam.edu/" method="post" target="_blank" style="display:inline;">
+                        <input type="hidden" name="id" value="@Session["EncryUserID"]" />
+                        <button type="submit" class="mac_details" style="background:none; border:none; padding:0;">
+
+                            <span class="link_name" style="color: #007367; font-weight: bold; cursor: pointer;"> Enroll MAC Address</span>
+                        </button>
+                    </form>
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/qrcode.min.js"></script>
+<style>
+    #myMACModal ul {
+        padding-left: 25px;
+    }
+
+        #myMACModal ul li {
+            list-style: disc;
+            font-size: 16px;
+        }
+
+    #myMACModal p, #myMACModal span {
+        font-size: 16px;
+    }
+</style>
+<script>
+
+    $(document).ready(function () {
+       // $('#mySydModal').modal('show');
+        /*        $('#myAlertModal').modal('show');*/
+           //  debugger;
+        var camp = '@Session["campus_code"].ToString().ToUpper()';
+        var hos = '@Session["hostler"].ToString().ToUpper()';
+            var maceligble = '@Session["maccount"].ToString().ToUpper()';
+            if (camp == 'BLR' && hos == 'Y')
+            {
+                $('#myMACModal').on('hidden.bs.modal', function () {
+                    $('#myAlertModal').modal('show');
+                });
+
+
+
+                    $('#myAlertModal').focus();
+
+
+        }
+        if (camp == 'BLR' && maceligble=='0') {
+            $('#myMACModal').modal('show');
+        }
+
+        $("#qrcode").html("");
+        var qrcode = new QRCode("qrcode");
+        qrcode.makeCode('https://form.typeform.com/to/xPeRwnXd?typeform-source=qrcode-button');
+
+    $.post("./Home/Dashboardvisit", function (data) {
+
+        if (data.presentcount > 0) { $('#todayattendance').html("Present");}
+        else { $('#todayattendance').html("Absent");}
+        $('#under').html(data.underprocess);
+        $('#approve').html(data.approved);
+        $('#reject').html(data.rejected);
+        $('#attendance_status').html(data.presentcount);
+        $('#attendance_absebt_count').html(data.absentcount);
+        $('#tot_atd').html(parseFloat(data.percentage) + "%");
+
+         var percentage = parseFloat(data.percentage);
+        var roundedPercentage = percentage.toFixed(2);
+        var roundedPercentageNumber = parseFloat(roundedPercentage);
+        var absent = 100 - percentage;
+        var roundedAbsent = absent.toFixed(2);
+        var roundedAbsentNumber = parseFloat(roundedAbsent);
+        //var absent = 100 - percentage;
+
+           $('#piechart').highcharts({
+            colors: ['rgb(0 161 27)', 'rgb(255, 69, 96)'],
+
+            chart: {
+                height: 120,
+                type: 'line'
+            },
+            title: {
+                text: percentage + '%',
+                verticalAlign: 'middle',
+                fontSize: '45',
+               @* legend: {
+            name: {
+                fontSize: '40px',
+                    }
+        },*@
+
+
+            },
+        plotOptions: {
+        pie: {
+            dataLabels: {
+                enabled: false
+            },
+            borderWidth: 0,
+            style: { fontSize: '40px' }
+            }
+    },
+        series: [{
+            type: 'pie',
+            name: 'Attendance',
+            innerSize: '95%',
+            data: [{
+                name: 'Present',
+                y: roundedPercentageNumber
+            }, {
+                name: 'Absent',
+                y: roundedAbsentNumber
+            }]
+        }],
+        accessibility: {
+        enabled: false // Enable accessibility features
+    },
+        credits: {
+        enabled: false
+    },
+
+        });
+
+
+           $('.highcharts-button').hide();
+
+        $("#dataTable").html('');
+
+        if (data.news.length > 0) {
+           debugger;
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example5' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example5_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>Event date</th><th>Event name</th></tr></thead><tbody>";
+            for (var i = 0; i < data.news.length; i++) {
+
+                tablestring = tablestring + '<tr><td>' + data.news[i].Event_dates + "-" + data.news[i].Eventmonth + '</td><td>' + data.news[i].EventName + '</td> </tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable8").append(tablestring);
+
+        }
+        else {
+
+            $("#event_div").hide();
+
+        }
+        if (data.timetable.length > 0) {
+            //debugger;
+            var tablestring = "";
+
+
+            var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var today = new Date();
+            var todayDayName = daysOfWeek[today.getDay()];
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example5_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th style='width:100px'>Time</th><th>Course code</th></tr></thead><tbody>";
+
+            var seenEntries = new Set();
+
+            for (var i = 0; i < data.timetable.length; i++) {
+                var entry = data.timetable[i];
+                var uniqueKey = entry.timeslots + '-' + entry.SUBJECT_CODE;
+                if (entry.SUBJECT_CODE && entry.WEEKDAY === todayDayName && !seenEntries.has(uniqueKey)) {
+                    tablestring += '<tr><td>' + entry.timeslots + '</td><td>' + entry.SUBJECT_CODE + '</td></tr>';
+                    seenEntries.add(uniqueKey);
+                }
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable5").append(tablestring);
+
+        }
+        else {
+
+            $("#timetable_div").hide();
+
+        }
+        if (data.Course.length > 0) {
+            //debugger;
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example6' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example5_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th style='width:100px'>Course code</th><th>Course name</th></tr></thead><tbody>";
+            for (var i = 0; i < data.Course.length; i++) {
+
+                tablestring = tablestring + '<tr><td>' + data.Course[i].course_code + '</td> <td>' + data.Course[i].subject + '</td></td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable6").append(tablestring);
+
+        }
+        else {
+
+            $("#Course_div").hide();
+
+        }
+        if (data.hostlefee.length > 0) {
+
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Payment date</th><th>Amount</th></tr></thead><tbody>";
+            for (var i = 0; i < data.hostlefee.length; i++) {
+
+                tablestring = tablestring + '<tr><td>' + data.hostlefee[i].slno + '</td> <td>' + data.hostlefee[i].Date + '</td><td>' + data.hostlefee[i].total_fee + " ₹ " + '</td></td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable").append(tablestring);
+        }
+        else {
+
+            $("#hostel_pay_div").hide();
+
+        }
+
+        if (data.tutionfee.length > 0) {
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Payment date</th><th>Amount</th></tr></thead><tbody>";
+            for (var i = 0; i < data.tutionfee.length; i++) {
+
+                tablestring = tablestring + '<tr> <td>' + data.tutionfee[i].slno + '</td><td>' + data.tutionfee[i].Date + '</td><td>' + data.tutionfee[i].total_fee + " ₹ " + '</td></td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable1").append(tablestring);
+        }
+        else {
+            $("#tution_pay_div").hide();
+        }
+
+        if (data.biometric.length > 0) {
+            var tablestring = "";
+            tablestring = tablestring + "<div class='table-responsive'><table id='example57' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date</th><th>Location</th></tr></thead><tbody>";
+            for (var i = 0; i < data.biometric.length; i++) {
+                var sino = i + 1;
+                var formattedDate = moment(data.biometric[i].EventDateTime, 'MM/DD/YYYY HH:mm:ss').format('DD-MM-YYYY');
+                console.log(formattedDate);
+                tablestring = tablestring + '<tr> <td>' + sino + '</td> <td>' + formattedDate + '</td><td>' + data.biometric[i].Location + '</td></tr>';
+            }
+
+            tablestring = tablestring + "</tbody></table></div>";
+            $("#dataTable").append(tablestring);
+
+        }
+        else {
+            //debugger;
+            $('#hostel_bio_div').hide();
+        }
+        if (data.assignlist.length > 0) {
+
+            console.log(data.assignlist);
+            var tablestring = "";
+            tablestring = tablestring + "<div ><div class='table-responsive'><table id='example5' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example5_info'>";
+            tablestring = tablestring + "<thead class='thead-light'><tr><th>Last date</th><th>Task</th><th>Subject code</th></tr></thead><tbody>";
+            for (var i = 0; i < data.assignlist.length; i++) {
+
+                tablestring = tablestring + "<tr style='cursor:pointer;' onclick='getresource(&quot;" + data.assignlist[i].subject_code + "&quot;,&quot;" + data.assignlist[i].subject_name + "&quot;, &quot;" + data.assignlist[i].group_code + "&quot;)'><td class='nowrap'>" + data.assignlist[i].assign_last_date + "</td><td>" + data.assignlist[i].TITLE + "</td><td><u><a href='#'>" + data.assignlist[i].subject_code + "</a></u></td></tr>";
+            }
+
+            tablestring = tablestring + "</tbody></table></div></div>";
+            $("#div_datatable10").append(tablestring);
+
+        }
+        else {
+
+            $("#to_do_list_div").hide();
+
+        }
+
+
+        var percentage = parseFloat(data.percentage);
+        var roundedPercentage = percentage.toFixed(2);
+        var roundedPercentageNumber = parseFloat(roundedPercentage);
+        var absent = 100 - percentage;
+        var roundedAbsent = absent.toFixed(2);
+        var roundedAbsentNumber = parseFloat(roundedAbsent);
+
+        $('#attendance_percentile').html(roundedPercentageNumber+ "%");
+        $('#attendance_percentile_absent').html(roundedAbsentNumber+ "%");
+        var hostler = "@hostler";
+        if (hostler == "Y") {
+            $("#leaves_div").show();
+        }
+        else {
+            $("#leaves_div").hide();
+        }
+
+        $('#tcred').html(data.Marks[0].sem_credits);
+        $('#sgpa').html(data.Marks[0].sgpa);
+        $('#cgpa').html(data.Marks[0].cgpa);
+    });
+    var width = $(window).width();
+        if (width <= "1024") {
+            $('.sidebar.close').css('width', '200px');
+            $('#menuToggle, .sidebar ').hide();
+             if ("@Session["course_code"].ToString()" == "PHD") {
+            $('.sidebar.close').css('width', '155px');
+            }
+
+
+            $.post("./Home/Welcome", function (data) {
+
+                console.log(data);
+                $('#maindiv').html(data);
+            });
+
+            }
+
+
+
+})
+
+        var areaOptions2 = {
+            series: [{
+                data: [
+                    [1327359600000, 31],
+
+                    [1328482800000, 40],
+
+                    [1331593200000, 37],
+                    [1331679600000, 40],
+                    [1331766000000, 30],
+
+                ]
+            }],
+            chart: {
+                id: 'area-datetime',
+                type: 'area',
+                height: 350,
+                zoom: {
+                    autoScaleYaxis: true
+                }
+            },
+            annotations: {
+                yaxis: [{
+                    y: 30,
+                    borderColor: '#999',
+                    label: {
+                        show: true,
+                        text: 'Support',
+                        style: {
+                            color: "#fff",
+                            background: '#00E396'
+                        }
+                    }
+                }],
+                xaxis: [{
+                    x: new Date('14 Nov 2012').getTime(),
+                    borderColor: '#999',
+                    yAxisIndex: 0,
+                    label: {
+                        show: true,
+                        text: 'Rally',
+                        style: {
+                            color: "#fff",
+                            background: '#775DD0'
+                        }
+                    }
+                }]
+            },
+            dataLabels: {
+                enabled: false
+            },
+            markers: {
+                size: 0,
+                style: 'hollow',
+            },
+            xaxis: {
+                type: 'datetime',
+                min: new Date('01 Mar 2012').getTime(),
+                tickAmount: 6,
+            },
+            tooltip: {
+                theme: 'dark',
+                x: {
+                    format: 'dd MMM yyyy'
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.9,
+                    stops: [0, 100]
+                }
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#areaChart22"), areaOptions2);
+        chart.render();
+
+    function getmailmodal() {
+        $('#mymailModal').modal('show');
+        $(this).addClass('events');
+    }
+    function getresource(sub_code, sub_name, groupcode) {
+
+        $('.loaderContainer').show();
+        $('.loading-overlay').show();
+
+        $.ajax({
+            type: "Get",
+            url: './Home/lmsgetassignments',
+            data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+            success: function (data) {
+                $('#maindiv').html("");
+                console.log(data);
+                $('#maindiv').html(data);
+                $('.loaderContainer').hide();
+                $('.loading-overlay').hide();
+            },
+            error: function (request, status, error) {
+                //var val = request.responseText;
+                //alert("PDF file not available! " + val);
+            }
+        });
+
+
+    }
+</script>

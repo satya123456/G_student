@@ -1,0 +1,1323 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Lmsdirectorysummary
+<style>
+    .swal2-container {
+        z-index: 9999999999999;
+    }
+
+    .accordion-button {
+        background: #f5d3d5;
+        color: #333;
+    }
+
+    .accordion-item {
+        margin-bottom: 15px;
+        border-bottom: none;
+    }
+
+    .far.fa-file-image {
+        color: #007367;
+        font-size: 18px;
+    }
+
+    .accordion {
+        margin-bottom: 10px;
+        border-top: 1px solid #fff;
+        padding-top: 15px;
+    }
+    /*  background: #fff;*/
+
+
+    .bg1 {
+        background: #eafff5;
+    }
+
+    .bgBox {
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .bg2 {
+        background: #e4e6ed;
+    }
+
+    .accordion-button {
+        background: #fff !important;
+    }
+
+    .nodata {
+        background: #eafff5;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #006c61;
+        /* box-shadow: 0 2px 4px rgb(0 0 0 / 8%); */
+        /* border-radius: 10px; */
+        margin-top: 4px;
+        border-top: 1px solid #007367;
+    }
+
+    .boxWithShadow {
+        padding-top: 10px;
+        border-top: 1px solid #fff;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: #333;
+        font-size: 14px;
+    }
+
+    .accordion-body {
+        border-top: 1px solid #ddd;
+    }
+
+    .accordion-button::before {
+        flex-shrink: 0;
+        width: 1.1rem;
+        height: var(--bs-accordion-btn-icon-width);
+        /* margin-left: auto; */
+        content: "";
+        background-image: var(--bs-accordion-btn-icon);
+        background-repeat: no-repeat;
+        background-size: var(--bs-accordion-btn-icon-width);
+        transition: var(--bs-accordion-btn-icon-transition);
+        margin-right: 10px;
+    }
+
+    .accordion-button::after {
+        display: none;
+    }
+
+    .bxs-edit, .bx-upload, .bx-edit, .bx-trash {
+        font-size: 18px;
+        margin-right: 10px;
+        color: #007367;
+        display: flex;
+    }
+
+    .bx-trash {
+        justify-content: center;
+        font-size: 20px;
+        margin-right: 0px;
+    }
+
+    .bx-upload {
+        font-size: 19px;
+    }
+
+    .ri-file-download-line, .ri-eye-line {
+        color: #007367;
+        font-size: 20px;
+        padding-right: 0px;
+    }
+
+    .ri-eye-line {
+        margin-right: 12px;
+        display: flex;
+    }
+
+    table tr td.courseFileName {
+        text-align: right;
+        white-space: nowrap;
+        vertical-align: bottom;
+        padding-right: 0px;
+    }
+
+    .date {
+        margin-left: 10px;
+    }
+
+    .status {
+        border-radius: 10px;
+        font-size: 13px;
+        padding: 4px 6px;
+        margin-right: 15px;
+        width: 80px;
+        text-align: center;
+    }
+
+        .status.pending {
+            background: #dadada;
+        }
+
+        .status.submit {
+            background: #b9ebff;
+        }
+
+        .status.approve {
+            background: #b9ffc5;
+        }
+
+        .status.resubmit {
+            background: #ffc3b9;
+        }
+
+    .assgn_name {
+        font-weight: 600;
+    }
+
+    .modal #example table tr td:nth-child(1) {
+        border-left: 1px solid #dee2e6;
+    }
+
+    .modal #example table tr td:nth-child(2) {
+        vertical-align: middle;
+    }
+
+    @@media(max-width:600px) {
+        .assign_status {
+            display: block !important;
+            text-align: right;
+            padding-bottom: 10px;
+        }
+
+            .assign_status a {
+                display: inline-block;
+            }
+
+        .assign_title {
+            display: block !important;
+        }
+
+            .assign_title .accordion-button {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+            }
+    }
+
+    .accordion-body .table td table tr td {
+        border-width: 1px;
+    }
+</style>
+<div class="content-container ">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Assignments (@ViewBag.subjectcode - @ViewBag.subjectname)</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="Lmsback()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    @*<h5 class="sub-title mb-2"> @ViewBag.subjectcode - @ViewBag.subjectname</h5>*@
+
+    <div class="box-inner inner_wrapper">
+
+        <div class="grid-container bgBox bg1">
+            <h4 class="page-title">Online</h4>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                @{
+                    DateTime currentDate = DateTime.Now;
+                    string formattedDate = currentDate.ToString("dd-MM-yyyy HH:mm:ss");
+                }
+                @if (Model.directorydata.Count() > 0)
+                {
+                    foreach (var course in Model.directorydata.Where(x => x.mode == "Online").Select(x => new { x.TITLE, x.id, x.mode, x.SUB_SECTION_NAME, x.assignmentid }).Distinct())
+                    {
+                        var assignlist = Model.directorydata.Where(X => X.TITLE.Equals(course.TITLE) && X.id.Equals(course.id) && X.mode == "Online").OrderByDescending(X => X.dt_time);
+                        var markslist = Model.markscount.Select(x => new { x.ASSIG_FLAG, x.final_marks }).Where(X => X.ASSIG_FLAG.Equals(course.assignmentid));
+
+
+                        if (assignlist.Count() > 0)
+                        {
+
+                            if (assignlist.FirstOrDefault().mode == "Online")
+                            {
+
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flushhead-@assignlist.FirstOrDefault().id">
+                                        <div class="d-flex justify-content-between assign_title">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@assignlist.FirstOrDefault().id" aria-expanded="false" aria-controls="flush-@assignlist.FirstOrDefault().id">
+                                                <span class="assgn_name"> @assignlist.FirstOrDefault().SUB_SECTION_NAME : </span>
+                                                <span>@assignlist.FirstOrDefault().TITLE </span>
+                                                <span class="date">(Last date: @assignlist.FirstOrDefault().assign_last_date, @assignlist.FirstOrDefault().assign_last_time)</span>
+                                                <span>
+
+                                                    @{if (assignlist.FirstOrDefault().mode == "Online")
+                                                        {<i>(Online)</i> }
+                                                        else
+                                                        { <i>(Offline)</i>} }
+                                                </span>
+                                            </button>
+                                            @{int k = 0;}
+                                            @foreach (var lst in assignlist.Select(x => new { x.SUB_SECTION_NAME, x.folderid, x.filename, x.filetype, x.uploadeddate, x.group_code, x.assignmentid, x.date, x.remarks }).Distinct())
+                                            {
+
+                                                if (k == 0)
+                                                {
+
+                                                    <div class="d-flex align-items-center assign_status">
+                                                        @if (assignlist.FirstOrDefault().Status == "S")
+                                                        {
+                                                            <span class="status submit" id="statuss_@lst.assignmentid">Submitted</span>
+                                                            <a onclick="Add_assign_upload('@lst.SUB_SECTION_NAME','@lst.folderid','@lst.assignmentid', '@lst.group_code', '@lst.filename', '@lst.filetype', 'S','@lst.date')" title="Edit"><i class="bx bx-edit "></i></a>
+                                                        }
+                                                        else if (assignlist.FirstOrDefault().Status == "A")
+                                                        {
+                                                            <span class="status approve" id="statuss_@lst.assignmentid">Approved</span>
+                                                            <a onclick="Add_assign_upload('@lst.SUB_SECTION_NAME','@lst.folderid','@lst.assignmentid', '@lst.group_code', '@lst.filename', '@lst.filetype', 'S','@lst.date')" title="View"><i class="ri-eye-line "></i></a>
+                                                        }
+                                                        else if (assignlist.FirstOrDefault().Status == "R")
+                                                        {
+                                                            <span class="status resubmit" id="statuss_@lst.assignmentid">Resubmit</span>
+                                                            <a onclick="Add_assign_upload('@lst.SUB_SECTION_NAME','@lst.folderid','@lst.assignmentid', '@lst.group_code', '@lst.filename', '@lst.filetype', 'S','@lst.date')" title="Upload"><i class="bx bx-upload "></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="status pending" id="statuss_@lst.assignmentid">Pending</span>
+                                                            <a onclick="Add_assign_upload('@lst.SUB_SECTION_NAME','@lst.folderid','@lst.assignmentid', '@lst.group_code', '@lst.filename', '@lst.filetype', 'S','@lst.date')" title="Upload"><i class="bx bx-upload "></i></a>
+                                                        }
+
+
+                                                    </div>
+                                                }
+
+                                                k++;
+                                            }
+                                        </div>
+                                    </h2>
+
+                                    <div id="flush-@assignlist.FirstOrDefault().id" class="accordion-collapse collapse" aria-labelledby="flushhead-@assignlist.FirstOrDefault().id" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+
+                                            <table class="table">
+                                                <tr>
+                                                    <td>@Html.Raw(assignlist.FirstOrDefault().Description)</td>
+                                                    @if (markslist.Count() > 0)
+                                                    {
+                                                        if (markslist.FirstOrDefault().final_marks == null || markslist.FirstOrDefault().final_marks == "")
+                                                        {
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><b>Obtained marks : </b>@markslist.FirstOrDefault().final_marks</td>
+                                                        }
+
+                                                    }
+
+                                                    @if (assignlist.FirstOrDefault().remarks == null || assignlist.FirstOrDefault().remarks == "")
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><b>Remarks : </b>@assignlist.FirstOrDefault().remarks</td>
+                                                    }
+                                                    @foreach (var lst in assignlist.Select(x => new { x.folderid, x.filename, x.filetype, x.uploadeddate, x.group_code, x.assignmentid, x.date, x.remarks }).Distinct())
+                                                    {
+
+                                                        if (lst.filename != null)
+                                                        {
+                                                            <input type="hidden" id="imagename1" value="@lst.filename@lst.filetype" />
+
+                                                            <td class="fileh6 courseFileName"><a onclick="return myFunctionabt('@lst.filename', '@lst.filetype', '@lst.group_code','@lst.folderid','@lst.assignmentid');" title="Download"> <span><i class="ri-file-download-line"></i></span></a></td>
+
+                                                        }
+                                                        else
+                                                        {
+
+                                                        }
+
+
+
+
+                                                        <input type="hidden" id="assignid" value="@lst.assignmentid">
+
+                                                    }
+                                                </tr>
+
+                                            </table>
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            }
+
+                        }
+                        else
+                        {
+                            <div class="nodata" id="">
+                                <h6 class="text-center">Faculty not yet posted</h6>
+                            </div>
+                        }
+                    }
+
+                }
+                else
+                {
+                    <div class="nodata" id="">
+                        <h6 class="text-center">Faculty not yet posted</h6>
+                    </div>
+                }
+            </div>
+        </div>
+        <br><br>
+
+        <div class="grid-container bgBox bg2">
+            <h4 class="page-title">Offline</h4>
+            <div class="accordion accordion-flush" id="accordionFlushExample1">
+                @if (Model.directorydata.Count() > 0)
+                {
+                    foreach (var course in Model.directorydata.Where(x => x.mode == "Offline").Select(x => new { x.TITLE, x.id, x.mode, x.assignmentid }).Distinct())
+                    {
+                        var assignlist = Model.directorydata.Where(X => X.TITLE.Equals(course.TITLE) && X.id.Equals(course.id) && X.mode == "Offline").OrderByDescending(X => X.dt_time);
+                        var markslist = Model.markscount.Select(x => new { x.ASSIG_FLAG, x.final_marks }).Where(X => X.ASSIG_FLAG.Equals(course.assignmentid));
+
+                        if (assignlist.Count() > 0)
+                        {
+
+                            if (assignlist.FirstOrDefault().mode == "Offline")
+                            {
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flushhead-@assignlist.FirstOrDefault().id">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@assignlist.FirstOrDefault().id" aria-expanded="false" aria-controls="flush-@assignlist.FirstOrDefault().id">
+                                            @assignlist.FirstOrDefault().TITLE
+                                            <span class="date">(Last date: @assignlist.FirstOrDefault().assign_last_date, @assignlist.FirstOrDefault().assign_last_time)</span>
+
+                                            <span>
+
+                                                @{if (assignlist.FirstOrDefault().mode == "Online")
+                                                    {<i>(Online)</i> }
+                                                    else
+                                                    { <i>(Offline)</i>} }
+                                            </span>
+
+                                        </button>
+
+                                    </h2>
+
+                                    <div id="flush-@assignlist.FirstOrDefault().id" class="accordion-collapse collapse" aria-labelledby="flushhead-@assignlist.FirstOrDefault().id" data-bs-parent="#accordionFlushExample1">
+                                        <div class="accordion-body">
+
+                                            <table class="table">
+                                                <tr>
+                                                    <td>@Html.Raw(assignlist.FirstOrDefault().Description)</td>
+                                                    @if (markslist.Count() > 0)
+                                                    {
+                                                        if (markslist.FirstOrDefault().final_marks == null || markslist.FirstOrDefault().final_marks == "")
+                                                        {
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><b>Obtained marks : </b>@markslist.FirstOrDefault().final_marks</td>
+                                                        }
+                                                    }
+                                                    @if (assignlist.FirstOrDefault().remarks == null || assignlist.FirstOrDefault().remarks == "")
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><b>Remarks : </b>@assignlist.FirstOrDefault().remarks</td>
+                                                    }
+                                                    @foreach (var lst in assignlist.Select(x => new { x.folderid, x.filename, x.filetype, x.uploadeddate, x.group_code, x.assignmentid, x.date }).Distinct())
+                                                    {
+                                                        if (lst.filename != null)
+                                                        {
+                                                            <input type="hidden" id="imagename1" value="@lst.filename@lst.filetype" />
+
+                                                            <td class="fileh6 courseFileName"><a onclick="return myFunctionabt('@lst.filename', '@lst.filetype', '@lst.group_code','@lst.folderid','@lst.assignmentid');" title="Download"> <span><i class="ri-file-download-line"></i></span></a></td>
+                                                            @*<td>File type:@lst.filetype</td>*@
+
+
+                                                        }
+                                                        else
+                                                        {
+
+                                                        }
+                                                    }
+                                                </tr>
+
+                                            </table>
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            }
+                        }
+                        else
+                        {
+                            <div class="nodata" id="">
+                                <h6 class="text-center">Faculty not yet posted</h6>
+                            </div>
+                        }
+
+
+
+                    }
+
+                }
+                else
+                {
+                    <div class="nodata" id="">
+                        <h6 class="text-center">Faculty not yet posted</h6>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br />
+<br />
+<div class="inner_wrapper">
+
+
+</div>
+
+
+
+
+
+<div id="myModalupload" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div id="printdiv">
+
+                    <div id="inner">
+                        <div class="box-inner">
+                            <div class="form-group" style="display:none">
+                                <label> Registration number </label>
+                                <input type="text" class="form-control" ID="asgnid" name="assignmentid" value="" readonly />
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label> lastdate </label>
+                                <input type="text" class="form-control" ID="lastdate" name="lastdate" value="" readonly />
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label>status </label>
+                                <input type="text" class="form-control" ID="status" name="status" value="" readonly />
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label>group_code </label>
+                                <input type="text" class="form-control" ID="grpcode" name="group_code" value="" readonly />
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label>sectn_name </label>
+                                <input type="text" class="form-control" ID="sectn_name" name="sectn_name" value="" readonly />
+                            </div>
+                            <div class="re_comment" id="R-Comment">
+                                <label><span>Comment </span></label>
+                                <div class="form-group input-lg comment-editor">
+                                    <textarea class="form-control" rows="4" cols="50" id="txtcomment" maxlength='2000'></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="divpdf">
+                                <div class="form-group">
+                                    <label>File</label>
+                                    <input type="file" name="file" id="file" class="form-control" value="" accept="" onchange="return false;" />
+                                    <span style="color:red;font-size: 13px;" id="outsrcres">(Only file size upto 20mb)</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="text-center">
+                                    <input type="submit" class="btn btn-primary" value="Submit" id="btnsubmit" />
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_datatable"></div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer ">
+                <div class="col-md-12 text-center">
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<input type="text" value="@Convert.ToString(Session["assign_sub_code"])" id="assign_sub_code" hidden />
+<input type="text" value="@Convert.ToString(Session["assign_sub_name"])" id="assign_sub_name" hidden />
+<input type="text" value="@Convert.ToString(Session["assign_group_code"])" id="assign_group_code" hidden />
+<script src="~/Content/ckeditor/ckeditor.js"></script>
+<script src="~/Content/ckeditor/config.js"></script>
+<script>
+    $(document).ready(function () {
+
+        CKEDITOR.replace('txtcomment',
+            {
+                scayt_autoStartup: true,
+                height: '150px'
+            });
+
+    });
+
+
+    $('#btnsubmit').click(function () {
+
+        debugger;
+
+
+        var assign_sub_code = $("#assign_sub_code").val();
+        var assign_sub_name = $("#assign_sub_name").val();
+        var assign_group_code = $("#assign_group_code").val();
+
+
+        var comment = CKEDITOR.instances["txtcomment"].getData();
+        var FileNamechange = $('input[type=file]').val();
+        var assignid = $("#asgnid").val();
+        var filePath = FileNamechange;
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        if (comment == "" && filePath != "") {
+            var comment = "";
+            var fileUpload = $("#file").get(0);
+            var files = fileUpload.files;
+            if (files.Length > 0)
+                var maxFileSize = 20 * 1024 * 1024;
+            var allowedFileTypes = ['application/pdf', 'application/vnd.ms-excel', 'application / msword', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-powerpoint', 'text/csv', 'image/webp', 'application/x-rar-compressed', 'application/x-compressed', 'application/vnd.oasis.opendocument.spreadsheet', 'text/plain', 'image/jpeg', 'image/jpg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'video/mp4', 'video/x-msvideo', 'video/x-ms-wmv', 'video/quicktime', 'video/x-matroska'];
+
+            //var allowedFileTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            var fileType = files[0].type;
+            if ($('#file')[0].files[0].size > 20000000) {
+                swal("", "Size is exceeds 20 mb", "error");
+                $("#file").val('');
+            }
+            else if ($.inArray(fileType, allowedFileTypes) === -1) {
+                swal("", "Invalid file type. Please choose a  file.", "error");
+                $("#file").val('');
+                return;
+            }
+            else {
+
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                fileData.append('Pdf', filePath);
+                $.ajax({
+                    type: "Post",
+                    url: "./Home/Addassignmentupload",
+                    data: fileData,
+
+                    contentType: false,
+                    processData: false,
+                    timeout: 0,
+                    success: function (Result) {
+                        debugger;
+                        var rname = Result;
+                        if (rname == "1") {
+                            $.ajax({
+                                type: "Post",
+                                url: "./Home/AddassignmentINSERT",
+                                data: {
+                                    'assignid': assignid, 'PName': filePath, 'ResultComment': comment
+                                },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                async: true,
+                                success: function (Result) {
+                                    debugger;
+                                    var Finalstatus = Result;
+                                    if (Finalstatus == "Successfully updated") {
+                                        $("#loaderFinish").hide();
+                                        $("#myModalupload").modal('hide');
+                                        swal({
+                                            title: "Successfully updated",
+                                            type: "success",
+                                            icon: "success",
+                                            closeOnClickOutside: false,
+                                            allowOutsideClick: false
+                                        }).then((willDelete) => {
+                                            if (willDelete) {
+                                                getresource1('Assignments', assign_sub_code, assign_sub_name, assign_group_code, '');
+                                            }
+                                        });
+
+                                    } else if (Finalstatus == "session expired") {
+                                        window.location.href = "https://login.gitam.edu/Login.aspx";
+                                    }
+                                    else {
+                                        swal('Cancelled', '', 'error');
+
+                                    }
+                                },
+                                error: function (result) {
+                                }
+                            });
+                        }
+                        else {
+                            window.location.href = "https://login.gitam.edu/Login.aspx";
+                        }
+                    },
+                    error: function (result) {
+                    }
+                });
+            }
+        }
+        else if (filePath == "" && comment != "") {
+            var filepath = "";
+            $.ajax({
+                type: "Post",
+                url: "./Home/AddassignmentINSERT",
+                data: {
+                    'assignid': assignid, 'PName': filePath, 'ResultComment': comment
+                },
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataType: "json",
+                async: true,
+                success: function (Result) {
+                    debugger;
+                    var Finalstatus = Result;
+                    if (Finalstatus == "Successfully updated") {
+                        $("#loaderFinish").hide();
+                        $("#myModalupload").modal('hide');
+                        swal({
+                            title: "Successfully updated",
+                            type: "success",
+                            icon: "success",
+                            closeOnClickOutside: false,
+                            allowOutsideClick: false
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                getresource1('Assignments', assign_sub_code, assign_sub_name, assign_group_code, '');
+                            }
+                        });
+
+                    } else if (Finalstatus == "session expired") {
+                        window.location.href = "https://login.gitam.edu/Login.aspx";
+                    }
+                    else {
+                        swal('Cancelled', '', 'error');
+
+                    }
+                },
+                error: function (result) {
+                }
+            });
+        }
+
+        else if (filePath != "" && comment != "") {
+            var fileUpload = $("#file").get(0);
+            var files = fileUpload.files;
+            if (files.Length > 0)
+                var maxFileSize = 20 * 1024 * 1024;
+            var allowedFileTypes = ['application/pdf', 'application/vnd.ms-excel', 'application / msword', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-powerpoint', 'text/csv', 'image/webp', 'application/x-rar-compressed', 'application/x-compressed', 'application/vnd.oasis.opendocument.spreadsheet', 'text/plain', 'image/jpeg', 'image/jpg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'video/mp4', 'video/x-msvideo', 'video/x-ms-wmv', 'video/quicktime', 'video/x-matroska'];
+
+            //var allowedFileTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            var fileType = files[0].type;
+            if ($('#file')[0].files[0].size > 20000000) {
+                swal("", "Size is exceeds 20 mb", "error");
+                $("#file").val('');
+            }
+            else if ($.inArray(fileType, allowedFileTypes) === -1) {
+                swal("", "Invalid file type. Please choose a file.", "error");
+                $("#file").val('');
+                return;
+            }
+            else {
+
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                fileData.append('Pdf', filePath);
+                $.ajax({
+                    type: "Post",
+                    url: "./Home/Addassignmentupload",
+                    data: fileData,
+
+                    contentType: false,
+                    processData: false,
+                    timeout: 0,
+                    success: function (Result) {
+
+                        var rname = Result;
+                        if (rname == "1") {
+                            $.ajax({
+                                type: "Post",
+                                url: "./Home/AddassignmentINSERT",
+                                data: {
+                                    'assignid': assignid, 'PName': filePath, 'ResultComment': comment
+                                },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                async: true,
+                                success: function (Result) {
+                                    debugger;
+                                    var Finalstatus = Result;
+                                    if (Finalstatus == "Successfully updated") {
+                                        $("#loaderFinish").hide();
+                                        $("#myModalupload").modal('hide');
+                                        swal({
+                                            title: "Successfully updated",
+                                            type: "success",
+                                            icon: "success",
+                                            closeOnClickOutside: false,
+                                            allowOutsideClick: false
+                                        }).then((willDelete) => {
+                                            if (willDelete) {
+                                                getresource1('Assignments', assign_sub_code, assign_sub_name, assign_group_code, '');
+                                            }
+                                        });
+                                    } else if (Finalstatus == "session expired") {
+                                        window.location.href = "https://login.gitam.edu/Login.aspx";
+                                    }
+                                    else {
+                                        swal('Cancelled', '', 'error');
+
+                                    }
+                                },
+                                error: function (result) {
+                                }
+                            });
+                        }
+                        else {
+                            window.location.href = "https://login.gitam.edu/Login.aspx";
+                        }
+                    },
+                    error: function (result) {
+                    }
+                });
+            }
+        }
+        else {
+            swal('Please choose any one option', '', 'error');
+        }
+    });
+    function Successassess(e) {
+        debugger;
+        var error = e;
+        if (error == "Successfully updated") {
+            swal('Successfully updated', '', 'success');
+
+            $("#myModalupload").modal('hide');
+            //    setTimeout(loaddata, 1500);
+        }
+
+        else {
+
+            swal('Cancelled', '', 'error');
+            /*       setTimeout(loaddata, 1500);*/
+        }
+    }
+
+</script>
+
+<script>
+
+    function getfiles(type, name) {
+        $.ajax({
+
+            type: 'POST',
+            url: './Home/getfiles',
+            data: { type: type, name: name },
+            success: (function (data) {
+
+                var PdfName = data;
+                if (PdfName != "") {
+                    var pdfWindow = window.open("");
+
+                    if (pdfWindow) {
+                        setTimeout(function () {
+                            pdfWindow.document.write(
+                                "<iframe width='100%' height='100%' src='data:application/pdf;base64, " + PdfName + "'></iframe>"
+                            );
+                            pdfWindow.document.title = "GITAM | Student portal";
+                        }, 500); // Delay in milliseconds (adjust as needed)
+                    } else {
+                        alert("Failed to open PDF window.");
+                    }
+                } else {
+                    alert("PDF file not available!");
+                }
+
+            })
+        });
+    }
+
+    function Lmsback() {
+
+
+        $('#maindiv').html("");
+        $.ajax({
+
+            type: 'GET',
+            url: './Home/getlmssubjects',
+
+            success: (function (result) {
+
+                $('#maindiv').html(result);
+
+
+            })
+        });
+
+    }
+
+
+    function Add_assign_upload(section_name, folderid, assignid, grp, file_name, file_type, status, lastdate) {
+        debugger;
+        $("#heading_dynamicaaly").html('');
+        CKEDITOR.instances['txtcomment'].setData('');
+        $("#file").val("");
+        var currentDate = new Date();
+
+        // Format the current date as "yyyy-MM-dd HH:mm:ss.fff"
+        var formattedDate = currentDate.getDate() + '-' +
+
+            //('0' + currentDate.getDate()).slice(-2) + ' ' +
+            ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + currentDate.getFullYear()).slice(-4);
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/add_assidn_data',
+            contentType: "application/json; charset=utf-8",
+            data: {
+                folderid: folderid, 'grp': grp, 'assignid': assignid
+            },
+            dataType: 'Json',
+            success: function (data) {
+                debugger;
+                $("#myModalupload").modal('show');
+                console.log(data);
+                console.log(data.Result);
+                document.getElementById('asgnid').value = data.Result[0].assignmentid;
+                document.getElementById('grpcode').value = data.Result[0].group_code;
+                document.getElementById('lastdate').value = lastdate;
+                document.getElementById('sectn_name').value = section_name;
+                var element = $("#sectn_name").val();
+
+                $("#heading_dynamicaaly").append(element);
+                document.getElementById('status').value = data.Result[0].Status;
+
+                var finalstatus = $('#status').val();
+
+                var RComment = data.Result[0].stdescription;
+                if (RComment != "") {
+                    CKEDITOR.instances["txtcomment"].setData(RComment);
+                    //document.getElementById("txtcomment").value = RComment;
+                }
+                else {
+                    CKEDITOR.instances['txtcomment'].setData('');
+                }
+                $("#div_datatable").html('');
+
+                if (data.Result.length > 0) {
+
+
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='box-inner' id='example'><div class='table-responsive'><table id='example55' class='table table_style table-bordered'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th hidden >ID</th><th hidden>folderid</th><th>file name</th><th hidden>filetype</th><th class='t-w-20'></th><th class='t-w-20'></th></tr></thead><tbody>";
+                    var k = 0;
+                    for (var i = 0; i < data.Result.length; i++) {
+                        if (data.Result[i].sffilename != null) {
+                            tablestring = tablestring + '<tr><td> ' + data.Result[i].sffilename + '</td> <td><i class="bx bx-trash text-center" aria-hidden="true" id="delete" onclick="return myFunctiondelete(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\');" style="cursor:pointer"></i></td> <td><i class="ri-file-download-line" aria-hidden="true" id="download" onclick="return myFunctiondownload(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\',\'' + data.Result[i].file_status + '\');" style="cursor:pointer"></i></td></tr>';
+                            // tablestring = tablestring + '<tr> <td style="display:none">' + data.Result[i].assignmentid + '</td><td style="display:none"> ' + data.Result[i].folderid + '</td><td > ' + data.Result[i].sffilename + '</td><td style="display:none">' + data.Result[i].sffiletype + '</td> <td><i class="bx bx-trash text-center" aria-hidden="true" id="delete" onclick="return myFunctiondelete(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\');" style="cursor:pointer"></i></td> <td><i class="ri-file-download-line" aria-hidden="true" id="download" onclick="return myFunctiondownload(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\');" style="cursor:pointer"></i></td></tr>';
+                            k++;
+                        }
+
+                    }
+                    if (k == 0) {
+                        tablestring = tablestring + '<tr><td colspan="8" class="text-center">No data available</td></tr>';
+
+                    }
+                    tablestring = tablestring + "</tbody></table></div></div>";
+                    $("#div_datatable").append(tablestring);
+
+                }
+
+
+
+                let finallastdate = new Date(lastdate);
+                let formattedDate = new Date();
+                console.log(lastdate);
+                console.log(formattedDate);
+                if (finallastdate >= formattedDate && finalstatus == "A") {
+                    $("#btnsubmit").prop("disabled", true);
+                    $("#delete").prop("disabled", true);
+                    document.getElementById("file").disabled = true;
+                    document.getElementById('btnsubmit').value = "Approved";
+                    $("#example").hide();
+                    $("#btnsubmit").hide();
+                    CKEDITOR.instances['txtcomment'].setReadOnly(true);
+
+                    if (data.Result.length > 0) {
+
+
+                        var tablestring = "";
+                        tablestring = tablestring + "<div class='box-container'><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                        tablestring = tablestring + "<thead class='thead-light'><tr><th hidden >ID</th><th hidden>folderid</th><th>file name</th><th hidden>filetype</th><th class='t-w-20'></th></tr></thead><tbody>";
+                        var k = 0;
+                        for (var i = 0; i < data.Result.length; i++) {
+                            if (data.Result[i].sffilename != null) {
+                                tablestring = tablestring + '<tr><td> ' + data.Result[i].sffilename + '</td><td><i class="ri-file-download-line" aria-hidden="true" id="download" onclick="return myFunctiondownload(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\',\'' + data.Result[i].file_status + '\');" style="cursor:pointer"></i></td> </tr>';
+                                //tablestring = tablestring + '<tr> <td style="display:none">' + data.Result[i].assignmentid + '</td><td style="display:none"> ' + data.Result[i].folderid + '</td><td > ' + data.Result[i].sffilename + '</td><td style="display:none">' + data.Result[i].sffiletype + '</td><td><i class="ri-file-download-line" aria-hidden="true" id="download" onclick="return myFunctiondownload(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\');" style="cursor:pointer"></i></td> </tr>';
+                                k++;
+                            }
+
+                        }
+                        if (k == 0) {
+                            tablestring = tablestring + '<tr><td colspan="8" class="text-center">No data available</td></tr>';
+
+                        }
+                        tablestring = tablestring + "</tbody></table></div></div>";
+                        $("#div_datatable").append(tablestring);
+
+                    }
+                }
+                else if ((finallastdate >= formattedDate && finalstatus == "R")) {
+                    $("#btnsubmit").prop("disabled", false);
+                    $("#delete").prop("disabled", false);
+                    document.getElementById('btnsubmit').value = "Resubmit";
+                    $("#btnsubmit").show();
+                    document.getElementById("file").disabled = false;
+
+                    CKEDITOR.instances['txtcomment'].setReadOnly(false);
+
+                }
+                else if (finallastdate >= formattedDate && finalstatus == "S") {
+                    $("#btnsubmit").prop("disabled", false);
+                    $("#delete").prop("disabled", false);
+                    CKEDITOR.instances['txtcomment'].setReadOnly(false);
+                    document.getElementById('btnsubmit').value = "Submitted";
+                    $("#btnsubmit").show();
+                    document.getElementById("file").disabled = false;
+
+
+                }
+                else if (finallastdate >= formattedDate && finalstatus == "N") {
+                    $("#btnsubmit").prop("disabled", false);
+                    $("#delete").prop("disabled", false);
+                    CKEDITOR.instances['txtcomment'].setReadOnly(false);
+                    document.getElementById('btnsubmit').value = "Submit";
+                    $("#btnsubmit").show();
+                    document.getElementById("file").disabled = false;
+
+
+                }
+                else if (finallastdate < formattedDate) {
+                    $("#btnsubmit").prop("disabled", true);
+                    $("#delete").prop("disabled", true);
+                    document.getElementById("file").disabled = true;
+                    document.getElementById('btnsubmit').value = "Approved";
+                    $("#example").hide();
+                    $("#btnsubmit").hide();
+                    CKEDITOR.instances['txtcomment'].setReadOnly(true);
+
+
+                    if (data.Result.length > 0) {
+
+
+                        var tablestring = "";
+                        tablestring = tablestring + "<div class='box-container'><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                        tablestring = tablestring + "<thead class='thead-light'><tr><th hidden >ID</th><th hidden>folderid</th><th>filename</th><th hidden>filetype</th><th class='t-w-20'></th></tr></thead><tbody>";
+                        var k = 0;
+                        for (var i = 0; i < data.Result.length; i++) {
+                            if (data.Result[i].sffilename != null) {
+                                tablestring = tablestring + '<tr><td > ' + data.Result[i].sffilename + '</td><td><i class="ri-file-download-line" aria-hidden="true" id="download" onclick="return myFunctiondownload(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\',\'' + data.Result[i].file_status + '\');" style="cursor:pointer"></i></td> </tr>';
+                                //  tablestring = tablestring + '<tr> <td style="display:none">' + data.Result[i].assignmentid + '</td><td style="display:none"> ' + data.Result[i].folderid + '</td><td > ' + data.Result[i].sffilename + '</td><td style="display:none">' + data.Result[i].sffiletype + '</td><td><i class="ri-file-download-line" aria-hidden="true" id="download" onclick="return myFunctiondownload(\'' + data.Result[i].assignmentid + '\',\'' + data.Result[i].regdno + '\',\'' + data.Result[i].folderid + '\',\'' + data.Result[i].sffileid + '\',\'' + data.Result[i].sffiletype + '\',\'' + data.Result[i].sffilename + '\',\'' + data.Result[i].group_code + '\');" style="cursor:pointer"></i></td> </tr>';
+                                k++;
+                            }
+
+                        }
+                        if (k == 0) {
+                            tablestring = tablestring + '<tr><td colspan="8" class="text-center">No data available</td></tr>';
+
+                        }
+                        tablestring = tablestring + "</tbody></table></div></div>";
+                        $("#div_datatable").append(tablestring);
+
+                    }
+                }
+                else {
+                    $("#btnsubmit").prop("disabled", false);
+                    $("#delete").prop("disabled", false);
+                    CKEDITOR.instances['txtcomment'].setReadOnly(false);
+                    $("#btnsubmit").show();
+
+
+
+                }
+
+            }
+        })
+
+    }
+    $(function () {
+        $('#uploadForm').change(function () {
+            var file_size = $('#uploadForm')[0].files[0].size;
+            if (file_size > 2097152) {
+                alert("File size is greater than 2MB");
+                $('#btnsubmit').prop('disabled', true);
+                $("#uploadForm").val('');
+            }
+            else {
+                $('#btnsubmit').prop('disabled', false);
+            }
+            var fileExtension = ['pdf'];
+            if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+                alert("Only '.pdf' formats are allowed.");
+                $('#btnsubmit').prop('disabled', true);
+                $("#uploadForm").val('');
+
+            }
+            else {
+                $('#btnsubmit').prop('disabled', false);
+                $("#erruploadForm").text('');
+            }
+        })
+    })
+
+    function myFunctionabt(filename, filetype, group_code, folderid, assignmentid) {
+
+        debugger;
+        ViewPdf_repo(filename, filetype, group_code, folderid, assignmentid);
+    }
+    function myFunctiondownload(assignid, regdno, folderid, fileid, filetype, filename, group_code, file_status) {
+
+        debugger;
+        ViewPdf_rdownload(assignid, regdno, folderid, fileid, filetype, filename, group_code, file_status);
+    }
+    function ViewPdf_rdownload(assignid, regdno, folderid, fileid, filetype, filename, group_code, file_status) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: './Home/PdfGetdownload_assign',
+            data: { 'assignid': assignid, 'regdno': regdno, 'folderid': folderid, 'fileid': fileid, 'filetype': filetype, 'filename': filename, 'group_code': group_code, 'file_status': file_status },
+
+            //success: function (data, fileType1) {
+            //    //  debugger;
+            //    console.log(data);
+            //    var fileData = data.Base64Content;
+            //    var fileType = data.FileType;
+            //    if (fileData != "") {
+            //        var fileWindow = window.open("");
+            //        if (fileWindow) {
+            //            var urlSafeData = fileData;
+            //            var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+
+            //            var byteCharacters = window.atob(base64Data);
+            //            var byteArrays = [];
+
+            //            for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+            //                var slice = byteCharacters.slice(offset, offset + 512);
+
+            //                var byteNumbers = new Array(slice.length);
+            //                for (var i = 0; i < slice.length; i++) {
+            //                    byteNumbers[i] = slice.charCodeAt(i);
+            //                }
+
+            //                var byteArray = new Uint8Array(byteNumbers);
+            //                byteArrays.push(byteArray);
+            //            }
+
+            //            var blob = new Blob(byteArrays, { type: fileType });
+            //            var blobUrl = window.URL.createObjectURL(blob);
+            //            setTimeout(function () {
+            //                fileWindow.document.write(
+            //                    "<iframe width='100%' height='100%' src='" + blobUrl + "' frameborder='0' style='border: 0; top: 0px; left: 0px; bottom: 0px; right: 0px; width: 100%; height: 100%;' allowfullscreen></iframe>"
+            //                );
+            //                fileWindow.document.title = "GITAM | Student portal";
+            //            }, 500); // Delay in milliseconds (adjust as needed)
+            //        } else {
+            //            alert("Failed to open file window.");
+            //        }
+            //    }
+            //    else {
+            //        alert("File not available!");
+            //    }
+            //},
+            //},
+            success: function (data, fileType1) {
+                var fileData = data.Base64Content;
+                var fileType = data.FileType;
+                var fileName = filename + "." + filetype;
+
+                if (fileData != "") {
+                    downloadFile(fileData, fileType, fileName);
+                } else {
+                    alert("File not available!");
+                }
+            },
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+
+    function Base64ToBytes(base64) {
+        var s = window.atob(base64);
+        var bytes = new Uint8Array(s.length);
+        for (var i = 0; i < s.length; i++) {
+            bytes[i] = s.charCodeAt(i);
+        }
+        return bytes;
+    };
+    function ViewPdf_repo(filename, filetype, group_code, folderid, assignmentid) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: './Home/PdfGet_assign',
+            data: { filename: filename, 'filetype': filetype, 'group_code': group_code, 'folderid': folderid, 'assignmentid': assignmentid },
+            //success: function (data, fileType1) {
+            //    //  debugger;
+            //    console.log(data);
+            //    var fileData = data.Base64Content;
+            //    var fileType = data.FileType; // Assuming the data contains the file content
+            //    if (fileData != "") {
+            //        var fileWindow = window.open("");
+            //        if (fileWindow) {
+            //            var urlSafeData = fileData;
+            //            var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+
+            //            var byteCharacters = window.atob(base64Data);
+            //            var byteArrays = [];
+
+            //            for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+            //                var slice = byteCharacters.slice(offset, offset + 512);
+
+            //                var byteNumbers = new Array(slice.length);
+            //                for (var i = 0; i < slice.length; i++) {
+            //                    byteNumbers[i] = slice.charCodeAt(i);
+            //                }
+
+            //                var byteArray = new Uint8Array(byteNumbers);
+            //                byteArrays.push(byteArray);
+            //            }
+
+            //            var blob = new Blob(byteArrays, { type: fileType });
+            //            var blobUrl = window.URL.createObjectURL(blob);
+            //            setTimeout(function () {
+            //                fileWindow.document.write(
+            //                    "<iframe width='100%' height='100%' src='" + blobUrl + "' frameborder='0' style='border: 0; top: 0px; left: 0px; bottom: 0px; right: 0px; width: 100%; height: 100%;' allowfullscreen></iframe>"
+            //                );
+            //                fileWindow.document.title = "GITAM | Student portal";
+            //            }, 500); // Delay in milliseconds (adjust as needed)
+            //        } else {
+            //            alert("Failed to open file window.");
+            //        }
+            //    }
+            //    else {
+            //        alert("File not available!");
+            //    }
+            //},
+            success: function (data, fileType1) {
+                var fileData = data.Base64Content;
+                var fileType = data.FileType;
+                var fileName = filename + "." + filetype;
+
+                if (fileData != "") {
+                    downloadFile(fileData, fileType, fileName);
+                } else {
+                    alert("File not available!");
+                }
+            },
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+    function removemsg() {
+        $('#' + id).remove();
+    }
+    function myFunctiondelete(assignid, regdno, folderid, fileid, filetype, filename, group_code) {
+        $.ajax({
+            type: "POST",
+            url: './Home/Deleteassignmntfile',
+            data: { 'assignid': assignid, 'regdno': regdno, 'folderid': folderid, 'fileid': fileid, 'filetype': filetype, 'filename': filename, 'group_code': group_code },
+            success: function (data) {
+                var error = data;
+                if (error == "Record deleted successfully") {
+                    $("#myModalupload").modal('hide');
+
+                    swal('Record deleted successfully', '', 'success');
+                    //setTimeout(loaddata, 1500);
+                }
+                else {
+                    swal('Record deleted unsuccessfully', '', 'error');
+                    //setTimeout(loaddata, 1500);
+                }
+            },
+            error: function (request, status, error) {
+            }
+        });
+    }
+    function downloadFile(fileData, fileType, fileName) {
+        var urlSafeData = fileData;
+        var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+        var byteCharacters = window.atob(base64Data);
+        var byteArrays = [];
+        for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+            var slice = byteCharacters.slice(offset, offset + 512);
+            var byteNumbers = new Array(slice.length);
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            var byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        var blob = new Blob(byteArrays, { type: fileType });
+        var blobUrl = window.URL.createObjectURL(blob);
+
+        var link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+    }
+
+    function loaddata() {
+        loadConfigView('67');
+    }
+    function getresource1(radiovalue, sub_code, sub_name, groupcode, facultyid) {
+        debugger;
+        $.ajax({
+            type: "Get",
+            url: './Home/lmsgetassignments',
+            data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+            success: function (data) {
+                $('#maindiv').html("");
+                console.log(data);
+                $('#maindiv').html(data);
+                $('.loaderContainer').hide();
+                $('.loading-overlay').hide();
+            },
+            error: function (request, status, error) {
+                //var val = request.responseText;
+                //alert("PDF file not available! " + val);
+            }
+        });
+    }
+</script>

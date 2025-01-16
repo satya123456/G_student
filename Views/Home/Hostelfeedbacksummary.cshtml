@@ -1,0 +1,415 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Feedbacksummary
+<style>
+    .accordion-button {
+      
+        font-size: 15px !important;
+        
+    }
+</style>
+
+@*<div id="tabs-1">*@
+@*<h3 class="page-title">Hostel students feedback</h3>*@
+<div class="content-container contentContainer">
+    <section class="" id="homeSection">
+        <div class="tabsContainer  ">
+
+            <!-- Tabs line -->
+            <div class="tabsFill">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs d-inline-flex">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" onclick="sendimg1(this);" href="#tab2">Hostel feedback</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " data-bs-toggle="tab" onclick="sendimg(this);" href="#tab3">History</a>
+                    </li>
+                    @*<li class="nav-item">
+                <a class="nav-link " data-bs-toggle="tab" href="#tab3">By subject</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " data-bs-toggle="tab" href="#tab4">Semester</a>
+            </li>*@
+
+
+                </ul>
+                <div class="back pull-right">
+                    <a href="javascript:void(0);" onclick="location.reload();">
+                        <i class='bx bx-arrow-back'></i>
+                    </a>
+                </div>
+                <div class="box-container">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab2">
+                            @{Html.RenderPartial("HostelFeedback", Model.list);}
+                        </div>
+                        <div class="tab-pane " id="tab3">
+
+                            <div id="accordion">
+                                @foreach (var asmnt in Model.lists)
+                                {
+                                }
+
+                                <div id="bbcadmission" class="hospital_history  bbcadmission accordion_style">
+                                    <div class=" history_bg">
+
+                                        @if (Model.lists != null && Model.lists.Count() > 0 && Model.lists.FirstOrDefault().QuestionID != null)
+                                        {
+
+                                            <div class="tpr_history_table table_style ">
+
+
+                                                <div class="from_inner history_bg">
+                                                    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                                                        @foreach (var date in Model.lists.OrderByDescending(X => Convert.ToDateTime(X.DT_TIME).ToString("dd-MMM-yyyy")).Select(m => new { m.REGDNO, m.DT_TIME }).Distinct())
+                                                        {
+
+
+                                                            int count = 0;
+                                                            int i = 1;
+
+                                                            //  var epi = Model.lists.Where(X => Convert.ToDateTime(X.DT_TIME).ToString("MMM-yyyy") == date);
+                                                            <div class="card">
+                                                                <!-- Header -->
+                                                                @foreach (var data1 in Model.lists.Where(X => X.DT_TIME.Equals(date.DT_TIME) && X.REGDNO == date.REGDNO).OrderByDescending(X => X.DT_TIME).Select(m => new { m.DT_TIME, m.REGDNO }).Distinct())
+                                                                {
+                                                                    if (data1 != null)
+                                                                    {
+                                                                        <div class="accordion" id="accordionExample">
+                                                                            <div class="accordion-item">
+                                                                                <h2 class="accordion-header" id="headingOne">
+                                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                                                        <h6> @date.REGDNO/@Convert.ToDateTime(date.DT_TIME).ToString("dd-MMM-yyyy")</h6>
+
+                                                                                    </button>
+                                                                                </h2>
+                                                                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                                                                                    <div class="accordion-body">
+                                                                                        <div class="row">
+
+
+
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group">
+                                                                                                    <label>1. Name</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.FirstOrDefault().NAME, new { @class = "form-control", @id = "name", @maxlength = "100", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group">
+                                                                                                    <label>Mobile number</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.FirstOrDefault().parent_mobile, new { @class = "form-control", @id = "mobile", @onkeypress = "return ValidateNumberdot(event);", @maxlength = "10", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="col-12 col-sm-12">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-12 col-sm-12">
+                                                                                                        <label>2. For permitting student outings, we require written consent from both of your parents. Would you like us to consult your parents and take signed consent forms ?</label>
+                                                                                                    </div>
+                                                                                                    <div class="sec-inline mt-2">
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(0).Status, "No", new { @class = "form-check-input", @id = "radioBtn11", @Name = "status1", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="radioBtn11">No</label>
+                                                                                                        </div>
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(0).Status, "Yes", new { @class = "form-check-input", @id = "radioBtn12", @Name = "status1", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="radioBtn12">Yes</label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    @if (Model.lists.ElementAt(0).Status.Equals("Yes") && Model.lists.ElementAt(0).Remarks != (""))
+                                                                                                    {
+                                                                                                        <div class="col-md-10 mt-2">
+                                                                                                            <div class="form-group">
+
+                                                                                                                @Html.TextBoxFor(model => model.lists.ElementAt(0).Remarks, new { @class = "form-control", @id = "Remarks1", @maxlength = "1000", @disabled = "disabled" })
+                                                                                                            </div>
+                                                                                                        </div>
+
+                                                                                                    }
+
+                                                                                                </div>
+
+                                                                                            </div>
+
+
+
+                                                                                            <div class="col-12 col-lg-6 ">
+                                                                                                <div class="form-group finalyr_intership">
+                                                                                                    <label>3. Room would you prefer during your internship (Final year MBBS students only)</label>
+                                                                                                    <div class="sec-inline mt-2">
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(1).Status, "Single room", new { @class = "form-check-input", @id = "single", @Name = "Status2", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="single">Single room</label>
+                                                                                                        </div>
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(1).Status, "Double room", new { @class = "form-check-input", @id = "double", @Name = "Status2", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="double">Double room</label>
+                                                                                                        </div>
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(1).Status, "No preference", new { @class = "form-check-input", @id = "nopref", @Name = "Status2", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="nopref">No preference</label>
+                                                                                                        </div>
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(1).Status, "Not applicable", new { @class = "form-check-input", @id = "noappli", @Name = "Status2", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="noappli">Not applicable</label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                            <div class="col-lg-6">
+                                                                                                <div class="form-group ">
+                                                                                                    <label>4. Class attendance percentage in the last semester / year</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(2).Remarks, new { @class = "form-control", @id = "Remarks3", @onkeypress = "return ValidateNumberdot(event);", @maxlength = "20", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="form-group">
+                                                                                                    <label>5. Attendance percentage do you commit to attain by end of this semester / year ? Hostel privileges shall curtail if you don't meet class attendance percentage fixed by attendance committee ?</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(3).Remarks, new { @class = "form-control", @id = "Remarks4", @onkeypress = "return ValidateNumberdot(event);", @maxlength = "20", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group">
+                                                                                                    <label>6. CGPA to date</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(4).Remarks, new { @class = "form-control", @id = "Remarks5", @onkeypress = "return ValidateNumberdot(event);", @maxlength = "20", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="form-group">
+                                                                                                    <label>7. SGPA in the past semester / year</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(5).Remarks, new { @class = "form-control", @id = "Remarks6", @onkeypress = "return ValidateNumberdot(event);", @maxlength = "20", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="form-group">
+                                                                                                    <label>8. What SGPA do you commit to attain by end of this semester / year ? Please note, hostel privileges shall curtail if you do not meet SGPA target set by the academic committee. ?</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(6).Remarks, new { @class = "form-control", @id = "Remarks7", @onkeypress = "return ValidateNumberdot(event);", @maxlength = "20", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-12 col-sm-12">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-12 col-lg-3">
+                                                                                                        <label>9. Hostel room dues more than one month</label>
+                                                                                                    </div>
+                                                                                                    <div class="sec-inline col-lg-6">
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(7).Status, "No", new { @class = "form-check-input", @id = "radioBtn21", @Name = "status3", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="radioBtn21">No</label>
+                                                                                                        </div>
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(7).Status, "Yes", new { @class = "form-check-input", @id = "radioBtn22", @Name = "status3", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="radioBtn22">Yes</label>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                    @if (Model.lists.ElementAt(7).Status.Equals("Yes") && Model.lists.ElementAt(7).Remarks != (""))
+                                                                                                    {
+                                                                                                        <div class="col-md-9">
+                                                                                                            <div class="form-group">
+
+                                                                                                                @Html.TextBoxFor(model => model.lists.ElementAt(7).Remarks, new { @class = "form-control", @id = "Remarks8", @maxlength = "1000", @disabled = "disabled" })
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                </div>
+
+                                                                                            </div>
+
+
+                                                                                            <div class="col-12 col-sm-12 ">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-12 col-lg-3">
+                                                                                                        <label>10. Hostel mess dues more than one month</label>
+                                                                                                    </div>
+                                                                                                    <div class="sec-inline col-lg-6">
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(8).Status, "No", new { @class = "form-check-input", @id = "radioBtn31", @Name = "status4", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="radioBtn31">No</label>
+                                                                                                        </div>
+                                                                                                        <div class="form-check">
+                                                                                                            @Html.RadioButtonFor(model => model.lists.ElementAt(8).Status, "Yes", new { @class = "form-check-input", @id = "radioBtn32", @Name = "status4", @disabled = "disabled" })
+                                                                                                            <label class="form-check-label" for="radioBtn32">Yes</label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    @if (Model.lists.ElementAt(8).Status.Equals("Yes") && Model.lists.ElementAt(8).Remarks != (""))
+                                                                                                    {
+                                                                                                        <div class="col-md-9">
+                                                                                                            <div class="form-group">
+
+                                                                                                                @Html.TextBoxFor(model => model.lists.ElementAt(8).Remarks, new { @class = "form-control", @id = "Remarks9", @maxlength = "1000", @disabled = "disabled" })
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                </div>
+
+                                                                                            </div>
+
+
+                                                                                            <div class="col-xl-5">
+                                                                                                <div class="form-group">
+                                                                                                    <label>11. What kind of indoor game facilities you'd like to have in your hostel ?</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(9).Remarks, new { @class = "form-control", @id = "Remarks10", @maxlength = "1000", @disabled = "disabled" })
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-xl-7">
+                                                                                                <div class="form-group">
+                                                                                                    <label>12. Please write your thoughts on existing hostel processes and how you suggest to improve the processes ?</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(10).Remarks, new { @class = "form-control", @id = "Remarks11", @maxlength = "1000", @disabled = "disabled" })
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-xl-12">
+                                                                                                <div class="form-group">
+                                                                                                    <label>13. Please provide any other feedback that you'd like to share with us</label>
+                                                                                                    @Html.TextBoxFor(model => model.lists.ElementAt(11).Remarks, new { @class = "form-control", @id = "Remarks12", @maxlength = "1000", @disabled = "disabled" })
+
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+
+                                                                    }
+
+                                                                    <!-- End header -->
+                                                                    <!-- Body -->
+
+
+                                                                }
+
+                                                            </div>
+
+
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="text-center">No records found</div>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="row">
+                <div class="col-sm-6">
+                    <ul>
+                        <li><a href="#tabs-2" onclick="sendimg1(this);">Hostel feedback</a></li>
+                        <li><a href="#tabs-3" onclick="sendimg(this);">History</a></li>
+                    </ul>
+                </div>
+
+            </div>*@
+
+        <div id="tabs-2">
+
+
+
+        </div>
+        <div id="tabs-3">
+
+
+        </div>
+    </section>
+    @*</div>*@
+    </div>
+
+    <div id="content" class="biach_prints table_style contentprint">
+
+    </div>
+    <script>
+    $(function () {
+        // $("#tabs-1").tabs();
+        $("#tabs-1").tabs({
+
+
+        });
+
+
+    });
+    function sendimg(mesage) {
+        $('.tpr_history_table').show();
+    }
+    function sendimg1(mesage) {
+        $('.tpr_history_table').hide();
+    }
+
+
+ @*function PrintfollowPreview(date, fulldate, submitted_date) {
+
+     //debugger;
+
+                var divid = "hospital_accordion_" + date;
+
+                var divstart = "<div class='print_page_inner biach_prints'>";
+
+              //  var logo = "<div class='basavatarakam_header_withlogo'><div class='logo'><img src='../Content/images/basavatarakamheader.png'/></div></div>";
+
+              //  var head = document.getElementById('patient_details1').innerHTML;
+                var head = "";
+                var fhead = "";
+                fhead = "<h5 class='page_title'>Hostel feedback</h5>";
+
+                var tabeldiv = "<table class='table_content_width'><thead><tr><td><div class='page-header-space'></div></td></tr></thead><tbody><tr><td><div class='content_inner'><h4 class='visit_id'></h4> ";
+                var printContents = document.getElementById(divid).innerHTML;
+                var divinnerend = "</div>";
+
+                // Generated by
+                 var tablestring3 = "";
+                tablestring3 = tablestring3 + "<div class='generated_by'>";
+                //tablestring3 = tablestring3 + "<img src = '../Content/images/sign.png'>";
+                //tablestring3 = tablestring3 + "<img src = '" + Result[0].FilePath + "'>";
+                tablestring3 = tablestring3 + "<h4>" + Result[0].employee_name + ", " + Result[0].employee_id + "</h4><h6>" + submitted_date + "</h6>";
+                tablestring3 = tablestring3 + "</div></div></td></tr></tbody><tfoot><tr><td><div class='page-footer-space'></div></td></tr></tfoot></table>";
+
+                // Printed by
+                var print_by = "";
+                print_by = print_by + "<div class='page-footer'>";
+                print_by = print_by + " <h5 class='print_by'><b>Printed by:</b> " + emp_name + ",  @DateTime.Now.ToString("dd-MMM-yyyy") /  @DateTime.Now.ToString("hh:mm tt")<span class='ip_hide'>, <b class='ml-2'>IP address:</b> " + Result[0].ipaddress + "</span>";
+                print_by = print_by + "</div>";
+
+                var divend = "</div>";
+
+
+
+                var after = document.getElementsByClassName('.card').innerHTML;
+                var final = divstart + logo + head + tabeldiv + fhead + "<div class='border_table'>"+printContents +"</div>"+ divinnerend + tablestring3 + print_by + divend;
+
+                $("#content").html(final);
+
+                window.focus();
+                print();
+
+                $('.btn').show();
+                $("#ghms").html(after);
+
+    }*@
+
+    </script>

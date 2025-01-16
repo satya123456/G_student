@@ -1,0 +1,1744 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My-GITAM</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="Distribution" content="Global" />
+    <meta name="description" />
+    <meta name="keywords" content="GITAM, Gat" />
+    <meta name="theme-color" content="#b1040e" />
+    <meta name="author" content="GITAM" />
+    <meta name="copyright" content="GITAM" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="https://cdn.gitam.edu/images/favicon/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/boxicons-2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/remixIcon-3.1.1/remixicon.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/fontawesome-6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-icons/bootstrap-icons.css">
+
+
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/jquery-ui/css/jquery-ui.css">
+
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/dataTables/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/dataTables/ColumnFilterWidgets.css" />
+
+    <!-- Sweet alerts -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/sweetAlert/sweetalert2.min.css" />
+
+    <!-- Daterangepicker -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/daterangepicker/css/daterange.min.css" />
+
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/select2/select2.min.css">
+
+    <!-- Datetimepicker -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/datetimepicker/tempus-dominus.min.css">
+
+    <!-- Custome style -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/css/root.css">
+    <link href="~/Content/css/student.css?v=3" rel="stylesheet" />
+    <script src="~/Content/js/index.js" defer></script>
+    <link rel="manifest" href="~/Content/js/manifest.webmanifest">
+
+    <style>
+        .sidebar .nav-links {
+            height: 83%;
+        }
+
+        .student_logo {
+            display: none;
+        }
+
+        .std_profile {
+            text-align: center;
+        }
+
+            .std_profile img {
+                margin-bottom: 10px;
+            }
+
+        .hostler {
+            font-size: 60px;
+            color: black;
+            margin-right: 10px;
+        }
+
+        .scrollbar {
+            max-height: 83%;
+            overflow: auto;
+        }
+
+        .scrollbarAll::-webkit-scrollbar-track {
+            /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .scrollbarAll::-webkit-scrollbar {
+            width: 5px;
+            background-color: #FFF;
+        }
+
+        .scrollbarAll::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: pink;
+        }
+        .subscript {
+            margin-left: 135px;
+            font-stretch: :20px !important;
+            font-weight: 700;
+        }
+    </style>
+
+</head>
+
+<body>
+    @{
+        var hostler = Convert.ToString(Session["hostler"]);
+    }
+
+    <div id="wrapper">
+        <!-- sider bar -->
+        <div class="sidebar-bg"></div>
+        <div class="sidebar menuSec">
+            <div class="logo-details">
+                <span class="logo_name">
+
+                    <img src="https://cdn.gitam.edu/images/logo/cats-logo-white.png" alt="CATS-logo">
+                </span>
+            </div>
+            <h5 class="nav-heading d-none d-lg-block"></h5>
+            <div class="std_profile">
+                @if (Session["college_code"].ToString() == "CDL")
+                {
+
+                    <img src="http://cdlimages.gitam.edu/img.aspx?id=@Context.Session["uid"]" alt="" class="profilepic">
+
+                    @*if (Session["hostler"].ToString() == "Y")
+            {
+                <a  title="Hostler"><span class="hostler">H</span></a>
+
+            }*@
+                }
+                else
+                {
+
+                    if (Session["hostler"].ToString() == "Y")
+                    {
+                        <div class="d-flex">
+
+                            <img src="https://doeresults.gitam.edu/photo/img.aspx?id=@Context.Session["uid"]" alt="" class="profilepic">
+
+                            <a title="Hostler"><span class="hostler">H</span></a>
+                            <span></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="https://doeresults.gitam.edu/photo/img.aspx?id=@Context.Session["uid"]" alt="" class="profilepic">
+
+                    }
+                }
+            <div>
+                <span class="userName text-center">@Context.Session["studname"] </span><br>
+                <span class="status text-center">
+                    (@Context.Session["REGDNO"])
+                </span>
+
+                @if (Session["hostler"].ToString() == "Y")
+                {
+                    <span class="status text-center subscript">
+                        Hostler
+                    </span>
+                }
+                @*else
+                {
+                    <span class="status text-center subscript">
+                        D-scholor
+                    </span>
+                }*@
+            </div>
+
+
+              
+
+                </div>
+                <div class="scrollbar scrollbarAll">
+                    <ul class="nav-links ">
+
+
+
+                        @if (Session["college_code"].ToString() != "CDL")
+                        {
+                            <li>
+                                <a class="dashboard active" href="javascript:void(0);" onclick="loadConfigView('30');">
+                                    <i class="bx bx-grid-alt"></i>
+                                    <span class="link_name">My dashboard</span>
+                                </a>
+
+                            </li>
+                        }
+                        @if (Session["college_code"].ToString() == "CDL")
+                        {
+                            <li>
+                                <a class="cdlprofile active" href="javascript:void(0);" onclick="loadConfigView('8');">
+                                    <i class='bx bx-user'></i>
+                                    <span class="link_name">CDL Profile update</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="cdlacademic" href="javascript:void(0);" onclick="loadConfigView('10');">
+                                    <i class="ri-line-chart-line"></i>
+                                    <span class="link_name">CDL academic track</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="stdid" href="javascript:void(0);" onclick="loadConfigView('11');">
+                                    <i class='bx bx-id-card'></i>
+                                    <span class="link_name">Student ID card</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="study" href="javascript:void(0);" onclick="loadConfigView('41');">
+                                    <i class="ri-file-list-2-line"></i>
+                                    <span class="link_name">Study certificate</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="TC" href="javascript:void(0);" onclick="loadConfigView('42');">
+                                    <i class="ri-file-transfer-line"></i>
+                                    <span class="link_name">Transfer certificate</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="GradeCDL" href="javascript:void(0);" onclick="loadConfigView('43');">
+                                    <i class="ri-file-chart-line"></i>
+                                    <span class="link_name">CDL grade card</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="migrate" href="javascript:void(0);" onclick="loadConfigView('44');">
+                                    <i class="ri-file-copy-2-line"></i>
+                                    <span class="link_name">Migration certificate</span>
+                                </a>
+
+
+                            </li>
+                            @*<li>
+                <a class="migrate" href="javascript:void(0);" onclick="loadConfigView('46');">
+                    <i class="ri-article-line"></i>
+                    <span class="link_name">CDL Hall ticket</span>
+                </a>
+
+
+            </li>*@
+                            <li>
+                                <a class="studyfee" href="javascript:void(0);" onclick="loadConfigView('62');">
+                                    <i class="ri-article-line"></i>
+                                    <span class="link_name">Supplimentary fee</span>
+                                </a>
+
+                            </li>
+                            if (Session["college_code"].ToString().Equals("CDL") && Session["Curr_sem"].ToString().Equals("1"))
+                            {
+                                <li>
+                                    <a class="migrate" href="javascript:void(0);" onclick="loadConfigView('49');">
+                                        <i class="ri-article-line"></i>
+                                        <span class="link_name">CDL Study Material</span>
+                                    </a>
+
+                                </li>
+                            }
+                            @*<li>
+                <a class="Online_gradecard" target="_blank" href="https://Onlinecertificates.gitam.edu/CDL_Grade_card.aspx?StdId=@Session["EncryUserID"]" onclick="loadConfigView('51');">
+                    <i class="ri-bard-line"></i>
+                    <span class="link_name">Online gradecard</span>
+                </a>
+
+            </li>*@
+
+                        }
+                        else if (Session["course_code"].ToString() == "PHD")
+                        {
+                            <li>
+                                <a class="Profile" href="javascript:void(0);" onclick="loadConfigView('1');">
+                                    <i class='bx bx-user'></i>
+                                    <span class="link_name">Profile</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Attendance" href="javascript:void(0);" onclick="loadConfigView('2');">
+                                    <i class='bx bx-check-square'></i>
+                                    <span class="link_name">Attendance</span>
+                                </a>
+
+                            </li>
+
+                            <li>
+                                <a class="Scholarship" href="javascript:void(0);" onclick="loadConfigView('4');">
+                                    <i class='bx bxs-graduation'></i>
+                                    <span class="link_name">Scholarship</span>
+                                </a>
+
+                            </li>
+
+                            <li>
+                                <a class="Publications" href="javascript:void(0);" onclick="loadConfigView('17');">
+                                    <i class="ri-file-history-line"></i>
+                                    <span class="link_name">Publications</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Academic" href="javascript:void(0);" onclick="loadConfigView('13');">
+                                    <i class="ri-line-chart-line"></i>
+                                    <span class="link_name">Academic track</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Status" href="javascript:void(0);" onclick="loadConfigView('20');">
+                                    <i class="ri-file-list-3-line"></i>
+                                    <span class="link_name">Status of thesis</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Email" href="javascript:void(0);" onclick="loadConfigView('22');">
+                                    <i class='bx bx-envelope'></i>
+                                    <span class="link_name">Email update password</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="fee" href="javascript:void(0);" onclick="loadConfigView('33');">
+                                    <i class="ri-currency-line"></i>
+                                    <span class="link_name">Fees</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Admsn" href="javascript:void(0);" onclick="loadConfigView('34');">
+                                    <i class="ri-contacts-book-2-line"></i>
+                                    <span class="link_name">Admission</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="hallticket" href="javascript:void(0);" onclick="loadConfigView('45');">
+                                    <i class="ri-article-line"></i>
+                                    <span class="link_name">Hallticket</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="certificate_fee" href="javascript:void(0);" onclick="loadConfigView('48');">
+                                    <i class="ri-feedback-line"></i>
+                                    <span class="link_name">Biometric Report</span>
+                                </a>
+
+                            </li>
+                            @*<li>
+                <a class="certificate_fee" href="javascript:void(0);" onclick="loadConfigView('47');">
+                    <i class="ri-feedback-line"></i>
+                    <span class="link_name">Certificates fee</span>
+                </a>
+
+            </li>*@
+                            @*if (Session["batchend"].ToString() == "2024" || Session["batchend"].ToString() == "2025")
+            {
+                <li>
+                    <a class="ATS" href="https://cdats.gitam.edu/?id=@Session["EncryUserID"]" target="_blank" onclick="loadConfigView('50');">
+                        <i class="ri-terminal-window-line"></i>
+                        <span class="link_name">ATS</span>
+                    </a>
+
+                </li>
+            }*@
+
+                            @*<li>
+                <a class="Online_gradecard" href="https://Onlinecertificates.gitam.edu/New_Gradecardinput.aspx?StdId=@Session["EncryUserID"]" target="_blank" onclick="loadConfigView('51');">
+                    <i class="ri-bard-line"></i>
+                    <span class="link_name">Online gradecard</span>
+                </a>
+
+            </li>*@
+
+                            @*<li>
+                <a class="Results" href="https://doeresults.gitam.edu/onlineresults/pages/Newgrdcrdinput.aspx" target="_blank" onclick="loadConfigView('52');">
+                    <i class='bx bx-spreadsheet'></i>
+                    <span class="link_name">Results</span>
+                </a>
+
+            </li>*@
+                            @*<li>
+                <a class="Results" href="javascript:void(0);" onclick="loadConfigView('35');">
+                    <i class='bx bx-spreadsheet'></i>
+                    <span class="link_name">Results</span>
+                </a>
+
+            </li>*@
+                            @*<li>
+                <a class="Registration" href="http://gexams.gitam.edu/studentapplication.aspx?=@Session["EncryUserID"]" target="_blank" onclick="loadConfigView('53');">
+                    <i class="ri-file-copy-2-line"></i>
+                    <span class="link_name">OD Registration</span>
+                </a>
+
+            </li>*@
+
+                            @*<li>
+                <a class="hallticket" href="javascript:void(0);" onclick="loadConfigView('45');">
+                    <i class="ri-award-fill"></i>
+                    <span class="link_name">online halltickets</span>
+                </a>
+            </li>*@
+                        }
+                        else
+                        {
+
+                            @*<li class="Dashboard">
+                <a href="#">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+
+            </li>*@
+                            <li>
+                                <a class="Profile" href="javascript:void(0);" onclick="loadConfigView('1');">
+                                    <i class='bx bx-user'></i>
+                                    <span class="link_name">Profile</span>
+                                </a>
+
+                            </li>
+                            if (Session["campus_code"].ToString() == "HYD" && Session["hostler"].ToString() != "Y")
+
+                            {
+
+                                <li>
+                                    <a class="Bus" href="javascript:void(0);" onclick="loadConfigView('21');">
+                                        <i class='bx bx-bus'></i>
+                                        <span class="link_name">Bus pass enrollment</span>
+                                    </a>
+
+                                </li>
+                            }
+                            if (Session["campus_code"].ToString() == "HYD" && Session["college_code"].ToString() == "GPP")
+
+                            {
+                                <li>
+                                    <a class="appoint" href="javascript:void(0);" onclick="loadConfigView('61');">
+                                        <i class="ri-article-line"></i>
+                                        <span class="link_name">Medical appointment</span>
+                                    </a>
+                                </li>
+                            }
+                            @*<li>
+                <a href="https://newonlinepay.gitam.edu/gpay/login" target="_blank">
+                    <i class='bx bx-credit-card'></i>
+                    <span class="link_name">Accounts and payments</span>
+                </a>
+
+            </li>*@ if (Session["hostler"].ToString() == "Y")
+                            {
+                                <li>
+                                    <a class="Permissions" href="javascript:void(0);" onclick="loadConfigView('6');">
+                                        <i class="ri-file-history-line"></i>
+                                        <span class="link_name">Permissions &amp; Leaves</span>
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a class="Residence" href="javascript:void(0);" onclick="loadConfigView('24');">
+                                        <i class="bx bx-building-house"></i>
+                                        <span class="link_name">Residence</span>
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a class="Dining" href="javascript:void(0);" onclick="loadConfigView('25');">
+                                        <i class="bx bx-bowl-hot"></i>
+                                        <span class="link_name">Dining</span>
+                                    </a>
+
+                                </li>
+                                @*<li>
+                    <a class="Security" href="javascript:void(0);" onclick="loadConfigView('26');">
+                        <i class="bx bx-shield-alt-2"></i>
+                        <span class="link_name">Security</span>
+                    </a>
+
+                </li>*@
+
+
+
+                            }
+                            <li>
+                                <a class="Attendance" href="javascript:void(0);" onclick="loadConfigView('2');">
+                                    <i class='bx bx-check-square'></i>
+                                    <span class="link_name">Attendance</span>
+                                </a>
+
+                            </li>
+                            if (Session["Timetablebatch"].ToString() == "Y")
+                            {
+                                <li>
+                                    <a class="Time" href="javascript:void(0);" onclick="loadConfigView('27');">
+                                        <i class="ri-table-line"></i>
+                                        <span class="link_name">Time table</span>
+                                    </a>
+
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="Time" href="javascript:void(0);" onclick="loadConfigView('14');">
+                                        <i class="ri-table-line"></i>
+                                        <span class="link_name">Time table</span>
+                                    </a>
+
+                                </li>
+                            }
+                            <li>
+                                <a class="lms" href="javascript:void(0);" onclick="loadConfigView('67');">
+                                    <i class="ri-book-read-line"></i>
+                                    <span class="link_name">Courses (G-Learn)</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Course" href="javascript:void(0);" onclick="loadConfigView('3');">
+                                    <i class="ri-file-copy-2-line"></i>
+                                    <span class="link_name">Course structure</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Scholarship" href="javascript:void(0);" onclick="loadConfigView('4');">
+                                    <i class='bx bxs-graduation'></i>
+                                    <span class="link_name">Scholarship</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Academic" href="javascript:void(0);" onclick="loadConfigView('13');">
+                                    <i class="ri-line-chart-line"></i>
+                                    <span class="link_name">Academic track</span>
+                                </a>
+
+                            </li>
+
+                            <li>
+                                <a class="GradeOnlie" href="javascript:void(0);" onclick="loadConfigView('60');">
+                                    <i class="ri-file-chart-line"></i>
+                                    <span class="link_name">Online grade card</span>
+                                </a>
+
+                            </li>
+
+                            @* <li>
+                <a class="certificate_fee" href="javascript:void(0);" onclick="loadConfigView('47');">
+                    <i class="ri-feedback-line"></i>
+                    <span class="link_name">Certificates fee</span>
+                </a>
+
+            </li>*@
+                            @*<li>
+                <a class="certificate_fee" href="https://onlinedoereceipts.gitam.edu/" target="_blank">
+                    <i class="ri-feedback-line"></i>
+                    <span class="link_name">Certificates fee</span>
+                </a>
+
+            </li>*@
+                            @*<li>
+                <a class="sports" href="javascript:void(0);" onclick="loadConfigView('32');">
+                    <i class='bx bx-cricket-ball'></i>
+                    <span class="link_name">G-Sports scholarship</span>
+                </a>
+
+            </li>*@
+                            <li>
+                                <a class="fee" href="javascript:void(0);" onclick="loadConfigView('33');">
+                                    <i class="ri-currency-line"></i>
+                                    <span class="link_name">Fees</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Admsn" href="javascript:void(0);" onclick="loadConfigView('34');">
+                                    <i class="ri-contacts-book-2-line"></i>
+                                    <span class="link_name">Admission</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="feedback" href="javascript:void(0);" onclick="loadConfigView('37');">
+                                    <i class='bx bx-message-rounded-dots'></i>
+                                    <span class="link_name">Feedback</span>
+                                </a>
+
+                            </li>
+
+                            <li>
+                                <a class="Notice" href="javascript:void(0);" onclick="loadConfigView('7');">
+                                    <i class='bx bx-chalkboard'></i>
+                                    <span class="link_name">Notice board</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="Displinary" href="javascript:void(0);" onclick="loadConfigView('28');">
+                                    <i class="bx bx-shield-alt-2"></i>
+                                    <span class="link_name">Student disciplinary info</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="contact" href="javascript:void(0);" onclick="loadConfigView('31');">
+                                    <i class='bx bxs-user-account'></i>
+                                    <span class="link_name">Mentor details</span>
+                                </a>
+
+                            </li>
+                            @*<li>
+                <a class="Code" target="_blank" href="~/images/icons/code-of-conduct.pdf">
+                    <i class='bx bx-code-block'></i>
+                    <span class="link_name">Code of conduct</span>
+                </a>
+
+            </li>*@
+                            <li>
+                                <a class="hallticket" href="javascript:void(0);" onclick="loadConfigView('45');">
+                                    <i class="ri-article-line"></i>
+                                    <span class="link_name">Hall ticket</span>
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a class="accreditations" href="javascript:void(0);" onclick="loadConfigView('15');">
+                                    <i class="ri-award-fill"></i>
+                                    <span class="link_name">Circulars / Notifications</span>
+                                </a>
+
+                            </li>
+
+                            @* <li>
+                <a class="DegreePlan" href="javascript:void(0);" onclick="loadConfigView('36');">
+                    <i class="ri-file-list-2-line"></i>
+                    <span class="link_name">Degree plan</span>
+                </a>
+
+            </li>*@
+                            <li>
+                                <a class="events" href="javascript:void(0);" onclick="loadConfigView('38');">
+                                    <i class='bx bx-news'></i>
+                                    <span class="link_name">News & Events</span>
+                                </a>
+
+                            </li>
+                            if (Session["sem13_sgpa"].ToString() == "1")
+                            {
+                                <li>
+                                    <a class="course" href="javascript:void(0);" onclick="loadConfigView('63');">
+                                        <i class='bx bx-registered'></i>
+                                        <span class="link_name">Course registration</span>
+                                    </a>
+
+                                </li>
+                            }
+                            if (Session["hostler"].ToString() == "Y")
+                            {
+                                @*<li>
+                    <a class="hos_bio" href="javascript:void(0);" onclick="loadConfigView('9');">
+                        <i class="ri-fingerprint-2-line"></i>
+                        <span class="link_name">Biometric SMS track</span>
+                    </a>
+
+                </li>*@
+                                @* <li>
+                    <a class="Hostel" href="javascript:void(0);" onclick="loadConfigView('16');">
+                        <i class="ri-feedback-line"></i>
+                        <span class="link_name">Feedback</span>
+                    </a>
+
+                </li>*@
+                            }
+
+
+                        }
+                        <li>
+                            <a class="gevents" href="javascript:void(0);" onclick="loadConfigView('66');">
+                                <i class='bx bx-calendar'></i>
+                                <span class="link_name">Events</span>
+                            </a>
+
+                        </li>
+                       @if (Session["college_code"].ToString().ToUpper() == "GIM" || Session["college_code"].ToString().ToUpper() == "GSIB")
+                       {
+                           <li class="">
+                            <a class="bellcats" href="javascript:void(0);" onclick="loadConfigView('68');">
+                                <i class="bx bx-bell"></i>
+                                <span class="link_name">Bell the CATS</span>
+                            </a>
+                        </li>
+                       }
+                    </ul>
+                </div>
+            </div>
+
+        <!-- main content -->
+        <section class="home-section">
+            <!-- header -->
+            <header>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="home-content d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div id="menuToggle">
+                                        <i class="ri-menu-line"></i>
+
+
+                                    </div>
+                                    <span class="text d-none d-lg-block">
+                                        G-Student
+                                    </span>
+                                    <span class="text d-block d-lg-none ">
+                                        G-Student
+                                    </span>
+                                </div>
+                                <div class="d-flex justify-content-between gap-4 align-items-center">
+                                    <div class="session">
+                                        <span id="timersession" style="display:none">1800000</span>
+                                        <div class="timer_div">
+
+                                            <p>
+                                                Session
+                                                <i class="bx bx-hourglass spin"></i> :
+                                                <span id="countDown"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    @*<span class="text">Session : <i class="bx bxs-hourglass spin"></i></span>
+
+                                <span id="spanTimeLeft" class="text d-none d-lg-block"> sec</span>*@
+
+
+                                    @if (Session["college_code"].ToString() == "CDL")
+                                    {
+                                        <img src="https://cdn.gitam.edu/images/dots-menu.png" alt="" class="menu" id="menu">
+                                        <img src="http://cdlimages.gitam.edu/img.aspx?id=@Context.Session["uid"]" alt="" class="profile" id="profile_pic">
+                                    }
+                                    else
+                                    {
+                                        <img src="https://cdn.gitam.edu/images/dots-menu.png" alt="" class="menu" id="menu">
+                                        <img src="https://doeresults.gitam.edu/photo/img.aspx?id=@Context.Session["uid"]" alt="" class="profile" id="profile_pic">
+
+                                    }
+                                </div>
+                                <div class="sub-menu-wrap" id="subMenu">
+                                    <div class="sub-menu ">
+                                        <div class="sub-menu-link more-profile-details">
+                                            <i class='bx bx-user-circle'></i>
+
+                                            <p class="userName">@Context.Session["studname"] </p>
+
+                                        </div>
+
+                                        <a href="#" class="sub-menu-link" onclick="loadConfigView('5');">
+                                            <i class='bx bx-lock-open-alt'></i>
+                                            <p class="">Change Password</p>
+                                        </a>
+                                        <a href="./Home/Logout" class="sub-menu-link">
+                                            <i class='bx bx-log-out-circle'></i>
+                                            <p class="">Logout</p>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="quick-menu" id="quickmenu">
+                                    <div class="quick-menus">
+                                        <div class="moreMenuGrid">
+                                            @*<div class="moreMenuInner">
+                                            <a href="#">
+                                                <img src="https://cdn.gitam.edu/images/rupee_icon.png" class="more_img">
+                                                <p> GIMSR finance </p>
+                                            </a>
+                                        </div>*@
+
+                                            @*<div class="col-6 col-md-4 ">
+
+                                            <div class="moreMenuInner">
+                                                <a target="_blank" href="https://newonlinepay.gitam.edu/gpay/login">
+                                                    <img src="~/images/acp.png"
+                                                         class="more_img">
+                                                    <p> Accounts and payments </p>
+                                                </a>
+
+                                            </div>
+                                        </div>*@
+
+
+
+
+                                            @if (Session["college_code"].ToString() == "CDL")
+
+                                            {
+
+
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="https://Onlinecertificates.gitam.edu/CDL_Grade_card.aspx?StdId=@Session["EncryUserID"]">
+
+                                                    <img src="~/Content/images/Online grade card.png" class="more_img" />
+                                                    <p>Online gradecard CDL</p>
+                                                </a>
+
+                                            </div>*@
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="http://xlearn.gitam.edu/moodle/login/index.php">
+
+                                                        <img src="~/Content/images/X learn.png" class="more_img" />
+                                                        <p>X-learn </p>
+                                                    </a>
+
+                                                </div>
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://www.facebook.com/profile.php?id=100071261426912">
+                                                        <img src="~/Content/images/facebook.png"
+                                                             class="more_img">
+                                                        <p>CDL Facebook  </p>
+                                                    </a>
+
+                                                </div>
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://www.youtube.com/channel/UCRw6JNcu1Zd8dGAWTLeGmKg">
+                                                        <img src="~/Content/images/youtube.png"
+                                                             class="more_img">
+                                                        <p>CDL YouTube </p>
+                                                    </a>
+
+                                                </div>
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="http://cdl.gitam.edu/downloads.aspx">
+                                                        <img src="~/Content/images/cdldownload.png"
+                                                             class="more_img">
+                                                        <p>CDL downloads</p>
+                                                    </a>
+
+                                                </div>
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://cdlapp.gitam.edu/Verification/index?val=@Session["EncryUserID"]">
+                                                        <img src="~/Content/images/Accounts.png"
+                                                             class="more_img">
+                                                        <p>Purchase Books</p>
+                                                    </a>
+
+                                                </div>
+
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="https://Onlinecertificates.gitam.edu/CDL_Migration_Certificate.aspx?StdId=@Session["EncryUserID"]">
+
+                                                    <img src="~/Content/images/certificate.png" class="more_img" />
+                                                    <p>Migration Certificate </p>
+                                                </a>
+
+                                            </div>*@
+
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="https://Onlinecertificates.gitam.edu/CDL_Online_PCMG2_Certificate.aspx?StdId=@Session["EncryUserID"]">
+                                                    <img src="~/Content/images/certificate.png"
+                                                         class="more_img">
+                                                    <p>PCCMG2 Certificate</p>
+                                                </a>
+
+                                            </div>
+                                            <div class="moreMenuInner">
+                                                <a target="_blank" href="https://Onlinecertificates.gitam.edu/Online_PCCMG3_Certificate.aspx?StdId=@Session["EncryUserID"]">
+                                                    <img src="~/Content/images/certificate.png"
+                                                         class="more_img">
+                                                    <p>PCCMG3 Certificate</p>
+                                                </a>
+
+                                            </div>
+                                            <div class="moreMenuInner">
+                                                <a target="_blank" href="https://Onlinecertificates.gitam.edu/CDL_Online_PCMG4_Certificate.aspx?StdId=@Session["EncryUserID"]">
+                                                    <img src="~/Content/images/certificate.png"
+                                                         class="more_img">
+                                                    <p>PCCMG4 Certificate </p>
+                                                </a>
+
+                                            </div>*@
+
+
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="https://Onlinecertificates.gitam.edu/WebForm2.aspx?StdId=@Session["EncryUserID"]">
+                                                    <img src="~/Content/images/certificate.png"
+                                                         class="more_img">
+                                                    <p>Transfer Certificate </p>
+                                                </a>
+
+                                            </div>
+
+                                            <div class="moreMenuInner">
+                                                <a target="_blank" href="https://Onlinecertificates.gitam.edu/WebForm1.aspx?StdId=@Session["EncryUserID"]">
+                                                    <img src="~/Content/images/certificate.png"
+                                                         class="more_img">
+                                                    <p>Study Certificate </p>
+                                                </a>
+
+                                            </div>*@
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://eweb.gitam.edu/cdlreceipts/">
+                                                        <img src="~/Content/images/fees.png"
+                                                             class="more_img">
+                                                        <p>Supplementary exam fee </p>
+                                                    </a>
+
+                                                </div>
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="http://guide.gitam.edu/signon.aspx?id=999">
+                                                        <img src="~/Content/images/Guide website.png"
+                                                             class="more_img">
+                                                        <p>Guide website</p>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://onlinepay.gitam.edu/cdl/makepayment">
+                                                        <img src="~/Content/images/Tution fee.png"
+                                                             class="more_img">
+                                                        <p>Tuition fee  </p>
+                                                    </a>
+
+                                                </div>
+
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="https://eweb.gitam.edu/cdlhall/">
+                                                    <img src="~/Content/images/hallticket.png"
+                                                         class="more_img">
+                                                    <p>Hallticket</p>
+                                                </a>
+
+                                            </div>*@
+
+
+                                            }
+
+
+                                            else
+                                            {
+
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://coursera.gitam.edu/signon.aspx?val=@Session["val"]">
+
+                                                        <img src="~/images/coursera.png" class="more_img" />
+                                                        <p>Coursera</p>
+                                                    </a>
+
+                                                </div>
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="~/images/icons/code-of-conduct.pdf">
+                                                        <img src="~/Content/images/Online grade card.png" class="more_img" />
+                                                        @*<img src="~/Content/images/Accounts.png" class="more_img" />*@
+                                                        <p> Code of conduct </p>
+                                                    </a>
+
+                                                </div>
+
+
+
+
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href=" https://learn.gitam.edu/login/index.php">
+
+                                                        <img src="~/Content/images/moodle.ico" class="more_img" />
+                                                        <p>Moodle</p>
+                                                    </a>
+
+                                                </div>
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://sicgcgc.gitam.edu/">
+                                                        <img src="~/Content/images/Explore.png" class="more_img" />
+                                                        @*<img src = "~/Content/images/Explore.png" class="more_img" />*@
+                                                        <p> G-Explore</p>
+                                                    </a>
+
+                                                </div>
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://onlinedoereceipts.gitam.edu/?StdId=@Session["EncryUserID"]">
+                                                        <img src="~/Content/images/Tution fee.png" class="more_img" />
+                                                        @*<img src = "~/Content/images/Accounts.png" class="more_img" />*@
+                                                        <p> Certificates fee</p>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://gsports.gitam.edu/main/@Session["uid"]">
+                                                        <img src="~/Content/images/sports.png" class="more_img" />
+                                                        @*<img src = "~/Content/images/Explore.png" class="more_img" />*@
+                                                        <p> G-Sports</p>
+                                                    </a>
+
+                                                </div>
+
+                                                <!--<div class="moreMenuInner">
+                                        <a target = "_blank" href="https://courseregistrationtesting.gitam.edu/welcomepage.aspx?txtusername=vu21csen0102125">
+                                            <img src="~/Content/images/Course registration.png"  class="more_img" />-->
+                                                @*<img src = "~/Content/images/Accounts.png" />*@
+                                                <!--<p> Course Registration</p>
+                                            </a>
+
+                                        </div>-->
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="https://doeresults.gitam.edu/onlineresults/pages/Newgrdcrdinput.aspx">
+
+                                                    <img src="~/Content/images/Results.png" class="more_img" />
+                                                    <p>Results</p>
+                                                </a>
+
+                                            </div>*@
+
+
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="http://gexams.gitam.edu/studentapplication.aspx?=@Session["EncryUserID"]">
+
+                                                    <img src="~/Content/images/Registration for OD.png" class="more_img" />
+                                                    <p>Registration form for OD </p>
+                                                </a>
+
+                                            </div>*@
+
+
+                                                @*<div class="moreMenuInner">
+                                                <a target="_blank" href="~/Images/student-handbook.pdf">
+
+                                                    <img src="~/Content/images/Student hand.png" class="more_img" />
+                                                    <p>Student handbook </p>
+                                                </a>
+
+                                            </div>*@
+
+
+                                            }
+                                            @if (Session["batchend"].ToString() == "2024" || Session["batchend"].ToString() == "2025")
+                                            {
+
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="https://cdats.gitam.edu/?id=@Session["EncryUserID"]" onclick="loadConfigView('50');">
+
+                                                        <img src="~/Content/images/Accounts.png" class="more_img" />
+                                                        <p> ATS</p>
+                                                    </a>
+
+                                                </div>
+                                                <div class="moreMenuInner">
+                                                    <a target="_blank" href="http://gexams.gitam.edu/studentapplication.aspx?=@Session["EncryUserID"]" onclick="loadConfigView('53');">
+                                                        <img src="~/Content/images/Registration for OD.png" class="more_img" />
+                                                        @*<img src="~/Content/images/Accounts.png" class="more_img" />*@
+                                                        <p> OD Registration</p>
+                                                    </a>
+
+                                                </div>
+
+
+
+
+                                            }
+
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="student_logo">
+                                <img src="~/Content/images/Gstudent-white.png?v=1" />
+                                @*<img src="~/Content/images/G-student.png?v=1" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="maindiv">
+                @*<div id="homeSection">*@
+                @RenderBody()
+                @*</div>*@
+            </div>
+            <div class="loading-overlay"></div>
+            <div class="loaderContainer ">
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+            <!-- Jquery -->
+            <script src="https://cdn.gitam.edu/js/jquery-3.6.0.js"></script>
+
+            <!-- Jquery UI -->
+            <script src="https://cdn.gitam.edu/vendor/jquery-ui/js/jquery-ui.js"></script>
+
+
+            <!-- Bootstrap js -->
+            <script src="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/js/bootstrap.min.js"></script>
+
+            <!-- Popper  js -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+
+
+            <!-- Jquery validations -->
+            <script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.validate.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.validate.unobtrusive.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/jqueryValidation/jquery.unobtrusive-ajax.min.js"></script>
+
+
+            <!-- Data Tables -->
+            <script src="https://cdn.gitam.edu/vendor/dataTables/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/dataTables.bootstrap5.min.js"></script>
+
+            <!-- Datatable file exports -->
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.bootstrap5.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/JSZip-2.5.0/jszip.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.print.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/Buttons-2.3.6/js/buttons.colVis.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/dataTables/ColumnFilterWidgets.js"></script>
+
+            <!-- Sweet alerts -->
+            <script src="https://cdn.gitam.edu/vendor/sweetAlert/sweetalert2.all.min.js"></script>
+
+
+            <!-- Ckeditor -->
+            <script src="https://cdn.gitam.edu/vendor/ckeditor-4.21.0/ckeditor.js"></script>
+
+
+            <!-- Charts -->
+            <script src="https://cdn.gitam.edu/js/apexcharts.js"></script>
+
+
+            <!-- Daterangepicker -->
+            <script src="https://cdn.gitam.edu/js/moment.min.js"></script>
+            <script src="https://cdn.gitam.edu/vendor/daterangepicker/js/daterangepicker.min.js"></script>
+
+            <!-- Bootstrap steps form wizard -->
+            <script src="https://cdn.gitam.edu/vendor/step-wizard/jquery.bootstrap.wizard.min.js"></script>
+
+            <!-- Select 2 -->
+            <script src="https://cdn.gitam.edu/vendor/select2/select2.min.js"></script>
+
+            <!-- Datetimepicker -->
+            <script src="https://cdn.gitam.edu/vendor/datetimepicker/tempus-dominus.min.js"></script>
+
+            <!-- custome js -->
+            <script src="https://cdn.gitam.edu/js/app.js"></script>
+
+
+            <script>
+                $(document).ready(function () {
+                    $('.loaderContainer').hide();
+                    $('.loading-overlay').hide();
+                })
+                function loadConfigView(id) {
+                    if (id == "30") {
+                        debugger;
+                        $('.loaderContainer').hide();
+                        $('.loading-overlay').hide();
+                    } else {
+                        $('.loaderContainer').show();
+                        $('.loading-overlay').show();
+                    }
+                    var urlView = '';
+                    switch (id) {
+
+                        case '1':
+                            urlView = './Home/GetStudentData';
+                            break;
+                        case '2':
+                            urlView = './Home/GetAttendance/';
+                            break;
+                        case '3':
+                            urlView = './Home/Getcourse_structurenew/';
+                            break;
+                        case '4':
+                            urlView = './Home/Getscholarship/';
+                            break;
+                        case '5':
+                            urlView = './Home/Passwordchange/';
+                            break;
+                        case '6':
+                            urlView = './Home/GetPermissions';
+                            break;
+                        case '7':
+                            urlView = './Home/GetNoticeboard';
+                            break;
+                        case '8':
+                            urlView = './Home/GetCDLProfileupdate';
+                            break;
+                        case '9':
+                            urlView = './Home/GetHostelbiometric';
+                            break;
+                        case '10':
+                            urlView = './Home/CDL_academic_track/';
+                            break;
+                        case '11':
+                            urlView = './Home/Student_id_card/';
+                            break;
+                        case '13':
+                            urlView = './Home/GetAcademictrack';
+                            break;
+                        case '14':
+                            urlView = 'Home/Gettimetable';
+                            break;
+                        case '15':
+                            urlView = 'Home/GetAccrediations';
+                            break;
+                        case '16':
+                            urlView = 'Home/Gethostelfeedbackdetails';
+                            break;
+                        case '17':
+                            urlView = 'Home/GetPublications';
+                            break;
+                        case '20':
+                            urlView = 'Home/Getthesis';
+                            break;
+                        case '21':
+                            urlView = 'Home/GetBusspassenrollment';
+                            break;
+                        case '22':
+                            urlView = 'Home/Getemail_update_password';
+                            break;
+                        case '23':
+                            urlView = './Home/GetAccountsandpayments';
+                            break;
+                            break;
+                        case '24':
+                            urlView = './Home/Residence';
+                            break;
+                            break;
+                        case '25':
+                            urlView = './Home/Dining';
+                            break;
+                            break;
+                        case '26':
+                            urlView = './Home/Security';
+                            break;
+                        case '27':
+                            urlView = './Home/Timetable_I_sem';
+                            break;
+                        case '28':
+                            urlView = './Home/Student_displinary';
+                            break;
+                        case '30':
+                            urlView = './Home/Dashboard';
+                            break;
+                        case '31':
+                            urlView = './Home/Contactus';
+                            break;
+                        case '32':
+                            urlView = './Home/GetSportsScholarship';
+                            break;
+                        case '33':
+                            urlView = './Home/Fees';
+                            break;
+                        case '34':
+                            urlView = './Home/Admission';
+                            break;
+                        case '35':
+                            urlView = './Home/Getstudent_results';
+                            break;
+                        case '36':
+                            urlView = './Home/DegreePlan';
+                            break;
+                        case '37':
+                            urlView = './Home/Feedback';
+                            break;
+                        case '38':
+                            urlView = './Home/getnews';
+                            break;
+                        case '39':
+                            urlView = './Home/getadmissions';
+                            break;
+                        case '41':
+                            urlView = './Home/CDLStudycerificate';
+                            break;
+                        case '42':
+                            urlView = './Home/CDLTransfercerificate';
+                            break;
+                        case '43':
+                            urlView = './Home/CDLGradeCrad';
+                            break;
+                        case '45':
+                            urlView = './Home/Gethalltickets';
+                            break;
+                        case '44':
+                            urlView = './Home/CDLMigration';
+                            break;
+                        case '46':
+                            urlView = './Home/CDLHallTicket';
+                            break;
+                        case '47':
+                            urlView = './Home/CertificatesFee';
+                            break;
+                        case '48':
+                            urlView = './Home/getphdbiometric';
+                            break;
+                        case '49':
+                            urlView = './Home/getcdlstudymaterial';
+                            break;
+                        case '60':
+                            urlView = './Home/Onlinegradecard';
+                            break;
+                        case '61':
+                            urlView = './Home/getstudentmedicalappointment';
+                            break;
+                        case '62':
+                            urlView = './Home/CDLEvaluationReceipts';
+                            break;
+                        case '63':
+                            urlView = './Home/CourseRegistration';
+                            break;
+                        case '66':
+                            urlView = './Home/Getgevents';
+                            break;
+                        case '67':
+                            urlView = './Home/getlmssubjects';
+                            break;
+                        case '68':
+                            urlView = './Home/BellTheCats';
+                            break;
+                        default:
+                            urlView = './Home/GetStudentData/';
+                            break;
+
+                    }
+                    if (id == "1") {
+                        //alert($(this));
+                        //debugger;
+                        $('.Profile').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Scholarship, .Course, .Attendance, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+                    } else if (id == '2') {
+                        $('.Attendance').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Scholarship, .Course, .Profile, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '3') {
+                        $('.Course').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Scholarship, .Attendance, .Profile, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '4') {
+                        $('.Scholarship').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Course, .Attendance, .Profile, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '6') {
+                        $('.Permissions').addClass('active');
+                        $('.gevents,.bellcats, .lms,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '7') {
+                        $('.Notice').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Permissions, .Academic, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '8') {
+                        $('.cdlprofile').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study,.certificate_fee, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports, .Admsn,.dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .hos_bio, .cdlacademic, .stdid').removeClass('active');
+
+                    } else if (id == '9') {
+                        $('.hos_bio').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .study, .certificate_fee,.feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports, .Admsn,.dashboard, .Displinary, .Email, .Residence, .Dining, .Security, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+                    } else if (id == '10') {
+                        $('.cdlacademic').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports, .Admsn,.dashboard, .Displinary, .account, .Residence, .Dining, .Security, .hos_bio, .cdlprofile, .stdid').removeClass('active');
+
+                    } else if (id == '11') {
+                        $('.stdid').addClass('active');
+                        $('.gevents,.bellcats, .lms,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .account, .Residence, .Dining, .Security, .hos_bio, .cdlacademic, .cdlprofile').removeClass('active');
+
+                    } else if (id == '13') {
+                        $('.Academic').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '14' || id == '27') {
+                        $('.Time').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '15') {
+                        $('.accreditations').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '16') {
+                        $('.Hostel').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+                    } else if (id == '17') {
+                        $('.Publications').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,v.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Hostel').removeClass('active');
+
+                    } else if (id == '20') {
+                        $('.Status').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC, .certificate_fee,.study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Publications, .Hostel').removeClass('active');
+
+                    } else if (id == '21') {
+                        $('.Bus').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Email, .Publications, .Hostel').removeClass('active');
+
+                    } else if (id == '22') {
+                        $('.Email').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .TC,.certificate_fee, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee, .sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+                    }
+                    else if (id == '23') {
+                        $('.account').addClass('active');
+                        $('.gevents,.bellcats, .lms,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL,.certificate_fee, .TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .cdlprofile, .cdlacademic, .stdid, .hos_bio, .Residence, .Dining, .Security, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+                    } else if (id == '24') {
+                        $('.Residence').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL, .certificate_fee,.TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Dining, .Security, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+                    } else if (id == '25') {
+                        $('.Dining').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.GradeCDL,.certificate_fee, .TC, .study, .feedback, .DegreePlan, .Registration, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Security, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+                    } else if (id == '26') {
+                        $('.Security').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.certificate_fee,.GradeCDL, .TC, .study, .feedback,  .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+                    }
+                    else if (id == '28') {
+                        $('.Displinary').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .hallticket,.certificate_fee,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .dashboard, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '30') {
+                        $('.dashboard').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .hallticket,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.sports,.Admsn, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '31') {
+                        $('.contact').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .dashboard, .fee, .sports, .Admsn, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '32') {
+                        $('.sports').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.dashboard, .Admsn, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '33') {
+                        //debugger;
+                        $('.fee').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .dashboard,.sports, .Admsn, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '34') {
+                        $('.Admsn').addClass('active');
+                        $('.gevents,.bellcats, .feedback, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Results, .Online_gradecard, .ATS, .contact, .fee,.dashboard, .sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '39') {
+                        $('.Results').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Online_gradecard, .ATS, .contact, .fee,.dashboard, .sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '36') {
+                        $('.DegreePlan').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .Results, .feedback, .Registration, .Online_gradecard, .ATS, .contact, .fee,.dashboard, .sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '37') {
+                        $('.feedback').addClass('active');
+                        $('.gevents,.bellcats, .Admsn, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .Results, .DegreePlan, .Registration, .Online_gradecard, .ATS, .contact, .fee,.dashboard, .sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '38') {
+                        $('.events').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .feedback,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .Results, .DegreePlan, .Registration, .Online_gradecard, .ATS, .contact, .fee,.dashboard, .sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '50') {
+                        $('.ATS').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .DegreePlan, .Registration, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '51') {
+                        $('.Online_gradecard').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .Registration, .ATS, .Admsn,  .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '52') {
+                        $('.Results').addClass('active');
+                        $('.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events, .certificate_fee,.hallticket,.GradeCDL, .TC, .study, .feedback, .Hostel, .DegreePlan, .Registration, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '53') {
+                        $('.Registration').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .study, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+
+                    else if (id == '41') {
+                        $('.study').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate, .events,.certificate_fee, .hallticket,.GradeCDL, .TC, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '42') {
+                        $('.TC').addClass('active');
+                        $('.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate,.certificate_fee, .events, .hallticket,.GradeCDL, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '43') {
+                        $('.GradeCDL').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .migrate,.certificate_fee, .events, .hallticket,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '44') {
+                        $(' .migrate').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .GradeCDL,.certificate_fee, .events, .hallticket,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '45') {
+                        $('.hallticket').addClass('active');
+                        $('.bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .certificate_fee,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '47') {
+                        $('.certificate_fee').addClass('active');
+                        $('.gevents,.bellcats, .bellcats, .lms,.course,.studyfee, .appoint,.GradeOnlie, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '60') {
+                        $('.GradeOnlie').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .appoint,.certificate_fee, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '61') {
+                        $('.appoint').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.studyfee, .GradeOnlie,.certificate_fee, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    } else if (id == '62') {
+                        $('.studyfee').addClass('active');
+                        $('.gevents,.bellcats, .lms,.course,.appoint, .GradeOnlie,.certificate_fee, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '63') {
+                        $('.course').addClass('active');
+                        $('.gevents,.bellcats, .lms,.studyfee,.appoint, .GradeOnlie,.certificate_fee, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '66') {
+                        $('.gevents').addClass('active');
+
+                        $('.bellcats, .photo, .gym,.supplyfee,.GradeOnlie, .certificate_fee, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '67') {
+                        $('.lms').addClass('active');
+                        $('.gevents,.bellcats, .course,.studyfee,.appoint, .GradeOnlie,.certificate_fee, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    else if (id == '68') {
+                        $('.bellcats').addClass('active');
+                        $('.gevents,.lms, .course,.studyfee,.appoint, .GradeOnlie,.certificate_fee, .hallticket,.migrate, .events, .GradeCDL,.TC, .study, .stdid, .cdlacademic, .cdlprofile, .feedback, .Hostel, .DegreePlan, .Results, .Online_gradecard, .ATS, .Admsn, .contact, .fee,.dashboard,.sports, .Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+                    }
+                    $.ajax({
+
+                        type: 'GET',
+                        url: urlView,
+
+                        success: (function (result) {
+                            //debugger;
+                            console.log(result);
+                            $('#maindiv').html(result);
+                            $('.loaderContainer').hide();
+                            $('.loading-overlay').hide();
+                            $('.back').hide();
+                            var width = $(window).width();
+                            if (width <= "1024") {
+                                $('.back').show();
+                            }
+                            else {
+                                $('.back').hide();
+                            }
+                        })
+                    });
+
+                }
+
+
+
+                function GetStudents() {
+                    $.ajax({
+                        method: "Get",
+                        url: "../../Home/GetStudentData",
+                        dataType: "json",
+                        success: function (Result) {
+                            //debugger;
+                            console.log(Result);
+                        }
+                    })
+                }
+
+            </script>
+</body>
+
+</html>
+<script>
+    $(function () {
+        $("body").on('click keypress', function () {
+            ResetThisSession();
+        });
+    });
+
+    var timeInSecondsAfterSessionOut = 600; // change this to change session time out (in seconds).
+    var secondTick = 0;
+
+    function ResetThisSession() {
+        secondTick = 0;
+    }
+
+    function StartThisSessionTimer() {
+        secondTick++;
+        var timeLeft = ((timeInSecondsAfterSessionOut - secondTick) / 60).toFixed(0); // in minutes
+        timeLeft = timeInSecondsAfterSessionOut - secondTick; // override, we have 30 secs only
+
+        let minutes = Math.floor(timeLeft / 60);
+        let extraSeconds = timeLeft % 60;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        extraSeconds = extraSeconds < 10 ? "0" + extraSeconds : extraSeconds;
+        //  spanTimeLeft.innerHTML += seconds + " == " + minutes + " : " + extraSeconds + "<br/>";
+        $("#countDown").html(minutes + "m" + " : " + extraSeconds + "s");
+
+        if (secondTick > timeInSecondsAfterSessionOut) {
+            clearTimeout(tick);
+            window.location = "https://login.gitam.edu/Login.aspx";
+            return;
+        }
+        tick = setTimeout("StartThisSessionTimer()", 1000);
+    }
+
+    StartThisSessionTimer();
+
+    function convertStoMs(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        let extraSeconds = seconds % 60;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        extraSeconds = extraSeconds < 10 ? "0" + extraSeconds : extraSeconds;
+        spanTimeLeft.innerHTML += seconds + " == " + minutes + " : " + extraSeconds + "<br/>";
+    }
+
+    $('#maindiv').click(function () {
+        $('.quick-menu.open-menu').removeClass('open-menu');
+        $('.sub-menu-wrap.open-menu').removeClass('open-menu');
+    })
+   // sidebar - bg
+    $('.sidebar ul li').click(function () {
+        var width = $(window).width();
+        //alert(width);
+        if (width <= "992") {
+            $('.sidebar.close').removeClass('close');
+            $('.sidebar-bg.close').removeClass('close');
+        }
+    })
+    $(document).ready(function () {
+        var width = $(window).width();
+        if (width <= "1024") {
+            $('.sidebar.close').css('width', '200px');
+
+             if ("@Session["course_code"].ToString()" == "PHD") {
+            $('.sidebar.close').css('width', '155px');
+            }
+        }
+    })
+    $("#menuToggle").click(function () {
+        debugger
+        var width = $(window).width();
+        if (width <= "1024") {
+            $('.sidebar.close').css('width', '200px');
+
+        if ("@Session["course_code"].ToString()" == "PHD") {
+            $('.sidebar.close').css('width', '155px');
+            }
+        }
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        // alert("in login page");
+        //debugger;
+        $('[data-toggle="tooltip"]').tooltip();
+       
+       
+        var width = $(window).width();
+        if (width <= "1024") {
+            //debugger;
+            // $('.sidebar.close').css('width', '200px');
+            $('#menuToggle, .sidebar ').hide();
+            $('.back, .mtab, #mbwelcome, .student_logo').show();
+            $('.dtab, #dtprofile').hide();
+            
+
+        } else {
+
+              var session ="@Session["college_code"].ToString()";
+        console.log(session);
+
+        if (session== "CDL") { }
+        else {
+          //  loadConfigView('2');
+            loadConfigView('30');
+       
+        }
+            $('.back, .mtab, #mbwelcome, .student_logo').hide();
+            $('.dtab, #dtprofile').show();
+            $('header').css({ 'height':'50px','position':'sticky'});
+            $('.home-section').css({ 'background':'inherit'});
+        }
+    })
+   @* $(".back").click(function (event) {
+        event.preventDefault();
+        history.back(1);
+    });*@
+    $('.back').click(function () {
+        //debugger;
+        @* $.post("./Home/Welcome", function (data) {
+            $('#maindiv').html(data);
+        });*@
+        window.location.href = window.location.href;
+    })
+
+
+    //$(document).ready(function () {
+    //    //debugger;
+    //    var width = $(window).width();
+    //    alert(width);
+    //    $('#windowwidth').val(width);
+    //})
+
+</script>

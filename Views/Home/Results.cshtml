@@ -1,0 +1,147 @@
+﻿
+@model Gstudent.ViewModels.Studentrecords.trackrecords
+
+<style>
+    .academin-track-ul ul{
+        list-style:disc;
+        margin:20px;
+    }
+   /* .w-40{
+        width:40px;
+    }*/
+</style>
+
+<div class="content-container ">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Results</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+        <div class="insertdiv">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+
+                    <div class="form-group">
+
+                        @Html.DropDownListFor(model => model.list.COURSE1, (IEnumerable<SelectListItem>)ViewBag.semslist, "Select semester", new { @class = "form-control", @onchange = "GetselectByType1();", @id = "COURSE1" })
+                        <input type="text" value="@Convert.ToString(Session["userid"])" id="userid" hidden />
+                    </div>
+
+                </div>
+
+
+
+                <div id="academiclist1">
+                    @{Html.RenderPartial("Resultsview"); }
+
+                </div>
+
+
+            </div>
+               
+
+
+            </div>
+
+    </div>
+   
+</div>
+<script>
+ 
+
+    function GetselectByType1() {
+        //debugger;
+
+        var semester = $("#COURSE1 :selected").html();
+        var userid = $('#userid').val();
+        search1(semester, userid);
+
+    }
+
+ 
+
+    function search1(semester, userid) {
+        //debugger;
+        var e = document.getElementById('COURSE1');
+        var strUser = e.options[e.selectedIndex].value;
+
+        semester = $("#COURSE1").val();
+
+        if (semester == "select") {
+
+            $('#COURSE1').parent().append('<span class="error" id="validmsg">Please select semester</span>');
+
+            return false;
+        }
+
+        else {
+
+            semester: $('#COURSE1').val();
+            userid: $('#userid').val();
+
+            $.ajax({
+                type: 'GET',
+                url: './Home/Resultsview',
+                data: {
+                    semester: $("#COURSE1").val(),
+                    userid: $("#userid").val(),
+
+                },
+                //contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                //dataType: "json",
+                success: function (result) {
+                    //debugger;
+                    console.log(result);               
+
+                    
+
+                    console.log(result.length);
+                    if (result.length > 0) {
+                        $("#div_datatable1").html("");
+                        $('#lblsem').html(result[0].SEMESTER);
+                        $('#lblmonth').html(result[0].Month);
+                        $('#lblyear').html(result[0].Year);
+                        $('#lblname').html(result[0].name);
+                        $('#lblregdno').html(result[0].regdno);
+                        //$('#lblinstitute').html(result[0].college_code);
+                        $('#lblbranch').html(result[0].Branch_name);
+                        $('#lblgpa').html(result[0].sgpa);
+                        $('#lblcgpa').html(result[0].cgpa);
+                        $('#lblcourse').html(result[0].course_name);
+
+                        
+                        var tablestring = "";
+                        tablestring = tablestring + "<div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                        tablestring = tablestring + "<thead class='thead-light'><tr><th>Course Code</th><th>Course Name</th><th>Credits</th><th>Grade</th></tr></thead><tbody>";
+                        for (var i = 0; i < result.length; i++) {
+
+                            tablestring = tablestring + '<tr> <td>' + result[i].SUBJECT_CODE + '</td> <td>' + result[i].SUBJECT_NAME + '</td><td>' + result[i].credits + '</td><td>' + result[i].Grade + '</td></tr>';
+                        }
+
+                        tablestring = tablestring + "</tbody></table></div>";
+                        $("#div_datatable1").append(tablestring);
+                        $('#resultview').show();
+                    } else {
+
+                        swal('No data available', '', 'error');
+                        $('#resultview').hide();
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    $(".loaderm").hide();
+                }
+
+
+            });
+
+        }
+
+    };
+
+</script>

@@ -1,0 +1,237 @@
+﻿@model Gstudent.Models.CDL_academictrack
+
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Academic track</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-container">
+        <div class="row">
+            @*<div class="col-12 col-sm-6 col-md-10 col-lg-10">*@
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Student name</label>
+                        @Html.TextBoxFor(model => model.regdno, new { @class = "form-control", @id = "regdno", @onkeydown = "return ValidateNumber(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Registration number</label>
+
+                        @Html.TextBoxFor(model => model.name, new { @class = "form-control", @id = "regdno", @onkeydown = "return ValidateNumber(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Branch</label>
+                        @Html.TextBoxFor(model => model.BRANCH_CODE, new { @class = "form-control", @id = "BRANCH_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Current Semester</label>
+                        @Html.TextBoxFor(model => model.CURR_SEM, new { @class = "form-control", @id = "curr_sem", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Program</label>
+                        @Html.TextBoxFor(model => model.COURSE_CODE, new { @class = "form-control", @id = "BRANCH_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Degree</label>
+                        @Html.TextBoxFor(model => model.degree_code, new { @class = "form-control", @id = "DEGREE_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <div class="d-flex justify-content-center">
+                    <img class="img-fluid" src="http://cdlimages.gitam.edu/img.aspx?id=@Model.regdno">
+                </div>
+            </div>*@
+    </div>
+    @*</div>*@
+    <div id="fee_details">
+    </div>
+    <div id="material_dsipatch">
+    </div>
+
+    <div id="assginment_details">
+    </div>
+
+
+    <div id="results"></div>
+    <div id="certificates">
+    </div>
+</section>
+<style>
+
+    .cgpa {
+        color: red;
+        font-size: 20px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        Getfeedetails();
+        Getmaterial_dispatch();
+        Getassginments();
+        Getresults();
+        Getcertificates();
+    });
+    function Getfeedetails() {
+        $.ajax({
+            type: "Get",
+            url: './Home/getfeedetails_cdl',
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+                var Ids = 1;
+                $('#fee_details').html('');
+                var trHTML = "<h3 class='sub-title'>Fee details</h3>";
+                trHTML += '  <div class="box-inner"><div class="table_style table-responsive"><table class="table table-bordered"  id="tbl" style="width:100%"><thead ><tr></th><th>Challan number</th><th>Amount</th><th>Payment status</th><th>Payment date</th><th>sem / year</th><th>DD no</th><th>DD amount</th><th>DD date</th><th>DD bank</th></tr></thead><tbody>';
+                $.each(data, function (key, value) {
+                    trHTML +=
+                        "<tr><td>" + value.Challan_No + "</td><td>" + value.Amount + "</td><td>" + value.Payment_Status + "</td><td>" + value.Payment_Date + "</td><td>" + value.sem_year + "</td><td>" + value.ddno + "</td><td>" + value.ddamount + "</td><td>" + value.dddate + "</td><td>" + value.ddbank + "</td></tr>";
+                    Ids++;
+                });
+                trHTML += "</tbody></table></div></div>";
+                $('#fee_details').append(trHTML);
+                $('#fee_details').show();
+                $('#tbl').DataTable({
+                    order: [[0, 'asc']],
+                });
+            }
+        });
+    }
+    function Getmaterial_dispatch() {
+        $.ajax({
+            type: "Get",
+            url: './Home/getmaterial_dispatch_cdl',
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+                var Ids = 1;
+                $('#material_dsipatch').html('');
+                var trHTML = "<h3 class='sub-title'>Material dispatch</h3>";
+                trHTML += '  <div class="box-inner"><div class="table_style table-responsive"><table class="table table-bordered"  id="tbl1" style="width:100%"><thead><tr><th class="d-none">ID No</th><th>Subject code</th><th>Subject name</th><th>Issue date</th><th>Year / Sem</th><th>Status</th></tr></thead><tbody>';
+                $.each(data, function (key, value) {
+                    if (value.Issue_Date == null) {
+                        value.Issue_Date = "";
+                    }
+                    trHTML +=
+                        "<tr><td class='d-none'>" + value.regdno + "</td><td>" + value.Subject_Code + "</td><td>" + value.Subject_Name + "</td><td>" + value.Issue_Date + "</td><td>" + value.sem_year + "</td><td>" + value.Status + "</td></tr>";
+                    Ids++;
+                });
+                trHTML += "</tbody></table></div></div>";
+                $('#material_dsipatch').append(trHTML);
+                $('#material_dsipatch').show();
+                $('#tbl1').DataTable({
+                    order: [[4, 'desc']],
+                });
+            }
+        });
+    }
+    function Getassginments() {
+        $.ajax({
+            type: "Get",
+            url: './Home/Getassginments_cdl',
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+                var Ids = 1;
+                $('#assginment_details').html('');
+                var trHTML = "<h3 class='sub-title'>Assignment details</h3>";
+                trHTML += '  <div class="box-inner"><div class="table_style table-responsive"><table class="table table-bordered"  id="tbl2" style="width:100%"><thead><tr><th>s.no</th><th class="d-none">ID No</th><th>Subject code</th><th>Subject name</th><th>Date of submission</th><th>Year</th><th>Assignment status</th><th>Final marks</th></tr></thead><tbody>';
+                $.each(data, function (key, value) {
+                    trHTML +=
+                        "<tr><td>" + value.slno + "</td><td class='d-none'>" + value.regdno + "</td><td>" + value.Subject_Code + "</td><td>" + value.Subject_Name + "</td><td>" + value.DATE_OF_SUBMISSION + "</td><td>" + value.YEAR + "</td><td>" + value.ASSIGNMENT_STATUS + "</td><td>" + value.finalmarks + "</td></tr>";
+                    Ids++;
+                });
+                trHTML += "</tbody></table></div></div>";
+                $('#assginment_details').append(trHTML);
+                $('#assginment_details').show();
+                $('#tbl2').DataTable({
+                    order: [[0, 'asc']],
+                });
+            }
+        });
+    }
+    function Getresults() {
+        $.ajax({
+            type: "Get",
+            url: './Home/Getresults_cdl',
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+                //  //debugger;
+                var Ids = 1;
+                $('#results').html('');
+                // $('#CGPA').html('');
+                var trHTML = "<h3 class='sub-title'>Results</h3>";
+                trHTML += '  <div class="box-inner"><div class="table_style table-responsive"><table class="table table-bordered"  id="tbl3" style="width:100%"><thead ><tr><th class="d-none">ID No</th><th>Subject code</th><th>Subject name</th><th>Subject type</th><th>Semester</th><th>Subject credits</th><th>Subject grade</th></tr></thead><tbody>';
+                $.each(data.studentData, function (key, value) {
+                    trHTML +=
+                        "<tr><td class='d-none'>" + value.regdno + "</td><td>" + value.Subject_Code + "</td><td>" + value.Subject_Name + "</td><td>" + value.subject_type + "</td><td>" + value.sem_year + "</td><td>" + value.subject_credits + "</td><td>" + value.subject_grade + "</td></tr>";
+                    Ids++;
+                });
+                trHTML += "</tbody></table></div> <div id='CGPA'class='cgpa'></div></div>";
+
+                $('#results').append(trHTML);
+                $('#results').show();
+                $('#CGPA').append('CGPA: ' + data.othersdata[0].CGPA);
+                $('#CGPA').show();
+                $('#tbl3').DataTable({
+                    order: [[0, 'asc']],
+                });
+            }
+        });
+    }
+    function Getcertificates() {
+        $.ajax({
+            type: "Get",
+            url: './Home/Getcertificates_cdl',
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+                ////debugger;
+                var Ids = 1;
+                $('#certificates').html('');
+                var trHTML = "<h3 class='sub-title'>Certificates</h3>";
+                trHTML += '  <div class="box-inner"><div class="table_style table-responsive"><table class="table table-bordered"  id="tbl4" style="width:100%"><thead><tr><th class="d-none">ID No</th><th>Certificate</th><th>Status</th><th>Issue date</th><th>DD no</th><th>Amount</th><th>Postal track ID</th></tr></thead><tbody>';
+                $.each(data, function (key, value) {
+                    if (value.Issue_Date == null) {
+                        value.Issue_Date = "";
+                    }
+                    trHTML +=
+                        "<tr><td class='d-none'>" + value.regdno + "</td><td>" + value.Certificate + "</td><td>" + value.Status + "</td><td>" + value.Issue_Date + "</td><td>" + value.ddno + "</td><td>" + value.Amount + "</td><td>" + value.Postal_TrackID + "</td></tr>";
+                    Ids++;
+                });
+                trHTML += "</tbody></table></div></div>";
+                $('#certificates').append(trHTML);
+                $('#certificates').show();
+                $('#tbl4').DataTable({
+                    order: [[0, 'asc']],
+                });
+            }
+        });
+    }
+</script>

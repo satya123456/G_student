@@ -1,0 +1,298 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Attendancesummary
+<style>
+    .progress {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        border: none;
+        border-radius: 10px;
+        height: 10px;
+    }
+
+        .progress::-webkit-progress-value {
+            border-radius: 10px;
+        }
+
+    .progress3::-webkit-progress-value {
+        background: #007367;
+    }
+
+    .progress4::-webkit-progress-value {
+        background: #2196F3;
+    }
+
+    .progress::-webkit-progress-bar {
+        background-color: #f0f0f0;
+    }
+
+    .ri-circle-fill {
+        margin-right: 5px;
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 50%;
+    }
+
+    .ri-red {
+        background: #007367;
+    }
+
+    .ri-blue {
+        background: #2196f3;
+    }
+
+    .legend {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+        .legend span {
+            margin-left: 15px;
+        }
+</style>
+
+@if (Model.note.category == "subject")
+{
+    if (Model.notes.Count() > 0)
+    {
+        foreach (var atten in Model.notes.Select(X => X.datetime).Distinct())
+        {
+            <div class="filter" style="">
+
+                <div class="table-responsive">
+                    <div class="legend">
+                        <span><i class="ri-circle-fill ri-red"></i>Below 65</span>
+                        <span><i class="ri-circle-fill ri-blue"></i>Above 65 or equal</span>
+                    </div>
+                    <table class="table table-bordered tbl-style" id="myTablevend">
+                        <thead>
+                            <tr>
+                                <th>Course code</th>
+                                <th>Course name</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var attendance in Model.notes)
+                            {
+
+                                <tr class="">
+                                    <td>@attendance.subjectcode</td>
+                                    <td>@attendance.subjectname</td>
+
+                                    @if (Math.Ceiling(Convert.ToDouble(attendance.percentage)) >= 65)
+                                    {
+                                        <td class="text-center"><span>@Convert.ToDouble(attendance.percentage)%</span><progress class="progress progress4" max="100" value="@attendance.percentage"></progress></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><span>@Convert.ToDouble(attendance.percentage)%</span><progress class="progress progress3" max="100" value="@attendance.percentage"></progress></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        }
+    }
+    else
+    {
+        <h6 class="text-center">No data available</h6>
+    }
+
+
+}
+else if (Model.note.category == "Yesterday")
+{
+    if (Model.notes.Count() > 0)
+    {
+        foreach (var atten in Model.notes.Select(X => X.datetime).Distinct())
+        {
+            <div class="">
+                <div class="filter" style="">
+                    <div class="table-responsive table_style">
+
+                        <table class="table table-bordered" id="myTablevend2">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Course name </th>
+                                    <th>Faculty name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model.notes)
+                                {
+                                    <tr class="">
+                                        <td>@attendance.sessiondate </td>
+                                        <td>@attendance.subjectname</td>
+                                        <td>@attendance.facultyname</td>
+                                        <td>@attendance.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    }
+    else
+    {
+
+        <h6 class="text-center">No data available</h6>
+
+    }
+}
+
+else if (Model.note.category == "Today")
+{
+    if (Model.notes.Count() > 0)
+    {
+        foreach (var atten in Model.notes.Select(X => X.datetime).Distinct())
+        {
+            <div class="">
+                <div class="filter" style="">
+                    <div class="table-responsive table_style">
+
+                        <table class="table table-bordered" id="myTablevend5">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Course name </th>
+                                    <th>Faculty name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model.notes)
+                                {
+                                    <tr class="">
+                                        <td>@attendance.sessiondate </td>
+                                        <td>@attendance.subjectname</td>
+                                        <td>@attendance.facultyname</td>
+                                        <td>@attendance.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    }
+    else
+    {
+
+        <h6 class="text-center">No data available</h6>
+
+    }
+}
+
+@*else if (Model.note.category == "summerterm")
+{
+    if (Model.notes.Count() > 0)
+    {
+        foreach (var atten in Model.notes.Select(X => X.datetime).Distinct())
+        {
+            <div class="">
+                <div class="filter" style="">
+                    <div class="table-responsive table_style">
+
+                        <table class="table table-bordered" id="myTablevend6">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Course name </th>
+                                    <th>Faculty name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model.notes)
+                                {
+                                    <tr class="">
+                                        <td>@attendance.sessiondate </td>
+                                        <td>@attendance.subjectname</td>
+                                        <td>@attendance.facultyname</td>
+                                        <td>@attendance.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    }
+    else
+    {
+
+        <h6 class="text-center">No data available</h6>
+
+    }
+}*@
+else
+{
+    if (Model.notes.Count() > 0)
+    {
+        foreach (var atten in Model.notes.Select(X => X.datetime).Distinct())
+        {
+            <div class="">
+                <div class="filter" style="">
+                    <div class="table-responsive table_style">
+
+                        <table class="table table-bordered" id="myTablevend1">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Course name </th>
+                                    <th>Faculty name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model.notes)
+                                {
+                                    <tr class="">
+                                        <td>@attendance.sessiondate </td>
+                                        <td>@attendance.subjectname</td>
+                                        <td>@attendance.facultyname</td>
+                                        <td>@attendance.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    }
+
+    else
+    {
+
+        <h6 class="text-center">No data available</h6>
+
+    }
+}
+@*<script>
+
+        $(document).ready(function () {
+
+            $('#myTablevend').DataTable({
+            });
+        });
+
+    </script>*@

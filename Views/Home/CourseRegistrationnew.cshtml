@@ -1,0 +1,223 @@
+﻿
+
+@model Gstudent.ViewModels.Studentrecords.Courseregistartion
+<div class="content-container">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Course registration</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+
+        @{string branchCode = Session["branch_code"].ToString().ToUpper(); }
+     
+
+        @if (Model.status_flag == 2 || branchCode.Contains("PFIZER") || branchCode.Contains("DRL"))
+        {
+            <h5 class="page-title"><a style="float:right;color:#fff!important;" target="child" href=" https://courseregistrationportal.gitam.edu/Welcomepage.aspx?txtusername=@Session["EncryUserID"].ToString()" class="btn btn-primary">Proceed to registration</a></h5>
+
+        }
+        else if (Model.arrears_flag > 0)
+        {
+            <h5 class="page-title"><a style="float:right;color:#fff!important;" class="btn btn-primary" onclick="unproceed();">Proceed to registration</a></h5>
+
+        }
+        else
+        {
+            if (Model.hostel_arrears_flag > 0)
+
+            {
+                if (Model.hostel_balance_flag > 0)
+                {
+
+                    <h5 class="page-title"><a style="float:right;color:#fff!important;" target="child" href=" https://courseregistrationportal.gitam.edu/Welcomepage.aspx?txtusername=@Session["EncryUserID"].ToString()" class="btn btn-primary">Proceed to registration</a></h5>
+
+                }
+                else
+                {
+                    <h5 class="page-title"><a style="float:right;color:#fff!important;" class="btn btn-primary" onclick="unproceed();">Proceed to registration</a></h5>
+
+
+                }
+
+            }
+
+            else
+            {
+
+                if (Session["coursereg"].ToString() == "1")
+                {
+                    <h5 class="page-title"><a style="float:right;color:#fff!important;" target="child" href=" https://courseregistrationportal.gitam.edu/Welcomepage.aspx?txtusername=@Session["EncryUserID"].ToString()" class="btn btn-primary">Proceed to registration</a></h5>
+
+                }
+
+                else
+                {<h5 class="page-title"><a style="float:right;color:#fff!important;" class="btn btn-primary" onclick="multiplelogins();">Proceed to registration</a></h5>
+                }
+            }
+
+
+
+        }
+
+    </div>
+  @*  <div class="box-inner">
+        <h4 class="sub-title">My credits</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+
+
+                <tr>
+                    <th>Credits / Course category</th>
+                    <th>University core</th>
+                    <th>Faculty core</th>
+                    <th>Program / Major core</th>
+                    <th>Program elective</th>
+                    <th>Open elective</th>
+                    <th>Minor core</th>
+                    <th>Total</th>
+
+                </tr>
+                @{ int i = 0;}
+                @if (Model.credits.Count() > 0)
+                {
+                    foreach (var credits in Model.credits)
+                    {
+                        <tr>
+                            <td>@credits.DISPLAY_TYPE</td>
+                            <td>@credits.UC</td>
+                            <td class="CSEN1011">@credits.FC</td>
+                            <td>@credits.PC</td>
+                            <td>@credits.PE</td>
+                            <td>@credits.OE</td>
+                            <td>@credits.MIC</td>
+                            <td>@credits.TOTAL</td>
+                        </tr>
+
+                        @*<tr>
+                                @if (i == 0)
+                                {
+                                    <td>Credits needed for graduation</td>
+                                }
+                                @if (i == 1)
+                                {
+                                    <td>Credits registered till date</td>
+                                }
+                                @if (i == 2)
+                                {
+                                    <td> Credits to be obtained</td>
+                                }
+                                @if (i == 3)
+                                {
+                                    <td>Credits acquired till date</td>
+                                }
+
+                                @if(i==3){
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+
+                                }else{
+                                <td>@credits.UC</td>
+                                <td class="CSEN1011">@credits.FC</td>
+                                <td>@credits.PC</td>
+                                <td>@credits.PE</td>
+                                <td>@credits.OE</td>
+                                <td>@credits.MIC</td>
+                                <td>@credits.TOTAL</td>}
+
+                            </tr>*@
+                 @*      i++;
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="8" class="text-center">No data available</td></tr>
+                }
+
+            </table>
+        </div>
+    </div>
+
+    *@
+    @*@if (Model.sets.Count() > 0)
+        {
+
+
+            <div class=" tabsContainer">
+                <div class=" tabsFill">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="sub-title">Course plan for upcoming semester</h4>
+                        <ul class="nav nav-tabs">
+                            @{ int j = 1; var s = ""; }
+                            @foreach (var sets in Model.sets)
+                            {
+                                if (j == 1) { s = "active"; }
+                                else { s = ""; }
+                                <li class="nav-item">
+                                    <a id="sets_@j" class="nav-link @s setsall" data-bs-toggle="tab" href="#tab_@j" onclick="getcourses('SET-@j','@j')">SET @j</a>
+                                </li>
+                                j++;
+                            }
+
+                        </ul>
+                    </div>
+                    <div id="courselist1">
+
+                        @{Html.RenderPartial("Courseview", Model); }
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+
+        }*@
+    @*<div id="">
+
+        @{Html.RenderPartial("Mycourses", Model); }
+    </div>
+    @if (Model.upcomingtimetable.Count() > 0)
+    {
+        <div id="">
+
+            @{Html.RenderPartial("Upcomingtimetable", Model.upcomingtimetable); }
+        </div>
+
+    }
+</div>*@
+
+<script>
+
+    function unproceed() {
+
+        swal('Cannot proceed due to fee dues, Please contact finance department', '', 'warning');
+
+    }
+    function unproceed1() {
+
+        swal('Course registartion access not released, Please contact academic affairs', '', 'warning');
+
+    }
+    function multiplelogins() {
+
+        swal('Multiple logins please logout from all devices and relogin again', '', 'warning');
+
+    }
+
+    $(document).ready(function () {
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+        });
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,189 @@
+﻿@model IEnumerable<Gstudent.Models.Event>
+
+<style>
+    /*h4 {
+        color: #686363;
+        padding: 5px;
+    }
+
+    h3 {
+        color: #686363;
+        padding: 5px;
+    }
+
+    .cam3 {
+        background: rgba(230, 74, 25, 0.8) !important;
+    }
+    .cam2 {
+        background: rgba(81, 45, 168, 0.8) !important;
+    }
+    .cam1 {
+        background: rgba(106, 123, 38, 0.8) !important;
+    }
+
+    .grid-row .grid-col .fstcol .event_block:nth-child(1) {
+        height: 25%;
+        padding: 0px;
+        display: block;
+    }
+
+    .event_block {
+        border: 4px #fff solid;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        font-family: 'Roboto', sans-serif;
+        background: #f2e7e7;
+    }
+
+    .grid-row {
+        margin: 0px;
+        border: 1px #fff solid;
+    }
+
+    .wrapper {
+        position: relative;
+        overflow: hidden;
+        padding-right: 23%;
+    }
+
+    .event_block .event_disc p {
+        padding: 5px;
+        color: #686363;
+        font-size: 12px;
+        font-weight: 300;
+        font-family: 'Muli', sans-serif;
+    }
+
+    .event_block .event_disc {
+        bottom: 0;
+        right: 0;
+        left: 2%;
+    }
+
+    body {
+        overflow: hidden;
+    }
+
+    .upcomming {
+        background: #7486c5 !important;
+    }
+
+    .aa .list-group-item {
+        padding: 3px 0px;
+        width: 100%;
+        float: right;
+        font-size: 12px;
+        text-align: left;
+        border: 0 !important;
+    }
+
+    .gg {
+        color: #7486c5;
+    }
+
+    .re {
+        color: #474f6b;
+    }
+
+    .upcomming .event_block {
+        background: #7486c5;
+    }
+
+    .slider::before {
+        background: #94172d !important;
+    }
+
+    .event_block .event_date h3 {
+        text-transform: uppercase;
+    }
+
+    .event_block .event_date h3 {
+        font-size: 14px;
+    }
+
+    .onmobi {
+        width: 100%;
+        height: 100%;
+    }*/
+    .event_block {
+        margin-top: 10px;
+    }
+
+    .event_disc {
+        margin-top: 30px;
+    }
+
+        .event_disc h6 {
+            font-size: 13px;
+            display: flex;
+        }
+
+            .event_disc h6 i {
+                margin-right: 6px;
+                color: #007367;
+            }
+
+    .event_name h6 {
+        font-size: 15px;
+    }
+</style>
+
+
+<div class="content-container ">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">News & Events</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="inner_wrapper box-inner">
+        <div class="grid-container">
+
+            <div id="inner" class="row">
+
+                @foreach (var event1 in Model)
+                {
+                    string s = "";
+                    if (event1.campus == "Visakhapatnam")
+                    {
+                        s = "cam1";
+                    }
+                    else if (event1.campus == "Hyderabad")
+                    {
+                        s = "cam2";
+                    }
+                    else
+                    {
+                        s = "cam3";
+                    }
+                    <div class="col-md-4 col-sm-6">
+                        <div class="graphBoxContainer">
+                            <div class="event_block">
+                                <div class="event_name">
+                                    @*<h6>
+                                            @event1.Event_dates <span>@event1.Eventmonth </span>
+                                        </h6>*@
+                                    <h6 class="cardTitle cardTitleLight">@event1.EventName </h6>
+                                    @*<h3 class="cardTitle cardTitleLight">@event1.EventDescription </h3>*@
+                                </div>
+                                <div class="event_disc">
+                                    <h6><i class="ri-map-pin-line"></i><span>@event1.EventLocation, @event1.campus</span></h6>
+                                    <h6><i class="ri-calendar-line"></i><span>@event1.Event_dates-@event1.Eventmonth</span> </h6>
+                                    <h6><i class="ri-phone-line"></i><span>@event1.Contact_number</span></h6>
+                                    <h6><i class="ri-user-3-line"></i><span>@event1.Contact_person</span></h6>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+            <a href="Descriptionsession.aspx?id=72020"></a>
+        </div>
+        <a href="Descriptionsession.aspx?id=72020"></a>
+    </div>
+</div>

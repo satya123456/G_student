@@ -1,0 +1,254 @@
+﻿
+@model IEnumerable<Gstudent.Models.DiningSubscription>
+<style>
+    .profile1 {
+        height: 27px;
+        float: right;
+        margin-top: -5px;
+        margin-left: 10px;
+    }
+
+    .home-section {
+       
+        overflow-y: visible;
+        height: auto;
+    }
+</style>
+@{ string decider ="";}
+@if(Session["campus_code"].ToString().Trim().ToUpper().Equals("VSP"))
+{
+    decider = "https://gdinervsp.gitam.edu";
+
+}
+else if (Session["campus_code"].ToString().Trim().ToUpper().Equals("HYD")) {
+    decider = "https://gdiner.gitam.edu";
+}
+else 
+{
+    decider = "https://gdinerblr.gitam.edu";
+}
+@if (Model.Count() > 0)
+{<section class="content-container contentContainer">
+    @*<img src="~/images/foodonline.png" class="profile1" />*@
+    <h3 class="page-title">Dining 
+    <div class="back pull-right">
+    <a href="javascript:void(0);" onclick="location.reload();">
+        <i class='bx bx-arrow-back'></i>
+    </a>
+</div>
+    <a href="https://apps.apple.com/in/app/gdiner/id6463126209?platform=iphone" target="_blank" title="Install G-diner app in IOS"><img src="~/Content/images/ios.jpg" class="profile1" /></a>
+    <a href="https://play.google.com/store/apps/details?id=com.gitam.gdiner" target="_blank" title="Install G-diner app in android"><img src="~/Content/images/andr.png" class="profile1" /></a></h3>
+    <div class="box-container">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label>Sadan name</label>
+                    @Html.TextBoxFor(model => model.FirstOrDefault().hostel_name, new { @class = "form-control", @id = "hostel_name", @readonly = "readonly" })
+                    <input class="form-control" type="text" readonly value="@Model.FirstOrDefault().regdno" name="regdno" id="regd" hidden>
+
+
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label>Package type</label>
+                    @Html.TextBoxFor(model => model.FirstOrDefault().package_name, new { @class = "form-control", @id = "package_name", @readonly = "readonly" })
+                </div>
+            </div>
+            @if (Model.FirstOrDefault().package_name == "Semester full board")
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label>Term</label>
+                        <input type="text" value="Semester Term end" class = "form-control" readonly="readonly" />
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label>Term</label>
+                        <input type="text" value="Annual Term end" class = "form-control" readonly="readonly" />
+
+                    </div>
+                </div>
+
+            }
+            @*<div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label>Start date</label>
+                @Html.TextBoxFor(model => model.FirstOrDefault().start_date, new { @class = "form-control", @id = "start_date", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label>Validity date</label>
+                @Html.TextBoxFor(model => model.FirstOrDefault().end_date, new { @class = "form-control", @id = "end_date", @readonly = "readonly" })
+            </div>
+        </div>*@
+
+        </div>
+    </div>
+    <div class="headingbetween">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="sub-title">History </h3>
+            <div class="filter_btn">
+                <input type="text" name="daterange" id="dateRangePicker" value="Daterange picker" readonly="">
+            </div>
+        </div>
+    </div>
+    <div class="box-container">
+
+        <div class="table-responsive" id="final">
+
+        </div>
+    </div>
+
+
+</section>
+}
+else
+{
+
+    <section class="content-container contentContainer">
+
+        <h3 class="page-title">
+            Dining
+            <div class="back pull-right">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+
+            <a href="https://apps.apple.com/in/app/gdiner/id6463126209?platform=iphone" target="_blank" title="Install G-diner app in IOS"><img src="~/Content/images/ios.jpg" class="profile1" /></a>
+            <a href="https://play.google.com/store/apps/details?id=com.gitam.gdiner" target="_blank" title="Install G-diner app in android"><img src="~/Content/images/andr.png" class="profile1" /></a>
+        </h3>
+
+        <div class="box-container">
+            <h6 class="text-center">There is no subscription</h6>
+        </div>
+    </section>
+
+}
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        regdidno = $("#regd").val();
+        $.ajax({
+            type: "Get",
+            url: './Home/Getdining',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+
+            data: {
+
+
+               /* student_id: 'regdidno',*/
+                @*student_id: "@student.regdno",*@
+                date: "",
+
+            },
+            success: function (result) {
+                //debugger;
+                console.log(result);
+
+                $('#final').empty();
+                var sadan = $('#sadan').val();
+                var on = "<i class='ri-checkbox-circle-fill'></i>";
+                var off = "<i class='ri-close-circle-fill'></i>";
+
+                var html = '<table class="table table-bordered tbl-style " id="datatable"><thead><tr><th>Date</th><th>Breakfast</th><th>Lunch</th><th>Snacks</th><th>Dinner</th></tr></thead><tbody>';
+
+                $.each(result, function () {
+                    html = html + "<tr><td>" + this.Used_date + "</td><td>" + (this.Breakfast == "1" ? on : off) + "</td><td>" + (this.Lunch == "1" ? on : off) + "</td><td>" + (this.Snacks == "1" ? on : off) + "</td><td>" + (this.Dinner == "1" ? on : off) + "</td></tr>";
+                });
+                html = html + '</tbody></table>';
+                $('#final').append(html);
+                $('#datatable').DataTable({
+                    order: [[0, 'desc']],
+                    columnDefs: [
+                        { type: 'date', targets: 0 }]// Sort by the first column (date) in descending order
+                });
+
+
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        })
+    });
+
+
+    var nowDate = new Date();
+
+    today = nowDate.getDate() + '/' + nowDate.getMonth() + '/' + nowDate.getFullYear();
+    var endDate = moment();
+    var startDate = moment().subtract(6, 'days');
+    $('#dateRangePicker').val(startDate.format('DD-MMM-YYYY') + ' to ' + endDate.format('DD-MMM-YYYY'));
+    $('#dateRangePicker').daterangepicker ({
+        startDate: startDate,
+        endDate: endDate,
+        autoUpdateInput: false,
+        showDropdowns: true,
+
+        locale: {
+            cancelLabel: 'Clear'
+        },
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+
+        linkedCalendars: false,
+        maxDate: moment().endOf("day")
+
+    }, function (start, end, label) {
+        $('#dateRangePicker').val('Calendar');
+        if (label == 'Today' || label == 'Yesterday') {
+            $('#dateRangePicker').val(start.format('DD-MMM-YYYY'));
+        }
+        else {
+            $('#dateRangePicker').val(start.format('DD-MMM-YYYY') + ' to ' + end.format('DD-MMM-YYYY'));
+
+        }
+        var dateText = $('#dateRangePicker').val();
+        $.ajax({
+            type: 'GET',
+            url: './Home/Getdining',
+            datatype: JSON,
+            data: {
+               'date': dateText,
+            },
+            success: (function (result) {
+                $("#dateRangePicker").text(dateText);
+                $('#final').empty();
+                var on = "<i class='ri-checkbox-circle-fill'></i>";
+                var off = "<i class='ri-close-circle-fill'></i>";
+                var html = '<table class="table table-bordered tbl-style " id="datatable"><thead><tr><th>Date</th><th>Breakfast</th><th>Lunch</th><th>Snacks</th><th>Dinner</th></tr></thead><tbody>';
+                $.each(result, function () {
+                    html = html + "<tr><td>" + this.Used_date + "</td><td>" + (this.Breakfast == "1" ? on : off) + "</td><td>" + (this.Lunch == "1" ? on : off) + "</td><td>" + (this.Snacks == "1" ? on : off) + "</td><td>" + (this.Dinner == "1" ? on : off) + "</td></tr>";
+                });
+                html = html + '</tbody></table>';
+                $('#final').append(html);
+               
+                $('#datatable').DataTable({
+                    order: [[0, 'desc']],
+                    columnDefs: [
+                        { type: 'date', targets: 0 }]
+                });
+            })
+        });
+    });
+</script>

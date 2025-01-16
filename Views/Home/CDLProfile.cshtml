@@ -1,0 +1,526 @@
+﻿@model Gstudent.Models.StudentProfile
+<div class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Profile</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="box-container">
+        <div class="sub-title">Personal Details</div>
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input ID="lblName" value="@Model.name" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Father /Guardian Name</label>
+                    <input ID="lblName" value="@Model.FATHER_NAME" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input ID="lblName" value="@Model.dob" class="form-control" readonly />
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        <h4 class="sub-title">Course Details</h4>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Program</label>
+                    <input ID="lblName" value="@Model.COURSE_CODE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Electives / Specialization</label>
+                    <input ID="lblName" value="@Model.BRANCH_CODE / @Model.specialization_code" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Medium</label>
+                    <input ID="lblName" value="@Model.MEDIUM" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Second Language</label>
+                    <input ID="lblName" value="@Model.SECOND_LANGUAGE" class="form-control" readonly />
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        <h4 class="sub-title">Permanent Address</h4>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Door No/Plot No.</label>
+                    <input ID="lblName" value="@Model.TEMP_DRNO" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    <input ID="lblName" value="@Model.TEMP_AREA" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>City</label>
+                    <input ID="lblName" value="@Model.TEMP_CITY" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>State</label>
+                    <input ID="lblName" value="@Model.TEMP_STATE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>PIN</label>
+                    <input ID="lblName" value="@Model.TEMP_PIN" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Mobile No</label>
+                    <input ID="lblName" value="@Model.TEMP_MOBILE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Telephone No.</label>
+                    <input ID="lblName" value="@Model.TEMP_TELEPHONE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>E-Mail</label>
+                    <input ID="lblName" value="@Model.TEMP_EMAIL" class="form-control" readonly />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <h4 class="sub-title">Address for Communication</h4>
+    <div class="box-container">
+
+        @using (Ajax.BeginForm("UpdateCDLProfile", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", OnSuccess = "successSubmit", OnFailure = "return onError(event)" }))
+        {
+            @Html.HiddenFor(m => m.regdno, new { @id = "regdno" })
+
+
+            <div class="row">
+                <div class="col-md-2">
+
+                    <div class="form-group">
+                        <label>Door No/Plot No.</label>
+                        @Html.TextBoxFor(m => m.TEMP_DRNO, new { @class = "form-control", @id = "txtdrno", @readonly = "true", @mxlength = "50" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Area</label>
+                        @Html.TextBoxFor(m => m.TEMP_AREA, new { @class = "form-control", @id = "txtarea", @readonly = "true", @mxlength = "80" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>City</label>
+                        @Html.TextBoxFor(m => m.TEMP_CITY, new { @class = "form-control", @id = "txtcity", @readonly = "true", @mxlength = "50" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>State</label>
+                        @Html.TextBoxFor(m => m.TEMP_STATE, new { @class = "form-control", @id = "txtstate", @readonly = "true", @mxlength = "50" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>PIN</label>
+                        @Html.TextBoxFor(m => m.TEMP_PIN, new { @class = "form-control", @id = "txtpin", @readonly = "true", @mxlength = "8" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Mobile No</label>
+                        @Html.TextBoxFor(m => m.TEMP_MOBILE, new { @class = "form-control", @id = "txtmobileno", @readonly = "true", @mxlength = "10" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Telephone No.</label>
+                        @Html.TextBoxFor(m => m.TEMP_TELEPHONE, new { @class = "form-control", @id = "txtteleno", @readonly = "true", @mxlength = "15" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>E-Mail</label>
+                        @Html.TextBoxFor(m => m.TEMP_EMAIL, new { @class = "form-control", @id = "txtemail", @readonly = "true", @mxlength = "30" })
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!--Address for Communication starts here-->
+            <div class="row">
+                <div class="col-md-12">
+
+
+                </div>
+            </div>
+
+
+
+            <div class="btns-group">
+                <span>Click on Update to modify the details</span>
+                <button type="button" class="btn btn-primary" id="LinkButton1" onclick="LinkButton2_Click()">Update</button>
+                <button type="button" class="btn btn-primary btn-left" id="LinkButton2" onclick="Button1_Click()">Save</button>
+            </div>
+
+        }
+    </div>
+    <hr />
+    <h4 class="sub-title">Socio-Economic Details</h4>
+    <div class="box-container">
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Gender</label>
+                    @if (Model.GENDER == "M")
+                    {
+                        <input ID="lblName" value="MALE" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <input ID="lblName" value="FEMALE" class="form-control" readonly />
+                    }
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Nationality</label>
+                    <input ID="lblName" value="@Model.nationality" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Marital Status</label>
+                    @if (Model.MARITAL_STATUS == "N")
+                    {
+                        <input ID="lblName" value="UNMARRIED" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <input ID="lblName" value="MARRIED" class="form-control" readonly />
+                    }
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Social Status</label>
+                    <input ID="lblName" value="@Model.SOCIAL_STATUS" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    <input ID="lblName" value="@Model.AREA" class="form-control" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="sub-title">Work Experience</h4>
+    <div class="box-container">
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Organization</label>
+                    <input ID="lblName" value="@Model.AREA" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input ID="lblName" value="@Model.DESIGNATION1" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Salary</label>
+                    <input ID="lblName" value="@Model.SALARY" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Total Service</label>
+                    <input ID="lblName" value="@Model.TOTAL_SERVICE" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    <input ID="lblName" value="@Model.AREA" class="form-control" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="sub-title">Educational Background</h3>
+    <div class="table-responsive box-container">
+        <table class="table table-bordered tbl-style">
+            <tr>
+                <th>
+                    <lable ID="Label18">Qualification</lable>
+                    @*<asp:Label ID="Label18" runat="server"
+                        Text="Qualification"></asp:Label>*@
+                </th>
+                <th>
+                    <lable ID="Label20">Year of passing</lable>
+                    @*<asp:Label ID="Label20" runat="server"
+                        style="font-weight: 700"
+                        Text="Year of Passing"></asp:Label>*@
+                </th>
+                <th align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label58">Regd no</lable>
+                    @*<asp:Label ID="Label58" runat="server"
+                        style="font-weight: 700"
+                        Text="Regd No"></asp:Label>*@
+                </th>
+                <th align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label59">% of Marks obtained</lable>
+                    @*<asp:Label ID="Label59" runat="server"
+                        style="font-weight: 700"
+                        Text="% of Marks Obtained"></asp:Label>*@
+                </th>
+                <th align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label60">Class / Rank obtained</lable>
+                    @*<asp:Label ID="Label60" runat="server"
+                        style="font-weight: 700"
+                        Text="Class/Rank Obtained"></asp:Label>*@
+                </th>
+                <th align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label61">Board / University</lable>
+                    @*<asp:Label ID="Label61" runat="server"
+                        style="font-weight: 700"
+                        Text="Board / University"></asp:Label>*@
+                </th>
+                <th align="left" height="30" valign="middle"
+                    width="108">
+                    <lable ID="Label62">Electives</lable>
+                    @*<asp:Label ID="Label62" runat="server"
+                        style="font-weight: 700"
+                        Text="Electives"></asp:Label>*@
+                </th>
+            </tr>
+            <tr>
+                <th> X Std.</th>
+                <td>@Model.SSC_YEAR</td>
+                <td>@Model.SSC_REGDNO</td>
+                <td>@Model.SSC_PERCENTAGE</td>
+                @if (Model.SSC_CLASS == "Select")
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@Model.SSC_CLASS</td>
+                }
+                <td>@Model.SSC_BOARD</td>
+                <td>@Model.SSC_ELECTIVE</td>
+            </tr>
+            <tr>
+                <th>Inter</th>
+                <td>@Model.INTER_YEAR</td>
+                <td>@Model.INTER_REGDNO</td>
+                <td>@Model.INTER_PERCENTAGE</td>
+                @if (Model.INTER_CLASS == "Select")
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@Model.INTER_CLASS</td>
+                }
+                <td>@Model.INTER_BOARD</td>
+                <td>@Model.INTER_ELECTIVE</td>
+            </tr>
+            <tr>
+                <th>Degree</th>
+                <td>@Model.DEGREE_YEAR</td>
+                <td>@Model.GRADUATION_REGDNO</td>
+                <td>@Model.DEGREE_PERCENTAGE</td>
+                @if (Model.UG_CLASS == "Select")
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@Model.UG_CLASS</td>
+                }
+
+                <td>@Model.DEGREE_BOARD</td>
+                <td>@Model.GRADUATION_ELECTIVE</td>
+            </tr>
+            <tr>
+                <th>Post Graduation</th>
+                <td>@Model.PG_YEAR</td>
+                <td>@Model.PG_REGDNO</td>
+                <td>@Model.PG_PERCENTAGE</td>
+                @if (Model.PG_CLASS == "Select")
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@Model.PG_CLASS</td>
+                }
+
+                <td>@Model.PG_BOARD</td>
+                <td>@Model.PG_ELECTIVE</td>
+            </tr>
+            <tr>
+                <th>Entrance Examination</th>
+                <td>@Model.ENTRANCE_YEAR</td>
+                <td>@Model.ENTRANCE_REGDNO</td>
+                <td>@Model.ENTRANCE_MARKS</td>
+                @if (Model.ENTRANCE_RANK == "Select")
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@Model.ENTRANCE_RANK</td>
+                }
+                <td>@Model.ENTRANCE_BOARD</td>
+                <td>@Model.ENTRANCE_ELECTIVE</td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    var counter = 0;
+
+    function successSubmit(e) {
+
+
+        var error = e;
+        if (error == "Successfully submitted") {
+
+            swal({ icon: "success", text: "Submitted successfully" });
+            setTimeout(loaddata, 1500);
+        }
+
+        else {
+            swal({ icon: "error", text: "Cancel!" });
+            setTimeout(loaddata, 1500);
+        }
+    }
+    function loaddata() {
+        loadConfigView('8');
+    }
+
+
+    function LinkButton2_Click() {
+        $("#txtdrno").attr("readonly", false);
+        $("#txtarea").attr("readonly", false);
+        $("#txtcity").attr("readonly", false);
+        $("#txtstate").attr("readonly", false);
+        $("#txtpin").attr("readonly", false);
+        $("#txtmobileno").attr("readonly", false);
+        $("#txtteleno").attr("readonly", false);
+        $("#txtemail").attr("readonly", false);
+        counter = 1;
+    }
+
+
+    function Button1_Click() {
+
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var txtdrno = document.getElementById('txtdrno').value;
+        var txtarea = document.getElementById('txtarea').value;
+        var txtcity = document.getElementById('txtcity').value;
+        var txtstate = document.getElementById('txtstate').value;
+        var txtpin = document.getElementById('txtpin').value;
+        var txtmobileno = document.getElementById('txtmobileno').value;
+        var txtteleno = document.getElementById('txtteleno').value;
+        var txtemail = document.getElementById('txtemail').value;
+        //txtdrno, txtarea, txtcity, txtstate, txtpin, txtmobileno, txtteleno, txtemail
+        if (counter == 1) {
+            swal({
+                title: "Are you sure to submit?",
+                type: "warning",
+                confirmButtonText: "Confirm",
+                showCancelButton: true,
+                closeOnClickOutside: false,
+            })
+                .then((willDelete) => {
+                    if (willDelete.value) {
+                        $.ajax({
+                            type: "Post",
+                            url: "./Home/UpdateCDLProfile",
+                            data: { '__RequestVerificationToken': token, 'txtdrno': txtdrno, 'txtarea': txtarea, 'txtcity': txtcity, 'txtstate': txtstate, 'txtpin': txtpin, 'txtmobileno': txtmobileno, 'txtteleno': txtteleno, 'txtemail': txtemail },
+                            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                            dataType: "json",
+                            success: function (Result) {
+                                var error = Result;
+
+                                if (error == "Successfully submitted") {
+
+                                    //  swal({ icon: "success", text: "Submitted successfully" });
+                                    swal('Submitted successfully', '', 'success');
+                                    setTimeout(loaddata, 1500);
+                                }
+
+                                else {
+                                    swal('Cancelled', '', 'error');
+                                    setTimeout(loaddata, 1500);
+                                }
+
+
+
+
+
+
+                            }
+                        });
+
+                    } else {
+                        swal('Cancelled', '', 'error')
+                    }
+                });
+        }
+        else {
+            // swal({ icon: "error", text: "Please click on update first to save." });
+            swal('Please click on update first to save.', '', 'error');
+        }
+    }
+</script>

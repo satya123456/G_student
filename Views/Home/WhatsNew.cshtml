@@ -1,0 +1,256 @@
+﻿<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css">
+
+
+<style>
+    .home-section {
+        overflow-y: visible;
+        height: auto;
+    }
+    /*What's new*/
+    .whatsAppeningDiv ul {
+        list-style: none;
+        margin-left: 20px
+    }
+
+        .whatsAppeningDiv ul li i {
+            margin-right: 10px;
+            color: #655f5f;
+            font-size: 16px
+        }
+
+        .whatsAppeningDiv ul li {
+            font-size: 14px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #f7f0f0;
+            padding-bottom: 10px;
+        }
+
+            .whatsAppeningDiv ul li:last-child {
+                border-bottom: none
+            }
+
+    .whatsAppeningDiv .textBold {
+        font-weight: 500;
+        color: #e5111d;
+        /* text-decoration: underline; */
+        border-bottom: 1px solid #e9acac;
+        margin-right: 20px;
+    }
+
+
+
+    .whatsAppeningDiv .pdfIcon {
+        margin-left: 10px !important;
+        color: red;
+    }
+
+
+    .totalUtilization {
+    }
+
+    .totUtiInner {
+        padding: 50px
+    }
+
+        .totUtiInner li {
+            font-size: 15px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: #3f3d3d
+        }
+
+            .totUtiInner li:last-child {
+                margin-bottom: 0px
+            }
+
+            .totUtiInner li span:first-child {
+                min-width: 300px;
+                display: inline-block;
+            }
+
+            .totUtiInner li span:nth-child(2) {
+                min-width: 20px;
+                display: inline-block;
+            }
+
+            .totUtiInner li span:nth-child(3) {
+                color: #074eca;
+                font-weight: 500;
+                font-size: 16px;
+            }
+
+        .totUtiInner h2 {
+            color: #0862ff;
+            font-weight: 500;
+            font-size: 70px;
+        }
+
+        .totUtiInner h5 {
+            color: #3f3d3d;
+            font-size: 18px
+        }
+
+    .jFiler-input-text h3 {
+        color: #2e2a2a !important;
+    }
+
+    .jFiler-input-dragDrop {
+        width: 500px !important;
+        background: #f3f9f8 !important;
+        border: 2px dashed #ded4d4 !important;
+    }
+
+    .jFiler-input-choose-btn.blue:hover {
+        background: #007367 !important;
+        color: #fff !important;
+    }
+
+    .jFiler-input-choose-btn.blue {
+        color: #7f7879 !important;
+        border: 1px solid #007367 !important;
+        font-size: 13px;
+        font-family: inherit !important;
+    }
+
+    .jFiler-item-inner .bx-trash {
+        cursor: pointer
+    }
+
+
+    .btn-outline-danger {
+        color: #007367;
+        border-color: #007367;
+    }
+
+    code {
+        color: #007367;
+    }
+
+    /*.back {
+
+        display: block !important;
+    }
+*/
+
+            .back a {
+               display:flex;
+               justify-content:end;
+            }
+
+        .back i {
+            margin-right: 5px;
+        }
+
+
+        @@media only screen and (max-width: 600px) {
+            back1 {
+                background-color: lightblue;
+                display:block!important;
+            }
+}
+</style>
+
+
+
+
+<section class="content-container contentContainer" id="homeSection">
+
+        <div class="back">
+            <!-- Back Arrow Button -->
+
+            <a href="javascript:void(0);" onclick="goBack()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+        <div class="whatsAppeningDiv box-inner" id="whatsNewDiv">
+            <!--using the same whatsappeningdiv which is used just above for the css styling-->
+            <h3 class="sub-title ">
+                What's
+
+                <img src="~/images/new.gif" class="newGif" />
+            </h3>
+
+            <hr>
+            <ul>
+                <li>
+                    <i class="ri-arrow-right-circle-line"></i> Residence(Permissions & Leaves, Dining)
+
+
+                    <a href="~/Materials/Residence22.pdf" target="_blank"><i class="far fa-file-pdf pdfIcon cursor_pointer"></i></a>
+                </li>
+                <li>
+                    <i class="ri-arrow-right-circle-line"></i> Academics(Attendance, Time-Table)
+
+
+
+                    <a href="~/Materials/Academics22.pdf" target="_blank"><i class="far fa-file-pdf pdfIcon cursor_pointer"></i></a>
+                </li>
+                <li>
+                    <i class="ri-arrow-right-circle-line"></i> Courses (G-Learn)
+
+
+
+
+                    <a href="~/Materials/COURSES G.pdf" target="_blank"><i class="far fa-file-pdf pdfIcon cursor_pointer"></i></a>
+                </li>
+                <li>
+                    <i class="ri-arrow-right-circle-line"></i> Evaluation(Hall-Ticket, Online Grade Card)
+
+
+
+                    <a href="~/Materials/Evaluation2.pdf" target="_blank"><i class="far fa-file-pdf pdfIcon cursor_pointer"></i></a>
+                </li>
+                <li>
+                    <i class="ri-arrow-right-circle-line"></i> Events
+
+
+
+                    <a href="~/Materials/Events22.pdf" target="_blank"><i class="far fa-file-pdf pdfIcon cursor_pointer"></i></a>
+                </li>
+                <li>
+                    <i class="ri-arrow-right-circle-line"></i> Student Helpdesk
+
+
+
+                    <a href="~/Materials/Student_Helpdesk2.pdf" target="_blank"><i class="far fa-file-pdf pdfIcon cursor_pointer"></i></a>
+                </li>
+                <li>
+                    <i class="ri-arrow-right-circle-line"></i> Feedback Form
+
+
+
+
+                    <a href="~/Materials/Feedback2.pdf" target="_blank"><i class="far fa-file-pdf pdfIcon cursor_pointer"></i></a>
+                </li>
+
+                @*<li><i class="ri-arrow-right-circle-line"></i>Quiz integration (G-Learn with Moodle)  <i class="far fa-file-pdf pdfIcon cursor_pointer" onclick="quizIntegrationModal()"></i></li>
+                    <li>
+                        <i class="ri-arrow-right-circle-line"></i>Slot access (Request to post, edit, delete slot)
+                        <i class="far fa-file-pdf pdfIcon cursor_pointer" onclick="attendancePDFModal()"></i>
+                    </li>
+                    <li><i class="ri-arrow-right-circle-line"></i>Assignments (Faculty level) - Previous and Next buttons for navigation.  <i class="far fa-file-pdf pdfIcon cursor_pointer" onclick="assignmentPDFModal()"></i></li>
+                    <li><i class="ri-arrow-right-circle-line"></i>Post today’s attendance  <i class="far fa-file-pdf pdfIcon cursor_pointer" onclick="todayattendancePDFModal()"></i></li>
+                    <li><i class="ri-arrow-right-circle-line"></i>CE marks excel upload  <i class="far fa-file-pdf pdfIcon curs
+                *@<!--or_pointer" onclick="cemarksUploadPDFModal()"></i></li>-->
+
+            </ul>
+        </div>
+  
+    </section>
+    <script>
+        function goBack() {
+
+            loadConfigView('30');
+        }
+        //$(document).ready(function () {
+        //    $('.back').hide();
+        //    var width = $(window).width();
+        //    if (width <= "1024") {
+        //        $('.back').show();
+        //    }
+        //    else {
+        //        $('.back').hide();
+        //    }
+        //})
+       
+    </script>

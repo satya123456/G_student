@@ -1,0 +1,283 @@
+﻿@model IEnumerable<Gstudent.Models.Students>
+
+<style>
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-title {
+        margin-right: 10px; /* add some space between the title and the back button */
+    }
+
+    .back {
+        margin-top: 5px;
+        margin-left: 10px; /* push the back button to the right */
+    }
+</style>
+
+
+
+@if (Model.Count() > 0)
+{
+<section class="content-container contentContainer">
+    @*<div class="d-flex justify-content-between">*@
+
+
+        <div class="header-container">
+            <h5 class="page-title">Field Work Proposal</h5>
+            <div class="back">
+                <a href="javascript:void(0);" onclick="goBack()">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-inner">
+
+            <table id="submittedweeklyactivityTable" class="table table-striped">
+                <thead>
+
+                    <tr>
+                        <th>Title of field work</th>
+                        <th>Reporting Date</th>
+                        <th>Domain of research work</th>
+                        <th>Sub domain of research work</th>
+                        <th>Background of research problem</th>
+                        <th>Gap of problem</th>
+                        <th>Study method</th>
+                        <th>Expected outcome</th>
+                        <th>Dt_Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var studentrec in Model)
+                    {
+
+                    <tr class="">
+                        <td style="width:10%">@studentrec.field_work_title</td>
+                        <td style="width:20%">@studentrec.report_date</td>
+                        <td style="width:10%">@studentrec.domain_research_work</td>
+                        <td style="width:10%">@studentrec.sub_domain_research_work</td>
+                        <td style="width:10%">@studentrec.rpm_background</td>
+                        <td style="width:10%">@studentrec.problem_gap</td>
+                        <td style="width:10%">@studentrec.study_methods</td>
+                        <td style="width:10%">@studentrec.expected_outcomes</td>
+                        <td style="width:10%">@studentrec.dt_time</td>
+                    </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+        </div> 
+     
+
+        @*</div>*@
+    </section>
+     }
+        else
+        {
+        <section class="content-container contentContainer">
+            <div class="header-container">
+                <h5 class="page-title">Field Work Proposal</h5>
+                <div class="back">
+                    <a href="javascript:void(0);" onclick="goBack()">
+                        <i class='bx bx-arrow-back'></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-inner">
+                <form action="/submit-log" method="post" id="form3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Title of the field work</label>
+                                <input type="text" id="fw_title" name="fw_title" class="form-control" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Date of report to the company mentor</label>
+                                <input class="form-control hasWickedpicker" type="text" value="" placeholder="DD/MM/YYYY" id="reportDate" name="reportDate" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Domain of your research work(eg. Marketing, HR, Operations, Accounting & Finance, BA etc.)</label>
+                                <input type="text" id="rw_domain" name="rw_domain" class="form-control" maxlength="100">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Specific sub-domain of your research work(consumer Behaviour, Retailing, etc.)</label>
+                                <textarea id="rw_sbdm" name="rw_sbdm" class="form-control" maxlength="300"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Background of the research problem(Minimum 50 words)</label>
+                                <textarea id="rp_background" name="rp_background" class="form-control" maxlength="300"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Definition/Gap of the problem(Minimum 50 words)</label>
+                                <textarea id="problem_define" name="problem_define" class="form-control" maxlength="300"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Methods of the study(Data sources, collection methods)(Minimum 50 words)</label>
+                                <textarea id="Study_method" name="Study_method" class="form-control" maxlength="300"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Expected Outcomes/Managerial Implications(Minimum 75 words)</label>
+                                <textarea id="Exp_outcome" name="Exp_outcome" class="form-control" maxlength="300"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success Submit" id="btnsubmit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>}
+        <script>
+            function goBack() {
+
+                loadConfigView('80');
+            }
+        </script>
+        <script>
+            function reloadPage() {
+                // Reload the page after a successful update
+                loadConfigView('81');
+            }
+
+
+
+            window.fromDatePicker = new tempusDominus.TempusDominus(document.getElementById("reportDate"), {
+                localization: {
+                    locale: "en",
+                    startOfTheWeek: 1,
+                    format: "dd/MM/yyyy"
+
+                }
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#form3").validate({
+                    rules: {
+                        "fw_title": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "reportDate": {
+                            required: true,
+
+                        },
+                        "rw_domain": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "rw_sbdm": {
+                            required: true,
+                            minlength: 5
+                        },
+
+                        "rp_background": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "problem_define": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "Study_method": {
+                            required: true,
+                            minlength: 5
+                        },
+                        "Exp_outcome": {
+                            required: true,
+                            minlength: 5
+                        },
+                    },
+                    messages: {
+                        "fw_title": {
+                            required: "Please, enter Title of Field Work"
+                        },
+                        "reportDate": {
+                            required: "Please, enter reporting date"
+                        },
+                        "rw_domain": {
+                            required: "Please, enter  domain of research work"
+                        },
+                        "rw_sbdm": {
+                            required: "Please, enter sub-domain of research work"
+                        },
+                        "rp_background": {
+                            required: "Please, enter background of research problem"
+                        },
+                        "problem_define": {
+                            required: "Please, define the problem"
+                        },
+                        "Study_method": {
+                            required: "Please, enter your study method"
+                        },
+                        "Exp_outcome": {
+                            required: "Please, enter your expected outcome"
+                        },
+                    },
+
+                    submitHandler: function (form) { // for demo
+
+                        debugger;
+                        // Get the form data
+                        var fwtitle = $('#fw_title').val();
+                        var rprtdate = $('#reportDate').val();
+                        var rwdmn = $('#rw_domain').val();
+                        var rwsbdm = $('#rw_sbdm').val();
+                        var rpbgrd = $('#rp_background').val();
+                        var prbdef = $('#problem_define').val();
+                        var stdmhd = $('#Study_method').val();
+                        var expocm = $('#Exp_outcome').val();
+                        // Send the form data to the server using AJAX
+                        $.ajax({
+                            url: './Home/submittingfieldworkproposal',
+                            type: 'POST',
+                            data: { 'fwtitledata': fwtitle, 'rprtdatedata': rprtdate, 'rwdomaindata': rwdmn, 'rwksubdomainddata': rwsbdm, 'rpmbackgrounddata': rpbgrd, 'prbdefinitiondata': prbdef, 'stdmethoddata': stdmhd, 'expoutcomedata': expocm, },
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response);
+                                if (response.success) {
+                                    // Display a success message to the user
+                                    swal({ icon: "success", text: "Updated Successfully" });
+                                    reloadPage();
+                                } else {
+                                    // Display an error message to the user
+                                    swal({ icon: "error", text: "Not Submitted!" });
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                // Display an error message to the user
+                                alert('Error submitting: ' + error);
+                            }
+
+                        });
+                    }
+                });
+
+            });
+
+
+        </script>

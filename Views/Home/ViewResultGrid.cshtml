@@ -1,0 +1,196 @@
+﻿
+@model List<Gstudent.Models.studenttrack>
+<style>
+    .vrg {
+        width: 550px;
+      /*  height: 650px;*/
+        background-image: url('../../Content/images/logo.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        padding: 10px;
+    }
+
+    .vrg > table {
+    width: 500px;
+    margin: 0 auto;
+    }
+    .table .thead-light th {
+        vertical-align: bottom;
+        border-bottom: 1px solid #e1e1e1;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 5px 10px;
+        white-space: nowrap;
+        border-right: 1px solid #c8bfbf;
+        background-color: #e1e1e1;
+    }
+</style>
+
+<form id="form1">
+    <center>
+        <div class="vrg">
+            <table border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th height="30" colspan="4" align="center" style="font-size:24px">GITAM&nbsp;</th>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center" style="font-size:18px">
+                        &nbsp;<Label ID="lblcourse" Text="lblcourse">@Model.FirstOrDefault().course_name</Label>
+                        <Label ID="Label11" Text="Degree Examinations"></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <table border="0" align="center" cellpadding="0" cellspacing="0"
+                               style="height: 19px; width: 100%">
+                            <tr>
+                                <td align="center" style="height:30px">
+                                    Semester‎/‎Trimester: ‎<Label ID="lblsem"
+                                                                  Text="lblsem">@Model.FirstOrDefault().SEMESTER</Label>
+                                                            </td>
+                                                            <td align="center">
+                                                                Month‎/‎Year‎ :
+                                                                <Label ID="lblmonth" Text="lblmonth">@Model.FirstOrDefault().Month</Label>
+                                                                /‎<Label ID="lblyear" Text="lblyear">@Model.FirstOrDefault().Year</Label>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" align="center"><strong>RESULT SHEET</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                </td>
+                                                <td width="50%" align="left">
+                                                    <table cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td>
+                                                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="height:30px">
+                                                                                Name  : <Label ID="lblname" Text="lblname">@Model.FirstOrDefault().name</Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td width="21%" align="right">
+                                                    Regd No :<Label ID="lblregdno"
+                                                                    Text="lblregdno">@Model.FirstOrDefault().regdno</Label>
+                                                                </td>
+                                                        </table>
+
+
+
+                                                        <tr>
+                                                            <td style="height:50px">
+                                                                Branch
+                                                                :<Label ID="lblbranch" Text="lblbranch">@Model.FirstOrDefault().Branch_name</Label>
+                                                            </td>
+                                                            <td align="left">
+                                                                &nbsp;
+                                                            </td>
+                                                            <td align="right">&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                            <td align="right">&nbsp;</td>
+                                                        </tr>
+                                                        </table>
+                                                        <div class="table-responsive">
+                                                            <table class="table table_style table-bordered" id="dataTable">
+                                                                <thead class="thead-light">
+                                                                    <tr>
+                                                                        <th>Subject code</th>
+                                                                        <th>Subject name</th>
+                                                                        <th>Credits</th>
+                                                                        <th>Grade</th>
+                                                                       
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="underprocess">
+
+                                                                    @foreach(var val in Model)
+            {
+                                                                    <tr>
+                                                                        <td>@val.SUBJECT_CODE</td>
+                                                                        <td>@val.SUBJECT_NAME</td>
+                                                                        <td>@val.credits</td>
+                                                                        <td>@val.Grade</td>
+                                                                    </tr>
+            }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                       
+
+                                                        <table>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <table style="float:left;" visible="false" id="tbl1">
+                                                                        <tr><td>S-Satisfactory</td></tr>
+                                                                        <tr><td>NS-Not Satisfactory</td></tr>
+
+                                                                    </table>
+                                                                </td>
+
+                                                                <td>&nbsp;</td>
+                                                                <td style="width:100px; ">
+
+                                                                    <table style="float:right; ">
+                                                                        <tr>
+                                                                            <td>GPA  :</td>
+                                                                            <td>
+                                                                                <Label ID="lblgpa" Text="lblgpa">@Model.FirstOrDefault().sgpa</Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>CGPA:</td>
+                                                                            <td>
+                                                                                <Label ID="lblcgpa" Text="lblcgpa">@Model.FirstOrDefault().cgpa</Label>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td>
+
+                                                                    &nbsp;
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td></td>
+                                                                <td style="white-space:nowrap">
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <Button ID="Button1" runat="server" Text="Back"
+                                                                        onclick="Button1_Click" Visible="False" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr><td>&nbsp;</td></tr>
+                                                    </table>
+                                                </center>
+
+
+                                                <div class="btn">  </div>
+
+
+
+                                            </form>

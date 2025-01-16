@@ -1,0 +1,420 @@
+﻿<!-- Content sec -->
+@model Gstudent.Models.StudentProfile
+
+@{
+    var caste = new SelectList(new[]
+    {
+
+new SelectListItem() {Text = "OC", Value="OC"},
+new SelectListItem { Text = "OBC", Value = "OBC"},
+new SelectListItem() {Text = "SC", Value="SC"},
+new SelectListItem { Text = "ST", Value = "ST"},
+new SelectListItem { Text = "Others", Value = "Others"},
+}, "Value", "Text");
+}
+@{
+    var fee = new SelectList(new[]
+    {
+
+new SelectListItem() {Text = "Yes", Value="Yes"},
+new SelectListItem { Text = "No", Value = "No"},
+
+}, "Value", "Text");
+}
+<section class="content-container contentContainer">
+    @using (Ajax.BeginForm("Updateprofile", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "nursing_assessment", OnSuccess = "Successassess" }))
+    {
+        <div class="d-flex justify-content-between">
+        <h5 class="page-title">Profile</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+            <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-container">
+            <div class="row">
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Registration number</label>
+                        @*<input class="form-control" id="lblgetregistrationnumber" type="text" value="121818601051" readonly>*@
+                        @Html.TextBoxFor(model => model.regdno, new { @class = "form-control", @id = "regdno", @onkeydown = "return ValidateNumber(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="form-group ">
+                        <label>Campus</label>
+                        @Html.TextBoxFor(model => model.CAMPUS, new { @class = "form-control", @id = "CAMPUS", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>College</label>
+                        @Html.TextBoxFor(model => model.COLLEGE_CODE, new { @class = "form-control", @id = "COLLEGE_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="form-group ">
+                        <label>Batch</label>
+                        @Html.TextBoxFor(model => model.BATCH, new { @class = "form-control", @id = "BATCH", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="form-group ">
+                        <label>Degree</label>
+                        @Html.TextBoxFor(model => model.DEGREE_CODE, new { @class = "form-control", @id = "DEGREE_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Program</label>
+                        @Html.TextBoxFor(model => model.BRANCH_CODE, new { @class = "form-control", @id = "BRANCH_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="form-group ">
+                        <label>Branch</label>
+                        @Html.TextBoxFor(model => model.BRANCH_CODE, new { @class = "form-control", @id = "BRANCH_CODE", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Class</label>
+                        @Html.TextBoxFor(model => model.CLASS, new { @class = "form-control", @id = "CLASS", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="form-group ">
+                        <label>Section</label>
+                        @Html.TextBoxFor(model => model.SECTION, new { @class = "form-control", @id = "SECTION", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="form-group ">
+                        <label>Semester</label>
+                        @Html.TextBoxFor(model => model.curr_sem, new { @class = "form-control", @id = "curr_sem", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2 col-lg-2 d-none">
+            <div class="d-flex justify-content-center">
+                <img class="img-fluid" src="https://doeresults.gitam.edu/photo/img.aspx?id=@Model.regdno">
+            </div>
+        </div>
+
+
+        <h3 class="sub-title">Personal details</h3>
+        <div class="box-container">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Student full name</label>
+                        @Html.TextBoxFor(model => model.name, new { @class = "form-control", @id = "name", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Aadhar number</label>
+                        @Html.TextBoxFor(model => model.AADHAR_NO, new { @maxlength = "12", @class = "form-control", @id = "AADHAR_NO", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Date of birth</label>
+                        @Html.TextBoxFor(model => model.dob, new { @class = "form-control", @id = "AADHAR_NO", @readonly = "readonly", @onkeydown = "return ValidateSpecialText(event);" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Blood group</label>
+                        @Html.TextBoxFor(model => model.BLOOD_GROUP, new { @class = "form-control", @id = "BLOOD_GROUP", @readonly = "readonly", @onkeydown = "return ValidateSpecialText(event);" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Mobile number</label>
+                        @Html.TextBoxFor(model => model.MOBILE, new { @maxlength = "10", @class = "form-control", @id = "MOBILE", @onkeypress = "removemsg('validmsg3');return ValidateSpecialText(event);" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>E-mail</label>
+                        @Html.TextBoxFor(model => model.EMAILID, new { @class = "form-control", @id = "EMAILID", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Gender</label>
+                        @Html.TextBoxFor(model => model.GENDER, new { @class = "form-control", @id = "GENDER", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Nationality</label>
+                        @Html.TextBoxFor(model => model.nationality, new { @class = "form-control", @id = "nationality", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Religion</label>
+                        @Html.TextBoxFor(model => model.RELIGION, new { @class = "form-control", @id = "RELIGION", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Father name</label>
+                        @Html.TextBoxFor(model => model.FATHER_NAME, new { @class = "form-control", @id = "FATHER_NAME", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Mother name</label>
+                        @Html.TextBoxFor(model => model.MOTHERNAME, new { @class = "form-control", @id = "MOTHERNAME", @onkeydown = "return ValidateSpecialText(event);", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group  ">
+                        <label>Category</label>
+                        @*@Html.DropDownListFor(model => model.CATEGORY, caste, "Select", new { @class = "form-control items", @id = "caste", @readonly = "readonly" @name = "caste", @required = "required" })*@
+                        @Html.TextBoxFor(model => model.CATEGORY, new { @class = "form-control", @id = "CATEGORY", @readonly = "readonly" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="sub-title">Permanent address for communication</h3>
+        <div class="box-container">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Door number</label>
+                        @Html.TextBoxFor(model => model.DOORNO, new { @class = "form-control", @id = "DOORNO", @maxlength = "50" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Location</label>
+                        @Html.TextBoxFor(model => model.LOCATION, new { @class = "form-control", @id = "LOCATION", @onkeydown = "return ValidateSpecialText(event);", @maxlength = "80" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>City </label>
+                        @*@Html.TextBoxFor(model => model.CITY, new { @class = "form-control", @id = "CITY", @onkeydown = "return ValidateSpecialText(event);" })*@
+                        @Html.TextBoxFor(model => model.CITY, new { @class = "form-control", @id = "CITY", @onkeydown = "return ValidateSpecialText(event);", @maxlength = "50" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group  ">
+                        <label>State</label>
+                        @Html.DropDownListFor(model => model.STATE, (IEnumerable<SelectListItem>)ViewBag.statesList, "Select state", new { @class = "form-control" })
+
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Country </label>
+                        @Html.TextBoxFor(model => model.COUNTRY, new { @class = "form-control", @id = "COUNTRY", @onkeydown = "return ValidateSpecialText(event);", @maxlength = "50" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Pincode</label>
+                        @Html.TextBoxFor(model => model.PINCODE, new { @class = "form-control", @id = "PINCODE", @onkeydown = "return ValidateNumber(event);", @maxlength = "10" })
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <h3 class="sub-title">Fee and Parental income</h3>
+        <div class="box-container">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group  ">
+                        <label>Fee reimbursement(full fee waiver)</label>
+                        @Html.DropDownListFor(model => model.Fee_reimbursement, fee, "Select", new { @class = "form-control items", @id = "fee", @name = "fee" })
+
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group ">
+                        <label>Parent annual income(Indian rupees)</label>
+                        @Html.TextBoxFor(model => model.Parental_income, new { @class = "form-control", @id = "Parental_income", @onkeypress = "removemsg('validmsg2');return ValidateNumber(event);", @maxlength = "10" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group ">
+                        <label>Parent occupation</label>
+                        @Html.TextBoxFor(model => model.OCCUPATION_PARENT, new { @class = "form-control", @id = "OCCUPATION_PARENT", @onkeypress = "removemsg('validmsg1');return ValidateSpecialText(event);", @maxlength = "50" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-12 btns-group">
+            <button class="btn btn-primary" onclick="formsubmit(event);">Update</button>
+        </div>
+    </div>
+
+</section>
+<script>
+    //$(document).ready(function () {
+    //       GetStates();
+    //})
+
+    function Successassess(e) {
+        console.log(e);
+        //debugger;
+        var error = e.msg;
+        if (error == "Successfully submitted") {
+            swal('Successfully submittedy', '', 'success');
+
+           // swal({ icon: "success", text: "Successfully submitted" });
+            setTimeout(loaddata, 1500);
+        }
+        else if (error == "Successfully Updated") {
+            swal('Successfully updated', '', 'success');
+          /*  swal({ icon: "success", text: "Successfully updated" });*/
+            setTimeout(loaddata, 1500);
+        }
+        else {
+
+            swal('Cancelled', '', 'error');
+            setTimeout(loaddata, 1500);
+        }
+    }
+
+    function loaddata() {
+        loadView('1');
+    }
+    function formsubmit(e) {
+
+        $('#validmsg1').remove();
+        $('#validmsg2').remove();
+        $('#validmsg3').remove();
+        var val1 = $('#OCCUPATION_PARENT').val();
+        var val2 = $('#Parental_income').val();
+        var val3 = $('#MOBILE').val();
+
+        var count = 0;
+        if (!val1 || !val1.trim()) {
+            $('.loaderm').hide();
+            document.getElementById('OCCUPATION_PARENT').focus();
+            $('#OCCUPATION_PARENT').parent().append('<span class="error" id="validmsg1">Please enter occupation</span>');
+            $('#OCCUPATION_PARENT').val("");
+            count++;
+
+        }
+        if (!val2 || !val2.trim()) {
+            $('.loaderm').hide();
+            document.getElementById('Parental_income').focus();
+            $('#Parental_income').parent().append('<span class="error" id="validmsg2">Please enter income</span>');
+            $('#Parental_income').val("");
+            count++;
+
+        }
+        if (!val3 || !val3.trim()) {
+            $('.loaderm').hide();
+            document.getElementById('MOBILE').focus();
+            $('#MOBILE').parent().append('<span class="error" id="validmsg3">Please enter mobile</span>');
+            $('#MOBILE').val("");
+            count++;
+
+        }
+
+        if (count == 0) {
+
+            if ($("#form0").valid()) {
+                swal({
+                    title: "Are you sure to submit?",
+                    type: "warning",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true,
+                    closeOnClickOutside: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete.value) {
+                            $("form:first").submit();
+                        } else {
+                            swal('Cancelled', '', 'error');
+                        }
+                    });
+            }
+        }
+    }
+
+
+
+    function int(element) {
+
+        var s = element.value;
+        var max_chars = 0;
+        if (s.includes(".")) {
+
+            element.value = element.value.replace(/\./g, ' ')
+            return false;
+
+        }
+        else {
+
+            return true;
+        }
+
+
+    }
+
+    function ValidateSpecialText(evt) {
+        //debugger;
+        var keyCode = (evt.which) ? evt.which : evt.keyCode
+        if (keyCode != 8) {
+            if ((keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 123) && keyCode != 32 && !(keyCode >= 48 && keyCode <= 57) && !(keyCode == 38) && !(keyCode == 40) && !(keyCode == 41) && !(keyCode == 44) && !(keyCode == 45) && !(keyCode == 47) && !(keyCode == 46) && !(keyCode == 58) && !(keyCode == 13) && !(keyCode == 190))
+                return false;
+        }
+
+        return true;
+    }
+
+
+    function ValidateNumber(e) {
+        var specialKeys = new Array();
+        specialKeys.push("Backspace"); //Backspace
+        specialKeys.push("Delete"); //Delete
+        specialKeys.push("Enter"); //Enter
+        specialKeys.push("Tab"); //Tab
+        specialKeys.push("."); //dot
+        var keyCode = e.keyCode != 32 ? e.key : -1;
+        var ret = ((keyCode >= 0 && keyCode <= 10) || specialKeys.indexOf(keyCode) != -1 || (keyCode >= 106 && keyCode <= 115) || keyCode == 46);
+        return ret;
+    };
+
+
+    $('#someTextBox').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            alert('You pressed a "enter" key in textbox');
+        }
+    });
+    function removemsg(id) {
+        $('#' + id).remove();
+    }
+</script>

@@ -1,0 +1,128 @@
+﻿@model Lmsalpha.ViewModels.Studentrecords.lmstextbooks
+@{
+    ViewBag.Title = "LmsTextbooks";
+}
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Textbooks / References( @ViewBag.subjectcode - @ViewBag.subjectname )</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="loadConfigView('67');">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="box-inner">
+        <div class="tabsContainer ">
+
+            <!-- Tabs line -->
+            <div class="tabsLine">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab1"><i class="bx bx-book-alt"></i> Textbooks</a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab2"><i class="bx bx-file"></i> References</a>
+                    </li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane  active" id="tab1">
+                        @if (Model.textbooksummary.Count() > 0)
+                        {
+                            <div id="dynamictable_text" class="table-responsive dropdown_filter mt-3">
+                                <table class="table table-bordered " id="tbl">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Title</th>
+                                            <th>Unit mapping</th>
+                                            <th>Author</th>
+                                            <th>Year</th>
+                                            <th>Edition</th>
+                                            <th>Publisher</th>
+                                            <th>Place of publication</th>
+                                            <th>ISBN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @{int k = 1;}
+                                        @foreach (var course in Model.textbooksummary.Where(x => x.TYPE == "T").Select(x => new { x.GENERATED_DATE }).Distinct())
+                                        {
+                                            var assignlist = Model.textbooksummary.Where(X => X.TYPE.Equals("T") && X.GENERATED_DATE.Equals(course.GENERATED_DATE)).OrderByDescending(X => X.GENERATED_DATE);
+
+                                            <tr>
+                                                <td>@k</td>
+                                                <td>@assignlist.FirstOrDefault().TEXTBOOK_NAME</td>
+                                                <td>@assignlist.FirstOrDefault().UNIT_MAPPING</td>
+                                                <td>@assignlist.FirstOrDefault().AUTHOR</td>
+                                                <td>@assignlist.FirstOrDefault().YEAR</td>
+                                                <td>@assignlist.FirstOrDefault().EDITION</td>
+                                                <td>@assignlist.FirstOrDefault().PUBLICATION</td>
+                                                <td>@assignlist.FirstOrDefault().PUBLICATION_PLACE</td>
+                                                <td>@assignlist.FirstOrDefault().ISBN</td>
+                                               
+                                            </tr>
+                                            k++;
+                                        } </tbody>
+                                </table>
+                            </div>
+                        }
+
+
+                    </div>
+                    <div class="tab-pane fade" id="tab2">
+                        @if (Model.textbooksummary.Count() > 0)
+                        {
+                            <div id="dynamictable_text" class="table-responsive dropdown_filter mt-3">
+                                <table class="table table-bordered " id="tbl">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Title</th>
+                                            <th>Chapters</th>
+                                            <th>Author</th>
+                                            <th>Year</th>
+                                            <th>Edition</th>
+                                            <th>Publisher</th>
+                                            <th>Place of publication</th>
+                                            <th>ISBN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int m = 1;}
+                                        @foreach (var course1 in Model.textbooksummary.Where(x => x.TYPE == "R").Select(x => new { x.GENERATED_DATE }).Distinct())
+                                        {
+                                            var assignlist1 = Model.textbooksummary.Where(X => X.TYPE.Equals("R") && X.GENERATED_DATE.Equals(course1.GENERATED_DATE)).OrderByDescending(X => X.GENERATED_DATE);
+
+                                            <tr>
+                                                <td>@m</td>
+                                                <td>@assignlist1.FirstOrDefault().TEXTBOOK_NAME</td>
+                                                <td>@assignlist1.FirstOrDefault().UNIT_MAPPING</td>
+                                                <td>@assignlist1.FirstOrDefault().AUTHOR</td>
+                                                <td>@assignlist1.FirstOrDefault().YEAR</td>
+                                                <td>@assignlist1.FirstOrDefault().EDITION</td>
+                                                <td>@assignlist1.FirstOrDefault().PUBLICATION</td>
+                                                <td>@assignlist1.FirstOrDefault().PUBLICATION_PLACE</td>
+                                                <td>@assignlist1.FirstOrDefault().ISBN</td>
+
+                                            </tr>
+                                            m++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

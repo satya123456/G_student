@@ -1,0 +1,421 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Courseregistartion
+@{
+    var days = ViewBag.days;
+    var session = ViewBag.list;
+    var k = 0;
+    var i = 0;
+}
+<style>
+
+
+    .div-img {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        padding-top: 20%;
+    }
+
+        .div-img img {
+            transition: transform .2s;
+            /*width:130px;*/
+            /* height:50px;*/
+            margin: 0 auto;
+            background-color: rgb(173, 173, 237);
+            border-radius: 2px;
+            /*  border: 1px solid black;*/
+        }
+
+            .div-img img:hover {
+                transform: scale(3.5);
+            }
+
+            .div-img img:active {
+                transform: scale(3.5);
+            }
+
+            .div-img img:hover > img {
+                width: 130px;
+            }
+</style>
+@{ int q = 1;}
+<div class="box-inner">
+    @{ int d1 = 1; var k1 = "";}
+    <div class="tab-content ">
+        @if (d1 == 1) { k1 = "active"; }
+        else { k1 = ""; }
+        <div class="tab-pane @k1" id="tab_@d1">
+            <div class="accordion" id="accordionExample">
+                @{int l = 1; var k2 = "";}
+                @if (session.Count > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>WEEKDAY</th>
+                                    @foreach (var val in session)
+                                    {
+                                        <th>@val[0].timeslots</th>
+                                    }
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{IEnumerable<Gstudent.Models.Timetable> semlistdup = RemoveDuplicatesIterative(Model.semlist.ToList()); }
+                                    @foreach (var val in days)
+                                    {
+                                        <tr>
+                                            <td>@val</td>
+                                            @foreach (var val1 in session)
+                                            {
+                                                i = 0;
+                                        <td>
+                                            @foreach (var value in semlistdup)
+                                            {
+                                                // i = 0;
+
+                                                if (value.WEEKDAY == val && value.timeslots == val1[0].timeslots)
+                                                {
+
+                                                    if (i == 0)
+                                                    {
+
+                                                        <span onclick=getpopup("@value.SUBJECT_CODE","@value.SECTION","@value.class1")>  <a class="btn-link" style="color: #1e1b1b; text-decoration: none; border-bottom: 1px solid #3f826D; ">  @value.SUBJECT_CODE </a></span>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <span onclick=getpopup("@value.SUBJECT_CODE","@value.SECTION","@value.class1")> / <a class="btn-link" style="color: #1e1b1b; text-decoration: none; border-bottom: 1px solid #3f826D; "> @value.SUBJECT_CODE </a></span>
+                                                    }
+
+
+                                                    i++;
+
+                                                }
+
+                                            }
+                                        </td>
+
+
+                                            }
+                                        </tr>
+                                    }
+                                    <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            else
+            {
+                <div class="text-center"><p>No data available</p></div>
+            }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="subname" class="modal-title">Problem Solving and Programming in C</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" id="modaltable">
+                   
+                </div>
+                <div class="text-center mb-5">
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div id="myImageModal" class="modal">
+    <div class="modal-dialog modal-lg">
+        <!--<span class="close cursor" onclick="closeModal()">&times;</span>-->
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closeModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                    </path>
+                </svg>
+            </button>
+            <div class="mySlides">
+                <img src="" style="width:800px" id="mymodelimg">
+            </div>
+
+           @*<iframe src="" width="400" height="400" id="mymodelfaculty"></iframe><iframe src="" width="400" height="400" id="mymodelfaculty"></iframe><iframe src="" width="400" height="400" id="mymodelfaculty"></iframe><iframe src="" width="400" height="400" id="mymodelfaculty"></iframe>*@
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        //$('.setsall').removeClass('active');
+        //$('#sets_1').addClass('active');
+    })
+    function getcourses(set, index) {
+        debugger;
+
+
+        if (set.includes("1")) {
+
+            $('.nav-tabs .nav-link:first').addClass('active');
+        }
+        var sets = "sets_" + index;
+       // $('.setsall').addClass('inactive');
+        //$('.setsall').removeClass('active');
+        var obj = $('.setsall');
+        var obj1 = $('#' + sets);
+
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Content("./Home/getsetcourses")',
+                data: {
+                    'set': set
+                },
+                 success: function (result) {
+
+                     $("#courselist1", obj).addClass('inactive');
+                     $("#courselist1", obj).removeClass('active');
+                     $("#courselist1", sets).addClass('active');
+                    $("#courselist1").html(result);
+
+                     event.preventDefault()
+
+
+                }
+
+
+            });
+
+
+    }
+
+
+
+    function openModal(mrc1) {
+        $('#mymodelimg').attr("src","");
+        $('#mymodelimg').attr("src",mrc1);
+        document.getElementById("myImageModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("myImageModal").style.display = "none";
+    }
+</script>
+<script>
+
+    $(document).ready(function () {
+
+        $('.slide').hide()
+    });
+    function getpopup(subjectcode,sec,set) {
+        $('#subname').html("");
+        $('#facname').html("");
+        $('#location').html("");
+        $('#empid').html("");
+        $('#facimg').attr('src', "");
+        $('#mymodelimg').attr('src', "");
+
+          $.ajax({
+            type: "GET",
+            url: '@Url.Content("./Home/Getpopupfaculty")',
+
+              data: { set: set, subjectcode: subjectcode,sec:sec },
+            error: function (ex) {
+
+              },
+
+              success: function (data) {
+                  console.log(data);
+                  $('#subname').html(data[0].subject_name );
+                  var trHTML = "";
+                  var Ids = 1;
+                  var src = "",mrc="",mrc1="";
+                  $('#modaltable').html('');
+                  trHTML = '<hr /><div class="table_style"><table class="table table-bordered"  id="tbl" style="width:100%"><thead ><tr></th><th>Sno</th><th>Faculty id</th><th>Faculty name</th><th>Location</th><th>View</th></tr></thead><tbody>';
+                  var empid1 = "";
+                  $.each(data, function (key, value) {
+                      empid1 = "\"" + value.empid + "\"";                     
+                      src = "../Content/room_images/" + value.Building_name + "/" + value.roomno + "/1.jpeg";
+                      mrc= "../Content/room_images/" + value.Building_name + "/" + value.roomno + "/1.jpeg";
+                      mrc1 = "\"" + mrc + "\"";
+                      trHTML +=
+                          "<tr><td>#</td><td><a onclick='redirectfaculty(" + empid1 + ")' id='empid' style='color: blue; cursor: pointer'>" + value.empid + "</a></td><td>" + value.emp_name + "</td><td>" + value.Building_name + "-" + value.CAMPUS_CODE + "-" + value.roomno + "</td><td class='div-img' onclick='openModal("+mrc1+")'><img src="+src+" id='facimg' width='50'></td></tr>";
+                      Ids++;
+                  });
+                  trHTML += "</tbody></table></div>";
+                 
+                  $("#modaltable").html(trHTML);
+                  //console.log(data);
+                
+                  
+
+                }
+
+        })
+
+
+
+
+
+        $('#myModal').modal('show');
+    }
+
+
+    $('.accord1 li p').click(function () {
+
+
+        $('.slide').slideUp('fast');
+        var selected = $(this).next('.slide');
+        $('.slide').removeClass('sample_1');
+        if (selected.is(":hidden")) {
+            $(this).next('.slide').slideDown('fast');
+            $(this).toggleClass('active');
+            $(this).attr('aria-expanded', 'true');
+        }
+
+
+    });
+
+    function redirectfaculty(empid) {
+        debugger;
+        //var employee = $("#empid");
+        //var em=$("#empid").html();
+        const result = window.btoa(empid);
+
+
+      window.open("https://www.gitam.edu/faculty-profile?info=$$" + result + "#content", "_blank");
+
+       // $('#mymodelfaculty').attr('src', "https://www.gitam.edu/faculty-profile?info=$$" + result + "#content");
+
+
+    }
+
+</script>
+<style>
+    .sample_1 {
+        display: block !important;
+        border-top: 3px solid #FFCDCD;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+
+    .accord1 li {
+        list-style: none;
+        /*margin-left: 10px;*/
+    }
+
+        .accord1 li p {
+            /* padding: 20px 0;*/
+            background: #ccc;
+            /*  text-align: center;*/
+            cursor: pointer;
+        }
+
+    .accordion_style .card-header > a.collapsed::before {
+        float: right !important;
+        font-family: FontAwesome;
+        content: "\2b";
+        padding: 1px 9px 0px 9px;
+        background: var(--main-color);
+        font-size: 14px;
+        text-align: center;
+        margin: 0;
+        text-decoration: none;
+        margin-top: 2px;
+    }
+
+    .accordion_style .card-body {
+        padding-bottom: 0px;
+    }
+
+    .accordion_style .card-header > a::before {
+        float: right !important;
+        font-family: FontAwesome;
+        content: "\2d";
+        padding: 0px 9px 0px 9px;
+        margin: 0;
+        background: var(--main-color);
+        color: #fff;
+        font-size: 14px;
+        text-align: center;
+        text-decoration: none;
+        margin-top: 3px;
+    }
+
+    .accordion_style .card {
+        border: none;
+        border-radius: 0px;
+        margin-bottom: 15px !important;
+    }
+
+    .accordion_style .card-header {
+        padding: 0px;
+        background-color: #f5f5f5;
+        border-bottom: none;
+        /* margin-bottom: 10px;*/
+    }
+
+        .accordion_style .card-header h6 {
+            font-size: 18px;
+            margin-bottom: 0px;
+            padding: 15px;
+            color: #212529;
+            font-weight: 600;
+            display: inline;
+        }
+
+    .accordion_style .history_bg .card-header {
+        background-color: #e6e6e6;
+        padding: 15px 15px 15px 0px;
+    }
+
+    .accordion_style a {
+        text-decoration: none;
+    }
+</style>
+
+
+ @{IEnumerable<Gstudent.Models.Timetable> RemoveDuplicatesIterative(List <Gstudent.Models.Timetable> semlist)
+     {
+         List<Gstudent.Models.Timetable> result = new List<Gstudent.Models.Timetable>();
+         for (int u = 0; u < semlist.Count; u++)
+         {
+             bool duplicate = false;
+             for (int z = 0; z < u; z++)
+             {
+                 if (semlist[z].SUBJECT_CODE == semlist[u].SUBJECT_CODE  && semlist[z].timeslots==semlist[u].timeslots && semlist[z].WEEKDAY == semlist[u].WEEKDAY)
+                 {
+
+                     duplicate = true;
+                     break;
+                 }
+             }
+
+             if (!duplicate)
+             {
+                 result.Add(semlist[u]);
+             }
+         }
+         return result;
+     }
+ }

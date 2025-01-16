@@ -1,0 +1,275 @@
+﻿@model Gstudent.ViewModels.Studentrecords.timetablesummarymain
+@{
+    ViewBag.Title = "Timetable";
+}
+@{
+    var days = ViewBag.days;
+    var session = ViewBag.list;
+ 
+    var i = 0;
+
+}
+<style>
+    .table td {
+        padding: 12px 15px;
+    }
+
+    .table tr th {
+        background-color: #b4ffe3;
+        padding: 10px;
+    }
+
+    .table tr:nth-child(even) {
+        background: #f1fff9;
+    }
+    /*  .table tr:nth-child(1) {
+        background: #d2f9d4;
+    }
+    .table tr:nth-child(2) {
+        background: #ffdae0;
+    }
+    .table tr:nth-child(3) {
+        background: #ffffcb;
+    }
+    .table tr:nth-child(4) {
+        background: #dbfffd;
+    }
+    .table tr:nth-child(5) {
+        background: #f3dbff;
+    }
+    .table tr:nth-child(6) {
+        background: #fff0d0;
+    }*/
+</style>
+<section class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Time table</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+        @*@if (Session["Courseregistrationopen"].ToString() == "99")
+        {*@
+
+       
+        @if (Model.semlist.Count() > 0)
+        {
+            if (session.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>WEEKDAY</th>
+                                @foreach (var val in session)
+                                {
+                                    <th>@val[0].timeslots</th>
+                                }
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var val in days)
+                            {
+                                <tr>
+                                    <td>@val</td>
+                                    @foreach (var val1 in session)
+                                    {
+                                        i = 0;
+                                        <td>
+                                            @foreach (var value in Model.semlist)
+                                            {
+
+                                                if (value.WEEKDAY == val && value.timeslots == val1[0].timeslots)
+                                                {
+
+                                                    if (i == 0)
+                                                    {
+                                                        @value.SUBJECT_CODE
+
+                                                    }
+                                                    @*else
+                                                    {
+                                                        <span>/ @value.SUBJECT_CODE - @value.name</span>
+                                                    }*@
+
+                                                    i++;
+
+                                                }
+
+                                            }
+                                        </td>
+
+
+                                    }
+                                </tr>
+                            }
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="">
+                    <h6 class="text-center">Time table yet to be published</h6>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="">
+                <h6 class="text-center">Time table yet to be published</h6>
+            </div>
+        }
+        <!--}
+    else
+    {
+        <div class="">
+            <h6 class="text-center">Time table yet to be published</h6>
+        </div>
+    }-->
+    </div>
+
+    <h3 class="sub-title">
+        Registered courses
+    </h3>
+    <div class="box-inner">
+       @*@if (Model.facultylists.Count() > 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Course code</th>
+                        <th>Course name</th>
+                        <th>Building / Room no</th>
+                        <th>Credits</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Faculty ID</th>
+                        <th>Faculty name</th>
+                        <th>Slots</th>-->
+      
+
+      </tr>
+                </thead>
+                <tbody>
+                    @foreach (var val in Model.facultylists)
+                    {
+                    <tr>
+                        <td>@val.SUBJECT_CODE</td>
+                        <td>@val.SUBJECT_NAME</td>
+                        @if (val.building_name == null || val.room_no == null)
+                        {
+                            <td>@val.building_name  @val.room_no</td>
+                        }
+                        else
+                        {
+                            <td>@val.building_name / @val.room_no</td>
+                        }
+
+                        <td>@val.CREDITS</td>
+                        <td>@val.SUBJECT_TYPE</td>
+                        <td>@val.CBCS_CATEGORY</td>
+                        <td>@val.empid</td>
+                        <td>@val.empname</td>
+
+
+
+
+                        <td>[@val.fromtime.Split('.')[0]-@val.totime.Split('.')[0]-@val.weekday]</td>
+
+
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    }*@
+        @if (Model.facultylists.Count() > 0)
+        {
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Course Code</th>
+                    <th>Course Title</th>
+                    <th>Room</th>
+                    <th>Credits</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Instructor</th>
+                    <th>Schedule</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var groupedCourses = Model.facultylists
+                                            .GroupBy(course => new
+                                            {
+                                                course.SUBJECT_CODE,
+                                                course.SUBJECT_NAME,
+                                                course.building_name,
+                                                course.room_no,
+                                                course.CREDITS,
+                                                course.SUBJECT_TYPE,
+                                                course.CBCS_CATEGORY,
+                                                course.empname
+                                            });
+
+                                        foreach (var courseGroup in groupedCourses)
+                                        {
+                    <tr>
+                        <!-- Course Code -->
+                        <td>@courseGroup.Key.SUBJECT_CODE</td>
+
+                        <!-- Course Title -->
+                        <td>@courseGroup.Key.SUBJECT_NAME</td>
+
+                        <!-- Room -->
+                        <td>
+                            @if (courseGroup.Key.building_name == null || courseGroup.Key.room_no == null)
+                            {@($"{courseGroup.Key.building_name} {courseGroup.Key.room_no}") }
+                            else
+                            { @($"{courseGroup.Key.building_name} / {courseGroup.Key.room_no}")}
+                        </td>
+
+                        <!-- Credits -->
+                        <td>@courseGroup.Key.CREDITS</td>
+
+                        <!-- Type -->
+                        <td>@courseGroup.Key.SUBJECT_TYPE</td>
+
+                        <!-- Category -->
+                        <td>@courseGroup.Key.CBCS_CATEGORY</td>
+
+                        <!-- Instructor -->
+                        <td>@courseGroup.Key.empname</td>
+
+                        <!-- Schedule -->
+                        <td>
+                            @foreach (var val in courseGroup)
+                            {
+    <div>
+        @($"{val.weekday}: {val.fromtime.Split('.')[0]} - {val.totime.Split('.')[0]}")
+    </div>}
+                        </td>
+                    </tr> } }
+            </tbody>
+        </table>
+    </div> }
+                    else
+                    {
+                        <div class="">
+                            <h6 class="text-center">Time table yet to be published</h6>
+                        </div>
+                    }
+    </div>
+</section>

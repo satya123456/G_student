@@ -1,0 +1,111 @@
+﻿
+@model List<Gstudent.Models.CDLCertificates>
+
+<section class="content-container contentContainer">
+   
+    <div class="box-inner">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div style="width: 800px; padding: 20px; text-align:justify; border: 0px solid;" id="divstudy">
+
+
+
+                    <div style="width: 800px; padding: 20px; text-align: center; border: 5px solid #787878">
+                        <div style="width:760px;">
+
+
+                            <img src="~/Content/images/cdl-header.jpg?v=1" style="width:760px;margin-left:-10px;" />
+                        </div>
+                        <div style="font-size: 35px; font-weight: bold; background-color: whitesmoke;margin-top:20px;">STUDY CERTIFICATE</div>
+                        <center style="font-size: 20px; font-weight: bold;">Original</center>
+                        <div style="font-size: 15px;width:745px; font-weight: bold; text-align: right;">
+                            <Label ID="dttm" Text="">Printed On : @Model.FirstOrDefault().sysdate</Label>
+
+                        </div>
+                        <br />
+                        <br /> <br />
+                        <br />
+                        <div style="text-align:justify;">
+                            <span style="font-size: 18px;text-align:justify;">This is to certify that Ms. / Mr.</span>
+                            <Label ID="lblname" Style="font-size: 18px;font-weight:bold;" Text="">@Model.FirstOrDefault().NAME</Label>
+                            <span style="font-size: 18px">&nbsp;&nbsp;S/O. / D/O.</span>
+                            <Label ID="lblfname" Text="" Style="font-size: 18px;font-weight:bold;">@Model.FirstOrDefault().FATHER_NAME</Label>
+                           
+                            <span style="font-size: 18px">studied </span>
+                            <Label ID="lblpr" Text="" Style="font-size: 18px;font-weight:bold;">@Model.FirstOrDefault().COURSE</Label>
+                            <span style="font-size: 18px">programme with </span>
+                            <Label ID="lblregdno" Text="" Style="font-size: 18px;font-weight:bold;">@Model.FirstOrDefault().REGDNO</Label>
+                            <span style="font-size: 18px">&nbsp;during</span>
+                            <Label ID="lblbatch" Text="" Style="font-size: 18px;font-weight:bold;">@Model.FirstOrDefault().Batch</Label>
+                            <span style="font-size: 18px">in the Centre for Distance </span> 
+                            <span style="font-size: 18px">Learning, <b>GITAM Deemed to be University,</b> Visakhapatnam.</span>
+
+                            <br /><br /><br /><br /><br /><br />
+                            <div style="height:5px;"></div>
+                            <div style="text-align:center;display:none;">
+                                <table align="center;">
+                                    <tr>
+                                        <td><div style="width:250px;font-size:20px;"><span><b>Prepared & Verified</b></span></div></td>
+                                        <td><div style="width:250px;font-size:20px;"><span><b>Superintendent</b></span></div></td>
+                                        <td><div style="width:250px;font-size:20px;"><span><b>Director</b></span></div></td>
+                                    </tr>
+                                </table>
+
+
+
+                            </div>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div style="width:320px;font-size:20px;text-align:left;"></div>
+                                        <table align="left;" style="text-align:left;height:100px;">
+                                            <tr>
+                                                <td><div style="width:250px;font-size:18px;"></div></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div style="width:600px;font-size:18px;"></div>
+
+                                                    <div style="width:600px;font-size:18px;"></div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div style="width:600px;font-size:18px;"></div>
+
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    
+                                </tr>
+                            </table>
+
+                        </div>
+                        <table style="margin-left:606px;margin-top:-20px;">
+                            <tr>
+                                <td>
+
+                                    <img src="~/Content/images/signature_cdl_new.png" style="height:30px;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="margin-left:0px;margin-top:19px;height:30px;"><b>Director</b></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</section>
+

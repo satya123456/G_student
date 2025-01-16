@@ -1,0 +1,178 @@
+﻿@model IEnumerable<Gstudent.Models.Students>
+<style>
+    .bg {
+        @*background-image: url('./Content/images/bg.jpg');
+        border: 15px outset #4c5a8e;*@
+        padding: 20px;
+        padding-bottom: 45px;
+        @* border-width: 15px;
+        border-style: outset;
+        border-color: #007367;*@
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        background: #e4fffc;
+        border-radius: 15px;
+    }
+
+    .snote ul li {
+        margin: 0.9em;
+        float: left;
+    }
+
+    .snote ul li {
+        text-decoration: none;
+        color: #000;
+        background: #ffc;
+        display: block;
+        height: 240px;
+        width: 230px;
+        padding: 1em;
+        -moz-box-shadow: 5px 5px 7px rgba(33,33,33,1);
+        -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+        box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+        -webkit-transform: rotate(-6deg);
+        -o-transform: rotate(-6deg);
+        -moz-transform: rotate(-6deg);
+        -moz-transition: -moz-transform .15s linear;
+        -o-transition: -o-transform .15s linear;
+        -webkit-transition: -webkit-transform .15s linear;
+        text-align: left;
+    }
+
+        .snote ul li:nth-child(even) {
+            -o-transform: rotate(4deg);
+            -webkit-transform: rotate(4deg);
+            -moz-transform: rotate(4deg);
+            position: relative;
+            top: 5px;
+            background: #cfc;
+        }
+
+        .snote ul li:nth-child(3n) {
+            -o-transform: rotate(-3deg);
+            -webkit-transform: rotate(-3deg);
+            -moz-transform: rotate(-3deg);
+            position: relative;
+            top: -5px;
+            background: #ccf;
+        }
+
+        .snote ul li:nth-child(5n) {
+            -o-transform: rotate(5deg);
+            -webkit-transform: rotate(5deg);
+            -moz-transform: rotate(5deg);
+            position: relative;
+            top: -10px;
+            background: #fcf;
+        }
+
+    .n-board .more {
+        position: absolute;
+        right: 3px;
+        bottom: 3px;
+    }
+
+    .nb a {
+        line-height: 28px;
+    }
+    .snote ul li:hover, .snote ul li:focus {
+        -moz-box-shadow: 1px 4px 7px rgba(0,0,0,.7);
+        -webkit-box-shadow: 1px 4px 7px rgba(0,0,0,.7);
+        box-shadow: 1px 4px 7px rgba(0,0,0,.7);
+         -webkit-transform: scale(1.25); 
+        -moz-transform: scale(1.25);
+        -o-transform: scale(1.25);
+        position: relative;
+        z-index: 5;
+    }
+</style>
+
+
+<div class="content-container contentContainer">
+    
+   
+
+    <div class=" n-board">
+      
+        <div id="less">
+            <div class="d-flex justify-content-between">
+                <h5 class="page-title">Notice board</h5>
+                <div class="back">
+                    <a href="javascript:void(0);" onclick="location.reload();">
+                        <i class='bx bx-arrow-back'></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-container">
+                <div class="bg">
+
+                    <div class="snote">
+                        <ul>
+                            @foreach (var val in Model)
+                            {
+                            <li>
+
+                                <h3>   <Label ID="Label2">@val.Date</Label></h3>
+
+                                <p>
+                                    <Label ID="Label4">@val.CONTENT_DATA</Label>
+                                    <Label ID="lbltype" style="display:none;">@val.content_type</Label>
+
+                                </p>
+                                @if (val.CONTENT_URL != "")
+                                {
+                                    <a href="http://gnotice.gitam.edu/Hardcopydownloads.aspx?id=@val.SEARCH_ID" target="_blank">details...</a>
+                                }
+                                    @*<HyperLink ID="linkhide" class="pull-right details btn btn-info" NavigateUrl='<%#"http://gnotice.gitam.edu/Hardcopydownloads.aspx?id="+Eval("SEARCH_ID") %>' Target="_blank">details...</HyperLink>*@
+
+
+                                </li>
+                            }
+
+
+
+
+                        </ul>
+                    </div>
+                    <button ID="btnmore" Class="btn btn-primary more pull-right" OnClick="btnmore_Click()">More...</button>
+
+                </div>
+            </div>
+        </div>
+
+
+            <div id="more" style="display:none;">
+
+                @{Html.RenderPartial("NoticeBoardMore", Model); }
+
+
+            </div>
+        </div>
+   
+    </div>
+<script>
+
+    function btnmore_Click() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getMoreNotices',
+            datatype: JSON,
+            success: function (result) {
+
+                $("#more").html(result);
+                $("#more").show();
+                $("#less").hide();
+
+               
+            }
+        });
+    }
+
+
+
+    function back() {
+        $('#less').show();
+        $('#more').hide();
+    }
+</script>

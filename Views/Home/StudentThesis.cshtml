@@ -1,0 +1,76 @@
+﻿
+@model Gstudent.ViewModels.Studentrecords.Studentrecordslist
+<style>
+
+    .tabs {
+        /* margin-bottom: 15px; */
+        justify-content: start !important;
+        /* float: left; */
+    }
+</style>
+@if (Model.records.Count() > 0)
+{
+
+
+    <div class="content-container contentContainer">
+        <div class="d-flex justify-content-between">
+            <h5 class="page-title">Status of thesis adjudication process</h5>
+            <div class="back">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </div>
+        <div class="filter box-inner">
+            <div class="row">
+
+                <div class="table-responsive table_style">
+                    <table class="table table-bordered" id="myTable1">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Registration number</th>
+                                <th>Name</th>
+                                <th>Thesis status</th>
+                                <th>Last update</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var drug in Model.records)
+                            {
+
+                                <tr>
+                                    <td>@drug.regdno</td>
+                                    <td>@drug.name</td>
+                                    <td>@drug.THESIS_STATUS</td>
+                                    <td>
+                                        @(drug.dt_time != null? Convert.ToDateTime(drug.dt_time).ToString("dd-MMM-yyyy"): "N/A")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="content-container contentContainer">
+        <div class=" ">
+            <h5 class="page-title">Status of thesis adjudication process</h5>
+            <div class="box-container">
+                <h6 class="text-center" style="margin-top:20px;">There is no data available</h6>
+            </div>
+            </div></div>
+            }
+            <div class=" table_style" style="margin-top:50px;">
+                <div id="divwait">
+
+                    <div id="available" class="table_style">
+
+                    </div>
+                </div>
+            </div>

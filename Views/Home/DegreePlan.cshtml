@@ -1,0 +1,896 @@
+﻿
+
+
+@model Gstudent.ViewModels.Studentrecords.Degreeplansummary
+<style>
+    .progress {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        border: none;
+        border-radius: 10px;
+        height: 15px;
+    }
+
+    progress {
+        text-align: left;
+    }
+
+        progress:after {
+            content: attr(value)'%';
+        }
+
+    .progress::-webkit-progress-value {
+        border-radius: 10px;
+    }
+
+    .progress3::-webkit-progress-value {
+        background: rgb(44, 175, 254) !important;
+    }
+
+    .progress::-webkit-progress-bar {
+        background-color: #f0f0f0;
+    }
+</style>
+<style>
+    /*.circle {
+        border-radius: 50%;
+        border: 5px solid #5f6b9b;
+        margin: 20px auto;
+        width: 150px;
+        height: 150px;
+        position: relative;
+    }*/
+
+    .highcharts-title {
+        font-size: 20px !important;
+        color: rgb(44, 175, 254) !important;
+        font-weight: bold !important;
+        fill: #007367 !important;
+    }
+
+    .degree {
+        font-size: 15px !important;
+        color: #007367 !important;
+        font-weight: bold !important;
+        fill: #007367 !important;
+    }
+</style>
+@if (Model != null)
+{
+    <input type="text" value="@Model.note.totalcreditssum" id="total" hidden />
+    <input type="text" value="@Model.note.SEM_CREDITS" id="userId" hidden />
+
+}
+else
+{
+    <input type="text" value="0" id="userId" hidden />
+}
+<section class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Degree plan</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="box-inner">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>CGPA : @Model.note.CGPA</h6>
+                <div class="box-container-border">
+                    <h6 class="text-center degree">@Model.note.totalcreditssum <label>credits</label></h6>
+                    <div id="degreePiechart"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6>&nbsp;</h6>
+                <div class="box-container-border">
+                    <h6 class="text-center">Credits per course type</h6>
+                    @if (Model != null)
+                    {
+                        var ucCount = Convert.ToInt32(Model.note.UC_COUNT); var uc = Convert.ToInt32(Model.note.UC); var percentage = 0;
+                        if (int.TryParse(Model.note.UC, out int ucValue) && ucValue != 0)
+                        {
+                            if (ucCount > ucValue)
+                            {
+                                percentage = 100;
+                            }
+                            else
+                            {
+                                percentage = (ucCount * 100) / ucValue;
+                            }
+                        }
+                        else
+                        {
+                            percentage = 0;
+                        }
+
+                        var fcCount = Convert.ToInt32(Model.note.FC_COUNT); var fc = Convert.ToInt32(Model.note.FC); var percentage2 = 0;
+                        var pcCount = Convert.ToInt32(Model.note.PC_COUNT); var pc = Convert.ToInt32(Model.note.PC); var percentage3 = 0;
+                        var peCount = Convert.ToInt32(Model.note.PE_COUNT); var pe = Convert.ToInt32(Model.note.PE); var percentage4 = 0;
+                        var oeCount = Convert.ToInt32(Model.note.OE_COUNT); var oe = Convert.ToInt32(Model.note.OE); var percentage5 = 0;
+                        var micount = Convert.ToInt32(Model.note.MIC_COUNT); var mic = Convert.ToInt32(Model.note.MIC); var percentage6 = 0;
+
+                        if (int.TryParse(Model.note.FC, out int fcValue) && fcValue != 0)
+                        {
+                            if (fcCount > fcValue)
+                            {
+                                percentage2 = 100;
+                            }
+                            else
+                            {
+                                percentage2 = (fcCount * 100) / fcValue;
+                            }
+                        }
+                        else
+                        {
+                            percentage2 = 0;
+                        }
+                        if (int.TryParse(Model.note.PC, out int pcValue) && pcValue != 0)
+                        {
+                            if (pcCount > pcValue)
+                            {
+                                percentage3 = 100;
+                            }
+                            else
+                            {
+                                percentage3 = (pcCount * 100) / pcValue;
+                            }
+                        }
+                        else
+                        {
+                            percentage3 = 0;
+                        }
+                        if (int.TryParse(Model.note.PE, out int pevalue) && pevalue != 0)
+                        {
+
+                            if (peCount > pevalue)
+                            {
+                                percentage4 = 100;
+                            }
+                            else
+                            {
+                                percentage4 = (peCount * 100) / pevalue;
+                            }
+                        }
+                        else
+                        {
+                            percentage4 = 0;
+                        }
+                        if (int.TryParse(Model.note.OE, out int oeValue) && oeValue != 0)
+                        {
+
+                            if (oeCount > oeValue)
+                            {
+                                percentage5 = 100;
+                            }
+                            else
+                            {
+                                percentage5 = (oeCount * 100) / oeValue;
+                            }
+                        }
+                        else
+                        {
+                            percentage5 = 0;
+                        }
+
+                        if (int.TryParse(Model.note.MIC, out int micvalue) && micvalue != 0)
+                        {
+                            if (micount > micvalue)
+                            {
+                                percentage6 = 100;
+                            }
+                            else
+                            {
+                                percentage6 = (micount * 100) / micvalue;
+                            }
+                        }
+                        else
+                        {
+                            percentage6 = 0;
+                        }
+
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Requirement course</th>
+                                    <th>Credits</th>
+                                    <th style="width:200px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td>University core</td>
+                                    <td>@Model.note.UC_COUNT/@Model.note.UC</td>
+                                    <td class="text-center"><progress class="progress progress3" max="100" value="@percentage"></progress></td>
+                                </tr>
+                                <tr>
+                                    <td>Faculty core</td>
+                                    <td>@Model.note.FC_COUNT/@Model.note.FC</td>
+                                    <td class="text-center"><progress class="progress progress3" max="100" value="@percentage2"></progress></td>
+                                </tr>
+                                <tr>
+                                    <td>Programme core</td>
+                                    <td>@Model.note.PC_COUNT/@Model.note.PC</td>
+                                    <td class="text-center"><progress class="progress progress3" max="100" value="@percentage3"></progress></td>
+                                </tr>
+                                <tr>
+                                    <td>Programme elective</td>
+                                    <td>@Model.note.PE_COUNT/@Model.note.PE</td>
+                                    <td class="text-center"><progress class="progress progress3" max="100" value="@percentage4"></progress></td>
+                                </tr>
+                                <tr>
+                                    <td>Open elective</td>
+                                    <td>@Model.note.OE_COUNT/@Model.note.OE</td>
+                                    <td class="text-center"><progress class="progress progress3" max="100" value="@percentage5"></progress></td>
+                                </tr>
+                                <tr>
+                                    <td>MooCs</td>
+                                    <td>@Model.note.MIC_COUNT/@Model.note.MIC</td>
+                                    <td class="text-center"><progress class="progress progress3" max="100" value="@percentage6"></progress></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    <h6>&nbsp;</h6>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    @if (Model.selected.Count() > 0)
+                    {
+                        var ucCount = Convert.ToInt32(@Model.note.UC_COUNT, 10);
+                        var ucSelect = Convert.ToInt32(@Model.selected.ElementAt(0).UC_select, 10);
+                        var sum = ucCount + ucSelect;
+
+
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            University core [ Earned credits : @sum ] [ Required credits : @Model.required.ElementAt(0).UC_remain ]
+                        </button>
+                    }
+                </h2>
+
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table id="example55" class="table table_style table-bordered ">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Course Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var attendance in Model.deg)
+                                    {
+
+                                        <tr class="">
+                                            <td>@attendance.SUBJECT_CODE</td>
+                                            <td>@attendance.SUBJECT_NAME</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    @if (Model.selected.Count() > 0)
+                    {
+                        var fcCount = Convert.ToInt32(@Model.note.FC_COUNT, 10);
+                        var fcSelect = Convert.ToInt32(@Model.selected.ElementAt(0).FC_select, 10);
+                        var sum2 = fcCount + fcSelect;
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Faculty core[ Earned credits : @sum2 ] [ Required credits : @Model.required.ElementAt(0).FC_remain]
+                        </button>
+                    }
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            @if (Model.faculty.Count() > 0)
+                            {
+                                <table id="example55" class="table table_style table-bordered ">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var attendance in Model.faculty)
+                                        {
+                                            <tr class="">
+                                                <td>@attendance.SUBJECT_CODE</td>
+                                                <td>@attendance.SUBJECT_NAME</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <h6 class="" style="text-align:center">No data available</h6>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    @if (Model.selected.Count() > 0)
+                    {
+                        var pcCount = Convert.ToInt32(@Model.note.PC_COUNT, 10);
+                        var pcSelect = Convert.ToInt32(@Model.selected.ElementAt(0).PC_select, 10);
+                        var sum4 = pcCount + pcSelect;
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Programme core [ Earned credits : @sum4 ] [ Required credits : @Model.required.ElementAt(0).PC_remain]
+
+                        </button>
+                    }
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            @if (Model.program.Count() > 0)
+                            {
+                                <table id="example55" class="table table_style table-bordered ">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var attendance in Model.program)
+                                        {
+                                            <tr class="">
+                                                <td>@attendance.SUBJECT_CODE</td>
+                                                <td>@attendance.SUBJECT_NAME</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <h6 class="" style="text-align:center">No data available</h6>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                    @if (Model.selected.Count() > 0)
+                    {
+                        var peCount = Convert.ToInt32(@Model.note.PE_COUNT, 10);
+                        var peSelect = Convert.ToInt32(@Model.selected.ElementAt(0).PE_select, 10);
+                        var sum5 = peCount + peSelect;
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            Programme elective [ Earned credits : @sum5 ] [ Required credits : @Model.required.ElementAt(0).PE_remain]
+
+                        </button>
+                    }
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            @if (Model.programelective.Count() > 0)
+                            {
+                                <table id="example55" class="table table_style table-bordered ">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var attendance in Model.programelective)
+                                        {
+
+                                            <tr class="">
+                                                <td>@attendance.SUBJECT_CODE</td>
+                                                <td>@attendance.SUBJECT_NAME</td>
+                                            </tr>
+
+
+
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <h6 class="" style="text-align:center">No data available</h6>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    @if (Model.selected.Count() > 0)
+                    {
+                        var oeCount = Convert.ToInt32(@Model.note.OE_COUNT, 10);
+                        var ocSelect = Convert.ToInt32(@Model.selected.ElementAt(0).OE_select, 10);
+                        var sum3 = oeCount + ocSelect;
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Open electives [ Earned credits : @sum3 ] [ Required credits : @Model.required.ElementAt(0).OE_remain]
+
+                        </button>
+                    }
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            @if (Model.open.Count() > 0)
+                            {
+                                <table id="example55" class="table table_style table-bordered ">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var attendance in Model.open)
+                                        {
+
+                                            <tr class="">
+                                                <td>@attendance.SUBJECT_CODE</td>
+                                                <td>@attendance.SUBJECT_NAME</td>
+                                            </tr>
+
+
+
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <h6 class="" style="text-align:center">No data available</h6>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSix">
+                    @if (Model.selected.Count() > 0)
+                    {
+                        var micCount = Convert.ToInt32(@Model.note.MIC_COUNT, 10);
+                        var micSelect = Convert.ToInt32(@Model.selected.ElementAt(0).MIC_select, 10);
+                        var sum6 = micCount + micSelect;
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            MooCs  [ Earned credits : @sum6 ] [ Required credits : @Model.required.ElementAt(0).MIC_remain]
+
+                        </button>
+                    }
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            @if (Model.MICS.Count() > 0)
+                            {
+                                <table id="example55" class="table table_style table-bordered ">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var attendance in Model.MICS)
+                                        {
+
+                                            <tr class="">
+                                                <td>@attendance.SUBJECT_CODE</td>
+                                                <td>@attendance.SUBJECT_NAME</td>
+                                            </tr>
+
+
+
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <h6 class="" style="text-align:center">No data available</h6>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    $(function () {
+        debugger;
+        $('.highcharts-credits').hide();
+        var percentage = parseFloat($("#userId").val());
+        var total = $("#total").val();
+        if (percentage > total) {
+            totalpercentage = 100;
+        }
+        else {
+            totalpercentage = (percentage / total) * 100;
+        }
+
+        var absent = total - percentage;
+        $('#degreePiechart').highcharts({
+            colors: ['rgb(44, 175, 254) ', 'rgb(231, 231, 231)'],
+            title: {
+                text: totalpercentage + '%',
+                verticalAlign: 'middle',
+                fontSize: '85',
+            },
+            plotOptions: {
+                radialBar: {
+                    hollow: {
+                        size: '5%',
+                    }
+                },
+                track: {
+                    background: "#e7e7e7",
+                    strokeWidth: '75%',
+                },
+            },
+            series: [{
+                type: 'pie',
+                name: 'credits',
+                innerSize: '80%',
+                data: [{
+                    name: 'registered',
+                    y: percentage
+                }, {
+                    name: 'remaining',
+                    y: absent
+                }]
+            }],
+            chart: {
+                height: 300,
+                type: '',
+            },
+        });
+    });
+</script>
+
+<!--<style>
+    .progress {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        border: none;
+        border-radius: 10px;
+        height: 20px;
+    }
+    progress{
+        text-align:left;
+    }
+    progress:after {
+        content: attr(value)'%';
+    }
+        .progress::-webkit-progress-value {
+            border-radius: 10px;
+        }
+
+    .progress3::-webkit-progress-value {
+        background: #007367;
+    }
+
+    .progress::-webkit-progress-bar {
+        background-color: #f0f0f0;
+    }
+</style>
+<section class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Degree plan</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="box-inner">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>CGPA : 8.60</h6>
+                <div class="box-container-border">
+                    <h6 class="text-center">160 Credits</h6>
+                    <div id="degreePiechart"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6>&nbsp;</h6>
+                <div class="box-container-border">
+                    <h6 class="text-center">Credits per course type</h6>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Requirement course</th>
+                                <th>Credits</th>
+                                <th style="width:200px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>University core</td>
+                                <td>7/12</td>-->
+-->
+@*<td><progress class="progress progress3" max="100" value="58.33"></progress></td>*@
+<!--<td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:30%">
+                                            30%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>University core Audit course</td>
+                                <td>0/3</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width:15%">
+                                            15%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Faculty core</td>
+                                <td>35/70</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width:57%">
+                                            57%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Programme core</td>
+                                <td>10/52</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%">
+                                            20%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Programme elective</td>
+                                <td>0/4</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                            0%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Open elective</td>
+                                <td>1/100</td>
+
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%">
+                                            10%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MooCs</td>
+                                <td>2/5</td>
+
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width:25%">
+                                            25%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <h6>&nbsp;</h6>
+                    <h6>&nbsp;</h6>
+
+                    <p>&nbsp;</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        University core [ Earned credits : 7 ] [ Required credits : 12 ]
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table id="example55" class="table table_style table-bordered " >
+                            <thead class="thead-light">
+                                <tr>
+                                <th>Course Code</th><th>Course Name</th></tr>
+                                </thead>
+                            <tbody>
+                                <tr> <td>CHEM1001</td> <td>Chemistry</td></tr>
+                                <tr> <td>CLAD1001</td> <td>Emotional Intelligence and Reasoning Skills</td></tr>
+                                <tr> <td>CSEN1011</td> <td>Problem Solving and Programming in C</td></tr>
+                                <tr> <td>LANG1001</td> <td>Communication Skills in English-Beginners</td>
+                                    </tr><tr> <td>LANG1011</td> <td>Communication Skills in English</td></tr>
+                                <tr> <td>MATH1001</td> <td>Single Variable Calculus</td></tr>
+                                <tr> <td>MATH1011</td> <td>Several Variable Calculus</td></tr>
+                                <tr> <td>MECH1011</td> <td>Engineering Visualization and Product Realization</td></tr>
+                                <tr> <td>VEDC1001</td> <td>Venture Development</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        University core Audit course [ Earned credits : 0 ] [ Required credits : 3 ]
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table id="example55" class="table table_style table-bordered ">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Course Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr> <td>CHEM1001</td> <td>Chemistry</td></tr>
+                                    <tr> <td>CLAD1001</td> <td>Emotional Intelligence and Reasoning Skills</td></tr>
+                                    <tr> <td>CSEN1011</td> <td>Problem Solving and Programming in C</td></tr>
+                                    <tr>
+                                        <td>LANG1001</td>
+                                        <td>Communication Skills in English-Beginners</td>
+                                    </tr>
+                                    <tr> <td>LANG1011</td> <td>Communication Skills in English</td></tr>
+                                    <tr> <td>MATH1001</td> <td>Single Variable Calculus</td></tr>
+                                    <tr> <td>MATH1011</td> <td>Several Variable Calculus</td></tr>
+                                    <tr> <td>MECH1011</td> <td>Engineering Visualization and Product Realization</td></tr>
+                                    <tr> <td>VEDC1001</td> <td>Venture Development</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Open electives [ Earned credits : 35 ] [ Required credits : 70 ]
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table id="example55" class="table table_style table-bordered ">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Course Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr> <td>CHEM1001</td> <td>Chemistry</td></tr>
+                                    <tr> <td>CLAD1001</td> <td>Emotional Intelligence and Reasoning Skills</td></tr>
+                                    <tr> <td>CSEN1011</td> <td>Problem Solving and Programming in C</td></tr>
+                                    <tr>
+                                        <td>LANG1001</td>
+                                        <td>Communication Skills in English-Beginners</td>
+                                    </tr>
+                                    <tr> <td>LANG1011</td> <td>Communication Skills in English</td></tr>
+                                    <tr> <td>MATH1001</td> <td>Single Variable Calculus</td></tr>
+                                    <tr> <td>MATH1011</td> <td>Several Variable Calculus</td></tr>
+                                    <tr> <td>MECH1011</td> <td>Engineering Visualization and Product Realization</td></tr>
+                                    <tr> <td>VEDC1001</td> <td>Venture Development</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    </section>
+<script>
+    var options = {
+        series: [17],
+        chart: {
+            height: 400,
+            type: 'radialBar',
+        },
+        plotOptions: {
+            radialBar: {
+                hollow: {
+                    size: '35%',
+                }
+            },
+            track: {
+                background: "#e7e7e7",
+                strokeWidth: '95%',
+            },
+        },
+        labels: ['Earned'],
+    };
+
+    var chart = new ApexCharts(document.querySelector("#degreePiechart"), options);
+    chart.render();
+
+    </script>-->

@@ -1,0 +1,28 @@
+﻿
+@model IEnumerable<Gstudent.Models.Students>
+@{
+    ViewBag.Title = "Gevents";
+}
+
+@if (Model.Count() > 0)
+{
+    
+    <script>
+  
+        window.open('https://gevents.gitam.edu/jhrejrherasrijihisuthajijkrhewj/@Context.Session["uid"]/U', 'child');
+        loadConfigView('30');
+    </script>
+
+}
+else
+{
+    <div class="content-container contentContainer ">
+        <div class="box-container-boreder ">
+
+            <iframe src=" https://gevents.gitam.edu/eventcalender/?uid=@Context.Session["uid"]&type=student" width="100%" height="750"></iframe>
+        </div>
+    </div>
+
+}
+
+

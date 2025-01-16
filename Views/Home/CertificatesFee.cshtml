@@ -1,0 +1,3151 @@
+﻿@model Gstudent.ViewModels.Studentrecords.certificatescollection
+@{
+    ViewBag.Title = "CertificatesFee";
+}
+<style>
+    .table.certificate_fee tr td {
+        vertical-align: middle;
+    }
+
+        .table.certificate_fee tr td:last-child {
+            text-align: center;
+        }
+
+    .form-check-input {
+        margin-left: 0px !important
+    }
+
+
+
+        .form-check-input:disabled ~ .form-check-label, .form-check-input[disabled] ~ .form-check-label {
+            cursor: default;
+            opacity: 1;
+        }
+</style>
+
+@{
+    var batch = Session["batchend"].ToString();
+}
+<section class="content-container contentContainer">
+    <div id="maincertificatefee">
+        <div class="d-flex justify-content-between">
+            <h5 class="page-title">Certificates fee</h5>
+            <div class="back">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="box-inner">
+            <div class="table-responsive c-fee">
+
+                <table class="table table-bordered certificate_fee" cellspacing="0" rules="all" border="1" id="gvcertificates">
+                    <thead>
+                        <tr>
+                            <th>Certificate Name</th>
+                            <th>&nbsp;</th>
+                            <th>Original</th>
+                            <th>Duplicate</th>
+                            <th>Late Fee(Belated year)</th>
+                            <th>Photocopy to be enclosed</th>
+                            <th>By Post</th>
+                            <th style="display:none;"></th>
+                            <th style="display:none;"></th>
+                            <th style="display:none;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tab in Model.certificateoridupli)
+                        {
+
+
+                            if (tab.CERTIFICATE_TYPE == "GC")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                        <span id="gvcertificates_lblsem_0" class="d-inline"></span>
+                                        <label>Semester</label>
+                                        @Html.DropDownList("Semester", (IEnumerable<SelectListItem>)ViewBag.semesterlist, "Select semester", new { @class = "form-control semester", @id = "semester" })
+                                        <div id="lblerror1" style="color: red;"></div>
+
+                                    </td>
+
+                                    <td>
+                                        <div class="mt-2">
+                                            <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                   value="">
+                                            <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                        </div>
+                                    </td>
+
+
+                                    <td>
+                                        <div class="mt-2">
+                                            <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                   value="">
+                                            <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                        </div>
+                                    </td>
+
+
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" class="hdnorgaddfee" id="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" class="hdndupaddfee" id="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>Digital Grade Card</label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <div id="lblerror" style="color: red;"></div>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "PCMG")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>SSC or Equivalent</label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <div id="lblerror" style="color: red;"></div>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "CMM")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>Provisional Certificate</label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <div id="lblerror" style="color: red;"></div>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "MC")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>Transfer Certificate & Provisional Certificate</label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <div id="lblerror" style="color: red;"></div>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "CNC")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>Provisional Certificate</label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <div id="lblerror" style="color: red;"></div>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "RC")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>Provisional Certificate</label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <div id="lblerror" style="color: red;"></div>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "MOI")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>Provisional Certificate</label>
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "BS")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                        <span id="gvcertificates_lblsem_0" class="d-inline"></span>
+                                        <label>Semester</label>
+                                        @Html.DropDownList("Semester", (IEnumerable<SelectListItem>)ViewBag.semesterlist, "Select semester", new { @class = "form-control semester", @id = "semester" })
+                                        <div id="lblerror1" style="color: red;"></div>
+
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label>All the Grade cards and Provisional Certificate</label>
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "CNC")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label></label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "CNG")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label></label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "CNS")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label></label>
+                                            <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "OS")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label></label>                                        <input type="file" id="gvfupload" class="form-control" disabled>
+                                            <span id="lblmsg" style="color: red; display: none;">Please Upload the document</span>
+
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "TS")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <div class="form-group">
+                                                <label>Count</label>
+                                                <input type="text" class="form-control txtgvadfee_TextChanged" id="txtcount" value="0">
+                                            </div>
+                                            <div class="form-group btn-left">
+                                                <label>Sets</label>
+                                                <input type="text" class="form-control txtgvadfee_TextChanged" id="txtsets" value="1">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" checked>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else if (tab.CERTIFICATE_TYPE == "CREDENTIALS")
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="VerificationOrginal">India</label>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE" hidden>@tab.CERTIFICATE_FEE_ORIGINAL</label>
+
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="VerificationOrginal">India</label>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE" hidden>@tab.CERTIFICATE_FEE_ORIGINAL</label>
+
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="VerificationOrginal" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="VerificationOrginal">Abroad</label>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE" hidden>@tab.CERTIFICATE_FEE_DUPLICATE</label>
+
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="VerificationOrginal" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="VerificationOrginal">Abroad</label>
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE" hidden>@tab.CERTIFICATE_FEE_DUPLICATE</label>
+
+                                            </div>
+                                        </td>
+                                    }
+
+
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="gvrow">
+                                    <td>@tab.CERTIFICATE_NAME</td>
+                                    <td>
+                                    </td>
+                                    @if (tab.originaldistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcorginal" id="gcorginal_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="" disabled>
+                                                <label class="form-check-label" for="gcorginal_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_ORIGINAL</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (tab.duplicatedistrue == "1")
+                                    {
+                                        <td>
+                                            <div class="mt-2">
+                                                <input type="checkbox" class="form-check-input gcduplicate" id="gcduplicate_@tab.CERTIFICATE_TYPE" name="checkbox"
+                                                       value="">
+                                                <label class="form-check-label" for="gcduplicate_@tab.CERTIFICATE_TYPE">@tab.CERTIFICATE_FEE_DUPLICATE</label>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                        </td>
+                                    }
+                                    <td>
+                                        <input type="hidden" name="hdnorgaddfee" id="hdnorgaddfee" class="hdnorgaddfee" value="@tab.ORIGINAL_ADITIONAL_FEE">
+                                        <input type="hidden" name="hdndupaddfee" id="hdndupaddfee" class="hdndupaddfee" value="@tab.DUPLICATE_ADITIONAL_FEE">
+                                        <input name="txtgvadfee" type="text" value="0" id="gvcertificates_txtgvadfee" disabled="disabled" class="form-control" readonly>
+
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+
+                                        <div class="mt-2">
+                                            <input type="hidden" name="BY_POST_FEE" id="BY_POST_FEE" value="@tab.BY_POST_FEE">
+
+                                            <input type="checkbox" class="form-check-input gc_chkbypost" id="gc_chkbypost" name="checkbox"
+                                                   value="" disabled>
+                                            <label class="form-check-label" for="gc_chkbypost"></label>
+                                        </div>
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CERTIFICATE_TYPE" id="CERTIFICATE_TYPE" class="CERTIFICATE_TYPE" value="@tab.CERTIFICATE_TYPE">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="REQ_DESC" id="REQ_DESC" value="@tab.REQ_DESC">
+
+                                    </td>
+                                    <td style="display:none;">
+                                        <input type="hidden" name="CATEGORY" id="CATEGORY" value="@tab.CATEGORY">
+                                        <input type="hidden" name="DISPLAY_FLAG" id="DISPLAY_FLAG" value="@tab.DISPLAY_FLAG">
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" id="divlblamnt" style="display: none;">
+            <div class="col-md-2 mx-auto">
+            <div class="form-group">
+                <label id="lblamt">Total Amount</label>
+                <input name="lbltamount" id="lbltamount" class="form-control" value="0" readonly>
+                <input type="hidden" name="totalamount" class="form-control" id="totalamount" value="0" />
+                            </div>
+            </div>
+            </div>
+            <div class="text-center">
+                <input type="hidden" name="lblselsem" id="lblselsem" value="">
+                <button class="btn btn-primary" type="button" id="Proceed" onclick="Proceedclick();">Proceed</button>
+            </div>
+
+        </div>
+        <div class="box-inner">
+            <p id="ContentPlaceHolder1_p1" style="color: red">
+                <b> * Note</b>
+            </p>
+            <p id="ContentPlaceHolder1_p2">
+                1: Submit the Original No-Due Certificate.<br>
+                2: In-Person: Submit all required Xerox (Black &amp; White) Copies of the certificates.<br>
+                By Post: Send all required Xerox (Black &amp; White) Copies of the certificates to the address –<br>
+                To<br>
+                The Controller of Examinations,<br>
+                Directorate of Evaluation,<br>
+                2nd Floor, GITAM Bhavan,<br>
+                Rushikonda, Gandhi Nagar Campus,<br>
+                Visakhapatnam - 530 045, AP.
+            </p>
+
+        </div>
+    </div>
+    <div id="certificateconformation" style="display:none;">
+        <h3 class="sub-title">Receipt confirmation</h3>
+        <div class="box-inner" id="maindiv2">
+            <div class="row ">
+                @*<h6 class="text-center" id="norecords" style="display:none;">No records found</h6>*@
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable">
+                    </table>
+                </div>
+                <div class="col-sm-3 mt-4 text-center">
+                    <button id="confirmation" class="btn btn-primary" onclick="btncertificatefee_conformation();">Proceed</button>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+</section>
+<div id="loaderFinish5" class="text-center" style="display:none;">
+    <div class="lds-spinner">  <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#gvcertificates .gcorginal").change(function () {
+            $("#lbltamount").val("0");
+            $("#Proceed").text("Proceed");
+            $("#divlblamnt").hide();
+          
+            $("#gvcertificates .gcorginal").each(function () {
+            //  debugger;
+            var gvrow = $(this).closest("tr");
+            var ORbt = gvrow.find(".gcorginal");
+            var DRbt = gvrow.find(".gcduplicate");
+            var chkBypost = gvrow.find("#gc_chkbypost");
+            
+            var addtextbox = gvrow.find("#gvcertificates_txtgvadfee").val();
+            var lblcertype = gvrow.find(".CERTIFICATE_TYPE").val();
+                var CerType = lblcertype;
+                var ofee = gvrow.find("label[for='gcorginal_" + CerType +"']").text();
+            var addfeeOrg = gvrow.find(".hdnorgaddfee").val();
+                var addfeedup = gvrow.find(".hdndupaddfee").val();
+                gvrow.find("#lblmsg").hide();
+            var Bypostvaltemp = parseInt(gvrow.find("#BY_POST_FEE").val());
+            var ODval = "0";
+
+            if (addfeeOrg === "") {
+                addfeeOrg = "0";
+            }
+            if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS"  ) {
+                var fupl = gvrow.find("#gvfupload")[0];
+                if (fupl.files.length > 0) {
+                    filename = fupl.files[0].name;
+                } else {
+                    filename = "";
+                }
+            }
+            else {
+                var fupl = "";
+            }
+            if (CerType.toUpperCase() === "GC") {
+                var sem = "";
+                var month = "";
+                var year = "";
+                var nofee = 0;
+                var duefee = 0;
+                var tot = 0;
+
+                if (ORbt.is(":checked")) {
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount = selectedItems.length;
+                    var semSelected = "";
+
+                    selectedItems.each(function () {
+                        semSelected += $(this).text() + ", ";
+                    });
+
+                    semSelected = semSelected.trim().replace(/,\s*$/, '');
+                    $("#lblselsem").html(semSelected);
+                    $("#lblselsem").val(semSelected);
+                    semSelected = semSelected.trim().split(',');
+
+                    var parts = semSelected[0].split(" ");
+                    if (semSelected == "Select semester") {
+
+                    }
+                   else if (parts.length >= 4) {
+                            var sem = parts[0].substring(0, 1);
+                            var month = parts[2];
+                            var year = parts[3];
+
+                            $.ajax({
+                                url: 'Home/semselectedoriginal', // Replace with your URL
+                                type: 'GET',
+                                data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeeOrg },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                    if (response[0].addtextbox == false) {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+                                    else if (response[0].addtextbox == true) {
+
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                                    }
+                                    else {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+                                    nofee = response[0].nofee;
+                                    duefee = response[0].duefee;
+                                },
+                                error: function () {
+                                    // Handle errors if needed
+                                }
+                            });
+                        }
+
+                    DRbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = ofee;
+
+
+                    if (gvrow.find("#gvfupload").is(":enabled")) {
+                        gvrow.find("#gvfupload").prop("disabled", true);
+                    }
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount_1 = selectedItems.length;
+                  //  var scount_1 = GetCount(ddlsem);
+
+                   var pcount = scount;
+                    ODval = (parseInt(ODval) * scount).toString();
+                    tot = (parseInt(nofee)) + (parseInt(duefee));
+                    gvrow.find("#gvcertificates_txtgvadfee").val(tot.toString());
+                }
+            }
+
+            if (CerType.toUpperCase() === "OD")
+            {
+
+                var nofee = 0;
+                var duefee = 0;
+                var tot = 0;
+                   $.ajax({
+                       url: 'Home/semselectedoriginalOd', // Replace with your URL
+                       type: 'GET',
+                       data: {  'addfeeOrg': addfeeOrg },
+                       contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                       dataType: "json",
+                       success: function (response) {
+
+                           if (response[0].addtextbox == false) {
+                               gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                           }
+                           else if (response[0].addtextbox == true) {
+
+                               gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                           }
+                           else {
+                               gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                           }
+                           nofee = response[0].nofee;
+                           duefee = response[0].duefee;
+                       },
+                       error: function () {
+
+                       }
+                   });
+                   tot = (parseInt(nofee)) + (parseInt(duefee));
+                   gvrow.find("#gvcertificates_txtgvadfee").val(tot.toString());
+                }
+            if (CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "WES" || CerType.toUpperCase() === "MOI" || CerType.toUpperCase() === "BS" || CerType.toUpperCase() ==="CMM") {
+                if (ORbt.is(":checked")) {
+                    DRbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = ofee;
+                    gvrow.find("#gvcertificates_txtgvadfee").val(addfeeOrg);
+
+                    $("#gvfupload", gvrow).remove();
+
+                    gvrow.find("#gvfupload").prop("disabled", true);
+                }
+
+
+
+            }
+
+
+              if (CerType.toUpperCase() === "CNS" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "OS")
+            {
+                  if (ORbt.is(":checked"))
+                {
+                      DRbt.prop("checked", false);
+                      chkBypost.prop("disabled", false);
+                      ODval = ofee;
+                      gvrow.find("#gvcertificates_txtgvadfee").val(addfeeOrg);
+                      gvrow.find("#gvfupload").prop("disabled", false);
+                }
+                else
+                {
+                      gvrow.find("#gvfupload").prop("disabled", true);
+
+                }
+            }
+
+            if (CerType.toUpperCase() === "CREDENTIALS")
+            {
+                if (ORbt.is(":checked")) {
+                    DRbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = ofee;
+                    gvrow.find("#gvcertificates_txtgvadfee").val(addfeeOrg);
+                    gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+
+                    gvrow.find(".hdndupaddfee").val("0");
+                    gvrow.find("#gvcertificates_txtgvadfee").val(ODval);
+                }
+                else {
+                    gvrow.find("#gvcertificates_txtgvadfee").val("0");
+                }
+
+
+
+
+
+            }
+            if (CerType.toUpperCase() ==="TS")
+            {
+                if (ORbt.is(":checked"))
+                {
+                    DRbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = ofee;
+                    if ($("#txtcount").val() != "0" || $("#txtcount").val() != "")
+                    {
+                        chkBypost.prop("disabled", true);
+                    }
+
+
+                    gvrow.find("#gvcertificates_txtgvadfee").val(addfeeOrg);
+                    var sets = $("#txtsets").val();
+                    var counts = $("#txtcount").val();
+                    var scount = 50 * (parseInt(counts) * parseInt(sets));
+                    if (scount == 0)
+                        scount = scount + (10 * parseInt(sets)) * parseInt(counts);
+                    else
+                        scount = scount + (10 * parseInt(sets));
+
+                    ODval = (parseInt(scount)).toString();
+                    gvrow.find("label[for='gcorginal']").text(scount.toString());
+                }
+
+
+            }
+            if (CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() ==="CNC")
+            {
+                var nofee = 0;
+                var duefee = 0;
+                var tot = 0;
+                if (ORbt.is(":checked"))
+                {
+                    $.ajax({
+                        url: 'Home/semselectedoriginalpcmg', // Replace with your URL
+                        type: 'GET',
+                        data: { 'addfeeOrg': addfeeOrg },
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                          //  debugger;
+                            if (response[0].addtextbox == false) {
+                                gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                            }
+                            else if (response[0].addtextbox == true) {
+
+                                gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                            }
+                            else {
+                                gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                            }
+
+                                nofee = response[0].nofee;
+                                duefee = response[0].duefee;
+
+
+                        },
+                        error: function () {
+
+                        }
+                    });
+                    tot = (parseInt(nofee)) + (parseInt(duefee));
+                    gvrow.find("#gvcertificates_txtgvadfee").val(tot.toString());
+                }
+            }
+
+
+            if (chkBypost.is(":checked")) {
+                Bypostval = Bypostvaltemp;
+            } else {
+                Bypostval = 0;
+            }
+
+            if (CerType === "CREDENTIALS") {
+                ODval = "0";
+            }
+            var fee = gvrow.find("#gvcertificates_txtgvadfee").val();
+            var lbltamount = $("#lbltamount").val();
+            if (CerType.toUpperCase() === "GC") {
+                $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+            } else {
+                $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+            }
+            });
+        });
+        $("#gvcertificates .gcduplicate").change(function () {
+           // //debugger;
+            $("#lblmsg").hide();
+            $("#lbltamount").val("0");
+            $("#Proceed").text("Proceed");
+            $("#divlblamnt").hide();
+            $("#gvcertificates .gcduplicate").each(function () {
+            // debugger;
+            var gvrow = $(this).closest("tr");
+            var ORbt = gvrow.find(".gcorginal");
+            var DRbt = gvrow.find(".gcduplicate");
+            var chkBypost = gvrow.find("#gc_chkbypost");
+                gvrow.find("#lblmsg").hide();
+            var addtextbox = gvrow.find("#gvcertificates_txtgvadfee").val();
+            var lblcertype = gvrow.find(".CERTIFICATE_TYPE").val();
+                var CerType = lblcertype;
+                var ofee = gvrow.find("label[for='gcorginal_"+CerType+"']").text();
+                var dfee = gvrow.find("label[for='gcduplicate_" + CerType +"']").text();
+            var addfeeOrg = gvrow.find(".hdnorgaddfee").val();
+            var addfeedup = gvrow.find(".hdndupaddfee").val();
+            var Bypostvaltemp = parseInt(gvrow.find("#BY_POST_FEE").val());
+            var ODval = "0";
+            var sem = "";
+            var month = "";
+            var year = "";
+            var nofee = 0;
+            var duefee = 0;
+            var tot = 0;
+            if (addfeedup === "") {
+                addfeedup = "0";
+            }
+
+            if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                var fupl = gvrow.find("#gvfupload")[0];
+                if (fupl.files.length > 0) {
+                    filename = fupl.files[0].name;
+                } else {
+                    filename = "";
+                }
+            }
+            else {
+                var fupl = "";
+            }
+            if (CerType.toUpperCase() === "GC") {
+
+
+                if (DRbt.is(":checked")) {
+
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount = selectedItems.length;
+                    var semSelected = "";
+
+                    selectedItems.each(function () {
+                        semSelected += $(this).text() + ", ";
+                    });
+
+                    semSelected = semSelected.trim().replace(/,\s*$/, '');
+                    $("#lblselsem").html(semSelected);
+                    $("#lblselsem").val(semSelected);
+                    semSelected = semSelected.trim().split(',');
+
+                    var parts = semSelected[0].split(" ");
+                    if (semSelected == "Select semester") {
+
+                    }
+                    else if (parts.length >= 4) {
+                        var sem = parts[0].substring(0, 1);
+                        var month = parts[2];
+                        var year = parts[3];
+
+                        $.ajax({
+                            url: 'Home/semselectedoriginal', // Replace with your URL
+                            type: 'GET',
+                            data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeedup },
+                            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+
+                                if (response[0].addtextbox == false) {
+                                    gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                }
+                                else if (response[0].addtextbox == true) {
+
+                                    gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                                }
+                                else {
+                                    gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                }
+
+                                    nofee = response[0].nofee;
+                                    duefee = response[0].duefee;
+
+                            },
+                            error: function () {
+                                // Handle errors if needed
+                            }
+                        });
+                    }
+
+                    ORbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = dfee;
+
+                    gvrow.find("#gvfupload").prop("disabled", false);
+
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount_1 = selectedItems.length;
+                    //  var scount_1 = GetCount(ddlsem);
+
+                   var pcount = scount;
+                    ODval = (parseInt(ODval) * scount).toString();
+                    tot = (parseInt(nofee)) + (parseInt(duefee));
+                    gvrow.find("#gvcertificates_txtgvadfee").val(tot.toString());
+                }
+            }
+
+            if (CerType.toUpperCase() === "OD" || CerType.toUpperCase() === "CMM") {
+
+                if (DRbt.is(":checked")) {
+                    ORbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = dfee;
+
+                }
+            }
+            if (CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "MC" ) {
+                if (DRbt.is(":checked")) {
+                    ORbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = dfee;
+
+                    gvrow.find("#gvfupload").prop("disabled", false);
+                }
+
+
+
+            }
+
+
+            if (CerType.toUpperCase() === "CNS" || CerType.toUpperCase() === "CNG" ) {
+                if (DRbt.is(":checked")) {
+                    ORbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = dfee;
+                }
+
+            }
+
+            if (CerType.toUpperCase() === "CREDENTIALS") {
+                if (DRbt.is(":checked")) {
+                    ORbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = dfee;
+                    var batch =@batch;
+                    var currentYear = new Date().getFullYear();
+                    var futureYear = currentYear + 2;
+                    if (parseInt(batch) <= futureYear) {
+                        gvrow.find("#gvcertificates_txtgvadfee").val("0");
+                    }
+                    else {
+                        gvrow.find("#gvcertificates_txtgvadfee").val(addfeedup);
+                    }
+
+                    gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                    ODval = gvrow.find(".hdndupaddfee").val();
+
+                    gvrow.find("#gvcertificates_txtgvadfee").val(ODval);
+                }
+
+
+
+            }
+            if (CerType.toUpperCase() === "TS") {
+                if (DRbt.is(":checked")) {
+                   ORbt.prop("checked", false);
+                    chkBypost.prop("disabled", false);
+                    ODval = dfee;
+                    var sets = $("#txtsets").val();
+                    var counts = $("#txtcount").val();
+                    var scount = 50 * (parseInt(counts) * parseInt(sets));
+                    if (scount == 0)
+                        scount = scount + (10 * parseInt(sets)) * parseInt(counts);
+                    else
+                        scount = scount + (10 * parseInt(sets));
+                    pcount = scount;
+                    ODval = (parseInt(ODval) * scount).toString();
+                    gvrow.find("#gvcertificates_txtgvadfee").val((parseInt(gvrow.find("#gvcertificates_txtgvadfee").val()) * scount).toString());
+                  //  gvrow.find("label[for='gcduplicate']").text(scount.toString());
+                }
+
+
+            }
+
+            if (chkBypost.is(":checked")) {
+                Bypostval = Bypostvaltemp;
+            } else {
+                Bypostval = 0;
+            }
+
+            if (CerType === "CREDENTIALS") {
+                ODval = "0";
+            }
+            var fee = gvrow.find("#gvcertificates_txtgvadfee").val();
+            var lbltamount = $("#lbltamount").val();
+            if (CerType.toUpperCase() === "GC") {
+                $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+            } else {
+                $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+            }
+            });
+        });
+
+        $("#gvcertificates .semester").change(function () {
+            $("#lbltamount").val("0");
+            $("#Proceed").text("Proceed");
+            $("#divlblamnt").hide();
+            $("#lblmsg").hide();
+            var sem = "";
+            var month = "";
+            var year = "";
+            $("#gvcertificates .gvrow").each(function () {
+                var gvrow = $(this).closest("tr");
+                var ORbt = gvrow.find(".gcorginal");
+                var DRbt = gvrow.find(".gcduplicate");
+                var chkBypost = gvrow.find("#gc_chkbypost");
+                
+                var addtextbox = gvrow.find("#gvcertificates_txtgvadfee").val();
+                var lblcertype = gvrow.find(".CERTIFICATE_TYPE").val();
+                var CerType = lblcertype;
+                var ofee = gvrow.find("label[for='gcorginal_'"+CerType+"]").text();
+                var addfeeOrg = gvrow.find(".hdnorgaddfee").val();
+                var addfeedup = gvrow.find(".hdndupaddfee").val();
+                var Bypostvaltemp = parseInt(gvrow.find("#BY_POST_FEE").val());
+                var Bypostval = 0;
+                var ODval = "0";
+                addtextbox = "0";
+
+
+
+                if (addfeeOrg === "") {
+                    addfeeOrg = "0";
+                }
+                if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                    var fupl = gvrow.find("#gvfupload")[0];
+                    if (fupl.files.length > 0) {
+                        filename = fupl.files[0].name;
+                    } else {
+                        filename = "";
+                    }
+                }
+                else {
+                    var fupl = "";
+                }
+                if (CerType.toUpperCase() === "GC") {
+
+
+                    if (ORbt.is(":checked")) {
+
+                        var ddlsem = gvrow.find("#semester");
+                        var selectedItems = ddlsem.find("option:selected");
+                        var scount = selectedItems.length;
+                        var semSelected = "";
+
+                        selectedItems.each(function () {
+                            semSelected += $(this).text() + ", ";
+                        });
+
+                        semSelected = semSelected.trim().replace(/,\s*$/, '');
+                        $("#lblselsem").html(semSelected);
+                        $("#lblselsem").val(semSelected);
+                        semSelected = semSelected.trim().split(',');
+
+                        var parts = semSelected[0].split(" ");
+                        if (semSelected == "Select semester") {
+
+                        }
+                        else if (parts.length >= 4) {
+                            var sem = parts[0].substring(0, 1);
+                            var month = parts[2];
+                            var year = parts[3];
+
+                            $.ajax({
+                                url: 'Home/semselectedoriginal', // Replace with your URL
+                                type: 'GET',
+                                data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeeOrg, 'certype': CerType },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                    if (response[0].orbt == false) {
+                                        ORbt.prop("checked", false);
+                                    }
+                                    else if (response[0].addtextbox == true) {
+
+                                        ORbt.prop("checked", true);
+                                    }
+
+                                },
+                                error: function () {
+                                    // Handle errors if needed
+                                }
+                            });
+                        }
+
+
+                    }
+                }
+                if (ORbt.is(":checked")) {
+                    var nofee = 0;
+                    var duefee = 0;
+                    var tot = 0;
+                    chkBypost.prop("disabled", false);
+                    ODval = ofee;
+                    if (CerType.toUpperCase() === "GC") {
+
+
+
+
+                        var ddlsem = gvrow.find("#semester");
+                        var selectedItems = ddlsem.find("option:selected");
+                        var scount = selectedItems.length;
+                        var semSelected = "";
+
+                        selectedItems.each(function () {
+                            semSelected += $(this).text() + ", ";
+                        });
+
+                        semSelected = semSelected.trim().replace(/,\s*$/, '');
+                        $("#lblselsem").html(semSelected);
+                        $("#lblselsem").val(semSelected);
+                        semSelected = semSelected.trim().split(',');
+
+                        var parts = semSelected[0].split(" ");
+                        if (semSelected == "Select semester") {
+
+                        }
+                        else if (parts.length >= 4) {
+                            var sem = parts[0].substring(0, 1);
+                            var month = parts[2];
+                            var year = parts[3];
+
+                            $.ajax({
+                                url: 'Home/semselectedoriginal', // Replace with your URL
+                                type: 'GET',
+                                data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeedup },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                    if (response[0].addtextbox == false) {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+                                    else if (response[0].addtextbox == true) {
+
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                                    }
+                                    else {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+
+                                        nofee = response[0].nofee;
+                                        duefee = response[0].duefee;
+
+                                },
+                                error: function () {
+                                    // Handle errors if needed
+                                }
+                            });
+                        }
+
+
+                        var pcount = scount;
+                        ODval = (parseInt(ODval) * scount).toString();
+                        tot = (parseInt(nofee)) + (parseInt(duefee));
+                        gvrow.find("#gvcertificates_txtgvadfee").val(tot.toString());
+
+                    }
+                    if (CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "CNS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "MC")
+                        gvrow.find("#gvfupload").prop("disabled", false);
+                    else
+                        gvrow.find("#gvfupload").prop("disabled", true);
+
+                    if (CerType.toUpperCase() === "CREDENTIALS") {
+                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                        gvrow.find(".hdndupaddfee").val("0");
+                        gvrow.find("#gvcertificates_txtgvadfee").val(ODval);
+                    }
+
+                }
+                else if (DRbt.Checked == true) {
+                    var nofee = 0;
+                    var duefee = 0;
+                    var tot = 0;
+                    if (CerType.toUpperCase() === "GC") {
+
+
+
+
+                        var ddlsem = gvrow.find("#semester");
+                        var selectedItems = ddlsem.find("option:selected");
+                        var scount = selectedItems.length;
+                        var semSelected = "";
+
+                        selectedItems.each(function () {
+                            semSelected += $(this).text() + ", ";
+                        });
+
+                        semSelected = semSelected.trim().replace(/,\s*$/, '');
+                        $("#lblselsem").html(semSelected);
+                        $("#lblselsem").val(semSelected);
+                        semSelected = semSelected.trim().split(',');
+
+                        var parts = semSelected[0].split(" ");
+                        if (semSelected == "Select semester") {
+
+                        }
+                        else if (parts.length >= 4) {
+                            var sem = parts[0].substring(0, 1);
+                            var month = parts[2];
+                            var year = parts[3];
+
+                            $.ajax({
+                                url: 'Home/semselectedoriginal', // Replace with your URL
+                                type: 'GET',
+                                data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeedup },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                    if (response[0].addtextbox == false) {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+                                    else if (response[0].addtextbox == true) {
+
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                                    }
+                                    else {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+
+                                        nofee = response[0].nofee;
+                                        duefee = response[0].duefee;
+
+                                },
+                                error: function () {
+                                    // Handle errors if needed
+                                }
+                            });
+                        }
+
+
+                        var pcount = scount;
+                        ODval = (parseInt(ODval) * scount).toString();
+                        tot = (parseInt(nofee)) + (parseInt(duefee));
+                        gvrow.find("#gvcertificates_txtgvadfee").val(tot.toString());
+
+                    }
+
+                    if (CerType.toUpperCase() === "CREDENTIALS") {
+                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                       ODval= gvrow.find(".hdndupaddfee").val();
+                        gvrow.find("#gvcertificates_txtgvadfee").val(ODval);
+                    }
+
+                }
+                if (chkBypost.is(":checked")) {
+                    Bypostval = Bypostvaltemp;
+                } else {
+                    Bypostval = 0;
+                }
+
+                if (CerType === "CREDENTIALS") {
+                    ODval = "0";
+                }
+                var fee = gvrow.find("#gvcertificates_txtgvadfee").val();
+                var lbltamount = $("#lbltamount").val();
+                if (CerType.toUpperCase() === "GC") {
+                    $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+                } else {
+                    $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+                }
+            });
+        });
+        $("#gvcertificates .gc_chkbypost").change(function () {
+            $("#lbltamount").val("0");
+            $("#Proceed").text("Proceed");
+            $("#divlblamnt").hide();
+            $("#gvcertificates .gc_chkbypost").each(function () {
+                var gvrow = $(this).closest("tr");
+                var ORbt = gvrow.find(".gcorginal");
+                var DRbt = gvrow.find(".gcduplicate");
+                var chkBypost = gvrow.find("#gc_chkbypost");
+               
+                var addtextbox = gvrow.find("#gvcertificates_txtgvadfee").val();
+                var lblcertype = gvrow.find(".CERTIFICATE_TYPE").val();
+                var CerType = lblcertype;
+                var ofee = gvrow.find("label[for='gcorginal_" + CerType + "']").text();
+                var addfeeOrg = gvrow.find(".hdnorgaddfee").val();
+                var addfeedup = gvrow.find(".hdndupaddfee").val();
+                var Bypostvaltemp = parseInt(gvrow.find("#BY_POST_FEE").val());
+
+                var fee = gvrow.find("#gvcertificates_txtgvadfee").val();
+                var lbltamount = $("#lbltamount").val();
+                if (addfeeOrg === "") {
+                    addfeeOrg = "0";
+                }
+                if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                    var fupl = gvrow.find("#gvfupload")[0];
+                    if (fupl.files.length > 0) {
+                        filename = fupl.files[0].name;
+                    } else {
+                        filename = "";
+                    }
+                }
+                else {
+                    var fupl = "";
+                }
+                if (chkBypost.is(":checked")) {
+                    $("#lbltamount").val(parseInt(lbltamount) + parseInt(Bypostvaltemp));
+
+                }
+                else if (!gvrow.find("#gc_chkbypost").prop("checked") && gvrow.find("#gc_chkbypost").prop("disabled") === false) {
+                    $("#lbltamount").val(parseInt(lbltamount) - parseInt(Bypostvaltemp));
+
+                }
+                else {
+
+                }
+                if (CerType.toUpperCase() === "GC") {
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount = selectedItems.length;
+                    var semSelected = "";
+
+                    selectedItems.each(function () {
+                        semSelected += $(this).text() + ", ";
+                    });
+
+                    semSelected = semSelected.trim().replace(/,\s*$/, '');
+                    $("#lblselsem").html(semSelected);
+                    $("#lblselsem").val(semSelected);
+                    semSelected = semSelected.trim().split(',');
+
+                    var parts = semSelected[0].split(" ");
+                    if (semSelected == "Select semester" || semSelected == "" ) {
+                        Bypostvaltemp = 0;
+                    }
+                }
+
+            });
+        });
+        $("#gvcertificates .txtgvadfee_TextChanged").change(function () {
+            var addfee = $(this).val();
+            var pcount = 0;
+            var scount = 0;
+            $("#gvcertificates .gcorginal").each(function () {
+               // //debugger;
+                var gvrow = $(this).closest("tr");
+                var ORbt = gvrow.find(".gcorginal");
+                var DRbt = gvrow.find(".gcduplicate");
+                var chkBypost = gvrow.find("#gc_chkbypost");
+               
+                var addtextbox = gvrow.find("#gvcertificates_txtgvadfee").val();
+                var lblcertype = gvrow.find(".CERTIFICATE_TYPE").val();
+                var CerType = lblcertype;
+                var ofee = gvrow.find("label[for='gcorginal_" + CerType + "']").text();
+                var addfeeOrg = gvrow.find(".hdnorgaddfee").val();
+
+                gvrow.find(".hdndupaddfee").val(parseInt(addfee));
+                var addfeedup = gvrow.find(".hdndupaddfee").val();
+                gvrow.find("#gvcertificates_txtgvadfee").text("0");
+                var Bypostvaltemp = parseInt(gvrow.find("#BY_POST_FEE").val());
+                if (CerType.toUpperCase() === "TS") {
+                    var sets = $("#txtsets").val();
+                    var counts = $("#txtcount").val();
+                }
+
+
+                var ODval = "0";
+                var sem = "";
+                var month = "";
+                var year = "";
+                var nofee = 0;
+                var duefee = 0;
+                var tot = 0;
+                if (addfeeOrg === "") {
+                    addfeeOrg = "0";
+                }
+                if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                    var fupl = gvrow.find("#gvfupload")[0];
+                    if (fupl.files.length > 0) {
+                        filename = fupl.files[0].name;
+                    } else {
+                        filename = "";
+                    }
+                }
+                else {
+                    var fupl = "";
+                }
+                if (ORbt.is(":checked")) {
+                    chkBypost.prop("disabled", false);
+                    ODval = ofee;
+                    gvrow.find("#gvcertificates_txtgvadfee").val(addfeeOrg);
+                    if (CerType.toUpperCase() === "GC") {
+
+
+
+                        var ddlsem = gvrow.find("#semester");
+                        var selectedItems = ddlsem.find("option:selected");
+                         scount = selectedItems.length;
+                        var semSelected = "";
+
+                        selectedItems.each(function () {
+                            semSelected += $(this).text() + ", ";
+                        });
+                        semSelected = semSelected.trim().replace(/,\s*$/, '');
+                        semSelected = semSelected.trim().split(',');
+
+
+                        var ddlsem = gvrow.find("#semester");
+                        var selectedItems = ddlsem.find("option:selected");
+                        var scount_1 = selectedItems.length;
+                        //  var scount_1 = GetCount(ddlsem);
+
+                         pcount = scount;
+                        ODval = (parseInt(ODval) * scount).toString();
+
+                    }
+
+                    if (CerType.toUpperCase() === "TS") {
+                        if (addfeeOrg == "") {
+                            gvrow.find("#gvcertificates_txtgvadfee").val("0");
+                        }
+                        scount = 50 * (parseInt(counts) * parseInt(sets));
+                        if (scount == 0)
+                            scount = scount + (10 * parseInt(sets)) * parseInt(counts);
+                        else
+                            scount = scount + (10 * parseInt(sets));
+
+
+
+                        ODval = (parseInt(scount)).toString();
+                        gvrow.find("label[for='gcorginal']").text(scount.toString());
+
+                    }
+                    if (CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "CNS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "MC") {
+                        gvrow.find("#gvfupload").prop("disabled", false);
+
+                    }
+
+                    else
+                        gvrow.find("#gvfupload").prop("disabled", true);
+
+                    if (CerType.toUpperCase() === "CREDENTIALS") {
+                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                        gvrow.find(".hdndupaddfee").val("0");
+                    }
+                }
+                else if (DRbt.is(":checked")) {
+                    chkBypost.prop("disabled", false);
+                    ODval = dfee;
+                    gvrow.find("#gvcertificates_txtgvadfee").val(addfeedup);
+                    if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                        gvrow.find("#gvfupload").prop("disabled", false);
+
+                    }
+                    else {
+                        var fupl = "";
+                    }
+                    if (CerType.toUpperCase() === "CREDENTIALS") {
+                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                        gvrow.find(".hdndupaddfee").val(addfee);
+                    }
+                }
+
+                if (chkBypost.is(":checked")) {
+                    Bypostval = Bypostvaltemp;
+                } else {
+                    Bypostval = 0;
+                }
+
+
+                var fee = gvrow.find("#gvcertificates_txtgvadfee").val();
+                var lbltamount = $("#lbltamount").val();
+                if (CerType.toUpperCase() === "GC") {
+                    $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + (parseInt(fee) * pcount)).toString());
+                } else {
+                    $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+                }
+            });
+        });
+    });
+    function getreferenceid() {
+        $.ajax({
+            url: 'Home/getreferenceid', // Replace with your URL
+            type: 'GET',
+            data: {},
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+            },
+            error: function () {
+                // Handle errors if needed
+            }
+        });
+    }
+    function insertotals() {
+        var totalamount = $("#totalamount").val();
+        var category = $("#CATEGORY").val();
+        $.ajax({
+            url: 'Home/inserttotals', // Replace with your URL
+            type: 'GET',
+            data: { 'totalamount': totalamount, 'category': category },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+            },
+            error: function () {
+                // Handle errors if needed
+            }
+        });
+    }
+    function Proceedclick() {
+        var pcount = 0;
+        var ODval = "0"; var cnt = 0;
+        var error_cnt = 0;
+        $("#lbltamount").val("0");
+        var sem = "";
+        var month = "";
+        var year = "";
+        var nofee = 0;
+        var duefee = 0;
+        var tot = 0;
+        $("#lblmsg").hide();
+        var bl = false;
+        var amt = 0;
+        var type = "";
+        var error_cnt = 0;
+        var Bypostval = 0;
+        var Certype = "", name1 = "";
+        var buttonText = $("#Proceed").text();
+        if (buttonText == "Fee Pay") {
+            $("#loaderFinish5").show();
+            setTimeout(getreferenceid,100);
+            setTimeout(getdata,500);
+
+            var totalamount = $("#totalamount").val();
+            var category = $("#CATEGORY").val();
+            setTimeout(insertotals,2000);
+            setTimeout(certificateconfirmation, 3500);
+
+        }
+
+        else {
+           // alert('No need to submit hard copy of the application. Support-team will contact, if necessary!');
+            $("#certificateconformation").hide();
+            $("#maincertificatefee").show();
+            $("#gvcertificates .gcorginal").each(function () {
+
+                var gvrow = $(this).closest("tr");
+                var ORbt = gvrow.find(".gcorginal");
+                var DRbt = gvrow.find(".gcduplicate");
+                var chkBypost = gvrow.find("#gc_chkbypost");
+               
+                var addtextbox = gvrow.find("#gvcertificates_txtgvadfee").val();
+                var lblcertype = gvrow.find(".CERTIFICATE_TYPE").val();
+                var CerType = lblcertype;
+                var ofee = gvrow.find("label[for='gcorginal_" + CerType + "']").text();
+                var dfee = gvrow.find("label[for='gcduplicate_" + CerType + "']").text();
+                var addfeeOrg = gvrow.find(".hdnorgaddfee").val();
+                var addfeedup = gvrow.find(".hdndupaddfee").val();
+                var Bypostvaltemp = parseInt(gvrow.find("#BY_POST_FEE").val());
+                var lblerror = gvrow.find("#lblerror");
+                var error_msg = gvrow.find("#lblmsg");
+                var filename = "";
+
+                if (CerType.toUpperCase() === "TS") {
+                    var sets = $("#txtsets").val();
+                    var counts = $("#txtcount").val();
+                }
+                if (counts == "0" && CerType.toUpperCase() != "TS") {
+                    counts = "";
+                }
+                if (addfeeOrg === "") {
+                    addfeeOrg = "0";
+                }
+                if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                    var fupl = gvrow.find("#gvfupload")[0];
+                    if (fupl.files.length > 0) {
+                        filename = fupl.files[0].name;
+                    } else {
+                        filename = "";
+                    }
+                }
+                else {
+                    var fupl = "";
+                }
+                if ((ORbt.is(":checked") || DRbt.is(":checked")) && (CerType.toUpperCase() != "TS") && (counts != "0")) {
+                    cnt = cnt + 1;
+                }
+
+                if (ORbt.is(":checked")) {
+                    bl = true;
+
+                    if (CerType.toUpperCase() === "GC") {
+                        var ddlsem = gvrow.find("#semester");
+                        var selectedItems = ddlsem.find("option:selected");
+                        var scount = selectedItems.length;
+                        var semSelected = "";
+
+                        selectedItems.each(function () {
+                            semSelected += $(this).text() + ", ";
+                        });
+
+                        semSelected = semSelected.trim().replace(/,\s*$/, '');
+                        $("#lblselsem").html(semSelected);
+                        $("#lblselsem").val(semSelected);
+                        semSelected = semSelected.trim().split(',');
+                        ODval = ofee;
+                        var parts = semSelected[0].split(" ");
+                        if (semSelected == "Select semester" || scount == 0) {
+                            bl = false;
+                            error_cnt = error_cnt + 1;
+                            gvrow.find("#lblerror1").text("please select semester");
+
+                            return false;
+                        }
+
+
+                        else if (parts.length >= 4) {
+                            gvrow.find("#lblerror1").text("");
+                            var sem = parts[0].substring(0, 1);
+                            var month = parts[2];
+                            var year = parts[3];
+
+                            $.ajax({
+                                url: 'Home/semselectedoriginal', // Replace with your URL
+                                type: 'GET',
+                                data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeeOrg },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                    if (response[0].addtextbox == false) {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+                                    else if (response[0].addtextbox == true) {
+
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                                    }
+                                    else {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+
+                                        nofee = response[0].nofee;
+                                        duefee = response[0].duefee;
+
+                                },
+                                error: function () {
+                                    // Handle errors if needed
+                                }
+                            });
+                        }
+                        else {
+                            gvrow.find("#lblerror1").text("");
+                            var firstChar = selectedItems.substring(0, 1);
+                            var semester = parseInt(firstChar);
+                        }
+                        pcount = scount;
+                        ODval = (parseInt(ODval) * scount).toString();
+
+                    }
+                    else if (CerType.toUpperCase() === "CNS" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "OS") {
+                        if (filename != "") {
+                            bl = true;
+                            gvrow.find("#lblmsg").hide();
+                        }
+                        else {
+                            bl = false;
+                            error_cnt = error_cnt + 1;
+                            gvrow.find("#lblmsg").show();
+                            return false;
+                        }
+                    }
+                    else if (CerType.toUpperCase() === "TS") {
+                        amt = parseInt(ofee);
+                        if (amt > 0) {
+                            bl = true;
+                        }
+                        else {
+                            bl = false;
+                            error_cnt = error_cnt + 1;
+                        }
+
+
+                    }
+                    else {
+                        bl = true;
+                    }
+                    if (CerType.toUpperCase() === "CREDENTIALS") {
+                       amt= parseInt(addtextbox);
+                    }
+                    else {
+                        amt = parseInt(ofee) + parseInt(addtextbox);
+
+                    }
+                    type = "ORIGINAL";
+                    if (chkBypost.is(":checked")) {
+                        Bypostval = Bypostvaltemp;
+                    } else {
+                        Bypostval = 0;
+                    }
+
+                    var fee = gvrow.find("#gvcertificates_txtgvadfee").val();
+                    var lbltamount = $("#lbltamount").val();
+                    if (CerType.toUpperCase() === "GC") {
+                        $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());
+                    } else {
+                        $("#lbltamount").val((parseInt(lbltamount)) + amt + parseInt(Bypostval));
+                    }
+                }
+
+
+
+                else if (DRbt.is(":checked")){
+                    if (CerType.toUpperCase() === "GC") {
+                        var ddlsem = gvrow.find("#semester");
+                        var selectedItems = ddlsem.find("option:selected");
+                        var scount = selectedItems.length;
+                        var semSelected = "";
+
+                        selectedItems.each(function () {
+                            semSelected += $(this).text() + ", ";
+                        });
+
+                        semSelected = semSelected.trim().replace(/,\s*$/, '');
+                        $("#lblselsem").html(semSelected);
+                        $("#lblselsem").val(semSelected);
+                        semSelected = semSelected.trim().split(',');
+
+                        var parts = semSelected[0].split(" ");
+                        if (semSelected == "Select semester" || scount == 0) {
+                            bl = false;
+                            error_cnt = error_cnt + 1;
+                        }
+                        else if (parts.length >= 4) {
+                            sem = parts[0].substring(0, 1);
+                            month = parts[2];
+                            year = parts[3];
+
+                            $.ajax({
+                                url: 'Home/semselectedoriginal', // Replace with your URL
+                                type: 'GET',
+                                data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeeOrg },
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+
+                                    if (response[0].addtextbox == false) {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+                                    else if (response[0].addtextbox == true) {
+
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                                    }
+                                    else {
+                                        gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                    }
+
+                                        nofee = response[0].nofee;
+                                        duefee = response[0].duefee;
+
+                                },
+                                error: function () {
+                                    // Handle errors if needed
+                                }
+                            });
+                        }
+                        if (filename != "") {
+                            gvrow.find("#lblmsg").hide();
+                            bl = true;
+                        }
+                        else {
+                            bl = false;
+                            gvrow.find("#lblmsg").show();
+                            error_cnt = error_cnt + 1;
+                            return false;
+                        }
+                        ODval = dfee;
+                        pcount = scount;
+                        ODval = (parseInt(ODval) * scount).toString();
+                        tot = (parseInt(nofee)) + (parseInt(duefee));
+                        gvrow.find("#gvcertificates_txtgvadfee").val(tot.toString());
+                    }
+                    else if (CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "MC") {
+                        if (filename != "") {
+                            bl = true;
+                            gvrow.find("#lblmsg").hide();
+                        }
+                        else {
+                            gvrow.find("#lblmsg").show();
+                            bl = false;
+                            error_cnt = error_cnt + 1;
+                            return false;
+                        }
+
+
+
+                    }
+                    else if (CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "OD" || CerType.toUpperCase() === "WES") {
+                        amt = parseInt(dfee) + parseInt(addtextbox);
+                        gvrow.find("#lblmsg").hide();
+                        bl = true;
+                    }
+                    if (CerType.toUpperCase() === "CREDENTIALS") {
+                        amt = parseInt(addtextbox);
+
+                        bl = true;
+                    }
+                    else {
+                        amt = parseInt(dfee) + parseInt(addtextbox);
+
+                    }
+
+                    if (chkBypost.is(":checked")) {
+
+                        Bypostval = Bypostvaltemp;
+                    }
+                    else {
+                        Bypostval = 0;
+                    }
+                    var fee = gvrow.find("#gvcertificates_txtgvadfee").val();
+                    var lbltamount = $("#lbltamount").val();
+                    if (CerType.toUpperCase() === "GC") {
+
+
+                        $("#lbltamount").val((parseInt(lbltamount) + parseInt(ODval) + parseInt(Bypostval) + parseInt(fee)).toString());                        // lbltamount.Text = Convert.ToString(Int16.Parse(lbltamount.Text) + Int16.Parse(ODval) + bypost + (Int16.Parse(addtextbox.Text) * pcount));
+
+                        // lbltamount.Text = (Int16.Parse(lbltamount.Text) + Int16.Parse(ODval) + Int16.Parse(Bypostval.ToString()) + (Int16.Parse(addtextbox.Text)) * pcount).ToString();
+                    }
+                    else {
+                        $("#lbltamount").val((parseInt(lbltamount)) + amt + parseInt(Bypostval));
+                    }
+                    type = "DUPLICATE";
+                }
+
+                if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                    var fupl = gvrow.find("#gvfupload")[0];
+
+                    var maxFileSizeBytes = 10000000; // 10 MB in bytes
+                    var allowedExtensions = ["pdf", "PDF"];
+                   // var lblerror = gvrow.find("#lblerror");
+
+                    if (fupl.files.length > 0) {
+                        var fileName = fupl.files[0].name;
+                        var ext = fileName.split('.').pop();
+
+                        if ($.inArray(ext, allowedExtensions) === -1) {
+                            lblerror.text("Invalid file extension. Only PDF files are allowed.").show();
+                        } else {
+                            lblerror.hide();
+
+                            var fileSize = fupl.files[0].size;
+
+                            if (fileSize <= maxFileSizeBytes) {
+                                lblerror.text("");
+                            } else {
+                                lblerror.text("File size exceeds the allowed limit of 10 MB.").show();
+                                return false;
+                            }
+                        }
+                    } else {
+                        lblerror.text("");
+                        lblerror.hide();
+                    }
+
+                }
+
+            });
+            $("#totalamount").val($("#lbltamount").val());
+            if (cnt == 0) {
+                lblerror = "Please select one certificate";
+
+            }
+            else {
+                lblerror = "";
+            }
+
+            if (error_cnt >= 0 && $("#lbltamount").val() != "0") {
+                lblerror = "";
+                $("#Proceed").text("Fee Pay");
+                $("#divlblamnt").show();
+                $("#lbltamount").show();
+                $("#lblamt").show();
+            }
+        }
+
+
+
+    }
+    function getdata() {
+
+        var Bypostval = 0; var amt = 0;
+        var Certype = "", name1 = ""; var type = "";
+        $("#gvcertificates .gcorginal").each(function () {
+             //debugger;
+            var gvrow = $(this).closest("tr");
+            var ORbt = gvrow.find(".gcorginal");
+            var DRbt = gvrow.find(".gcduplicate");
+            var chkBypost = gvrow.find("#gc_chkbypost");
+            
+            var addtextbox = gvrow.find("#gvcertificates_txtgvadfee").val();
+            var lblcertype = gvrow.find(".CERTIFICATE_TYPE").val();
+            var CerType = lblcertype;
+            var ofee = gvrow.find("label[for='gcorginal_" + CerType + "']").text();
+            var dfee = gvrow.find("label[for='gcduplicate_" + CerType + "']").text();
+            var addfeeOrg = gvrow.find(".hdnorgaddfee").val();
+            var addfeedup = gvrow.find(".hdndupaddfee").val();
+            var Bypostvaltemp = parseInt(gvrow.find("#BY_POST_FEE").val());
+            var lblerror = gvrow.find("#lblerror");
+            var category = gvrow.find("#CATEGORY").val();
+            var certificate = gvrow.find("#REQ_DESC").val();
+            var nofee = 0;
+            var duefee = 0;
+            var sem = "";
+            var month = "";
+            var year = "";
+            var tot = 0;
+            if (CerType.toUpperCase() === "TS") {
+                var sets = $("#txtsets").val();
+                var counts = $("#txtcount").val();
+            }
+            if (counts == "0" && CerType.toUpperCase() != "TS") {
+                counts = "";
+            }
+            if (addfeeOrg === "") {
+                addfeeOrg = "0";
+            }
+            if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                var fupl = gvrow.find("#gvfupload")[0];
+                if (fupl.files.length > 0) {
+                    filename = fupl.files[0].name;
+                } else {
+                    filename = "";
+                }
+            }
+            else {
+                var fupl = "";
+            }
+
+
+            if (ORbt.is(":checked")) {
+
+
+                if (CerType.toUpperCase() === "GC") {
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount = selectedItems.length;
+                    var semSelected = "";
+
+                    selectedItems.each(function () {
+                        semSelected += $(this).text() + ", ";
+                    });
+
+                    semSelected = semSelected.trim().replace(/,\s*$/, '');
+                    $("#lblselsem").html(semSelected);
+                    $("#lblselsem").val(semSelected);
+                    semSelected = semSelected.trim().split(',');
+
+                    var parts = semSelected[0].split(" ");
+                    if (semSelected == "Select semester" || scount == 0) {
+
+                    }
+                    else {
+                        var firstChar = selectedItems.substring(0, 1);
+                        var semester = parseInt(firstChar);
+                    }
+
+                }
+                else if (CerType.toUpperCase() === "TS") {
+                    amt = parseInt(ofee);
+
+
+
+                }
+
+                if (CerType.toUpperCase() === "CREDENTIALS") {
+                  amt=  parseInt(addtextbox);
+                }
+                else {
+                    amt = parseInt(ofee) + parseInt(addtextbox);
+
+                }
+                type = "ORIGINAL";
+            }
+            else if (DRbt.is(":checked")) {
+                if (CerType.toUpperCase() === "GC") {
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount = selectedItems.length;
+                    var semSelected = "";
+
+                    selectedItems.each(function () {
+                        semSelected += $(this).text() + ", ";
+                    });
+
+                    semSelected = semSelected.trim().replace(/,\s*$/, '');
+                    $("#lblselsem").html(semSelected);
+                    $("#lblselsem").val(semSelected);
+                    semSelected = semSelected.trim().split(',');
+
+                    var parts = semSelected[0].split(" ");
+                    if (semSelected == "Select semester" || scount == 0) {
+
+                    } else {
+                        var firstChar = selectedItems.substring(0, 1);
+                        var semester = parseInt(firstChar);
+                    }
+
+
+
+                }
+
+                else if (CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "OD" || CerType.toUpperCase() === "WES") {
+                    amt = parseInt(dfee) + parseInt(addtextbox);
+
+
+                }
+                if (CerType.toUpperCase() === "CREDENTIALS") {
+                    amt = parseInt(addtextbox);
+
+
+                }
+                else {
+                    amt = parseInt(dfee) + parseInt(addtextbox);
+
+                }
+                type = "DUPLICATE";
+
+            }
+            if (chkBypost.is(":checked")) {
+                Bypostval = Bypostvaltemp;
+            } else {
+                Bypostval = 0;
+            }
+            if ((ORbt.is(":checked") || DRbt.is(":checked"))  && (counts != "0")) {
+                if (CerType.toUpperCase() === "GC") {
+                    var ddlsem = gvrow.find("#semester");
+                    var selectedItems = ddlsem.find("option:selected");
+                    var scount = selectedItems.length;
+                    var semSelected = "";
+
+                    selectedItems.each(function () {
+                        semSelected += $(this).text() + ", ";
+                    });
+
+                    semSelected = semSelected.trim().replace(/,\s*$/, '');
+                    $("#lblselsem").html(semSelected);
+                    $("#lblselsem").val(semSelected);
+                    semSelected = semSelected.trim().split(',');
+
+                    var parts = semSelected[0].split(" ");
+                    if (semSelected == "Select semester" || scount == 0) {
+                        bl = false;
+
+                    }
+                    else if (parts.length >= 4) {
+                        sem = parts[0].substring(0, 1);
+                        month = parts[2];
+                        year = parts[3];
+
+                        $.ajax({
+                            url: 'Home/semselectedoriginal', // Replace with your URL
+                            type: 'GET',
+                            data: { 'sem': sem, 'month': month, 'year': year, 'addfeeOrg': addfeeOrg },
+                            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+
+
+                                 if (response[0].addtextbox == true) {
+
+                                    gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", false);
+                                }
+                               else  {
+                                    gvrow.find("#gvcertificates_txtgvadfee").prop("disabled", true);
+                                }
+                                nofee = response[0].nofee;
+                                if (parseInt(nofee) == 0) {
+
+                                }
+                                else if (response[0].addtextbox == false) {
+                                    if (ORbt.is(":checked")) {
+                                        duefee = (parseInt(addfeeOrg));
+                                        tot = (parseInt(duefee));
+                                    }
+                                    else if (DRbt.is(":checked")) {
+                                        duefee = (parseInt(addfeedup));
+                                        tot = (parseInt(duefee));
+                                    }
+                                }
+                                else {
+                                    duefee = response[0].duefee;
+                                }
+                            },
+                            error: function () {
+                                // Handle errors if needed
+                            }
+                        });
+                    }
+                    pcount = scount;
+
+
+                    addtextbox = tot.toString();
+
+                    if (ORbt.is(":checked")) {
+                        amt = parseInt(ofee) + parseInt(addtextbox);
+                    }
+                    else if (DRbt.is(":checked")) {
+                        amt = parseInt(dfee) + parseInt(addtextbox);
+                    }
+                    var formData = new FormData();
+                    formData.append('file', fupl.files[0]);
+                    formData.append('sem', semester);
+                    formData.append('month', month);
+                    formData.append('year', year);
+                    formData.append('category', category);
+                    formData.append('certificate', certificate);
+                    formData.append('type', type);
+                    formData.append('amt', amt);
+                    formData.append('Certype', Certype);
+                    formData.append('bypost', Bypostval);
+                    $.ajax({
+                        url: 'Home/insertdataCERTIFICATE',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+
+                        success: function (response) {
+
+
+                        },
+                        error: function () {
+                            // Handle errors if needed
+                        }
+                    });
+
+                }
+
+                else {
+                    var formData = new FormData();
+                    if (CerType.toUpperCase() === "GC" || CerType.toUpperCase() === "PCMG" || CerType.toUpperCase() === "CMM" || CerType.toUpperCase() === "MC" || CerType.toUpperCase() === "CNC" || CerType.toUpperCase() === "RC" || CerType.toUpperCase() === "OS" || CerType.toUpperCase() === "CNG" || CerType.toUpperCase() === "CNS") {
+                         fupl = gvrow.find("#gvfupload")[0];
+                        formData.append('file', fupl.files[0]);
+                    }
+                    else {
+
+                        var emptyFile = new Blob([], { type: "application/octet-stream" });
+                        var emptyFileData = new File([emptyFile], "empty.txt", { type: "text/plain" });
+                        formData.append('file', emptyFileData);
+                    }
+                    formData.append('sem', "");
+                    formData.append('month', "");
+                    formData.append('year', year);
+                    formData.append('category', category);
+                    formData.append('certificate', certificate);
+                    formData.append('type', type);
+                    formData.append('amt', amt);
+                    formData.append('Certype', Certype);
+                    formData.append('bypost', Bypostval);
+                    $.ajax({
+                        url: 'Home/insertdataCERTIFICATE',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+
+                        success: function (response) {
+
+
+                        },
+                        error: function () {
+                            // Handle errors if needed
+                        }
+                    });
+                }
+            }
+
+        });
+
+
+
+
+    }
+
+    function certificateconfirmation() {
+        $.ajax({
+            url: 'Home/getcertificateconfirmation', // Replace with your URL
+            type: 'GET',
+            data: {  },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+               // //debugger;
+                $("#loaderFinish5").hide();
+                $("#dataTable").html('');
+
+                if (result.length >= 1) {
+                    $("#confirmation").prop("disabled", false);
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example56' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th>Request description</th><th>Request desc</th><th>Request type</th><th>Fee</th><th>Bypost</th><th>Date</th><th>Course</th><th>Branch</th></tr></thead><tbody>";
+                    for (var i = 0; i < result.length; i++) {
+
+                        var sino = i + 1;
+
+                        tablestring = tablestring + '<tr> <td>' + result[i].REQUEST_DESCRIPTION + '</td> <td>' + result[i].REQUEST_DESC + '</td><td>' + result[i].REQUEST_TYPE + '</td><td>' + result[i].FEE + '</td><td>' + result[i].BYPOST + '</td><td>' + result[i].DATE + '</td><td>' + result[i].COURSE + '</td><td>' + result[i].BRANCH + '</td></tr>';
+                    }
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#dataTable").append(tablestring);
+                    $('#example56').DataTable().destroy();
+                    $('#example56').DataTable({
+                        order: [[1, 'desc']],
+
+                    });
+                }
+                else {
+                    $("#confirmation").prop("disabled", true);
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example56' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th>Request description</th><th>Request desc</th><th>Request type</th><th>Fee</th><th>Bypost</th><th>Date</th><th>Course</th><th>Branch</th></tr></thead><tbody>";
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#dataTable").append(tablestring);
+                    $('#example56').DataTable();
+                }
+                $("#certificateconformation").show();
+                $("#maincertificatefee").hide();
+            },
+            error: function () {
+                // Handle errors if needed
+            }
+        });
+    };
+    function btncertificatefee_conformation() {
+        swal({
+            title: "Do You want to pay the amount?...",
+            type: "warning",
+            confirmButtonText: "Confirm",
+            showCancelButton: true,
+            closeOnClickOutside: false,
+        })
+            .then((willDelete) => {
+                if (willDelete.value) {
+                    $.ajax({
+                        url: 'Home/insertcertificateconfirmation', // Replace with your URL
+                        type: 'POST',
+                        data: {},
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            //debugger;
+                            window.open("https://onlinepay.gitam.edu/doefeepayments/doefeepayment?=" + response);
+                            //return false;
+                        },
+                        error: function () {
+                            // Handle errors if needed
+                        }
+                    });
+                } else {
+                    swal('Cancelled', '', 'error');
+                }
+            });
+    }
+</script>

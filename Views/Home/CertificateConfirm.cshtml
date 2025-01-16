@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Gstudent.Models.CDLEvaluationReceipts>
+
+<div class="table-responsive">
+    <table class="table table-bordered" id="dataTable">
+        <thead>
+            <tr>
+
+                <th>Request description</th>
+                <th>Request type</th>
+                <th>Fee</th>
+                <th>By post</th>
+                <th>Request date</th>
+                <th>Course code</th>
+                <th>Branch code</th>
+
+            </tr>
+        </thead>
+        <tbody id="underprocess">
+            @foreach (var val in Model)
+            {
+                <tr>
+                    <td>@val.REQUEST_DESC</td>
+                    <td>@val.request_type</td>
+                    <td>@val.fee</td>
+                    <td>@val.bypost</td>
+                    <td>@val.REQUEST_DATE</td>
+                    <td>@val.COURSE_CODE</td>
+                    <td>@val.BRANCH_CODE</td>
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="text-center mb-5">
+    <button class="btn btn-primary"><a target="_blank" href="https://onlinepay.gitam.edu/cdl/evaluation.aspx?REGDNO=@Model.FirstOrDefault().REGDNO&TOTALFEE=@Model.ElementAt(0).Total_fee&CATEGORY=@Model.FirstOrDefault().Category&REFID=@Model.FirstOrDefault().Refid&EXAMTYPE=@Model.ElementAt(0).request_list">Proceed</a></button>
+   
+    @*Response.Redirect("https://onlinepay.gitam.edu/cdl/evaluation.aspx?REGDNO=" + lblregdno.Text.Trim() + "&TOTALFEE=" + Session["totalamount"].ToString() + "&CATEGORY=" + vcategory + "&REFID=" + refid + "&EXAMTYPE =" + PROCESS);*@
+
+</div>

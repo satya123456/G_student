@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Gstudent.Models.Hostelbiometric>
+
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Hostel Biometric SMS track</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-container">
+
+        @if (Model.Count() > 0)
+        {
+            <div class="">
+                <div class="filter" style="">
+                    <div class="table-responsive table_style">
+
+                        <table class="table table-bordered" id="myTablevend">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Hostel Name</th>
+                                    <th>Room number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model)
+                                {
+                                    <tr class="">
+                                        <td>@Convert.ToDateTime(attendance.Date).ToString("dd-MMM-yyyy")</td>
+                                        <td>@attendance.HostelName</td>
+                                        <td>@attendance.ROOMNO</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+        }
+        else
+        {
+
+            <div class="text-center">Data not available</div>
+
+        }
+    </div>
+</section>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#myTablevend').DataTable({
+        });
+    });
+
+</script>

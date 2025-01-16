@@ -1,0 +1,402 @@
+﻿
+@model List<Gstudent.Models.studenttrack>
+<style>
+    .academin-track-ul ul {
+        list-style: disc;
+        margin: 20px;
+    }
+
+    .innerdiv {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 20px !important;
+        border: 2px solid #000;
+        width: 700px;
+        margin: auto;
+        height: auto;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: #fff;
+    }
+
+    .tab {
+        border: 2px solid #026B5C;
+    }
+
+        .tab tr td {
+            border-right: 2px solid #026B5C;
+            border-left: 2px solid #026B5C;
+        }
+
+            .tab tr td p {
+                font-size: 12px;
+                margin-bottom: 0px;
+            }
+
+    .sgpa table {
+        display: flex;
+        justify-content: end;
+    }
+
+    .b5 td span span i, .b5 td span i {
+        font-size: 11px;
+    }
+
+
+
+    #qrcode img {
+        display: block;
+        width: 100px;
+        text-align: right;
+        margin-left: auto;
+    }
+
+    /* .w-40{
+        width:40px;
+    }*/
+</style>
+
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h3 class="page-title">
+            Online grade card
+
+        </h3>
+        <div class="back pull-right">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.Count() > 0)
+            {
+                <div class="box-inner">
+
+                    <div id="dynamictablehospay" class="">
+
+
+                        <div id="dynamictablehospay" class="table-responsive dropdown_filter  table_row_hover">
+
+
+                            <table class="table table-bordered" id="tblxyz1" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Branch</th>
+                                        <th>Semester</th>
+                                        <th>Process</th>
+                                        <th>Month & year of the examination</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (Model.Count() > 0)
+                                    {
+                                        foreach (var val in Model)
+                                        {
+                                    <tr>
+                                        <td>@val.BRANCH_CODE</td>
+                                        @if (val.process_type == "ST")
+                                        {
+                                            <td>Summer term</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@val.SEMESTER</td>
+                                        }
+
+                                        @if (val.process_type == "R")
+                                        {
+                                            <td>Regular</td>
+                                        }
+                                        else if (val.process_type == "S")
+                                        {
+                                            <td>Supplementary</td>
+                                        }
+                                        else if (val.process_type == "RV")
+                                        {
+                                            <td>Revaluation</td>
+                                        }
+                                        else if (val.process_type == "I")
+                                        {
+                                            <td>Instant Exam</td>
+                                        }
+                                        else if (val.process_type == "B")
+                                        {
+                                            <td>Betterment</td>
+                                        }
+                                        else if (val.process_type == "SP")
+                                        {
+                                            <td>Special Exam</td>
+                                        }
+                                        else if (val.process_type == "SD")
+                                        {
+                                            <td>Special Drive</td>
+                                        }
+                                        else if (val.process_type == "BG")
+                                        {
+                                            <td>BetterGrade</td>
+                                        }
+                                        else if (val.process_type == "ST")
+                                        {
+                                            <td>Summer term</td>
+                                        }
+                                        else if (val.process_type == "RB")
+                                        {
+                                        <td>Re Registartion</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@val.process_type</td>
+                                        }
+
+                                        <td>@val.Month - @val.Year</td>
+
+                                        <td class="text-center "><i class="fa fa-eye cursor_pointer" onclick="GetGradeCard('@val.process_type', '@val.SEMESTER', '@val.Month', '@val.Year');"></i></td>
+
+                                    </tr>
+                                        }
+
+
+                                    }
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+            else
+            {
+
+                <div class="box-container">
+                    <h6 class="text-center" style="margin-top:20px;">No data available</h6>
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+
+
+
+</section>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div id="printdiv">
+                    <style>
+                        .logo {
+                            width: 650px;
+                        }
+
+                        .text-right {
+                            text-align: right;
+                        }
+
+                        .sign .qr {
+                            display: flex;
+                            justify-content: end;
+                        }
+
+                        .table-responsive table {
+                            width: 650px;
+                        }
+
+                        .note i {
+                            font-size: 13px;
+                        }
+
+                            .note i a {
+                                font-size: 14px;
+                            }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+
+                            .table-responsive table, .logo {
+                                width: 700px;
+                            }
+                            #qrcode img {
+                                display: flex;
+                                width: 100px;
+                                text-align: right;
+                                margin-left: auto;
+                            }
+                        }
+
+                        @@media screen and (max-width:991px) {
+                            .innerdiv {
+                                width: 100%;
+                            }
+
+                            .logo {
+                                width: 100%;
+                            }
+                            #gradecardprintbtn {
+                                display: none;
+                            }
+                        }
+                        
+                    </style>
+                    <div id="inner">
+                    </div>
+                </div>
+                <div class="text-center mb-5">
+                    <button class="btn btn-primary" id="gradecardprintbtn" onclick="PrintGradecard()">Print</button>
+                </div>
+            </div>
+            @*<div class="modal-footer ">
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closemodal()">Close</button>
+                    </div>
+                </div>*@
+        </div>
+
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/NewQRBarCode.js"></script>
+
+<script>
+    function GetGradeCard(process, semester, month, year) {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getGradecard',
+            data: {
+                semester: semester,
+                process: process,
+                month: month,
+                year: year
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                $("#inner").html('');
+                $('#inner').append(result.page);
+                $("#myModal").modal('show');
+
+                $("#qrcode").html("");
+                var qrcode = new QRCode("qrcode");
+                qrcode.makeCode(result.qr);
+            }, error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                // Handle/display the error here
+            }
+
+        });
+    }
+
+
+
+    function closemodal() {
+        $("#myModal").modal('hide');
+    }
+
+
+
+    function PrintGradecard() {
+        debugger;
+        setTimeout(function () {
+
+            var contents = document.getElementById('printdiv').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    }
+
+</script>

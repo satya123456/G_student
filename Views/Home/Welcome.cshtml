@@ -1,0 +1,1804 @@
+﻿@*@{
+
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+@{
+    ViewBag.Title = "Welcome";
+}
+<style>
+    .home-section {
+        background: #fff;
+    }
+
+    .home-section_inner {
+        background: #007367;
+    }
+
+    .inner {
+        border: 1px solid #eee;
+        padding: 15px 5px 5px;
+        margin: 5px;
+        border-radius: 5px;
+        background: #fffefe;
+        min-height: 90px;
+    }
+
+        .inner img {
+            width: 20%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .inner h5 {
+            text-align: center;
+            white-space: nowrap;
+            font-size: 15px;
+            color: #333333;
+            margin-top: 5px;
+        }
+
+        .inner .bx, .inner .ri-file-history-line, .inner .ri-table-line, .ri-award-fill, .ri-feedback-line, .ri-bank-card-line, .ri-file-list-3-line, .ri-currency-line, .ri-contacts-book-2-line, .inner .ri1 {
+            font-size: 30px;
+            display: block;
+            text-align: center;
+        }
+
+        .inner .bx {
+            padding-top: 5px;
+        }
+
+        .inner .ri-file-history-line, .inner .ri-table-line, .inner .ri-award-fill, .inner .ri-feedback-line, .inner .ri-bank-card-line, .inner .ri-file-list-3-line, .ri-currency-line,
+        .ri-contacts-book-2-line, .inner .ri1 {
+            font-size: 28px;
+        }
+
+        .inner.ri h5 {
+            margin-top: 0px;
+        }
+
+    .welcome .row {
+        padding: 40px 6px 0px 15px;
+        margin-right: 0px;
+    }
+
+        .welcome .row .col-4 {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+    .welcome {
+        background: #fff;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+    }
+
+    .bg_red {
+        background: #ffeaeb;
+    }
+
+        .bg_red h5, .bg_red .bx, .bg_red .ri-currency-line, .bg_red .ri1 {
+            color: #007367;
+        }
+
+    .bg_green {
+        background: #eafffc;
+    }
+
+        .bg_green h5, .bg_green .bx, .bg_green .ri-file-history-line, .bg_green .ri-contacts-book-2-line, .bg_green .ri1 {
+            color: #1b978f;
+        }
+
+    .bg_vilot {
+        background: #fdeaff;
+    }
+
+        .bg_vilot h5, .bg_vilot .bx, .bg_vilot .ri-feedback-line, .bg_vilot .ri-file-history-line, .bg_vilot .ri1 {
+            color: #961ba3;
+        }
+
+    .bg_yellow {
+        background: #fffdea;
+    }
+
+        .bg_yellow h5, .bg_yellow .bx, .bg_yellow .ri-table-line, .bg_yellow .ri1 {
+            color: #f56102;
+        }
+
+    .bg_blue {
+        background: #eaeaff;
+    }
+
+        .bg_blue h5, .bg_blue .bx, .bg_blue .ri-bank-card-line, .bg_blue .ri1 {
+            color: #2525ad;
+        }
+
+    .bg_pink {
+        background: #ffeafc;
+    }
+
+        .bg_pink h5, .bg_pink .bx, .bg_pink .ri-file-list-3-line, .bg_pink .ri1 {
+            color: #ff00db;
+        }
+
+    .bg_orange {
+        background: #fff2ea;
+    }
+
+        .bg_orange h5, .bg_orange .bx, .bg_orange .ri1 {
+            color: #db2222;
+        }
+
+    .bg_lime {
+        background: #efffea;
+    }
+
+        .bg_lime h5, .bg_lime .bx, .bg_lime .ri-award-fill, .bg_lime .ri1 {
+            color: #258906;
+        }
+
+    .bg_gray {
+        background: #ebebeb;
+    }
+
+        .bg_gray .bx, .bg_gray .ri1 {
+            color: #333;
+        }
+
+    header {
+        height: 60px;
+        position: inherit;
+    }
+
+    .home-content {
+        height: 1px;
+        padding-top: 5px;
+    }
+
+    .student_logo {
+        display: block;
+        margin: auto;
+    }
+
+        .student_logo img {
+            width: 110px;
+            display: block;
+            margin: auto;
+        }
+
+    .text.d-block.d-lg-none {
+        display: none !important;
+    }
+
+    .menu, .profile {
+        z-index: 99999;
+    }
+
+    .feedback p {
+        background: #fecdcd;
+        animation: blinker 10s linear infinite;
+        padding: 3px 0px;
+        border-radius: 4px;
+        color: #242323;
+        text-align: center;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .feedback p:hover {
+            color: red;
+            animation: none;
+        }
+</style>
+<div class="home-section_inner">
+    <div class="welcome">
+        @{ var feedback = Convert.ToString(Session["fbflag"]); }
+        @if (feedback == "Y")
+        {
+            if (Convert.ToString(Session["Curr_sem"]) != "2")
+            {
+                <div class="row">
+                    <div class="feedback">
+                        <p onclick="loadConfigView('37');">
+                            @*<i class="fa-solid fa-hand-point-right"></i>*@
+                            <img src="~/images/new.gif" />  Please provide a feedback on faculty for Odd semester Ignore if you have already given.
+
+                        </p>
+                    </div>
+                </div>
+            }
+
+
+        }
+        else { }
+    <div class="row" style="padding-top:10px;padding-bottom:20px;">
+
+
+        @if (Session["campus_code"].ToString().ToUpper() == "BLR")
+
+        {
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <form action="https://macenrollment.gitam.edu/" method="post" target="_blank">
+                    <input type="hidden" name="id" value="@Session["EncryUserID"]" />
+                    <button type="submit" class="mac_details" style="background:none;border:none;padding:0;width: 100%;">
+
+                        <div class="inner bg_yellow">
+                            <i class="bx bx-file"></i>
+                            <span class="link_name">Enroll MAC Address</span>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        }
+
+        @if (Session["college_code"].ToString() == "CDL")
+
+        {
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="cdlprofile active" href="javascript:void(0);" onclick="mbLoadConfigView('8');">
+                    <div class="inner bg_yellow ri">
+                        @*<img src="~/images/icons/Profile.png" />*@
+                        <i class='bx bx-user'></i>
+                        <h5>Profile update</h5>
+                    </div>
+                </a>
+
+            </div>
+
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="cdlacademic" href="javascript:void(0);" onclick="mbLoadConfigView('10');">
+                    <div class="inner bg_pink ri">
+                        @*<img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                        <i class="ri-line-chart-line ri1"></i>
+                        <h5>Academic track</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="stdid" href="javascript:void(0);" onclick="mbLoadConfigView('11');">
+                    <div class="inner bg_blue">
+                        @*<img src="~/images/icons/account.png" />*@
+                        <i class='bx bx-id-card'></i>
+                        <h5>Student ID card</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="stdid" href="javascript:void(0);" onclick="mbLoadConfigView('41');">
+                    <div class="inner bg_blue">
+                        <i class="ri-file-list-2-line ri1"></i>
+                        <h5>Study certificate</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="stdid" href="javascript:void(0);" onclick="mbLoadConfigView('42');">
+                    <div class="inner bg_blue">
+                        <i class="ri-file-transfer-line ri1"></i>
+                        <h5>Transfer certificate</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Online_gradecard" href="javascript:void(0);" onclick="mbLoadConfigView('43');">
+                    <div class="inner bg_lime ri">
+                        <i class="ri-file-chart-line ri1"></i>
+                        <h5>Online gradecard</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="migrate" href="javascript:void(0);" onclick="mbLoadConfigView('44');">
+                    <div class="inner bg_gray ri">
+                        <i class="ri-file-copy-2-line ri1"></i>
+                        <h5>Migration certificate</h5>
+                    </div>
+                </a>
+
+            </div>
+
+
+        }
+        else if (Session["course_code"].ToString() == "PHD")
+        {
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="active" href="javascript:void(0);" onclick="mbLoadConfigView('30');">
+                    <div class="inner bg_gray">
+                        @* <img src="~/images/icons/Profile.png" />*@
+                        <i class="bx bx-grid-alt"></i>
+                        <h5>My dashboard</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="active" href="javascript:void(0);" onclick="mbLoadConfigView('111');">
+                    <div class="inner bg_gray">
+                        <i class="ri-book-read-line ri1"></i>
+                        <h5>What's <img src="~/images/new.gif" class="newGifIcon" /></h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Profile active" href="javascript:void(0);" onclick="mbLoadConfigView('1');">
+                    <div class="inner bg_vilot">
+                        @* <img src="~/images/icons/Profile.png" />*@
+                        <i class='bx bx-user'></i>
+                        <h5>Profile</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Status" href="javascript:void(0);" onclick="mbLoadConfigView('20');">
+                    <div class="inner bg_pink ri">
+                        @*<img src="~/images/icons/GPERFORMANCE.png" />*@
+                        <i class="ri-file-list-3-line"></i>
+                        <h5>Status of thesis</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="course" href="https://glearn.gitam.edu/signon/index?val=@Session["val"]" target="_blank">
+                    <div class="inner bg_blue">
+                        @* <img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                        <i class="ri-book-read-line ri1"></i>
+                        <h5>Courses (G-Learn)</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="active" href="javascript:void(0);" onclick="mbLoadConfigView('48');">
+                    <div class="inner bg_gray">
+                        @* <img src="~/images/icons/Profile.png" />*@
+                        <i class="bx bx-grid-alt"></i>
+                        <h5> Biometric Report</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Attendance" href="javascript:void(0);" onclick="mbLoadConfigView('2');">
+                    <div class="inner bg_yellow">
+                        @*<img src="~/images/icons/Attendance.png" alt="Directory">*@
+                        <i class='bx bx-check-square'></i>
+                        <h5>Attendance</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('38');">
+                    <div class="inner bg_green ri">
+
+                        <i class="ri-file-list-3-line ri1"></i>
+                        <h5>News & Events</h5>
+                    </div>
+                </a>
+
+            </div>
+            @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('72');">
+                    <div class="inner bg_vilot">
+
+                        <i class="bx bx-bell"></i>
+                        <h5>Bell the cats</h5>
+                    </div>
+                </a>
+
+            </div>*@
+            <!--<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+        <a class="Profile active" href="javascript:void(0);" onclick="mbLoadConfigView('1');">
+            <div class="inner bg_red">-->
+            @*<img src="~/images/icons/Profile.png" />*@
+            <!--<i class='bx bx-user'></i>
+                    <h5>Profile</h5>
+                </div>
+            </a>
+
+        </div>-->
+            <!--<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+        <a class="Attendance" href="javascript:void(0);" onclick="mbLoadConfigView('2');">
+            <div class="inner bg_green">-->
+            @* <img src="~/images/icons/Attendance.png" alt="Directory">*@
+            <!--<i class='bx bx-check-square'></i>
+                        <h5>Attendance</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Scholarship" href="javascript:void(0);" onclick="mbLoadConfigView('4');">
+                    <div class="inner bg_blue">
+                        @*<img src="~/images/icons/certificate.png" />*@
+                        <i class='bx bxs-graduation'></i>
+                        <h5>Scholarship</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Publications" href="javascript:void(0);" onclick="mbLoadConfigView('17');">
+                    <div class="inner bg_vilot ri">
+                        @* <img src="~/images/icons/Payments-receipts.png" />*@
+                        <i class="ri-file-history-line"></i>
+                        <h5>Publications</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Academic" href="javascript:void(0);" onclick="mbLoadConfigView('13');">
+                    <div class="inner bg_yellow ri">
+                        @*<img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                        <i class='ri-line-chart-line ri1'></i>
+                        <h5>Academic track</h5>
+                    </div>
+                </a>
+
+            </div>
+            @*<div class="col-md-2 col-sm-3 col-xs-6 col-6">
+            <a class="Code" target="_blank" href="~/~/images/icons/code-of-conduct.pdf">
+                <i class="bx bx-user"></i>
+                <h5>Code of conduct</h5>
+            </a>
+
+        </div>*@
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Status" href="javascript:void(0);" onclick="mbLoadConfigView('20');">
+                    <div class="inner bg_pink ri">
+                        @*<img src="~/images/icons/GPERFORMANCE.png" />*@
+                        <i class="ri-file-list-3-line"></i>
+                        <h5>Status of thesis</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Email" href="javascript:void(0);" onclick="mbLoadConfigView('22');">
+                    <div class="inner bg_lime">
+                        @*<img src="~/images/icons/Contact-us.png" />*@
+                        <i class='bx bx-envelope'></i>
+                        <h5>Update password</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('33');">
+                    <div class="inner bg_red ri">
+
+                        <i class="ri-currency-line ri1"></i>
+                        <h5>Fees</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('34');">
+                    <div class="inner bg_green ri">
+                        <i class="ri-contacts-book-2-line ri1"></i>
+                        <h5>Admission</h5>
+                    </div>
+                </a>
+
+            </div>
+            @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+            <a class="certificate_fee" href="javascript:void(0);" onclick="mbLoadConfigView('47');">
+                <div class="inner bg_vilot">
+
+                    <i class="ri-feedback-line"></i>
+                    <h5>Certificates fee</h5>
+                </div>
+            </a>
+
+        </div>*@
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('45');">
+                    <div class="inner bg_red ri">
+
+                        <i class="ri-article-line"></i>
+                        <h5>Hallticket</h5>
+                    </div>
+                </a>
+
+            </div>
+            @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('48');">
+                    <div class="inner bg_yellow ri">
+
+                        <i class='ri-line-chart-line ri1'></i>
+                        <h5>Biometric Report</h5>
+                    </div>
+                </a>
+
+            </div>*@-->
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('45');">
+                    <div class="inner bg_vilot">
+
+                        <i class="bx bx-bell"></i>
+                        <h5>Hall ticket</h5>
+                    </div>
+                </a>
+
+            </div>
+
+        }
+        else
+        {
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="active" href="javascript:void(0);" onclick="mbLoadConfigView('30');">
+                    <div class="inner bg_gray">
+                        @* <img src="~/images/icons/Profile.png" />*@
+                        <i class="bx bx-grid-alt"></i>
+                        <h5>My dashboard</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="active" href="javascript:void(0);" onclick="mbLoadConfigView('111');">
+                    <div class="inner bg_gray">
+                        <i class="ri-book-read-line ri1"></i>
+                        <h5>What's <img src="~/images/new.gif" class="newGifIcon" /></h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Profile active" href="javascript:void(0);" onclick="mbLoadConfigView('1');">
+                    <div class="inner bg_vilot">
+                        @* <img src="~/images/icons/Profile.png" />*@
+                        <i class='bx bx-user'></i>
+                        <h5>Profile</h5>
+                    </div>
+                </a>
+
+            </div>
+
+
+            if (Session["credits"].ToString() == "1")
+            {
+
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Profile active" href="javascript:void(0);" onclick="mbLoadConfigView('88');">
+                        <div class="inner bg_vilot">
+                            @* <img src="~/images/icons/Profile.png" />*@
+                            <i class='bx bx-user'></i>
+                            <h5>My credits</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+            if (Session["campus_code"].ToString() == "HYD" && Session["hostler"].ToString() != "Y")
+
+            {
+
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Bus" href="javascript:void(0);" onclick="mbLoadConfigView('21');">
+                        <div class="inner bg_vilot">
+                            @* <img src="~/images/icons/bus_service.png" />*@
+                            <i class='bx bx-bus'></i>
+                            <h5>Bus pass enrollment</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+            if (Session["hostler"].ToString() == "Y")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Permissions" href="javascript:void(0);" onclick="mbLoadConfigView('6');">
+                        <div class="inner bg_green ri">
+                            @*<img src="~/images/icons/Leaves-Permissions.png">*@
+                            <i class="ri-file-history-line"></i>
+                            <h5>Permissions</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Attendance" href="javascript:void(0);" onclick="mbLoadConfigView('2');">
+                    <div class="inner bg_yellow">
+                        @*<img src="~/images/icons/Attendance.png" alt="Directory">*@
+                        <i class='bx bx-check-square'></i>
+                        <h5>Attendance</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Attendance" href="javascript:void(0);" onclick="mbLoadConfigView('222');">
+                    <div class="inner bg_vilot">
+                        @*<img src="~/images/icons/Attendance.png" alt="Directory">*@
+                        <i class="bx bx-grid-alt"></i>
+                        <h5>Attendance Summer Term</h5>
+                    </div>
+                </a>
+
+            </div>
+            if (Session["Timetablebatch"].ToString() == "Y")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Time" href="javascript:void(0);" onclick="mbLoadConfigView('27');">
+                        <div class="inner bg_yellow ri">
+                            @* <img src="~/images/icons/GSCHEDULE.png" />*@
+                            <i class="ri-table-line"></i>
+                            <h5>Time table</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Time" href="javascript:void(0);" onclick="mbLoadConfigView('14');">
+                        <div class="inner bg_yellow ri">
+                            @* <img src="~/images/icons/GSCHEDULE.png" />*@
+                            <i class="ri-table-line"></i>
+                            <h5>Time table</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="course" href="https://glearn.gitam.edu/signon/index?val=@Session["val"]" target="_blank">
+                    <div class="inner bg_blue">
+                        @* <img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                        <i class="ri-book-read-line ri1"></i>
+                        <h5>Courses (G-Learn)</h5>
+                    </div>
+                </a>
+
+            </div>
+
+
+            if (Session["batchend"].ToString() == "2024")
+            {
+
+
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="course" href="https://Apply.gitam.edu/gevents.aspx?val=@Session["GATval"]" target="_blank">
+                        <div class="inner bg_blue">
+                            @* <img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                            <i class="ri-book-read-line ri1"></i>
+                            <h5>Apply for GAT2024</h5>
+                        </div>
+                    </a>
+
+                </div>
+
+            }
+
+            if (Session["college_code"].ToString() == "GIM" || Session["college_code"].ToString() == "SMS" || Session["college_code"].ToString() == "HBS")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="lms" href="javascript:void(0);" onclick="mbLoadConfigView('91');">
+                        <div class="inner bg_blue">
+
+                            <i class="ri-book-read-line ri1"></i>
+                            <h5>Summer Internship</h5>
+                        </div>
+                    </a>
+
+                </div>
+
+
+            }
+            if (Session["batchend"].ToString() == "2025" || Session["batchstart"].ToString() == "2024")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="course" href="https://apply.gitam.edu/Application_Reference/signon.aspx?val=@Session["val"]" target="_blank">
+                        <div class="inner bg_blue">
+                            @* <img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                            <i class="ri-book-read-line ri1"></i>
+                            <h5>Refer a friend</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+
+            if (Session["status"].ToString() == "D")
+            {
+                if (Session["batchend"].ToString() == "2024")
+                {
+
+
+                    <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                        <a class="course" href="https://Apply.gitam.edu/gevents.aspx?val=@Session["GATval"]" target="_blank">
+                            <div class="inner bg_blue">
+                                @* <img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                                <i class="ri-book-read-line ri1"></i>
+                                <h5>Apply for GAT2024</h5>
+                            </div>
+                        </a>
+
+                    </div>
+
+                }
+
+
+            }
+            if (Session["hostler"].ToString() == "Y")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Residence" href="javascript:void(0);" onclick="mbLoadConfigView('24');">
+                        <div class="inner bg_blue">
+                            @* <img src="~/images/icons/Residence.png">*@
+                            <i class="bx bx-building-house"></i>
+                            <h5>Residence</h5>
+                        </div>
+                    </a>
+
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Dining" href="javascript:void(0);" onclick="mbLoadConfigView('25');">
+                        <div class="inner bg_pink">
+                            @* <img src="~/images/icons/Dining.png" alt="Backlog">*@
+                            <i class="bx bx-bowl-hot"></i>
+                            <h5>Dining</h5>
+                        </div>
+                    </a>
+
+                </div>
+                <!--<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+            <a class="Security" href="javascript:void(0);" onclick="mbLoadConfigView('26');">
+                <div class="inner bg_orange">-->
+                @* <img src="~/images/icons/Security.png">*@
+                <!--<i class="bx bx-shield-alt-2"></i>
+                        <h5>Security</h5>
+                    </div>
+                </a>
+
+            </div>-->
+
+            }
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Course" href="javascript:void(0);" onclick="mbLoadConfigView('3');">
+                    <div class="inner bg_lime">
+                        @* <img src="~/images/icons/certificate.png" />*@
+                        <i class='bx bx-book-open'></i>
+                        <h5>Course structure</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Scholarship" href="javascript:void(0);" onclick="mbLoadConfigView('4');">
+                    <div class="inner bg_vilot">
+                        @* <img src="~/images/icons/accounts.png" />*@
+                        <i class="bx bxs-graduation"></i>
+                        <h5>Scholarship</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Academic" href="javascript:void(0);" onclick="mbLoadConfigView('13');">
+                    <div class="inner bg_green ri">
+                        @* <img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                        <i class="ri-line-chart-line ri1"></i>
+                        <h5>Academic track</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="GradeOnlie" href="javascript:void(0);" onclick="mbLoadConfigView('60');">
+                    <div class="inner bg_blue">
+                        @* <img src="~/images/icons/Academic-track2.png" alt="Academic track">*@
+                        <i class="ri-file-chart-line ri1"></i>
+                        <h5>Online grade card</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('33');">
+                    <div class="inner bg_red ri">
+
+                        <i class="ri-currency-line ri1"></i>
+                        <h5>Fee</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="exams" href="https://eweb.gitam.edu/doereceipts/SUMMERTERM_SESSION.aspx?Regdno=@Session["REGDNO"]&REGTYPE=EXAMPAY" target="_blank">
+                    <div class="inner bg_vilot ri">
+
+                        <i class="ri-file-list-2-line ri1"></i>
+                        <h5>Apply for Examinations</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('34');">
+                    <div class="inner bg_pink ri">
+                        <i class="ri-contacts-book-2-line ri1"></i>
+                        <h5>Admission</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Notice" href="javascript:void(0);" onclick="mbLoadConfigView('7');">
+                    <div class="inner bg_lime">
+                        @*<img src="~/images/icons/Notice-Board-Upload.png" alt="noticeboard">*@
+                        <i class='bx bx-chalkboard'></i>
+                        <h5>Notice board</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Displinary" href="javascript:void(0);" onclick="mbLoadConfigView('28');">
+                    <div class="inner bg_orange">
+                        @* <img src="~/images/icons/Student-displinary-info.png">*@
+                        @*<i class="bx bx-shield-alt-2"></i>*@
+                        <i class='bx bx-info-square'></i>
+                        <h5>Disciplinary info</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="contact" href="javascript:void(0);" onclick="mbLoadConfigView('31');">
+                    <div class="inner bg_vilot">
+                        @* <img src="~/images/icons/Student-displinary-info.png">*@
+                        @*<i class="bx bx-shield-alt-2"></i>*@
+                        <i class='bx bxs-user-account'></i>
+                        <h5>Mentor details</h5>
+                    </div>
+                </a>
+
+            </div>
+            <!--<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+        <a class="certificate_fee" href="javascript:void(0);" onclick="mbLoadConfigView('47');">
+            <div class="inner bg_yellow ri">-->
+            @* <img src="~/images/icons/Student-displinary-info.png">*@
+            @*<i class="bx bx-shield-alt-2"></i>*@
+            <!--<i class="ri-feedback-line ri1"></i>
+                    <h5>Certificates fee</h5>
+                </div>
+            </a>
+
+        </div>-->
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('45');">
+                    <div class="inner bg_blue ri">
+
+                        <i class="ri-article-line ri1"></i>
+                        <h5>Hall ticket</h5>
+                    </div>
+                </a>
+
+            </div>
+
+
+            @*if (Session["dept_code"].ToString().ToUpper() == "CSE" && Session["batchend"].ToString().ToUpper() == "2025" && Session["capstone_flag"].ToString().ToUpper() == "Y")
+            {
+
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('82');">
+                        <div class="inner bg_vilot">
+
+                            <i class="bx bx-bell"></i>
+                            <h5>Capstone projects list</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }*@
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="accreditations" href="javascript:void(0);" onclick="mbLoadConfigView('15');">
+                    <div class="inner bg_pink ri">
+                        @*<img src="~/images/icons/Registration for OD.png" />*@
+                        <i class="ri-award-fill ri1"></i>
+                        <h5>Circulars</h5>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Hostel" href="javascript:void(0);" onclick="mbLoadConfigView('37');">
+                    <div class="inner bg_lime ri">
+                        @* <img src="~/images/icons/feedback.png" />*@
+                        <i class="ri-feedback-line ri1"></i>
+                        <h5>Feedback</h5>
+                    </div>
+                </a>
+
+            </div>
+
+
+            @*if( Session["batchend"].ToString()=="2024"){
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Hostel" href="javascript:void(0);" onclick="mbLoadConfigView('71');">
+                    <div class="inner bg_lime ri">
+
+                        <i class="ri-feedback-line ri1"></i>
+                        <h5>Outgoing feedback</h5>
+                    </div>
+                </a>
+
+            </div>
+                }*@
+
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('38');">
+                    <div class="inner bg_green ri">
+
+                        <i class="ri-file-list-3-line ri1"></i>
+                        <h5>News & Events</h5>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="loadConfigView('72');">
+                    <div class="inner bg_lime ri">
+
+                        <i class="ri-file-list-3-line ri1"></i>
+                        <h5>Bell The Cats</h5>
+                    </div>
+                </a>
+
+            </div>
+          
+            if (Session["sem13_sgpa"].ToString() == "1" && Session["courseregblock"].ToString() == "0")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('63');">
+                        <div class="inner bg_green ri">
+
+                            <i class="ri-file-list-3-line ri1"></i>
+                            <h5>Course registration</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+            if (Session["backattnd"].ToString() == "1")
+            {
+
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="course" href="https://Courseregistrationpassfailcourses.gitam.edu/welcomepage.aspx?txtusername=@Session["EncryUserID"].ToString()" target="_blank">
+                        <div class="inner bg_green ri">
+
+                            <i class="ri-file-list-3-line ri1"></i>
+                            <h5>Pass/Fail Course registration</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }
+
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('66');">
+                    <div class="inner bg_yellow">
+
+                        <i class="bx bx-calendar"></i>
+                        <h5>Events</h5>
+                    </div>
+                </a>
+
+            </div>
+            @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('69');">
+                    <div class="inner bg_yellow">
+
+                        <i class="bx bx-wifi-off"></i>
+                        <h5>Internet access</h5>
+                    </div>
+                </a>
+
+            </div>*@
+
+
+            @*if (Session["photoupload"].ToString() == "Y")
+            {
+
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="mac_details" href="javascript:void(0);" onclick="mbLoadConfigView('70');">
+                        <div class="inner bg_red ri">
+
+                            <i class='bx bx-file'></i>
+                            <h5>Photo upload</h5>
+                        </div>
+                    </a>
+
+                </div>
+            }*@
+
+
+            if ((Session["batchstart"].ToString() == "2021" || Session["batchstart"].ToString() == "2022" || Session["batchstart"].ToString() == "2023") && Session["degree_code"].ToString() == "UG" && (Session["college_code"].ToString() == "GIT" || Session["college_code"].ToString() == "GST" || Session["college_code"].ToString() == "GIS" || Session["college_code"].ToString() == "GSS" || Session["college_code"].ToString() == "GSHS" || Session["college_code"].ToString() == "GSGS" || Session["college_code"].ToString() == "GIM" || Session["college_code"].ToString() == "SMS" || Session["college_code"].ToString() == "HBS"))
+            {
+                if (Session["branch_code"].ToString() == "CSBS" && Session["batchstart"].ToString() == "2021") { }
+
+
+                else if (Session["branch_code"].ToString() != "BLENDED" || Session["branch_code"].ToString() != "CSCS" || Session["branch_code"].ToString() != "Optometry" || Session["branch_code"].ToString() != "CHEMISTRY1" || Session["branch_code"].ToString() != "CHEMISTRY-PFIZER" || Session["branch_code"].ToString() != "CHEMISTRYDRL" || Session["branch_code"].ToString() != "CHEMISTRY-PFIZER-II" || Session["branch_code"].ToString() != "CHEMISTRY-PFIZER-III" || Session["branch_code"].ToString() != "EnglishLang")
+                {
+
+                    <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                        <a class="account" href="javascript:void(0);" onclick="getsummerterm()">
+                            <div class="inner bg_vilot">
+
+                                <i class="bx bx-file"></i>
+                                <h5>Summer term</h5>
+                            </div>
+                        </a>
+
+                    </div>
+                }
+            }
+            if (Session["college_code"].ToString().ToUpper() == "GIM" || Session["college_code"].ToString().ToUpper() == "GSIB")
+            {
+                @*if (Session["course_code"].ToString() != "PHD")
+                {
+
+                    <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                        <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('68');">
+                            <div class="inner bg_vilot">
+
+                                <i class="bx bx-bell"></i>
+                                <h5>Student helpdesk</h5>
+                            </div>
+                        </a>
+
+                    </div>
+                }*@
+            }
+            else
+            {
+                @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('72');">
+                        <div class="inner bg_vilot">
+
+                            <i class="bx bx-bell"></i>
+                            <h5>Bell the cats</h5>
+                        </div>
+                    </a>
+
+                </div>*@
+
+            }
+            if (Session["college_code"].ToString() == "GIM" || Session["college_code"].ToString() == "SMS" || Session["college_code"].ToString() == "HBS")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('78');">
+                        <div class="inner bg_green">
+
+                            <i class="bx bx-bell"></i>
+                            <h5>Daily Log</h5>
+                        </div>
+                    </a>
+
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('79');">
+                        <div class="inner bg_gray">
+
+                            <i class="bx bx-bell"></i>
+                            <h5>Weekly Activity Report</h5>
+                        </div>
+                    </a>
+
+                </div>
+
+            }
+
+            if (Session["hostler"].ToString() == "Y")
+            {
+                @*<div class="col-md-2 col-sm-3 col-xs-6 col-6">
+                    <a class="hos_bio" href="javascript:void(0);" onclick="mbLoadConfigView('9');">
+                        <i class="ri-fingerprint-2-line"></i>
+                        <h5>Biometric SMS track</h5>
+                    </a>
+
+                </div>*@
+                <!--<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+            <a class="Hostel" href="javascript:void(0);" onclick="mbLoadConfigView('16');">
+                <div class="inner bg_green ri">-->
+                @* <img src="~/images/icons/feedback.png" />*@
+                <!--<i class="ri-feedback-line"></i>
+                        <h5>Feedback</h5>
+                    </div>
+                </a>
+
+            </div>-->
+            }
+
+            @*if (Session["batchend"].ToString() == "2024" || Session["batchend"].ToString() == "2025")
+            {
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="ATS" href="https://cdats.gitam.edu/?id=@Session["EncryUserID"]" target="_blank" onclick="mbLoadConfigView('50');">
+                        <div class="inner bg_gray ri">
+
+                            <i class="ri-terminal-window-line  ri1"></i>
+                            <h5>ATS</h5>
+                        </div>
+                    </a>
+
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                    <a class="Registration" href="http://gexams.gitam.edu/studentapplication.aspx?=@Session["EncryUserID"]" target="_blank">
+                        <div class="inner bg_yellow ri">
+                            <i class="ri-file-copy-2-line ri1"></i>
+                            <h5>OD Registration</h5>
+                        </div>
+                    </a>
+                </div>
+
+            }*@
+            @*if (Session["batchend"].ToString() == "2025" || Session["batchend"].ToString() == "2026")
+            {*@
+            <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="ATS" href="https://cdats.gitam.edu/?id=@Session["EncryUserID"]" target="_blank" onclick="mbLoadConfigView('50');">
+                    <div class="inner bg_gray ri">
+
+                        <i class="ri-terminal-window-line  ri1"></i>
+                        <h5>ATS</h5>
+                    </div>
+                </a>
+
+            </div>
+            @*}*@
+            @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Online_gradecard" href="https://Onlinecertificates.gitam.edu/New_Gradecardinput.aspx?StdId=@Session["EncryUserID"]" target="_blank">
+                    <div class="inner bg_lime ri">
+                        <i class="ri-bard-line ri1"></i>
+                        <h5>Online gradecard</h5>
+                    </div>
+                </a>
+
+            </div>*@
+            @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+                <a class="Results" onclick="loadConfigView('35');">
+                    <div class="inner bg_vilot">
+                        <i class='bx bx-spreadsheet'></i>
+                        <h5>Results</h5>
+                    </div>
+                </a>
+
+            </div>*@
+
+        }
+
+
+
+        @*<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+            <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('33');">
+                <div class="inner bg_red ri">
+
+                    <i class="ri-currency-line ri1"></i>
+                    <h5>Fees</h5>
+                </div>
+            </a>
+
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+            <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('34');">
+                <div class="inner bg_green ri">
+                    <i class="ri-contacts-book-2-line ri1"></i>
+                    <h5>Admission</h5>
+                </div>
+            </a>
+
+        </div>
+
+
+        <div class="col-md-3 col-sm-4 col-xs-4 col-4">
+            <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('45');">
+                <div class="inner bg_red ri">
+
+                    <i class="ri-pass-valid-line ri1"></i>
+                    <h5>Online hallticket</h5>
+                </div>
+            </a>
+
+        </div>*@
+        <!--<div class="col-md-3 col-sm-4 col-xs-4 col-4">
+    <a class="account" href="javascript:void(0);" onclick="mbLoadConfigView('35');">
+        <div class="inner bg_red ri">-->
+        @* <img src="~/images/icons/Payments-receipts.png" alt="fee">*@
+        <!--<i class="ri-slideshow-line ri1"></i>
+                <h5>Results</h5>
+            </div>
+        </a>
+
+    </div>-->
+    </div>
+    </div>
+</div>
+
+<div class="modal" id="mySydModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">syd™super-app</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p class="text-justify">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   The <b>syd™ super-app</b> is your go-to source for science-backed, personalized recommendations designed to enhance your life quality. From emotional health to financial well-being, syd™ helps you <b>discover the life you love.</b>
+                    <br>
+                    <b>Imagine syd™ as a friend-and an expert in all matters!</b>-who's always there when you need someone to talk to. Whether you're seeking advice, eager to learn something new, or just want to share how your day went and discuss your mood, syd™ has you covered.
+
+                </p>
+                <div class="d-flex justify-content-between mb-3 flex-wrap">
+                    <p><a href="https://form.typeform.com/to/xPeRwnXd?typeform-source=qrcode-button" target="_blank">Click here</a> or scan the QR code to join our waiting list and complete the questionnaire.</p>
+                    <div id="qrcode"></div>
+                </div>
+                <div class="mb-3">
+                    <h6>Directorate of Student Life</h6>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            @*<div class="modal-footer justify-content-center">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>*@
+        </div>
+    </div>
+</div>
+<!--<div class="modal" id="myAlertModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+<!--<div class="modal-header" style="padding-top:15px;">
+    <h4 class="modal-title">Alert</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+        </svg>
+    </button>
+</div>-->
+<!-- Modal body -->
+<!--<div class="modal-body" style="text-align:justify;">
+
+
+    <p>If you are using any unlicensed version of software – SOLIDWORKS, CATIA, DALMIA, BIOVIA, ENOVIA, SIMULIA, 3DVIA, GEOVIA and CST – on any of desktop or laptop in GITAM university network, including GITAM classrooms and hostels, please stop using it immediately and uninstall the unlicensed software immediately.</p>
+
+    <p>If you are using any of these softwares in your desktop, laptop etc., but not aware whether it’s licensed, please contact CATS immediately at <a href="mailto:catsoffice@gitam.edu">catsoffice@gitam.edu</a> or <a href="mailto:cto@gitam.edu">cto@gitam.edu</a> for assistance.</p>
+
+    <p>Respecting the anti-piracy laws of the country, GITAM does not allow any pirated/unauthorized software installation on the computers connected to the university campus network. In case of any such instances, GITAM will hold the individual personally responsible for any unlicensed software installed on their computers.  For any compliance claims by any software vendor, you will take full responsibility of the violation and its consequences.</p>
+
+
+
+</div>-->
+<!-- Modal footer -->
+<!--@* <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+                </div>*@
+
+        </div>
+    </div>
+</div>-->
+
+<div class="modal" id="myAlertModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+
+            <div class="modal-header" style="padding-top:15px;">
+                <h4 class="modal-title">Alert</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                    </svg>
+                </button>
+            </div>
+
+
+            <div class="modal-body" style="text-align:justify;">
+
+                <p>This is to inform you that, from today onwards for outing purposes online application is mandatory. Permission will be given only for the students who apply through the portal.</p>
+
+                <p>N.B : For day outing apply prior to 04 hours and for overnight outing apply 24 hours prior to avoid any inconvenience.</p>
+
+                <p>Thanking you in advance for your support and understanding.</p>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myMACModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+
+            <div class="modal-header" style="padding-top:15px;">
+                <h4 class="modal-title">Enroll MAC Address</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"></path>
+                    </svg>
+                </button>
+            </div>
+
+
+            <div class="modal-body" style="text-align:justify;">
+                <p>
+                    @*Dear Students,<br />*@
+                    Dear Students,<br /> WiFi authentication will be enabled on 12th December. If you haven't registered your device yet, do so before the 12th. After that, WiFi access will be denied for unregistered devices.
+                    <br />To register:
+                    <ul>
+                        <li> Go to MyGITAM.</li>
+                        <li> Click on MAC Registration and follow the instructions.</li>
+
+                    </ul></p>
+                <p>
+
+                    Ensure timely registration to avoid disruption.
+
+
+                </p>
+                <span>
+                    Please click here to
+
+                    <form action="https://macenrollment.gitam.edu/" method="post" target="_blank" style="display:inline;">
+                        <input type="hidden" name="id" value="@Session["EncryUserID"]" />
+                        <button type="submit" class="mac_details" style="background:none; border:none; padding:0;">
+
+                            <span class="link_name" style="color: #007367; font-weight: bold; cursor: pointer;"> Enroll MAC Address</span>
+                        </button>
+                    </form>
+                </span>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<style>
+    #myMACModal ul{
+        padding-left:25px;
+    }
+        #myMACModal ul li{
+            list-style:disc;
+            font-size:16px;
+        }
+    #myMACModal p, #myMACModal span {
+        font-size: 16px;
+    }
+        #qrcode canvas {
+            width: 100px;
+        }
+
+    .text-justify {
+        text-align: justify;
+    }
+
+    @@media(max-width:575px) {
+        .inner h5 {
+            white-space: normal;
+        }
+    }
+</style>
+<script src="https://cdn.gitam.edu/js/jquery-3.6.0.js"></script>
+<script src="~/Scripts/qrcode.min.js"></script>
+<!-- Bootstrap js -->
+<script src="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/js/bootstrap.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+
+        var width = $(window).width();
+            if (width < "992") {
+                 var camp = '@Session["campus_code"].ToString().ToUpper()';
+                var hos = '@Session["hostler"].ToString().ToUpper()';
+                            var maceligble = '@Session["maccount"].ToString().ToUpper()';
+            if (camp == 'BLR' && hos == 'Y')
+            {
+                $('#myMACModal').on('hidden.bs.modal', function () {
+                    $('#myAlertModal').modal('show');
+                });
+
+
+
+                    $('#myAlertModal').focus();
+
+
+            }
+                // $('#mySydModal').modal('show');
+                if (camp == 'BLR' && maceligble == '0') {
+                    $('#myMACModal').modal('show');
+                    //$('#myAlertModal').on('hidden.bs.modal', function () {
+                    //    $('#myMACModal').modal('show');
+                    //});
+                }
+            }
+
+
+        $("#qrcode").html("");
+            var qrcode = new QRCode("qrcode");
+            qrcode.makeCode('https://form.typeform.com/to/xPeRwnXd?typeform-source=qrcode-button');
+        });
+
+    function mbLoadConfigView(id) {
+        // //debugger;
+        var urlView = '';
+        switch (id) {
+
+            case '1':
+                urlView = './Home/GetStudentData';
+                break;
+            case '2':
+                urlView = './Home/GetAttendance/';
+                break;
+            case '3':
+                urlView = './Home/Getcourse_structurenew/';
+                break;
+            case '4':
+                urlView = './Home/Getscholarship/';
+                break;
+            case '5':
+                urlView = './Home/Passwordchange/';
+                break;
+            case '6':
+                urlView = './Home/GetPermissions';
+                break;
+            case '7':
+                urlView = './Home/GetNoticeboard';
+                break;
+            case '8':
+                urlView = './Home/GetCDLProfileupdate';
+                break;
+            case '9':
+                urlView = './Home/GetHostelbiometric';
+                break;
+            case '10':
+                urlView = './Home/CDL_academic_track/';
+                break;
+            case '11':
+                urlView = './Home/Student_id_card/';
+                break;
+            case '13':
+                urlView = './Home/GetAcademictrack';
+                break;
+            case '14':
+                urlView = './Home/Gettimetable';
+                break;
+            case '15':
+                urlView = './Home/GetAccrediations';
+                break;
+            case '16':
+                urlView = './Home/Gethostelfeedbackdetails';
+                break;
+            case '17':
+                urlView = './Home/GetPublications';
+                break;
+            case '20':
+                urlView = './Home/Getthesis';
+                break;
+            case '21':
+                urlView = './Home/GetBusspassenrollment';
+                break;
+            case '22':
+                urlView = './Home/Getemail_update_password';
+                break;
+            case '23':
+                urlView = './Home/GetAccountsandpayments';
+                break;
+                break;
+            case '24':
+                urlView = './Home/Residence';
+                break;
+                break;
+            case '25':
+                urlView = './Home/Dining';
+                break;
+                break;
+            case '26':
+                urlView = './Home/Security';
+                break;
+            case '27':
+                urlView = './Home/Timetable_I_sem';
+                break;
+            case '28':
+                urlView = './Home/Student_displinary';
+                break;
+            case '30':
+                urlView = './Home/Mobiledashboard';
+                break;
+            case '31':
+                urlView = './Home/Contactus';
+                break;
+            case '33':
+                urlView = './Home/Fees';
+                break;
+            case '34':
+                urlView = './Home/Admission';
+                break;
+            case '35':
+                urlView = './Home/Getstudent_results';
+                break;
+            case '37':
+                urlView = './Home/Feedback';
+                break;
+            case '38':
+                urlView = './Home/getnews';
+                break;
+            case '41':
+                urlView = './Home/CDLStudycerificate';
+                break;
+            case '42':
+                urlView = './Home/CDLTransfercerificate';
+                break;
+            case '43':
+                urlView = './Home/CDLGradeCrad';
+                break;
+            case '44':
+                urlView = './Home/CDLMigration';
+                break;
+            case '45':
+                urlView = './Home/Gethalltickets';
+                break;
+            case '46':
+                urlView = './Home/CDLHallTicket';
+                break;
+            case '47':
+                urlView = './Home/CertificatesFee';
+                break;
+            case '48':
+                urlView = './Home/getphdbiometric';
+                break;
+            case '60':
+                urlView = './Home/Onlinegradecard';
+                break;
+            //case '63':
+            //    urlView = './Home/CourseRegistrationnew';
+            //    break;
+            case '63':
+                urlView = './Home/CourseRegistrationneweven';
+                break;
+            case '80':
+                urlView = './Home/getlmssubjects';
+                break;
+            case '66':
+                urlView = './Home/Getgevents';
+                break;
+            case '69':
+                urlView = './Home/Mac_details';
+                break;
+            case '68':
+                urlView = './Home/BellTheCats';
+                break;
+            case '70':
+                urlView = './Home/PhotoUpload';
+                break;
+            case '71':
+                urlView = './Home/Finalyearfeedback';
+                break;
+            //case '72':
+            //    urlView = './Home/studenthelpdesk';
+            //    break;
+            case '72':
+                urlView = './Home/studenthelpdesknew';
+                break;
+            case '111':
+                urlView = './Home/WhatsNew';
+                break;
+            case '91':
+                urlView = './Home/summerintprjct';
+                break;
+            case '222':
+                urlView = './Home/GetAttendanceSummerTerm';
+                break;
+            case '82':
+                urlView = './Home/Projectslist';
+                break;
+            case '88':
+                urlView = './Home/Mycredits';
+                break;
+            default:
+                urlView = './Home/GetStudentData/';
+                break;
+
+        }
+        if (id == "1") {
+            //alert($(this));
+            //debugger;
+            $('.Profile').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Scholarship, .Course, .Attendance, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+        } else if (id == '2') {
+            $('.Attendance').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Scholarship, .Course, .Profile, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '3') {
+            $('.Course').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Scholarship, .Attendance, .Profile, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '4') {
+            $('.Scholarship').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Course, .Attendance, .Profile, .Permissions, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '6') {
+            $('.Permissions').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Notice, .Academic, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '7') {
+            $('.Notice').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Permissions, .Academic, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '8') {
+            $('.cdlprofile').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .hos_bio, .cdlacademic, .stdid').removeClass('active');
+
+        } else if (id == '9') {
+            $('.hos_bio').addClass('active');
+            $('.Displinary, .Email, .Residence, .Dining, .Security, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+        } else if (id == '10') {
+            $('.cdlacademic').addClass('active');
+            $('.Displinary, .account, .Residence, .Dining, .Security, .hos_bio, .cdlprofile, .stdid').removeClass('active');
+
+        } else if (id == '11') {
+            $('.stdid').addClass('active');
+            $('.Displinary, .account, .Residence, .Dining, .Security, .hos_bio, .cdlacademic, .cdlprofile').removeClass('active');
+
+        } else if (id == '13') {
+            $('.Academic').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Time, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '14') {
+            $('.Time').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .accreditations, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '15') {
+            $('.accreditations').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .Hostel, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '16') {
+            $('.Hostel').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Publications').removeClass('active');
+
+        } else if (id == '17') {
+            $('.Publications').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Status, .Hostel').removeClass('active');
+
+        } else if (id == '20') {
+            $('.Status').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Bus, .Email, .Publications, .Hostel').removeClass('active');
+
+        } else if (id == '21') {
+            $('.Bus').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Email, .Publications, .Hostel').removeClass('active');
+
+        } else if (id == '22') {
+            $('.Email').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Security, .account, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+        }
+        else if (id == '23') {
+            $('.account').addClass('active');
+            $('.Displinary, .cdlprofile, .cdlacademic, .stdid, .hos_bio, .Residence, .Dining, .Security, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+        } else if (id == '24') {
+            $('.Residence').addClass('active');
+            $('.Displinary, .hos_bio, .Dining, .Security, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+        } else if (id == '25') {
+            $('.Dining').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Security, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+        } else if (id == '26') {
+            $('.Security').addClass('active');
+            $('.Displinary, .hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel').removeClass('active');
+
+        }
+        else if (id == '28') {
+            $('.Displinary').addClass('active');
+            $('.hos_bio, .Residence, .Dining, .Email, .accreditations, .Time, .Academic, .Code, .Permissions, .Notice, .Course, .Attendance, .Profile, .Scholarship, .Status, .Bus, .Publications, .Hostel,.Security').removeClass('active');
+
+        }
+
+        $.ajax({
+
+            type: 'GET',
+            url: urlView,
+
+            success: (function (result) {
+                console.log(result);
+                $('#maindiv').html(result);
+
+
+
+            })
+        });
+
+    }
+
+
+    function GetStudents() {
+        $.ajax({
+            method: "Get",
+            url: "../../Home/GetStudentData",
+            dataType: "json",
+            success: function (Result) {
+                //debugger;
+                console.log(Result);
+            }
+        })
+    }
+
+</script>
+<script>
+
+     function getsummerterm() {
+        var coursereg = @Session["coursereg"].ToString();
+
+        if (parseInt(coursereg) >= 1) {
+            swal('You cannot proceed due to multiple logins , logout from all devices and continue again', '', 'warning');
+
+        }
+        else {
+
+            // window.open("https://courseregistrationportal.gitam.edu/welcomepage.aspx?txtusername=@Session["REGDNO"].ToString()&type=summertermp1");
+             window.open("https://courseregistrationportal.gitam.edu/welcomepage.aspx?txtusername=@Session["REGDNO"].ToString()");
+
+        }
+    }
+     //$(".back").click(function (event) {
+            //    event.preventDefault();
+            //    history.back(1);
+            //});
+</script>

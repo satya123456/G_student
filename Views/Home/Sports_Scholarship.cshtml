@@ -1,0 +1,593 @@
+﻿
+
+@model Gstudent.Models.SportsScholarship
+
+<section class="contentContainer">
+    @using (Ajax.BeginForm("CreateSportsScholarship", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "nursing_assessment", OnSuccess = "Successassess" }, new { enctype = "multipart/form-data" }))
+    {
+        <div class="">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Sports </label>
+
+                        @Html.DropDownListFor(model => model.Sport_ID, (IEnumerable<SelectListItem>)ViewBag.SportsList, "Select ", new { @class = "form-control", @id = "Sport_ID" })
+                        <input class="form-control" type="text" readonly value="@Model.Sports_Name" name="Sports_Name" hidden>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" id="urine_appearance_other">
+                    <div class="form-group">
+                        <label>Sport name</label>
+                        @Html.TextBoxFor(model => model.Sport, new { @class = "form-control", @maxlength = "100", @onkeypress = "return ValidateSpecialText(event);", @id = "Sport" })
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Level of competition</label>
+                        @Html.DropDownListFor(model => model.Level_ID, (IEnumerable<SelectListItem>)ViewBag.LevelList, "Select ", new { @class = "form-control", @onchange = "getdepartmentid()", @id = "Level_of_Competition" })
+                        <input class="form-control" type="text" readonly value="@Model.Level_of_Competition" name="Level_of_Competition" hidden>
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Name of the competition</label>
+                        @Html.DropDownListFor(model => model.Competition_ID, Enumerable.Empty<SelectListItem>(), "Select", new { @class = "form-control", @id = "Name_of_Competition" })
+                        <input class="form-control" type="text" readonly value="@Model.Competition_name" name="Competition_name" hidden>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" id="urine_appearance_other1">
+                    <div class="form-group">
+                        <label>Competition name</label>
+                        @Html.TextBoxFor(model => model.Name_of_Competition, new { @class = "form-control", @maxlength = "100", @onkeypress = "return ValidateSpecialText(event);", @id = "Sport1" })
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Achievement</label>
+                        @Html.DropDownListFor(model => model.medal_id, (IEnumerable<SelectListItem>)ViewBag.Acheivementlist, "Select ", new { @class = "form-control", @id = "medal_name" })
+                        <input class="form-control" type="text" readonly value="@Model.medal_name" name="medal_name" hidden>
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Date of competition/Achievement</label>
+                        @Html.TextBoxFor(model => model.sport_date, new { @class = "form-control datetime-new-picker", @id = "sport_date", @onkeydown = "return ValidateSpecialText(event);" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Upload the certificate(Only .pdf)</label>
+                        <input type="file" name="uploadForm" class="form-control" id="uploadForm" />
+                        <span style="color:red" id="erruploadForm"></span>
+
+                    </div>
+                </div>
+
+
+
+                <div class="btns-group" style="text-align:center">
+
+                    <button type="button" class="btn btn-primary btn-left" id="btnsubmit" onclick="Button1_Click()">Add</button>
+                </div>
+
+            </div>
+        </div>
+    }
+
+
+</section>
+
+
+<div id="div_datatable"></div>
+
+
+
+
+<div class="" id="extra" style="display:none">
+    <div class="box-container">
+        <div class="col-12 col-sm-6 col-md-9 col-lg-9">
+            <div class="form-group ">
+                <label>Why do you think you deserve sports scholarship?(not more than 250 words)</label>
+                @Html.TextAreaFor(model => model.remarks, new { @class = "form-control datetime-new-picker", @id = "remarks", @onkeydown = "return ValidateSpecialText(event);" })
+            </div>
+        </div>
+    </div>
+
+    <div class="btns-group" style="text-align:center">
+
+        <button type="button" class="btn btn-primary btn-left" id="btnsubmit" onclick="Button2_Click()">Confirm</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        BindData();
+        $("#extra").show();
+        $('#btnsbmit').hide();
+    });
+
+    function Successassess(e) {
+        var error = e.msg;
+        if (error == "Inserted successfully") {
+            swal('Submit successfully', '', 'success');
+
+            $('#extra').show();
+            $('#btnsbmit').hide();
+            BindData();
+            setTimeout(loaddata, 1500);
+        }
+        else if (error == "Inserted fail") {
+            swal('Inserted fail', '', 'error');
+            /*  swal({ icon: "success", text: "Successfully updated" });*/
+            setTimeout(loaddata, 1500);
+        }
+        else if (error == "After 01-APR-2023 can apply") {
+            swal('After 01-APR-2023 can apply', '', 'error');
+            /*  swal({ icon: "success", text: "Successfully updated" });*/
+            setTimeout(loaddata, 1500);
+        }
+        else {
+
+            swal('Cancelled', '', 'error');
+            setTimeout(loaddata, 1500);
+        }
+    }
+
+    function loaddata() {
+        loadConfigView('32');
+    }
+    function Button1_Click(e) {
+
+        var count = 0;
+        $('#validmsg3').remove(); $('#validmsg4').remove();
+        $('#validmsg5').remove(); $('#validmsg6').remove();
+        var v1 = $("#uploadForm").val();
+        var val3 = $('#medal_name').val();
+        var val4 = $('#Name_of_Competition').val();
+        var val5 = $('#Level_of_Competition').val();
+        var val6 = $('#Sport_ID').val();
+
+        if (val3 == 0 || val3 == null) {
+            document.getElementById('medal_name').focus();
+            $('#medal_name').parent().append('<span class="error" id="validmsg3"> Please enter medal name</span>');
+            $('#medal_name').val("");
+            count++;
+        } if (val4 == 0 || val4 == null) {
+            document.getElementById('Name_of_Competition').focus();
+            $('#Name_of_Competition').parent().append('<span class="error" id="validmsg4"> Please select Competition name</span>');
+            $('#Name_of_Competition').val("");
+            count++;
+        } if (val5 == 0 || val5 == null) {
+            document.getElementById('Level_of_Competition').focus();
+            $('#Level_of_Competition').parent().append('<span class="error" id="validmsg5"> Please enter Level of Competition</span>');
+            $('#Level_of_Competition').val("");
+            count++;
+        }
+        if (val6 == 0 || val6 == null) {
+            document.getElementById('Sport_ID').focus();
+            $('#Sport_ID').parent().append('<span class="error" id="validmsg6"> Please enter Sports name</span>');
+            $('#Sport_ID').val("");
+            count++;
+        }
+        if (v1 == "") {
+            $("#erruploadForm").text("please select article");
+            count++;
+            event.preventDefault();
+        }
+        else {
+            $("#erruploadForm").text('');
+        }
+        if (count == 0) {
+            if ($("#form0").valid()) {
+                swal({
+                    title: "Are you sure to submit?",
+                    type: "warning",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true,
+                    closeOnClickOutside: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete.value) {
+                            $("form:first").submit();
+                        } else {
+                            swal('Cancelled', '', 'error');
+                        }
+                    });
+
+            }
+        }
+    }
+    $(function () {
+        $('#uploadForm').change(function () {
+            var file_size = $('#uploadForm')[0].files[0].size;
+            if (file_size > 2097152) {
+                alert("File size is greater than 2MB");
+                $('#btnsubmit').prop('disabled', true);
+                $("#uploadForm").val('');
+            }
+            else {
+                $('#btnsubmit').prop('disabled', false);
+            }
+            var fileExtension = ['pdf'];
+            if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+                alert("Only '.pdf' formats are allowed.");
+                $('#btnsubmit').prop('disabled', true);
+                $("#uploadForm").val('');
+
+            }
+            else {
+                $('#btnsubmit').prop('disabled', false);
+                $("#erruploadForm").text('');
+            }
+        })
+    })
+    function int(element) {
+
+        var s = element.value;
+        var max_chars = 0;
+        if (s.includes(".")) {
+
+            element.value = element.value.replace(/\./g, ' ')
+            return false;
+
+        }
+        else {
+
+            return true;
+        }
+
+
+    }
+
+    function ValidateSpecialText(evt) {
+        //debugger;
+        var keyCode = (evt.which) ? evt.which : evt.keyCode
+        if (keyCode != 8) {
+            if ((keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 123) && keyCode != 32 && !(keyCode >= 48 && keyCode <= 57) && !(keyCode == 38) && !(keyCode == 40) && !(keyCode == 41) && !(keyCode == 44) && !(keyCode == 45) && !(keyCode == 47) && !(keyCode == 46) && !(keyCode == 58) && !(keyCode == 13) && !(keyCode == 190))
+                return false;
+        }
+        return true;
+    }
+
+
+    function ValidateNumber(e) {
+        var specialKeys = new Array();
+        specialKeys.push("Backspace"); //Backspace
+        specialKeys.push("Delete"); //Delete
+        specialKeys.push("Enter"); //Enter
+        specialKeys.push("y"); //Tab
+        specialKeys.push("."); //dot
+        var keyCode = e.keyCode != 32 ? e.key : -1;
+        var ret = ((keyCode >= 0 && keyCode <= 10) || specialKeys.indexOf(keyCode) != -1 || (keyCode >= 106 && keyCode <= 115) || keyCode == 46);
+        return ret;
+    };
+</script>
+<script>
+    function getdepartmentid() {
+        //debugger;
+        $("#Name_of_Competition").empty();
+        //var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var text = $("#Level_of_Competition option:selected").val();
+        var value = document.getElementById("Level_of_Competition");
+
+        if (text != "Select") {
+            $.ajax({
+                type: 'GET',
+                url: './Home/competetionnames',
+                data: { 'levelid': text },
+                datatype: JSON,
+                success: function (Result) {
+                    console.log(Result);
+                    var dd5 = $("[id*='Name_of_Competition']");
+                    dd5.empty().append('<option selected="selected" value="0">Select</option>');
+                    for (var i = 0; i < Result.notes.length; i++) {
+                        dd5.append($("<option></option>").val(Result.notes[i].Competition_ID).html(Result.notes[i].Name_of_Competition));
+                    }
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+
+    }
+    var date = new Date();
+    date.setDate(date.getDate() - 0);
+    $(".datetime-new-picker").datepicker({
+        maxDate: 0,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1980:n',
+        dateFormat: 'dd-M-yy',
+        controlType: 'select'
+    });
+
+
+
+    $(function () {
+        //debugger;
+        $('#urine_appearance_other1').hide();
+
+
+        if ($('#Name_of_Competition').val() == "16" || $('#Name_of_Competition').val() == "17" || $('#Name_of_Competition').val() == "18" || $('#Name_of_Competition').val() == "19") {
+            $('#urine_appearance_other1').show();
+        }
+        else {
+            $('#urine_appearance_other1').hide();
+            $("#Sport1").val("");
+        }
+        $('#Name_of_Competition').change(function () {
+            if ($('#Name_of_Competition').val() == '16' || $('#Name_of_Competition').val() == '17' || $('#Name_of_Competition').val() == '18' || $('#Name_of_Competition').val() == '19') {
+                $('#urine_appearance_other1').show();
+            } else {
+                $('#urine_appearance_other1').hide();
+                $("#Sport1").val("");
+            }
+        });
+    });
+
+
+
+    $(function () {
+        //debugger;
+        $('#urine_appearance_other').hide();
+
+
+        if ($('#Sport_ID').val() == "12") {
+            $('#urine_appearance_other').show();
+        }
+        else {
+            $('#urine_appearance_other').hide();
+            $("#Sport").val("");
+        }
+        $('#Sport_ID').change(function () {
+            if ($('#Sport_ID').val() == '12') {
+                $('#urine_appearance_other').show();
+            } else {
+                $('#urine_appearance_other').hide();
+                $("#Sport").val("");
+            }
+        });
+    });
+</script>
+<script>
+    $("#Sport_ID").change(function () {
+        var text = $("#Sport_ID option:selected").text();
+        if (text != "Select") {
+            $('#validmsg6').remove();
+        }
+
+    });
+    $("#Level_of_Competition").change(function () {
+        var text = $("#Level_of_Competition option:selected").text();
+        if (text != "Select") {
+            $('#validmsg5').remove();
+        }
+
+    });
+    $("#Name_of_Competition").change(function () {
+        var text = $("#Name_of_Competition option:selected").text();
+        if (text != "Select") {
+            $('#validmsg4').remove();
+        }
+
+    });
+    $("#medal_name").change(function () {
+        var text = $("#medal_name option:selected").text();
+        if (text != "Select") {
+            $('#validmsg3').remove();
+        }
+
+    });
+
+
+    function removemsg(id) {
+        $('#' + id).remove();
+    }
+</script>
+<script>
+    function BindData() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getsportsscholargrid',
+            data: {
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                //debugger;
+                console.log(result);
+                $("#div_datatable").html('');
+
+                if (result.notes.length > 0) {
+
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='box-container'><div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th>Slno</th><th hidden>ID</th><th hidden>certificate</th><th>Regdno</th><th>Sports name</th><th>Competition</th><th>Competition name</th><th>Medal</th><th>Sport date</th><th>Entered date</th><th></th><th></th></tr></thead><tbody>";
+                    for (var i = 0; i < result.notes.length; i++) {
+
+                        tablestring = tablestring + '<tr> <td>' + result.notes[i].slno + '</td><td style="display: none;"> ' + result.notes[i].ID + '</td><td style="display: none;"> ' + result.notes[i].Sport_Certificate + '</td><td>' + result.notes[i].Redgno + '</td> <td>' + result.notes[i].Sport + '</td><td>' + result.notes[i].Level_of_Competition + '</td><td>' + result.notes[i].Name_of_Competition + '</td><td>' + result.notes[i].medal_name + '</td><td>' + result.notes[i].sport_date + '</td><td>' + result.notes[i].Trans_date + '</td><td class="text-center" > <i class="fas fa-file-pdf" aria-hidden="true" onclick="return myFunctionabt(this);" style="cursor:pointer;"></i></td><td><i class="fa fa-trash text-center" aria-hidden="true" onclick="return myFunctiondelete(\'' + result.notes[i].ID + '\',\'' + result.notes[i].Redgno + '\',\'' + result.notes[i].Sport_Certificate + '\');" style="cursor:pointer"></i></td></tr>';
+                    }
+
+                    tablestring = tablestring + "</tbody></table></div></div>";
+                    $("#div_datatable").append(tablestring);
+
+                }
+
+
+
+
+                if (result.notes.length == 0) {
+
+                    $("#extra").hide();
+                    $('#btnsbmit').hide();
+
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                $(".loaderm").hide();
+            }
+
+
+        });
+    };
+
+    function myFunctionabt(lnk) {
+        //debugger;
+
+        var message = "";
+        var row = lnk.parentNode.parentNode;
+        message = row.cells[2].innerHTML;
+        ViewPdf(message);
+    }
+
+
+
+    function ViewPdf(message) {
+
+        $.ajax({
+            type: "POST",
+            url: './Home/PdfGetscholarship',
+            data: { PDFID: message },
+            success: function (data) {
+                //debugger;
+                var PdfName = data;
+                if (PdfName != "") {
+                    var pdfWindow = window.open("");
+                    //if (pdfWindow) {
+                    //    pdfWindow.document.write(
+
+                    //        "<iframe width='100%' height='100%' src='data:application/pdf;base64, " + PdfName + "'></iframe>"
+                    //    );
+                    //    pdfWindow.document.title = "GITAM | Student portal";
+                    //} else {
+                    //    alert("Failed to open PDF window.");
+                    //}
+                    if (pdfWindow) {
+                        setTimeout(function () {
+                            pdfWindow.document.write(
+                                "<iframe width='100%' height='100%' src='data:application/pdf;base64, " + PdfName + "'></iframe>"
+                            );
+                            pdfWindow.document.title = "GITAM | Student portal";
+                        }, 500); // Delay in milliseconds (adjust as needed)
+                    } else {
+                        alert("Failed to open PDF window.");
+                    }
+                } else {
+                    alert("PDF file not available!");
+                }
+            },
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+    function myFunctiondelete(slno, regdno, cert) {
+        //debugger;
+
+        swal({
+            title: "Do you want to delete this?",
+            type: "warning",
+            confirmButtonText: "Confirm",
+            showCancelButton: true,
+            closeOnClickOutside: false,
+        })
+            .then((willDelete) => {
+                //debugger;
+                if (willDelete.value) {
+                    //debugger;
+                    Deletesportscholarship(slno, regdno, cert);
+                } else {
+                    swal('Cancelled', '', 'error');
+                }
+            });
+
+    }
+    function Base64ToBytes(base64) {
+        var s = window.atob(base64);
+        var bytes = new Uint8Array(s.length);
+        for (var i = 0; i < s.length; i++) {
+            bytes[i] = s.charCodeAt(i);
+        }
+        return bytes;
+    };
+    function Deletesportscholarship(slno, regdno, cert) {
+
+        $.ajax({
+            type: "POST",
+            url: './Home/Deletesportscholarship',
+            data: { 'slno': slno, 'regdno': regdno, 'cert': cert },
+            success: function (data) {
+                //debugger;
+                var error = data;
+                if (error == "Record deleted successfully") {
+                    swal('Record deleted successfully', '', 'success');
+                    setTimeout(loaddata, 1500);
+                    $('#extra').show();
+                    BindData();
+                }
+                else {
+
+                    swal('Record deleted unsuccessfully', '', 'error');
+                    setTimeout(loaddata, 1500);
+                }
+
+            },
+            error: function (request, status, error) {
+
+            }
+        });
+    }
+
+
+    function Button2_Click() {
+        //debugger;
+        var start = $("#remarks").val();
+
+        BindDataList(start);
+    }
+
+    function BindDataList(start) {
+        var start = $("#remarks").val();
+
+        $.ajax({
+            type: 'POST',
+            url: './Home/Updateremarks',
+            data: { 'remarks': start },
+            datatype: JSON,
+            success: function (Result) {
+
+                //debugger;
+                console.log(Result);
+                var error = Result.msg;
+                if (error == "Remarks Updated successfully") {
+                    swal('Remarks Updated successfully', '', 'success');
+                    setTimeout(loaddata, 1500);
+                    $('#extra').show();
+                    BindData();
+                }
+                else {
+
+                    swal('Remarks updated fail', '', 'error');
+                    setTimeout(loaddata, 1500);
+                }
+            },
+            error: function (result) {
+
+            }
+        });
+
+
+    }
+</script>

@@ -1,0 +1,332 @@
+﻿<style>
+    .home-section {
+        
+        overflow-y: visible;
+        height: auto;
+    }
+</style>
+
+
+<div class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Residence</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <!--<div class="d-flex justify-content-between flex-wrap align-items-center">
+        <div>
+            <h3 class="page-title">Residence </h3>
+        </div>-->
+        <!--<div class="tabsContainer">-->
+        <!-- Tabs line -->
+        <!--<div class="tabsFill">
+                <ul class="nav nav-tabs text-right">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab1">Room details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab2">Attendance</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>-->
+    <!--</div>-->
+    <div class="box-container">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active">
+                @*<div class="box-container">*@
+                <div class="row">
+
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label>Block</label>
+                            <input class="form-control" type="text" value="" id="Hostel_block" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-2 col-lg-3">
+                        <div class="form-group">
+                            <label>Floor</label>
+                            <input class="form-control" type="text" value="" id="Floor" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-2 col-lg-3">
+                        <div class="form-group">
+                            <label>Room number </label>
+                            <input class="form-control" type="text" value="" id="Room_no" readonly>
+                        </div>
+                    </div>
+
+                </div>
+                @*</div>*@
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane active">
+
+        <div class="d-flex flex-wrap justify-content-between headingbetween">
+            <h3 class="sub-title">Hostel biometric attendance </h3>
+            <div class="filter_btn">
+                @*<a class="nav-link " data-bs-toggle="tab" href="#tab3" name="daterange" id="dateRangePicker">Daterange picker</a>*@
+                <input type="text" name="daterange" id="dateRangePicker" value="Daterange picker"
+                       readonly>
+            </div>
+        </div>
+        <div class="box-container">
+
+
+            @*<div class="box-container">*@
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable">
+                </table>
+            </div>
+
+            @*</div>*@
+        </div>
+    </div>
+    <h3 class="sub-title">Previous room history</h3>
+
+    <div class="box-container">
+
+        <div class="table-responsive">
+            <table class="table table-bordered tbl-style" id="roomhistory">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+   
+<script>
+    $(document).ready(function () {
+        Getresidence();
+        Getresidenceattendance();
+    });
+    function Getresidence() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/Getresidence',
+            data: {
+
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.maindata.length > 0) {
+                    $("#Hostel_block").val(result.maindata[0].HOSTEL_BLOCK);
+                    $("#Floor").val(result.maindata[0].FLOOR);
+                    $("#Room_no").val(result.maindata[0].ROOM_NO);
+                }
+                $("#roomhistory").html('');
+                var tablestring = "";
+                if (result.history.length > 0) {
+
+
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr> <th>Date</th><th>Block</th><th>Floor</th><th>Room number</th></tr></thead><tbody>";
+                    for (var i = 0; i < result.history.length; i++) {
+
+                        tablestring = tablestring + '<tr> <td>' + result.history[i].date + '</td><td>' + result.history[i].HOSTEL_BLOCK + '</td><td>' + result.history[i].FLOOR + '</td><td>' + result.history[i].ROOM_NO + '</td></tr>';
+                    }
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#roomhistory").append(tablestring);
+                   // $('#example55').DataTable();
+                    $('#example55').DataTable({
+                        searching: false, paging: false, info: false,
+                        order: [[0, 'desc']] // Sort by the first column (date) in descending order
+                    });
+                }
+                else {
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr> <th>Date</th><th>Block</th><th>Floor</th><th>Room number</th></tr></thead><tbody>";
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#roomhistory").append(tablestring);
+                    $('#example55').DataTable({ searching: false, paging: false, info: false});
+                }
+
+                
+
+                if (result.maindata.length == 0 && result.history.length == 0) {
+
+                    swal('No data available', '', 'error');
+
+
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                $(".loaderm").hide();
+            }
+
+
+        });
+
+    };
+    function Getresidenceattendance() {
+
+        var mon = 'Present';
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/Getresidenceattendance',
+            data: {
+                date: mon,
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                //debugger;
+                console.log(result);
+                $("#dataTable").html('');
+
+                if (result.length > 0) {
+
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example56' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date and Time</th><th>Location</th></tr></thead><tbody>";
+                    for (var i = 0; i < result.length; i++) {
+                      
+                        var sino = i + 1;
+                       // var formattedDate = moment(result[i].EventDateTime, 'MM/DD/YYYY HH:mm:ss').format('DD-MM-YYYY HH:mm:ss');
+                        tablestring = tablestring + '<tr> <td>' + sino + '</td> <td>' + result[i].EventDateTime+ '</td><td>' + result[i].Location + '</td></tr>';
+                    }
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#dataTable").append(tablestring);
+                    $('#example56').DataTable().destroy();
+                    $('#example56').DataTable({
+                        order: [[1, 'desc']],
+                         columnDefs: [
+                            { type: 'date', targets:1}]// Sort by the first column (date) in descending order
+                    });
+                }
+                else {
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example56' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date and Time</th><th>Location</th></tr></thead><tbody>";
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#dataTable").append(tablestring);
+                    $('#example56').DataTable();
+                }
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                $(".loaderm").hide();
+            }
+
+
+        });
+    };
+    // today = nowDate.getDate() + '/' + nowDate.getMonth() + '/' + nowDate.getFullYear();
+    var endDate = moment();
+    var startDate = moment().subtract(6, 'days');
+    $('#dateRangePicker').val(startDate.format('DD-MMM-YYYY') + ' to ' + endDate.format('DD-MMM-YYYY'));
+    $('#dateRangePicker').daterangepicker({
+
+        startDate: startDate,
+        endDate: endDate,
+        autoUpdateInput: false,
+        showDropdowns: true,
+
+        locale: {
+            cancelLabel: 'Clear'
+        },
+        ranges: {
+
+            /*   'Semester': [moment(), moment()],*/
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+
+        linkedCalendars: false,
+        maxDate: moment().endOf("day")
+
+    }, function (start, end, label) {
+
+        $('#dateRangePicker').val('Calendar');
+        if (label == 'Today' || label == 'Yesterday') {
+            $('#dateRangePicker').val(start.format('DD-MMM-YYYY'));
+        }
+
+        else {
+            $('#dateRangePicker').val(start.format('DD-MMM-YYYY') + ' to ' + end.format('DD-MMM-YYYY'));
+
+        }
+        var val = label;
+        var mon = $("#dateRangePicker").val();
+
+        var dateText = $('#dateRangePicker').val();
+        $.ajax({
+            type: 'GET',
+            url: './Home/Getresidenceattendance',
+            data: {
+                date: mon,
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                console.log(result);
+                $("#dataTable").html('');
+
+                if (result.length > 0) {
+
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example57' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date and Time</th><th>Location</th></tr></thead><tbody>";
+                    for (var i = 0; i < result.length; i++) {
+                        var sino = i + 1;
+                       // var formattedDate = moment(result[i].EventDateTime, 'MM/DD/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                      
+                        tablestring = tablestring + '<tr> <td>' + sino + '</td> <td>' + result[i].EventDateTime + '</td><td>' + result[i].Location + '</td></tr>';
+                    }
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#dataTable").append(tablestring);
+                    $('#example57').DataTable();
+                }
+                else {
+
+                    var tablestring = "";
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example57' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                    tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th><th>Date and Time</th><th>Location</th></tr></thead><tbody>";
+
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#dataTable").append(tablestring);
+                   // $('#example57').DataTable();
+                    $('#example57').DataTable({
+                        order: [[1, 'desc']],
+                        columnDefs: [
+                            { type: 'date', targets: 1 }]// Sort by the first column (date) in descending order
+                    });
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                $(".loaderm").hide();
+            }
+
+
+        });
+
+
+    });
+</script>

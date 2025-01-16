@@ -1,0 +1,146 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Attendancesummary
+
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Course structure</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+
+    @if (Model.notes.Count() > 0)
+    {
+        //foreach (var atten in Model.notes.Select(X => X.datetime).Distinct())
+        //{
+
+        <div class="box-inner">
+            <div class="">
+                <div class="filter" style="">
+                    <div class="table-responsive">
+
+
+                        @foreach (var attendance in Model.notes.OrderBy(y => Convert.ToInt32(y.SEMESTER)).Select(x => x.SEMESTER).Distinct())
+                        {
+
+                            if (Convert.ToInt32(attendance) == 95)
+                            {
+                                <h6 class="sem_name btn btn-primary">Semester -RCE</h6>
+                            }
+
+                           else if (Convert.ToInt32(attendance) > 10)
+                            {
+                                <h6 class="sem_name btn btn-primary">Summer Term</h6>
+
+                            }
+                            else
+                            {
+                                <h6 class="sem_name btn btn-primary">Semester - @attendance</h6>
+
+                            }<table class="table table-bordered tbl-style" id="myTablevend">
+                                <thead>
+                                    <tr>
+                                        <th>Course code</th>
+                                        <th>Course name</th>
+                                        <th>Course type</th>
+                                        <th>Category</th>
+                                        <th>Audit</th>
+                                        <th>Credits</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var course in Model.notes.Where(X => X.SEMESTER == attendance))
+                                    {
+
+                                    <tr class="">
+                                        <td style="width:10%">@course.course_code</td>
+                                        <td style="width:20%">@course.subject</td>
+                                        <td style="width:10%">@course.Subject_type</td>
+                                        <td style="width:10%">@course.type</td>
+                                        @*<td style="width:10%">@course.section</td>*@
+
+                                        @if (course.passfail.ToUpper() == "N")
+                                        {
+                                            <td style="width:10%">Credits will be counted</td>
+                                        }
+                                        else if (course.passfail.ToUpper() == "Y")
+                                        {
+                                            <td style="width:10%">Credits will not be counted</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:10%">@course.passfail</td>
+                                        }
+                                        @if (course.credits == "0")
+                                        {
+                                            <td style="width:10%">-</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:10%">@course.credits</td>
+                                        }
+                                    </tr>
+                                    }
+
+                                </tbody>
+                            </table>}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        //}
+    }
+    else
+    { <div class="box-inner">
+            <div class="">
+                <h6 class="text-center">No data available</h6>
+            </div>
+        </div>
+
+    }
+</section>
+<script>
+    //$(document).ready(function () {
+    //    $('#myTablevend').DataTable({});
+    //});
+    function Semesterchange() {
+
+        var val = $('#semester').find(":selected").val();
+        if (val == "" || val == null) {
+
+            $('#available').hide();
+            swal('No data available', '', 'error');
+        }
+        else {
+            $.ajax({
+                type: "Get",
+                url: './Home/GetSemesterdata',
+                data: { 'semester': val, },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    var Ids = 1;
+                    $('#available').html('');
+                    trHTML = '<hr /><div class="table_style"><table class="table table-bordered"  id="tbl" style="width:100%"><thead ><tr></th><th>Course code</th><th>Course name</th><th>Course type / category</th><th>Credits</th></tr></thead><tbody>';
+                    $.each(data, function (key, value) {
+                        trHTML +=
+                            "<tr><td>" + value.subjectcode + "</td><td>" + value.subjectname + "</td><td>" + value.Subject_type + "</td><td>" + value.credits + "</td></tr>";
+                        Ids++;
+                    });
+                    trHTML += "</tbody></table></div>";
+                    $('#available').append(trHTML);
+                    $('#available').show();
+                    //$('#tbl').DataTable({
+                    //    order: [[0, 'asc']],
+                    //});
+                }
+            });
+        }
+    }
+</script>
+

@@ -1,0 +1,768 @@
+﻿@model Gstudent.ViewModels.Studentrecords.AdmissionsSummary
+<style>
+    .table-bordered {
+        position: relative;
+    }
+
+        .table-bordered thead th {
+            position: sticky;
+            top: 0;
+        }
+
+        .table-bordered tbody {
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+</style>
+
+
+
+<section class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Admission</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    @if (Model.displinary_details.Count() > 0)
+    {
+
+        <div class="box-container" id="totaladm">
+            <div class="row">
+
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Admission number</label>
+                        @Html.TextBox("Admissionno", Model.displinary_details.FirstOrDefault().APPLICATION_NO, new { @class = "form-control", @maxlength = "100", @readonly = "true" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Allotment date</label>
+                        @Html.TextBox("Admdate", Model.displinary_details.FirstOrDefault().allotmentdate, new { @class = "form-control", @readonly = "true" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Admission type</label>
+                        @Html.TextBox("Admtype", Model.displinary_details.FirstOrDefault().type, new { @class = "form-control", @readonly = "true" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>GAT rank/marks</label>
+                        @Html.TextBox("GATmarks", Model.displinary_details.FirstOrDefault().GAT_RANK, new { @class = "form-control", @readonly = "true" })
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Campus</label>
+                        @Html.TextBox("Campus", Model.displinary_details.FirstOrDefault().CAMPUS, new { @class = "form-control", @readonly = "true" })
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Degree</label>
+                        @Html.TextBox("Degree", Model.displinary_details.FirstOrDefault().degree_code, new { @class = "form-control", @readonly = "true" })
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group ">
+                        <label>Branch</label>
+                        @Html.TextBox("Branch", Model.displinary_details.FirstOrDefault().branch, new { @class = "form-control", @readonly = "true" })
+
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div id="dynamic6" class="">
+                <h6 class="">Courses applied and payments</h6>
+                <div class="table-container">
+                    <div id="dynamictable6" class="table-responsive dropdown_filter   box-inner">
+
+                        <table class="table table-bordered" style="width:100%" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>Reg. ID</th>
+                                    <th>Email ID</th>
+                                    <th>Course name</th>
+                                    <th>Mobile</th>
+                                    <th>Payment status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Coursesappliedandpayment.Count() > 0)
+                                {
+                                    foreach (var val in Model.Coursesappliedandpayment)
+                                    {
+                                        <tr>
+                                            <td>@val.REGDNO</td>
+                                            <td>@val.EMAILID</td>
+                                            <td>@val.NAME</td>
+                                            <td>@val.MOBILE</td>
+                                            @if (val.Status == "1" || val.Status == "2")
+                                            {
+                                                <td>Successful</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Unsuccessful</td>
+                                            }
+
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="12" class="text-center">No data available</td></tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="dynamic" class="">
+                    <h6 class="">Branch preferences </h6>
+
+                    <div id="dynamictable" class="table-responsive dropdown_filter   box-inner">
+
+                        <table class="table table-bordered" style="width:100%" id="table2">
+                            <thead>
+                                <tr>
+                                    <th>Campus</th>
+                                    <th>Course</th>
+                                    <th>Allocated date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.branch_data.Count() > 0)
+                                {
+                                    foreach (var val in Model.branch_data)
+                                    {
+                                        <tr>
+                                            <td>@val.CAMPUS</td>
+                                            <td>@val.COURSE_DISPLAY</td>
+                                            <td>@val.allotmentdate</td>
+                                        </tr>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <tr><td colspan="12" class="text-center">No data available</td></tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div id="dynamic2" class="">
+                    <h6 class="">Allocated branch in counselling</h6>
+
+                    <div id="dynamictable2" class="table-responsive dropdown_filter  box-inner">
+
+                        <table class="table table-bordered" style="width:100%" id="table3">
+                            <thead>
+                                <tr>
+                                    <th>Campus</th>
+                                    <th>Course</th>
+                                    <th>Allocated date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.counseling_data.Count() > 0)
+                                {
+                                    foreach (var val in Model.counseling_data)
+                                    {
+                                        <tr>
+                                            <td>@val.CAMPUS</td>
+                                            <td>@val.COURSE_DISPLAY</td>
+                                            <td>@val.allotmentdate</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="12" class="text-center">No data available</td></tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="col-md-6">
+                <div id="dynamic3" class="">
+                    <h6 class="">Payment details</h6>
+
+                    <div id="dynamictable3" class="table-responsive dropdown_filter  box-inner">
+
+
+                        <table class="table table-bordered" style="width:100%" id="table4">
+                            <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Transaction Id</th>
+                                    <th>Payment status</th>
+                                    <th>Payment date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.payment_details.Count() > 0)
+                                {
+                                    foreach (var val in Model.payment_details)
+                                    {
+                                        <tr>
+                                            <td>@val.amount</td>
+                                            <td>@val.txn_id</td>
+                                            @if (@val.Status == "Y")
+                                            {
+                                                <td>Successful</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                            <td>@val.paymenT_DATE</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="12" class="text-center">No data available</td></tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>*@
+
+
+            <div class="col-md-6">
+                <div id="dynamic4" class="">
+                    <h6 class=""> Scholarship eligibility / Allotment </h6>
+
+                    <div id="dynamictable4" class="table-responsive dropdown_filter   box-inner">
+
+                        <table class="table table-bordered" style="width:100%" id="table5">
+                            <thead>
+                                <tr>
+                                    <th>Exam type</th>
+                                    <th>Scholar percentage</th>
+                                    <th>Scholarship</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.scholoreligbility.Count() > 0)
+                                {
+                                    foreach (var val in Model.scholoreligbility)
+                                    {
+                                        <tr>
+                                            <td>@val.type</td>
+                                            <td>@val.Percentage</td>
+                                            <td>@val.PostedFlag</td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="12" class="text-center">No data available</td></tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="dynamic5" class="">
+                    <h6 class="">  Scholarship allocated </h6>
+                    <div id="dynamictable5" class="table-responsive dropdown_filter   box-inner">
+
+                        <table class="table table-bordered" style="width:100%" id="table6">
+                            <thead>
+                                <tr>
+                                    <th>Exam type</th>
+                                    <th>Total partition percent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @if (Model.scholorallocated.Count() > 0)
+                                {
+                                    foreach (var val in Model.scholorallocated)
+                                    {
+                                        <tr>
+                                            <td>@val.type</td>
+                                            <td>@val.Percentage</td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="12" class="text-center">No data available</td></tr>
+                                }
+
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        
+    }
+    else
+    {
+        <div class="box-container" id="">
+            <div class="row">
+                <span colspan="12" class="text-center">No data available</span>
+            </div>
+        </div>
+    }
+
+</section>
+
+<script>
+    $(document).ready(function () {
+
+        //getData();
+        //getbranch();
+        //getcounselingbranch();
+        //getpaymentdetails();
+        //getschloareligibilty();
+        //getschloarallocated();
+        //Coursesappliedandpayment();
+
+
+       // $('#table1 #table2 #table3 #table4 #table5').DataTable();
+
+    });
+
+
+    function getData() {
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/Student_Admissiondata',
+            contentType: "application/json; charset=utf-8",
+            data: {
+            },
+
+            success: function (data) {
+
+                console.log(data);
+                if (data.length == 0) {
+                    $("#totaladm").show();
+
+                } else {
+
+                    $("#totaladm").show();
+
+                    $('#Admissionno').val(data[0].APPLICATION_NO)
+                    $('#Admdate').val(data[0].allotmentdate)
+                    $('#Admtype').val(data[0].type)
+                    $('#GATmarks').val(data[0].GAT_RANK)
+                    $('#GATrank').val(data[0].GAT_RANK)
+                    $('#Campus').val(data[0].CAMPUS)
+                    $('#Degree').val(data[0].degree_code)
+                    $('#Branch').val(data[0].branch)
+
+                }
+            }
+
+
+        });
+    }
+    function getbranch() {
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/Student_branchdata',
+            contentType: "application/json; charset=utf-8",
+            data: {
+
+
+
+            },
+            success: function (data) {
+
+
+                if (data.length == 0) {
+
+                    $('#dynamictable').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Campus</th><th>Course</th><th>Allocated date</th></tr></thead><tbody>';
+                    trHTML += '<tr><td colspan="12" class="text-center">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    //$('#dynamictable').append(trHTML);
+                    $("#dynamic").show();
+
+
+                } else {
+
+                    $('#dynamictable').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Campus</th><th>Course</th><th>Allocated date</th></tr></thead><tbody>';
+                    $.each(data, function (key, value) {
+
+                        trHTML +=
+                            "<tr><td>" + value.CAMPUS +
+                            /*"<tr><td>" + value.regdno +*/
+
+                            "</td><td>" + value.COURSE_DISPLAY +
+                            "</td><td>" + value.allotmentdate +
+
+                            "</td></tr> "
+                    });
+                }
+
+                trHTML += "</tbody></table>";
+                $('#dynamictable').append(trHTML);
+
+
+                $("#dynamic").show();
+            }
+
+
+        });
+    }
+
+    function getcounselingbranch() {
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/Student_counselingbranch',
+            contentType: "application/json; charset=utf-8",
+            data: {
+
+            },
+            success: function (data) {
+
+
+                if (data.length == 0) {
+
+                    $('#dynamictable2').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Campus</th><th>Course</th><th>Allocated date</th></tr></thead><tbody>';
+                    trHTML += '<tr><td colspan="12" class="text-center">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    //$('#dynamictable').append(trHTML);
+                    $("#dynamic2").show();
+
+
+                } else {
+
+                    $('#dynamictable2').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Campus</th><th>Course</th><th>Allocated date</th></tr></thead><tbody>';
+                    $.each(data, function (key, value) {
+
+                        trHTML +=
+                            /*  "<tr><td>" + value.regdno +*/
+                            "<tr><td>" + value.CAMPUS +
+
+                            "</td><td>" + value.COURSE_DISPLAY +
+                            "</td><td>" + value.allotmentdate +
+
+                            "</td></tr> "
+                    });
+                }
+
+                trHTML += "</tbody></table>";
+                $('#dynamictable2').append(trHTML);
+
+
+
+                $("#dynamic2").show();
+            }
+
+
+        });
+    }
+    function getpaymentdetails() {
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/Student_AdmPaymentdetails',
+
+            contentType: "application/json; charset=utf-8",
+            data: {
+
+            },
+            success: function (data) {
+
+
+                if (data.length == 0) {
+
+                    $('#dynamictable3').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Amount</th><th>Transaction Id</th><th>Payment status</th><th>Payment date</th></tr></thead><tbody>';
+                    trHTML += '<tr><td colspan="12" class="text-center">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    //$('#dynamictable').append(trHTML);
+                    $("#dynamic3").show();
+                    $('#tbl3').dataTable({
+
+
+                    });
+
+                } else {
+
+                    $('#dynamictable3').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Amount</th><th>Transaction Id</th><th>Payment status</th><th>Payment date</th></tr></thead><tbody>';
+                    $.each(data, function (key, value) {
+                        var payment = value.Status;
+                        //console.log(payment);
+                        if (payment == "Y") {
+                            payment = "Successful"
+                        }
+                        trHTML +=
+                            /* "<tr><td>" + value.regdno +*/
+                            "<tr><td>" + value.amount +
+
+                            "</td><td>" + value.txn_id +
+                            "</td><td>" + payment +
+                            "</td><td>" + value.paymenT_DATE +
+
+
+                            "</td></tr> "
+                    });
+
+                    $("#dynamic3").show();
+                }
+
+                trHTML += "</tbody></table>";
+                $('#dynamictable3').append(trHTML);
+                $('#tbl3').dataTable({
+
+
+                });
+
+
+                $("#dynamic3").show();
+            }
+
+
+        });
+    }
+    function getschloareligibilty() {
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/Student_Scholareligibility',
+            contentType: "application/json; charset=utf-8",
+            data: {
+
+            },
+            success: function (data) {
+
+
+                if (data.length == 0) {
+
+                    $('#dynamictable4').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Exam type</th><th>Scholar percentage</th><th>Scholarship</th></tr></thead><tbody>';
+                    trHTML += '<tr><td colspan="12" class="text-center">No data available</td></tr>';
+                    trHTML += '</tbody></table>';
+                    $("#dynamic4").show();
+
+                } else {
+
+                    $('#dynamictable4').html('');
+                    trHTML = '<table class="table table-bordered" style="width:100%"><thead><tr><th>Exam type</th><th>Scholar percentage</th><th>Scholarship</th></tr></thead><tbody>';
+                    $.each(data, function (key, value) {
+
+                        trHTML +=
+                            /*   "<tr><td>" + value.applicantno +*/
+                            "<tr><td>" + value.type +
+
+                            "</td><td>" + value.Percentage +
+                            "</td><td>" + value.PostedFlag +
+
+
+
+                            "</td></tr> "
+                    });
+                }
+
+                trHTML += "</tbody></table>";
+                $('#dynamictable4').append(trHTML);
+
+
+                $("#dynamic4").show();
+            }
+
+
+        });
+    }
+    function getschloarallocated() {
+
+        $.ajax({
+            type: "Get",
+            url: './Home/Student_Scholarallocated',
+            contentType: "application/json; charset=utf-8",
+            data: {
+
+            },
+            success: function (data) {
+
+                //debugger;
+                if (data.length == 0) {
+
+                    $('#dynamictable5').html('');
+                    trHTML = '<table class="table table-bordered" style="width:100%"><thead><tr><th>Exam type</th><th>Total partion percent</th></tr></thead><tbody>';
+                    trHTML += '<tr><td colspan="12" class="text-center">No data available</td></tr>';
+
+                    trHTML += '</tbody></table>';
+
+                    $("#dynamic5").show();
+
+                } else {
+
+                    $('#dynamictable5').html('');
+                    trHTML = '<table class="table table-bordered" style="width:100%"><thead><tr><th>Exam type</th><th>Total partion percent</th></tr></thead><tbody>';
+                    /*<th>scholartype1</th><th>scholarPer1</th><th>scholarDeductAmount1</th><th>scholartype2</th><th>scholarPer2</th><th>scholarDeductAmount2</th><th>scholartype3</th><th>scholarPer3</th><th>scholarDeductAmount3</th><th>scholartype4</th><th>scholarPer4</th><th>scholarDeductAmount4</th><th>scholartype5</th><th>scholarPer5</th><th>scholarDeductAmount5</th><th>scholartype6</th><th>scholarPer6</th><th>scholarDeductAmount6</th>*/
+                    $.each(data, function (key, value) {
+
+                        trHTML +=
+                            /*  "<tr><td>" + value.applicantno +*/
+                            "<tr><td>" + value.type +
+
+                            "</td><td>" + value.Percentage +
+                            "</td></tr> "
+                    });
+                }
+
+                trHTML += "</tbody></table>";
+                $('#dynamictable5').append(trHTML);
+
+
+                $("#dynamic5").show();
+            }
+
+
+        });
+    }
+    function Coursesappliedandpayment() {
+
+
+        $.ajax({
+            type: "Get",
+            url: './Home/Coursesappliedandpayment',
+            contentType: "application/json; charset=utf-8",
+            data: {
+            },
+            success: function (data) {
+
+
+                if (data.length == 0) {
+
+                    $('#dynamictable6').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Reg ID</th><th>Email ID</th><th>Course name</th><th>Mobile</th><th>Payment status</th></tr></thead><tbody>';
+                    trHTML += '<tr><td colspan="12" class="text-center">No data available</td></tr>';
+                    trHTML += '</tbody></table>';
+
+                    //$('#dynamictable').append(trHTML);
+                    $("#dynamic6").show();
+
+                } else {
+
+                    $('#dynamictable6').html('');
+                    trHTML = '<table class="table table-bordered"  style="width:100%"><thead><tr><th>Reg ID</th><th>Email ID</th><th>Course name</th><th>Mobile</th><th>Payment status</th></tr></thead><tbody>';
+                    $.each(data, function (key, value) {
+
+
+                        var payment = value.Status;
+                        if (payment == "1" || payment == "2") {
+                            payment = "Successful"
+                        }
+
+                        trHTML +=
+                            "<tr><td>" + value.REGDNO +
+                            "</td><td>" + value.EMAILID +
+                            "</td><td>" + value.NAME +
+                            "</td><td>" + value.MOBILE +
+                            "</td><td>" + payment +
+
+
+
+                            "</td></tr> "
+                    });
+                }
+
+                trHTML += "</tbody></table>";
+                $('#dynamictable6').append(trHTML);
+                $("#dynamic6").show();
+            }
+
+
+        });
+    }
+
+</script>
+

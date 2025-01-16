@@ -1,0 +1,379 @@
+﻿@model IEnumerable<Gstudent.Models.EventAttendance>
+
+<style>
+    .circle {
+        border-radius: 50%;
+        border: 5px solid #5f6b9b;
+        margin: 20px auto;
+        width: 150px;
+        height: 150px;
+        position: relative;
+    }
+    .highcharts-title {
+        font-size: 45px !important;
+        /*color: rgb(0 161 27) !important;*/
+        color: rgb(33, 150, 243) !important;
+        font-weight: bold !important;
+        /* fill: rgb(0 161 27) !important;*/
+        fill: rgb(33, 150, 243) !important;
+    }
+
+  
+</style>
+
+<section class="content-container contentContainer">
+
+    @if (Model.Count() > 0)
+    {
+
+        <div class="filter" style="">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered tbl-style" id="myTablevend">
+                    <thead>
+                        <tr>
+                            <th>Event title</th>
+                            <th>Start time</th>
+                            <th>End time</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Glearn status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var attendance in Model.OrderByDescending(X=>X.date))
+                        {
+
+                            <tr class="">
+                                <td>@attendance.event_title</td>
+                                <td>@attendance.start_time</td>
+                                <td>@attendance.end_time</td>
+                                <td>@attendance.date.ToString("dd-MM-yyyy")</td>
+                                @if (attendance.status == "1")
+                                {
+                                    <td>P</td>
+                                }
+                                else
+                                {
+                                    <td>A</td>
+                                 }
+                                @if (attendance.glearn_attendance_flag.Trim().ToUpper() == "NA")
+                                {
+                                    <td>Not approved / No class</td>
+                                }
+                                else
+                                {
+                                    <td>Approved</td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+    }
+    else
+    {
+        <div class="box-inner" style="">
+            <h6 class="text-center">No data available</h6>
+            </div>
+            }
+
+    </section>
+<script src="~/Scripts/highcharts.js"></script>
+<script src="~/Scripts/exporting.js"></script>
+<script>
+    /*$('#datatable').DataTable();*/
+
+    $(document).ready(function () {
+        Today();
+        handleInitialClick();
+        //$('#myTable').DataTable({
+
+        //});
+
+        var date = new Date();
+        date.setDate(date.getDate() - 0);
+        $("#datetime-new-picker").datepicker({
+            maxDate: 0,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1980:n',
+            dateFormat: 'dd-M-yy',
+            controlType: 'select'
+        });
+        //    $('.vital_signs_graph_view').hide();
+
+
+        var val = 'subject';
+        var mon = $("#datetime-new-picker").val();
+
+
+        $.ajax({
+            type: 'GET',
+            url: "./Home/GetAttendancedatachart",
+            datatype: JSON,
+            data: {
+                'category': val,
+                'date': mon,
+            },
+            success: (function (response) {
+                // $('#executive').hide();
+                // $(".vital_signs_graph_view").hide();
+                $('#available2').html("");
+                $('#available2').html(response);
+                $('#available2').show();
+                if (response.trim() === '<div>No data available</div>') {
+                }
+                else {
+                    $('#myTablevend').DataTable({
+                    });
+                }
+
+            })
+        });
+    });
+
+
+
+
+    $(function () {
+        $('.highcharts-credits').hide();
+
+        var percentage = parseFloat($("#userId").val());
+        var roundedPercentage = percentage.toFixed(2);
+        var roundedPercentageNumber = parseFloat(roundedPercentage);
+        var absent = 100 - percentage;
+        var roundedAbsent = absent.toFixed(2);
+        var roundedAbsentNumber = parseFloat(roundedAbsent);
+        //var absent = 100 - percentage;
+        $('#piechart').highcharts({
+           // colors: ['rgb(0 161 27)', 'rgb(255, 69, 96)'],
+            colors: ['rgb(33, 150, 243)', 'rgb(255, 69, 96)'],
+            title: {
+                text: percentage + '%',
+                verticalAlign: 'middle',
+                fontSize: '45',
+               @* legend: {
+                    name: {
+                        fontSize: '40px',
+                    }
+                },*@
+               
+                
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: false
+                    },
+                    borderWidth: 0,
+                    style: { fontSize: '40px' }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Attendance',
+                innerSize: '95%',
+                data: [{
+                    name: 'Present',
+                    y: roundedPercentageNumber
+                }, {
+                    name: 'Absent',
+                    y: roundedAbsentNumber
+                }]
+            }],
+            accessibility: {
+                enabled: true // Enable accessibility features
+            },
+            credits: {
+                enabled: false
+            },
+            
+        });
+
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#tabs-1").tabs();
+    });
+</script>
+<script>
+    function performAjaxRequest(label, mon) {
+
+
+        var currentDate = new Date();
+        $.ajax({
+            type: 'GET',
+            url: "./Home/GetAttendancedata",
+            datatype: JSON,
+            data: {
+                'category': label,
+                'date': mon,
+            },
+            success: (function (response) {
+
+                $('#available1').html("");
+                $('#available1').html(response);
+                $('#available1').show();
+                if (response.trim() === '<div>No data available</div>') {
+                }
+                else {
+                    $('#myTablevend1').DataTable();
+
+                }
+            })
+        });
+
+
+
+    };
+    var nowDate = new Date();
+
+    today = nowDate.getDate() + '/' + nowDate.getMonth() + '/' + nowDate.getFullYear();
+
+    $('#dateRangePicker').daterangepicker({
+
+        //endDate:today,
+        autoUpdateInput: false,
+        showDropdowns: true,
+
+        locale: {
+
+            cancelLabel: 'Clear'
+        },
+        ranges: {
+
+            /*   'Semester': [moment(), moment()],*/
+            @*'Today': [moment(), moment()],*@
+
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+
+        linkedCalendars: false,
+        maxDate: moment().endOf("day")
+
+    }, function (start, end, label) {
+
+        $('#dateRangePicker').val('Calendar');
+
+
+        if (label == 'Today' || label == 'Yesterday') {
+            $('#dateRangePicker').val(start.format('DD-MMM-YYYY'));
+        }
+        else if (label == 'Semester') {
+            loadConfigView('2');
+        }
+        else {
+            $('#dateRangePicker').val(start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+
+        }
+        var val = label;
+        var mon = $("#dateRangePicker").val();
+
+        var dateText = $('#dateRangePicker').val();
+        performAjaxRequest(val, mon);
+
+
+
+    });
+
+
+    function handleInitialClick() {
+
+        var cal = $('#dateRangePicker').val();
+
+        if (cal == "") {
+            var currentDate = new Date();
+            var Today = "Today";
+            performAjaxRequest(Today, currentDate);
+        }
+
+    }
+</script>
+<script>
+    function Yesterday() {
+
+        var currentDate = new Date();
+        $.ajax({
+            type: 'GET',
+            url: "./Home/GetAttendancedata",
+            datatype: JSON,
+            data: {
+                'category': "Yesterday",
+                'date': currentDate,
+            },
+            success: (function (response) {
+                $('#available3').html("");
+                $('#available3').html(response);
+                $('#available3').show();
+                if (response.trim() === '<div>No data available</div>') {
+                }
+                else {
+                    $('#myTablevend2').DataTable({
+                    });
+                }
+            })
+        });
+    };
+
+    function Today() {
+
+        var currentDate = new Date();
+        $.ajax({
+            type: 'GET',
+            url: "./Home/GetAttendancedata",
+            datatype: JSON,
+            data: {
+                'category': "Today",
+                'date': currentDate,
+            },
+            success: (function (response) {
+                $('#available5').html("");
+                $('#available5').html(response);
+                $('#available5').show();
+                if (response.trim() === '<div>No data available</div>') {
+                }
+                else {
+                    $('#myTablevend5').DataTable({
+                    });
+                }
+            })
+        });
+    };
+    function summerterm() {
+
+        var currentDate = new Date();
+        $.ajax({
+            type: 'GET',
+            url: "./Home/GetAttendancedata",
+            datatype: JSON,
+            data: {
+                'category': "summerterm",
+                'date': currentDate,
+            },
+            success: (function (response) {
+                $('#available6').html("");
+                $('#available6').html(response);
+                $('#available6').show();
+                if (response.trim() === '<div>No data available</div>') {
+                }
+                else {
+                    $('#myTablevend6').DataTable({
+                    });
+                }
+            })
+        });
+    };
+</script>
+

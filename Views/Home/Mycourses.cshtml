@@ -1,0 +1,168 @@
+﻿<style>
+.bxs-file-pdf {
+    color: #007367;
+    font-size: 26px;
+}</style>
+@model Gstudent.ViewModels.Studentrecords.Courseregistartion
+
+    <h4 class="sub-title">Upcoming semester opted courses</h4>
+    
+    <div class="box-inner">
+        @if (Model.semcredits.Count() > 0)
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Course code</th>
+                        <th>Course name</th>
+                        <th>Type</th>
+                        <th>Credits</th>
+                        <th>Course category</th>
+                        <th>Semester</th>
+                        <th>Course plan</th>
+                    </tr>
+
+                    @foreach (var credits in Model.semcredits)
+                    {
+
+                    <tr>
+
+                        <td id="code"> @credits.SUBJECT_CODE</td>
+                        <td>@credits.SUBJECT_NAME</td>
+                        @if (credits.SUBJECT_TYPE != null)
+                        {
+                            if (credits.SUBJECT_TYPE == "P")
+                            {
+                                <td>Practical</td>
+                            }
+                            else if (credits.SUBJECT_TYPE == "T")
+                            {
+                                <td>Theory</td>
+                            }
+                            else if (credits.SUBJECT_TYPE == "TP")
+                            {
+                                <td>Theory / Practical</td>
+                            }
+                            else
+                            {
+                                <td>@credits.SUBJECT_TYPE</td>
+                            }
+                        }
+                        else
+                        {
+                            <td>N/A</td>
+                        }
+
+                        @if (credits.CREDITS != null)
+                        {
+                            <td>@credits.CREDITS</td>
+                        }
+                        else
+                        {
+                            <td>N/A</td>
+                        }
+                        @if (credits.CBCS_CATEGORY != null)
+                        {
+                            if (credits.CBCS_CATEGORY == "UC")
+                            {
+                                <td>University core</td>
+                            }
+                            else if (credits.CBCS_CATEGORY == "PC")
+                            {
+                                <td>Program core</td>
+                            }
+                            else if (credits.CBCS_CATEGORY == "FC")
+                            {
+                                <td>Faculty core</td>
+                            }
+                            else if (credits.CBCS_CATEGORY == "OE")
+                            {
+                                <td>Open elective</td>
+                            }
+                            else if (credits.CBCS_CATEGORY == "PE")
+                            {
+                                <td>Program elective</td>
+                            }
+                            else if (credits.CBCS_CATEGORY == "MIC")
+                            {
+                                <td>Minor core</td>
+                            }
+                            else
+                            {
+                                <td>@credits.CBCS_CATEGORY</td>
+                            }
+
+                        }
+                        else
+                        {
+                            <td>N/A</td>
+                        }
+                        <td>@credits.CURRSEM</td>
+                      @if (credits.file_flag == "1")
+                      {
+                          <td class="text-center"><i class="bx bxs-file-pdf" aria-hidden="true" onclick="return myFunctionabt(this,'@credits.SUBJECT_CODE');" style="cursor:pointer;"></i></td>
+                      }
+                    else
+                    {
+                    <td class="text-center">N/A</td>
+                    }
+                    </tr>
+                    }
+
+
+                </table>
+            </div>
+        }
+
+        else
+        {
+            <tr><td colspan="7" class="text-center">Not yet opted for upcoming semester</td></tr>
+        }
+    </div>
+
+<script>
+        function myFunctionabt(lnk,id) {   
+            ViewPdf(id);
+    }
+
+    function Base64ToBytes(base64) {
+        var s = window.atob(base64);
+        var bytes = new Uint8Array(s.length);
+        for (var i = 0; i < s.length; i++) {
+            bytes[i] = s.charCodeAt(i);
+        }
+        return bytes;
+    };
+
+    function ViewPdf(id) {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: './Home/PdfGetcourse',
+            data: { PDFID: id },
+            success: function (data) {
+               var PdfName = data;
+                if (PdfName != "") {
+                    var pdfWindow = window.open("");
+                   
+                    if (pdfWindow) {
+                        setTimeout(function () {
+                            pdfWindow.document.write(
+                                "<iframe width='100%' height='100%' src='data:application/pdf;base64, " + PdfName + "'></iframe>"
+                            );
+                            pdfWindow.document.title = "GITAM | Student portal";
+                        }, 500);
+                    } else {
+                        alert("Failed to open PDF window.");
+                    }
+                } else {
+                    alert("PDF file not available!");
+                }
+            },
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+</script>

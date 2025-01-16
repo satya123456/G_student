@@ -1,0 +1,286 @@
+﻿
+@model Gstudent.ViewModels.Studentrecords.accountssummary
+
+<div class="content-container contentContainer">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Payments</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="gc_box ">
+                    <h3 class="sub-title"></h3>
+                    <div class="tb_pay p-x-2 p-y-2">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fee type</th>
+                                    <th></th>
+
+                                    <th style="display:none;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tuition fee due</td>
+
+
+
+                                    <td> <a class="btn btn-primary btn-sm" href="https://gpay.gitam.edu/?REGDNO=@Session["uid"].ToString()&MOBILE=@Session["parentmobile"].ToString()" target="_blank">Pay now</a> </td>
+                                    <td style="display:none;">
+                                        <input type="text" class="form-control input-sm" MaxLength="6" ReadOnly ID="lbltuitionfee" value="@Model.fine.fine" />
+                                    </td>
+                                </tr>
+
+                                <tr id="dd" style="display:none;">
+                                    <td>Hostel mess bill</td>
+                                    <td>
+                                        <input type="text" class="form-control input-sm" MaxLength="6" ID="txthostel" />
+                                    </td>
+
+                                    <td>
+
+                                        <button type="button" class="btn btn-primary btn-sm" OnClick="btnhostel_Click" ID="btnhostel">Pay now</button>
+
+                                    </td>
+                                </tr>
+
+
+                                <tr id="dd1" style="display:none;">
+                                    <td>Hostel fine</td>
+                                    <td>
+                                        <input type="text" class="form-control input-sm" MaxLength="6" ID="txtregdno1" />
+
+                                    </td>
+
+
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm" @*OnClick="Button1_Click"*@ href="https://gpay.gitam.edu" target="blank" ID="Button1">Pay now</button>
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="gc_box ">
+                    <h3 class="sub-title"></h3>
+                    <div class="tb_pay p-x-2 p-y-2">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fee type</th>
+                                    <th>@*Amount in ( <i class="fa fa-rupee"></i> )*@</th>
+
+                                    <th style="display:none;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Hostel fee due</td>
+
+
+
+                                    <td> <a class="btn btn-primary btn-sm" href="https://gpay.gitam.edu/?REGDNO=@Session["uid"].ToString()&MOBILE=@Session["parentmobile"].ToString()" target="_blank">Pay now</a> </td>
+                                    <td style="display:none;">
+                                        <input type="text" class="form-control input-sm" MaxLength="6" ReadOnly ID="lbltuitionfee" value="@Model.fine.fine" />
+                                    </td>
+                                </tr>
+
+                                <tr id="dd" style="display:none;">
+                                    <td>Hostel mess bill</td>
+                                    <td>
+                                        <input type="text" class="form-control input-sm" MaxLength="6" ID="txthostel" />
+                                    </td>
+
+                                    <td>
+
+                                        <button type="button" class="btn btn-primary btn-sm" OnClick="btnhostel_Click" ID="btnhostel">Pay now</button>
+
+                                    </td>
+                                </tr>
+
+
+                                <tr id="dd1" style="display:none;">
+                                    <td>Hostel fine</td>
+                                    <td>
+                                        <input type="text" class="form-control input-sm" MaxLength="6" ID="txtregdno1" />
+
+                                    </td>
+
+
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm" @*OnClick="Button1_Click"*@ href="https://gpay.gitam.edu" target="blank" ID="Button1">Pay now</button>
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="display:none;">
+                <div class="gc_box m-b-1">
+                    <h3>Offline mode</h3>
+
+
+
+
+                    <div class="offline">
+
+
+                        <div class="tb_pay p-t-1 p-b-0 p-x-2">
+                            <table class="table table-bordered m-b-0">
+
+                                <tbody>
+                                    <tr>
+                                        <td>Tuition virtual account </td>
+                                        <td>
+                                            <lable ID="lblt" Class="form-control"></lable>
+                                        </td>
+
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="p-t-1 text-center">By using the above  information <br> payment can be made in bank through NEFT/RTGS</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <h1 class="page-title">My transaction history</h1>
+    <div class="box-container">
+        <div class="row">
+
+            <div class="col-md-6 col-xs-12">
+
+                <h5 class="sub-title">Tuition payments</h5>
+                <div class="box-container-border">
+                    <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Payment date
+                                </th>
+                                <th>
+                                    Payments
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model.fee)
+                            {
+                                <tr>
+                                    <td>@m.Date </td>
+                                    <td>@m.total_fee</td>
+                                </tr>
+
+                            }
+                            @if (Model.fee.Count() == 0)
+                            {
+                                <tr>
+                                    <td style="text-align:center;" colspan="2">No records found</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+</div>
+                </div>
+            </div>
+            <div class="col-md-6  col-xs-12">
+                <h5 class="sub-title">Hostel payments </h5>
+                <div class="box-container-border">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Payment date
+                                    </th>
+                                    <th>
+                                        Payments
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var m in Model.hostlefee)
+                                {
+                                    <tr>
+                                        <td>@m.Date </td>
+                                        <td>@m.total_fee</td>
+                                    </tr>
+
+                                }
+                                @if (Model.hostlefee.Count() == 0)
+                                {
+                                    <tr>
+                                        <td style="text-align:center;" colspan="2">No records found</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        </div>
+                        @*<asp:GridView ID="grdhostelpayment" runat="server" BackColor="White" CssClass="table" AutoGenerateColumns="false">
+                <Columns>
+
+                    <asp:BoundField DataField="Date" HeaderText="Payment date" />
+
+                    <asp:BoundField DataField="TOTAL_FEE" HeaderText="Payments" DataFormatString="{0:c0}" />
+                </Columns>
+            </asp:GridView>*@
+                    </div>
+                    <div>
+                        <table class="table table-2" id="td" style="display:none;">
+                            <tr><th>Payment dues</th></tr>
+                            <tr>
+                                <td>
+                                    @*<asp:Label ID="lblmsg" runat="server" Text=""></asp:Label>
+                        <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+                        </asp:ToolkitScriptManager>*@
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+
+
+                </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .tb_pay td:nth-child(2) {
+        width: 150px;
+    }
+
+    .txn_history th, .txn_history td {
+        white-space: nowrap;
+    }
+</style>
+
+
+

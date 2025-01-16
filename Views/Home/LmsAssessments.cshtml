@@ -1,0 +1,142 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Lmsdirectorysummary
+@{
+    ViewBag.Title = "LmsAssessments";
+}
+<style>
+    .dashboardCardContainer .cardBox {
+        background: #fff;
+        padding: 15px 10px 10px 15px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* box-shadow: var(--box-shadow-xl); */
+        box-shadow: 0px 4px 10px rgb(0 0 0 / 16%);
+        /* margin-bottom: 22px; */
+        border-top: 1px solid #f3f3f3;
+        min-height: 110px;
+    }
+
+        .dashboardCardContainer .cardBox img {
+            width: 40px;
+            margin-bottom: 8px;
+        }
+
+    .cardBox .cardTitle {
+        text-align: center;
+    }
+
+    .dashboardCardContainer .cardBox .cardTitle {
+        text-align: left;
+        font-weight: 400;
+        margin-bottom: 6px;
+        font-size: 15px;
+        /* color: #5d5c5e; */
+        color: var(--main-color);
+    }
+
+    .courseDetailsContainer h5 {
+        color: #000 !important;
+    }
+</style>
+<div class="content-container">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Assessments( @ViewBag.subjectcode - @ViewBag.subjectname )</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="Lmsback()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    @*@{int randomIndex = 0; }
+    @foreach (var lmssub in Model.directorydata)
+    {*@
+        <div class="box-container-border">
+            <div class="dashboardCardContainer mb-4">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                        <a href="javascript:void(0)" onclick="getresource('Assignments','CSEN1011', 'Problem Solving and Programming in C', 'VSP#GIT#BTECH#FSTCSE2023#2023-2024#1#B#CSEN1011')">
+                            <div class="cardBox text-center justify-content-center">
+                                <div>
+                                    <img src="~/Content/images/completed-task.png" />
+                                    <h5 class="cardTitle">Assignments</h5>
+
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                        <a href="javascript:void(0)">
+                            <div class="cardBox text-center justify-content-center">
+                                <div>
+                                    <img src="~/Content/images/document.png" />
+                                    <h5 class="cardTitle">Quiz</h5>
+
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @*}*@
+    </div>
+
+
+<script>
+    function Lmsback() {
+
+
+        $('#maindiv').html("");
+        $.ajax({
+
+            type: 'GET',
+            url: './Home/getlmssubjects',
+
+            success: (function (result) {
+
+                $('#maindiv').html(result);
+
+
+            })
+        });
+
+    }
+
+
+
+    function getresource(radiovalue, sub_code, sub_name, groupcode) {
+        debugger;
+        $('.loaderContainer').show();
+        $('.loading-overlay').show();
+        document.getElementById('subject_code').value = sub_code;
+        document.getElementById('subject_name').value = sub_name;
+        document.getElementById('group_code').value = groupcode;
+
+        var sub_code = document.getElementById('subject_code').value;
+        var sub_name = document.getElementById('subject_name').value;
+        var groupcode = document.getElementById('group_code').value;
+        if (radiovalue.trim() == "Assignments") {
+            $.ajax({
+                type: "Get",
+                url: './Home/lmsgetassignments',
+                data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+                success: function (data) {
+                    $('#maindiv').html("");
+                    console.log(data);
+                    $('#maindiv').html(data);
+                    $('.loaderContainer').hide();
+                    $('.loading-overlay').hide();
+                },
+                error: function (request, status, error) {
+                    //var val = request.responseText;
+                    //alert("PDF file not available! " + val);
+                }
+            });
+        }
+
+    }
+</script>

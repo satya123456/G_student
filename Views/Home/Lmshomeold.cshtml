@@ -1,0 +1,673 @@
+﻿@model IEnumerable<Gstudent.Models.LMSsubject>
+
+<style>
+
+    .event_block {
+        margin-top: 10px;
+    }
+
+    .event_disc {
+        margin-top: 30px;
+    }
+
+        .event_disc h6 {
+            font-size: 13px;
+        }
+
+            .event_disc h6 i {
+                margin-right: 6px;
+                color: #007367;
+            }
+
+    .event_name h6 {
+        font-size: 15px;
+    }
+
+    .bg2 {
+        background-color: #eaecf4;
+    }
+
+    .user {
+        cursor: pointer;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    input[type=radio] {
+        appearance: none;
+        background-color: #fff;
+        width: 15px;
+        height: 15px;
+        border: 2px solid #ccc;
+        border-radius: 2px;
+        display: inline-grid;
+        place-content: center;
+    }
+
+        input[type=radio]::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            transform: scale(0);
+            transform-origin: bottom left;
+            background-color: #fff;
+            clip-path: polygon(13% 50%, 34% 66%, 81% 2%, 100% 18%, 39% 100%, 0 71%);
+        }
+
+        input[type=radio]:checked::before {
+            transform: scale(1);
+        }
+
+        input[type=radio]:checked {
+            background-color: #0075FF;
+            border: 2px solid #0075FF;
+        }
+
+    @*.css-s18byi {
+        background-color: rgb(255, 255, 255);
+        color: rgba(0, 0, 0, 0.87);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 4px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+        overflow: hidden;
+    }*@
+
+    .MuiCard-root {
+        box-shadow: 7px 1px 15px #ebe8e8 !important;
+    }
+
+    .cardtitle {
+        margin: 10px 0px 11px 0px;
+        /*border-bottom: 1px solid #ccc;*/
+    }
+
+        .cardtitle span {
+            color: #df0f0f;
+            font-size: 16px !important;
+            padding: 8px !important;
+        }
+
+    .graphBoxContainernew {
+        /* background-color: #ffffff; */
+        padding: 10px 10px;
+        /* border-radius: 10px; */
+        box-shadow: var(--box-shadow-xl);
+        /* margin-bottom: 20px; */
+        border-top: 1px solid #f2e7e7;
+    }
+
+    label {
+        padding: 8px !important;
+    }
+</style>
+<style>
+
+    .attPosted {
+        color: green !important;
+        background: #e3f7d9;
+        padding-left: 7px;
+        border-radius: 5px
+    }
+
+    .cardBoxContainer .cardBoxBody ul li {
+        padding-top: 10px;
+        /*cursor:pointer*/
+    }
+
+        .cardBoxContainer .cardBoxBody ul li:last-child {
+            margin-bottom: 0px;
+            border-bottom: 0px solid #f9e8e8;
+            padding-bottom: 5px !important;
+        }
+
+    .courseMoreDropdown {
+        display: none
+    }
+
+    /* .cardBoxContainer .cardBox {
+        box-shadow: 0px 8.5px 8.5px 0px rgba(0, 0, 0, 0.25);
+    }*/
+    .cardBoxContainer .cardBox {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0px 4px 10px rgb(0 0 0 / 16%);
+        margin-bottom: 20px;
+        border-top: 1px solid #f2e7e7;
+    }
+
+    .cardBoxContainer .cardBoxHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f9eff0;
+        padding-bottom: 5px;
+        padding: 10px 15px;
+        background: #fff8f8;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border: 1px solid #f7eaea;
+        border-top: 0px;
+    }
+
+        .cardBoxContainer .cardBoxHeader .sub-title {
+            color: #d84040;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
+            display: flex;
+        }
+
+    .cardBoxHeader .sub-title i {
+        margin-right: 5px;
+        font-size: 18px;
+    }
+
+    .cardBoxContainer .cardBoxBody {
+        padding: 15px;
+    }
+
+    .cardBoxContainer .cardOverflow {
+        min-height: 190px;
+        overflow: auto;
+        height: 190px;
+    }
+
+    .cardBoxContainer .cardBoxBody ul li {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #f9e8e8;
+        padding-bottom: 5px;
+        font-size: 12px;
+        color: #353131;
+    }
+
+    .cardDateBox ul li {
+        border-bottom: 0px solid #f9e8e8 !important;
+        padding-bottom: 0px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .cardBoxContainer .cardBoxBody ul li:last-child {
+        margin-bottom: 0px;
+        border-bottom: 0px solid #f9e8e8;
+        padding-bottom: 0px;
+    }
+
+    .moreIcon {
+        cursor: pointer;
+    }
+
+    .myCourseContainer .cardBoxHeader {
+        /* background-image: url("../img/no-image.png");*/
+        min-height: 130px;
+        align-items: flex-start;
+        /* color: #fff; */
+        background-size: cover;
+        background-position: center;
+        flex-direction: column;
+        background-repeat: no-repeat;
+        justify-content: center;
+        cursor: pointer
+    }
+
+    .myCourseContainer .cardBoxHeader {
+        padding: 10px 20px;
+        min-height: 130px;
+    }
+
+    .headerText {
+        color: #fff;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 1.7;
+        /* cursor: pointer;*/
+    }
+
+    .courseCode {
+        color: #eae4e4;
+        font-size: 15px;
+    }
+
+
+    .cardBoxBody .courseDetails .secDetails {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: #be486b;
+        display: block;
+    }
+
+    .courseDetails h3 {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #d84040;
+        cursor: pointer;
+    }
+
+    .courseDetails h6 {
+        font-size: 12px;
+        color: #756d6d;
+        margin-bottom: 5px;
+    }
+
+    .courseDetailsContainer img {
+        width: 40px;
+        margin-bottom: 8px;
+    }
+
+    .myCourseContainer .cardBoxBody {
+        padding: 20px 20px 10px 20px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        background: #fff;
+        /* min-height: 167px;*/
+    }
+
+    .myCourseContainer ul {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 0px
+    }
+
+        .myCourseContainer ul li {
+            margin-bottom: 0px !important;
+            border-bottom: 0px solid #f9e8e8 !important;
+            padding-bottom: 0px !important;
+            color: #aea4a4;
+            /*  margin-right: 47px;*/
+        }
+
+            .myCourseContainer ul li i {
+                font-size: 15px !important;
+                color: #9D9E9F;
+            }
+
+    .myCourseContainer .tooltipDiv .tooltip-text {
+        transform: translate(-61%, 100%);
+    }
+
+    .myCourseContainer .cardBoxHeader i {
+        color: #827475;
+        font-size: 17px;
+    }
+
+    .courseDetailsContainer h5 {
+        color: #000 !important;
+    }
+
+    .courseDetailsContainer .dashboardCardContainer .cardBox i {
+        font-size: 30px;
+        color: #8e8686 !important;
+        margin-bottom: 10px;
+    }
+
+    .content-container {
+        background: #f4f9fc;
+    }
+
+    /*Tooltip*/
+    .tooltipDiv {
+        position: relative;
+        display: inline-block;
+    }
+
+
+        .tooltipDiv .tooltip-text {
+            visibility: hidden;
+            background-color: #242424;
+            color: #fff;
+            border-radius: 4px;
+            padding: 3px 5px;
+            position: absolute;
+            width: auto;
+            white-space: nowrap;
+            z-index: 1;
+            font-weight: 400;
+            font-size: 11px;
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+            transform: translate(-71%, 138%);
+        }
+
+
+            .tooltipDiv .tooltip-text::after {
+                content: "";
+                position: absolute;
+                bottom: 97%;
+                right: 50%;
+                border-width: 6.66px;
+                border-style: solid;
+                border-color: transparent transparent #242424;
+            }
+
+        .tooltipDiv:hover .tooltip-text,
+        .tooltipDiv:focus .tooltip-text {
+            visibility: visible;
+        }
+</style>
+
+<section class="content-container contentContainer">
+    <h5 class="page-title">My courses</h5>
+
+    <hr>
+    <div class="inner_wrapper ">
+        <div class="grid-container myCourseContainer mt-2">
+
+            <div id="inner" class="row css-s18byi" style="margin-bottom:0px !important;">
+                <div class="col-md-12 col-sm-6 users ">
+
+                </div>
+                @{int randomIndex = 0; }
+                @foreach (var lmssub in Model)
+                {
+                    string s = "";
+                    string[] backgroundColors = { "#af4525", "#e9402b", "#d53964", "#844592", "#604c98", "#47559f", "#326ea6", "#449adc", "#48a1b4", "#409487", "#429329", "#8f982e", "#cd7d2d", "#eb6730", "#df6c91" };
+                    Aspose.Svg.Drawing.Color color = Aspose.Svg.Drawing.Color.FromString(backgroundColors[randomIndex]);
+
+                    var colors = color.ToRgbString();
+
+                    <div class="col-md-3 col-sm-6 users">
+
+
+                        <div class="cardBox">
+                            @*onclick="getselecttype('@lmssub.subject_code', '@lmssub.subject_name', '@lmssub.group_code')"*@
+                            <div class="cardBoxHeader" style="background: linear-gradient(0deg, @color.ToRgbString() 80%, @color.ToRgbString() 80%), url('./Content/images/courseBg.png')">
+                                <h3 class="headerText">
+                                    <span>@lmssub.subject_name</span>
+                                </h3>
+                                <h4 class="courseCode">@lmssub.subject_code</h4>
+                            </div>
+                            <div class="cardBoxBody">
+                                <div class="courseDetails">
+                                    <h5 class="secDetails">
+                                        <span>Section ; @lmssub.section, @lmssub.branch_code, @lmssub.batch</span>
+                                    </h5>
+                                    <h6>
+                                        <span> @lmssub.campus_code, @lmssub.college_code, Sem/Tri- @lmssub.semester</span>
+                                    </h6>
+                                    <ul>
+                                        <li onclick="getresource('Lesson_plan','@lmssub.subject_code', '@lmssub.subject_name', '@lmssub.group_code')">
+                                            <div class="tooltipDiv"><i class="ri-file-list-3-line"></i><span class="tooltip-text">Lesson plan</span></div>
+                                        </li>
+                                        <li onclick="getresource('Resources','@lmssub.subject_code', '@lmssub.subject_name', '@lmssub.group_code')">
+                                            <div class="tooltipDiv"><i class="bx bx-list-ul"></i><span class="tooltip-text">Resources</span></div>
+                                        </li>
+                                        <li onclick="getresource('Assignments','@lmssub.subject_code', '@lmssub.subject_name', '@lmssub.group_code')">
+                                            <div class="tooltipDiv"><i class="bx bx-collection"></i><span class="tooltip-text">Assignments</span></div>
+                                        </li>
+                                        <li onclick="getresource('CEtemplate','@lmssub.subject_code', '@lmssub.subject_name', '@lmssub.group_code')">
+                                            <div class="tooltipDiv"><i class="bx bx-file"></i><span class="tooltip-text">Internal marks</span></div>
+                                        </li>
+
+                                        <li onclick="getresource('Announcements','@lmssub.subject_code', '@lmssub.subject_name', '@lmssub.group_code')">
+                                            <div class="tooltipDiv"><i class="bx bx-bell"></i><span class="tooltip-text">Announcements</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    randomIndex++;
+                }
+
+            </div>
+            <a href="Descriptionsession.aspx?id=72020"></a>
+        </div>
+        <a href="Descriptionsession.aspx?id=72020"></a>
+    </div>
+
+
+    <div class=" cardBoxContainer courseDetailsContainer d-none" id="printdiv">
+        <div class="dashboardCardContainer mb-4">
+            @*<div class="detailsname" id="detailsname">
+                </div>*@
+            <div class="d-flex justify-content-between">
+                <div class="detailsname" id="detailsname">
+                </div>
+                <div class="back">
+                    <a href="javascript:void(0);" onclick="Lmsback()">
+                        <i class='bx bx-arrow-back'></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-inner">
+                <div class="row">
+                    <div class="col-sm-3">
+                        @*<a href="@Url.Content("~/Courses/Course_resources")">*@
+                        <div class="cardBox text-center justify-content-center" onclick="getresource('Resources')">
+                            <div>
+
+                                <img src="~/Content/images/resourses.png">
+                                <h5 class="cardTitle">Resources</h5>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        @*<a href="@Url.Content("~/Reports/Course_attendance_report1_new")">*@
+                        <div class="cardBox text-center justify-content-center" onclick="getresource('Assignments')">
+
+                            <div class="atd">
+
+                                <img src="~/Content/images/completed-task.png" />
+                                <h5 class="cardTitle">Assignments</h5>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-3">
+                        @*<a href="@Url.Content("~/Atd/Extra_Classes_new")">*@
+                        <div class="cardBox text-center justify-content-center" onclick="getresource('Announcements')">
+
+                            <div>
+                                <img src="~/Content/images/advertising.png">
+                                <h5 class="cardTitle">Announcements</h5>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<input type="hidden" id="subject_code">
+<input type="hidden" id="subject_name">
+<input type="hidden" id="group_code">
+<input type="hidden" id="tick">
+<script>
+
+        $(document).ready(function () {
+            $('.users > .user').mouseenter(function () {
+                var current = $(this);
+                $('.users > .user').each(function () {
+
+                    if ($(this).text().trim() === current.text().trim()) {
+                        $(this).closest('.users > .user').addClass('bg2');
+                    }
+                });
+
+            });
+            $('.users > .user').mouseleave(function () {
+                $('.users > .user').removeClass("bg2");
+            });
+            $("#printdiv").hide();
+            //alert('hi');
+        });
+        function hexToRGBA(hex, alpha) {
+            // Remove the "#" character if it exists
+            hex = hex.replace(/^#/, '');
+
+            // Parse the hexadecimal values for red, green, and blue
+            var r = parseInt(hex.slice(0, 2), 16);
+            var g = parseInt(hex.slice(2, 4), 16);
+            var b = parseInt(hex.slice(4, 6), 16);
+
+            // Ensure that alpha is a valid number between 0 and 1
+            alpha = Math.min(1, Math.max(0, alpha));
+
+            // Create the RGBA string
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        var backgroundColors = ['#af4525', '#e9402b', '#d53964', '#844592', '#604c98', '#47559f', '#326ea6', '#449adc', '#48a1b4', '#409487', '#429329', '#8f982e', '#cd7d2d', '#eb6730', '#df6c91'];
+        var alphaValue = 0.80;
+        var lastIndex = -1;
+        var currentIndex = -1;
+
+        console.log(backgroundColors.length)
+        /* Function to generate a random index based on array length */
+        function getCourseBoxColors() {
+
+            do {
+                currentIndex = Math.floor(Math.random() * backgroundColors.length);
+            } while (currentIndex === lastIndex);
+
+            // Update the last index
+            lastIndex = currentIndex;
+
+            return currentIndex;
+        }
+
+        function getresource(radiovalue, sub_code, sub_name, groupcode) {
+            debugger;
+            document.getElementById('subject_code').value = sub_code;
+            document.getElementById('subject_name').value = sub_name;
+            document.getElementById('group_code').value = groupcode;
+
+            var sub_code = document.getElementById('subject_code').value;
+            var sub_name = document.getElementById('subject_name').value;
+            var groupcode = document.getElementById('group_code').value;
+            if (radiovalue.trim() == "Resources") {
+                $.ajax({
+                    type: "Get",
+                    url: './Home/LmsResourceview',
+                    data: { subcode: sub_code, subname: sub_name, groupcode: groupcode, radiovalue: radiovalue.trim() },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                        //var val = request.responseText;
+                        //alert("PDF file not available! " + val);
+                    }
+                });
+            }
+            else if (radiovalue.trim() == "Assignments") {
+                $.ajax({
+                    type: "Get",
+                    url: './Home/lmsgetassignments',
+                    data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                        //var val = request.responseText;
+                        //alert("PDF file not available! " + val);
+                    }
+                });
+            }
+            else if (radiovalue.trim() == "Lesson_plan") {
+                $.ajax({
+                    type: "Get",
+                    url: './Home/lmsgetlessonplan',
+                    data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                        //var val = request.responseText;
+                        //alert("PDF file not available! " + val);
+                    }
+                });
+            }
+            else if (radiovalue.trim() == "Announcements") {
+                //alert("Announcements still pending:");
+
+                $.ajax({
+                    type: "Get",
+                    url: './Home/lmsgetanouncements',
+                    data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                        //var val = request.responseText;
+                        //alert("PDF file not available! " + val);
+                    }
+                });
+
+            }
+            else if (radiovalue.trim() == "CEtemplate") {
+                //alert("Announcements still pending:");
+
+                $.ajax({
+                    type: "Get",
+                    url: './Home/getCEtemplate',
+                    data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                        //var val = request.responseText;
+                        //alert("PDF file not available! " + val);
+                    }
+                });
+
+            }
+        }
+
+        function getselecttype(sub_code, sub_name, groupcode) {
+            document.getElementById('subject_code').value = sub_code;
+            document.getElementById('subject_name').value = sub_name;
+            document.getElementById('group_code').value = groupcode;
+
+            $.ajax({
+                type: "Get",
+                url: "./Home/gettypebysubject",
+                data: { subcode: sub_code, subname: sub_name, groupcode: groupcode },
+                dataType: "html",
+                success: function (Result) {
+                    //debugger;
+                    console.log(Result);
+                    $("#detailsname").html('');
+                    var html = '<h6>' + sub_code + '-' + sub_name + ' </h6>';
+                    $("#detailsname").append(html);
+                    $('#inner').hide();
+                    $("#printdiv").show();
+                    var width = $(window).width();
+                    if (width <= "1024") {
+                        $('.back').show();
+                    }
+                    else {
+                        $('.back').show();
+                    }
+
+                }
+            });
+
+        }
+</script>

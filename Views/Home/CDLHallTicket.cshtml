@@ -1,0 +1,676 @@
+﻿
+@model Gstudent.ViewModels.Studentrecords.CDLhallticketsummary
+@{
+    var count = 0;
+    IEnumerable<string> semcount = new string[] { };
+    if (Model.CDLSupply.Count() > 0)
+    {
+        semcount = Model.CDLSupply.Select(s => s.CURR_SEM).Distinct();
+        count = semcount.Count();
+    }
+
+}
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h3 class="page-title">
+            Hall ticket
+            <div class="back pull-right">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </h3>
+    </div>
+
+
+    @if (Model.CDLRegular.Count() > 0 || Model.CDLSupply.Count() > 0 || Model.CDLbetterment.Count() > 0)
+    {
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="box-inner">
+                    <div id="dynamictablehospay" class="">
+
+
+                        <div id="dynamictablehospay" class="table-responsive dropdown_filter  table_row_hover">
+
+
+                            <table class="table table-bordered" id="tblxyz1" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Name of the examination</th>
+                                        <th>Branch</th>
+                                        <th>Semester</th>
+                                        <th>Examination</th>
+                                        <th>Month & year of the examination</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.CDLRegular.Count() > 0)
+                                    {
+
+                                        <tr>
+                                            <td>@Model.CDLRegular.FirstOrDefault().COURSE_CODE</td>
+                                            <td>@Model.Studentdetails.FirstOrDefault().branch_name@Model.Studentdetails.FirstOrDefault().branch1</td>
+                                            <td>@Model.Studentdetails.FirstOrDefault().CURR_SEM</td>
+                                            <td>Regular</td>
+                                            <td>@Model.Studentdetails.FirstOrDefault().yeardate</td>
+
+                                            <td class="text-center "><i class="fa fa-eye cursor_pointer" onclick="return GetRegularHallTicket();"></i></td>
+
+                                        </tr>
+
+                                    }
+
+
+                                    @if (Model.CDLSupply.Count() > 0)
+                                    {
+
+
+                                        for (var i = 0; i < count; i++)
+                                        {
+                                            <tr>
+
+                                                <td>@Model.CDLSupply.FirstOrDefault().course_code</td>
+                                                <td>@Model.Studentdetails.FirstOrDefault().branch_name@Model.Studentdetails.FirstOrDefault().branch1</td>
+                                                <td>@semcount.ElementAt(i)</td>
+                                                <td>Supply</td>
+                                                <td>@Model.Studentdetails.FirstOrDefault().yeardate</td>
+
+                                                <td class="text-center "><i class="fa fa-eye cursor_pointer" onclick="return GetSupplyHallTicket(@semcount.ElementAt(i));"></i></td>
+
+
+                                            </tr>
+                                        }
+
+
+
+                                    }
+
+                                   
+
+                                    @if (Model.CDLbetterment.Count() > 0)
+                                    {
+
+                                        <tr>
+                                            <td>@Model.CDLbetterment.FirstOrDefault().COURSE_CODE</td>
+                                            <td>@Model.Studentdetails.FirstOrDefault().branch_name@Model.Studentdetails.FirstOrDefault().branch1</td>
+                                            <td>@Model.Studentdetails.FirstOrDefault().CURR_SEM</td>
+                                            <td>Betterment</td>
+                                            <td>@Model.Studentdetails.FirstOrDefault().yeardate</td>
+
+                                            <td class="text-center "><i class="fa fa-eye cursor_pointer" onclick="return GetBetterHallTicket();"></i></td>
+
+
+                                        </tr>
+
+                                    }
+
+
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    }
+
+    else
+    {
+
+        <div class="box-container">
+            <h6 class="text-center" style="margin-top:20px;">No data available</h6>
+        </div>
+    }
+
+
+
+</section>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" style="--bs-modal-width: 931px!important;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div id="printdiv" class="w-700">
+                    <style>
+                        @@media (min-width: 992px) {
+                            .modal-lg, .modal-xl {
+                                --bs-modal-width: 931px;
+                            }
+                        }
+
+                        element.style {
+                            height: 200px;
+                        }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+                            /*.innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .b4, .b5, .b6 {
+                                padding-left: 20px;
+                            }
+
+                            .b4 {
+                                height: 110px;
+                                margin-top: 5px;
+                            }
+
+                            .break {
+                                display: none;
+                            }
+
+                            .b5 {
+                                width: 701px;
+                                text-align: left;
+                            }
+
+                            .b6 {
+                                text-align: left;
+                            }
+
+                            .abc .saimg {
+                                width: 100% !important;
+                            }
+                            .wrapper {
+                                width: auto;
+                            }*/
+                        }
+                    </style>
+                    <div id="inner">
+
+                        <div id="idcard">
+                            <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+                            <style>
+                                .instructionsView {
+                                    width: 900px;
+                                    margin: auto;
+                                    border: 1px solid #007367;
+                                    padding: 15px;
+                                    background: #fff;
+                                }
+
+                                .logoDetails {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    margin-bottom: 20px;
+                                    align-items: center;
+                                }
+
+                                .instructionsView .page-title {
+                                    text-align: center;
+                                    background: #007367;
+                                    color: #fff;
+                                    padding: 5px;
+                                }
+
+                                .labelWidth {
+                                    margin-bottom: 12px;
+                                }
+
+                                .label-width-md {
+                                    min-width: 250px;
+                                }
+
+                                .instructionsView span {
+                                    font-weight: 600;
+                                    margin-right: 20px;
+                                }
+
+                                .signatureImg img {
+                                    width: 160px;
+                                    height: 30px;
+                                }
+
+                                .instsPara p {
+                                    margin-bottom: 0 !important;
+                                }
+
+                                .controllerImg {
+                                    position: absolute;
+                                    top: 100px;
+                                }
+
+                                .studentImg {
+                                    position: relative;
+                                }
+
+                               
+                            </style>
+
+
+                            <div class="instructionsView">
+                                <div class="logoDetails">
+                                    <div class="logo">
+                                        <img src="~/Content/images/cdl-header.jpg?v=1" alt="gitam logo" />
+                                    </div>
+                                    <div>
+                                        <h6>Regd. number</h6>
+                                        <h5 id="Label2"></h5>
+
+                                    </div>
+                                </div>
+
+                                <h3 class="page-title">ORIGINAL HALL TICKET</h3>
+
+                                <div class="row">
+                                    <div class="col-md-8 col-8">
+                                        <div class="d-flex">
+                                            <div class="labelWidth">
+                                                <label class="label-width-md">Name of the examination</label>
+                                            </div>
+                                            <span> : </span>
+                                            <label id="lblExmn"></label>
+                                        </div>
+
+                                        <div class="d-flex">
+                                            <div class="labelWidth">
+                                                <label class="label-width-md">Branch</label>
+                                            </div>
+                                            <span> : </span>
+                                            <label id="lblBranch"></label>
+                                        </div>
+
+                                        <div class="d-flex">
+                                            <div class="labelWidth">
+                                                <label class="label-width-md">Semester</label>
+                                            </div>
+                                            <span> : </span>
+
+                                            <label id="lblYear"></label>
+
+
+                                        </div>
+
+
+                                        <div class="d-flex">
+                                            <div class="labelWidth">
+                                                <label class="label-width-md">Month & year of the examination</label>
+                                            </div>
+                                            <span> : </span>
+                                            <label id="lblreg"></label> <label id="lblmode"></label>
+                                        </div>
+
+
+                                        <div class="d-flex">
+                                            <div class="labelWidth">
+                                                <label class="label-width-md">Name of the Candidate</label>
+                                            </div>
+                                            <span> : </span>
+                                            <label id="lblName"></label>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="labelWidth">
+                                                <label class="label-width-md">Name of the Parent/Guardian</label>
+                                            </div>
+                                            <span> : </span>
+                                            <label id="lblparent"></label>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="labelWidth">
+                                                <label class="label-width-md">Exam Center</label>
+                                            </div>
+                                            <span> : </span>
+                                            <label id="lblec"></label>
+                                        </div>
+
+
+
+
+
+
+
+                                    </div>
+
+                                    <div class="col-md-2 col-2">
+                                        <div class="studentImg">
+                                            <div class="d-flex justify-content-center" id="photohall" style="height:200px;">
+                                                @*<img class="img-fluid" src="https://doeresults.gitam.edu/photo/img.aspx?id=@Model.note.regdno">*@
+
+                                            </div>
+                                            <div class="signatureImg controllerImg">
+                                                <img src="~/Content/images/signature_cdl_new.png " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6 class="text-center">Subjects Registered</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th>Exam Date</th>
+                                                <th>Time</th>
+                                                <th>PASSWORD</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="subjects">
+                                        </tbody>
+                                    </table>
+                                </div>
+                      
+
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div>
+                                        <h6>Place : Visakhapatnam</h6>
+                                        <h6>Date : @DateTime.Today.ToString("dd-MM-yyyy")</h6>
+                                    </div>
+                                    <div class="signatureImg ">
+
+                                        <img src="~/Content/images/signature_cdl_new.png" />
+                                        <h6>Controller of Examinations</h6>
+                                    </div>
+                                </div>
+
+                                <h6 class="text-center">Instructions to candidates</h6>
+
+                                <p>Candidates appearing for the CDL, GITAM examinations are required to strictly observe the following instructions:</p>
+
+
+                                <ol>
+                                    <li>	Students should be at the examination centre at least 30 minutes before the exam time. </li>
+
+                                    <li>	Student can answer the Question paper by using Computer. </li>
+                                    <li>	Question Paper contains 70 multiple choice questions, each question carries 1 Mark.</li>
+
+
+                                    <li>	Examination duration is  2 Hours only.</li>
+                                    <li>Please don't share your password and passkey to anyone. </li>
+
+                                    <li>	Do not answer phone calls or open any other window during the examination. </li>
+                                    <li>	If you go out of the test window, you will be automatically logged out and exam will be terminated.</li>
+                                    <li>	After you login to the test page, you are required to upload Student ID CARD / a valid Govt. ID proof.  (i.e., place the ID PROOF in front of the camera). </li>
+
+                                </ol>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="text-center mb-5 mt-5">
+                    <button class="btn btn-primary" onclick="PrintHallTicket()">Print</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    function GetRegularHallTicket() {
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/getRegularhallticket',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                //debugger;
+                console.log(result);
+                document.getElementById("photohall").innerHTML = "";
+
+                document.getElementById('lblExmn').innerText = result.Studentdetails[0].COURSE_CODE;
+                document.getElementById('lblBranch').innerText = result.Studentdetails[0].branch_name + result.Studentdetails[0].branch1;
+                document.getElementById('lblYear').innerText = result.Studentdetails[0].CURR_SEM;
+                document.getElementById('lblmode').innerText = result.Studentdetails[0].ADMISSION_TYPE;
+                document.getElementById('lblName').innerText = result.Studentdetails[0].NAME;
+                document.getElementById('lblparent').innerText = result.Studentdetails[0].FATHER_NAME;
+                document.getElementById('lblec').innerText = result.Studentdetails[0].EXAM_CENTRE;
+                document.getElementById('lblreg').innerText = result.Studentdetails[0].yeardate;
+                document.getElementById('Label2').innerText = result.Studentdetails[0].regdno;
+                const imgElement = document.createElement('img');
+
+                imgElement.src = "http://cdlimages.gitam.edu/img.aspx?id=" + result.Studentdetails[0].regdno + "";
+
+                const container = document.getElementById('photohall');
+
+                container.appendChild(imgElement);
+                var str = "";
+                if (result.CDLRegular.length > 0) {
+                    for (var i = 0; i < result.CDLRegular.length; i++) {
+                        str = str + "<tr>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_CODE + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_NAME + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_DATE + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].passkey + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].passcode + "</td>";
+
+                        str = str + " </tr> ";
+                    }
+
+                }
+                document.getElementById('subjects').innerHTML = str;
+               
+                $("#myModal").modal('show');
+            }
+
+        });
+
+    }
+
+
+
+    function PrintHallTicket() {
+        //debugger;
+        setTimeout(function () {
+
+            var contents = document.getElementById('inner').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    }
+
+
+
+
+    function GetSupplyHallTicket(sem) {
+       // alert(sem);
+        $.ajax({
+            type: 'GET',
+            url: './Home/getSupplyhallticket',
+            data:{
+                semester: sem
+        },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                document.getElementById("photohall").innerHTML = "";
+
+                document.getElementById('lblExmn').innerText = result.Studentdetails[0].COURSE_CODE;
+                document.getElementById('lblBranch').innerText = result.Studentdetails[0].branch_name + result.Studentdetails[0].branch1;
+                //document.getElementById('lblBranch0').innerText = result.Studentdetails[0].branch1;
+                document.getElementById('lblYear').innerText = result.Studentdetails[0].CURR_SEM;
+                document.getElementById('lblmode').innerText = result.Studentdetails[0].ADMISSION_TYPE;
+                document.getElementById('lblName').innerText = result.Studentdetails[0].NAME;
+                document.getElementById('lblparent').innerText = result.Studentdetails[0].FATHER_NAME;
+                document.getElementById('lblec').innerText = result.Studentdetails[0].EXAM_CENTRE;
+                // document.getElementById('Label1').innerText = result.Studentdetails[0].current_date;
+                document.getElementById('lblreg').innerText = result.Studentdetails[0].yeardate;
+                document.getElementById('Label2').innerText = result.Studentdetails[0].regdno;
+                const imgElement = document.createElement('img');
+
+                imgElement.src = "http://cdlimages.gitam.edu/img.aspx?id=" + result.Studentdetails[0].regdno + "";
+
+                const container = document.getElementById('photohall');
+
+                container.appendChild(imgElement);
+                var str = "";
+                if (result.CDLRegular.length > 0) {
+                    for (var i = 0; i < result.CDLRegular.length; i++) {
+                        str = str + "<tr>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_CODE + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_NAME + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_DATE + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].passkey + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].passcode + "</td>";
+
+                        str = str + " </tr> ";
+                    }
+
+                }
+                document.getElementById('subjects').innerHTML = str;
+               
+                $("#myModal").modal('show');
+            }
+
+        });
+
+    }
+
+    function GetBetterHallTicket(sem) {
+        // alert(sem);
+        $.ajax({
+            type: 'GET',
+            url: './Home/getBetterhallticket',
+            data: {
+                semester: sem
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                document.getElementById("photohall").innerHTML = "";
+
+                document.getElementById('lblExmn').innerText = result.Studentdetails[0].COURSE_CODE;
+                document.getElementById('lblBranch').innerText = result.Studentdetails[0].branch_name + result.Studentdetails[0].branch1;
+                //document.getElementById('lblBranch0').innerText = result.Studentdetails[0].branch1;
+                document.getElementById('lblYear').innerText = result.Studentdetails[0].CURR_SEM;
+                document.getElementById('lblmode').innerText = result.Studentdetails[0].ADMISSION_TYPE;
+                document.getElementById('lblName').innerText = result.Studentdetails[0].NAME;
+                document.getElementById('lblparent').innerText = result.Studentdetails[0].FATHER_NAME;
+                document.getElementById('lblec').innerText = result.Studentdetails[0].EXAM_CENTRE;
+                // document.getElementById('Label1').innerText = result.Studentdetails[0].current_date;
+                document.getElementById('lblreg').innerText = result.Studentdetails[0].yeardate;
+                document.getElementById('Label2').innerText = result.Studentdetails[0].regdno;
+                const imgElement = document.createElement('img');
+
+                imgElement.src = "http://cdlimages.gitam.edu/img.aspx?id=" + result.Studentdetails[0].regdno + "";
+
+                const container = document.getElementById('photohall');
+
+                container.appendChild(imgElement);
+                var str = "";
+                if (result.CDLRegular.length > 0) {
+                    for (var i = 0; i < result.CDLRegular.length; i++) {
+                        str = str + "<tr>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_CODE + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_NAME + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].SUB_DATE + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].passkey + "</td>";
+                        str = str + "<td>" + result.CDLRegular[i].passcode + "</td>";
+
+                        str = str + " </tr> ";
+                    }
+
+                }
+                document.getElementById('subjects').innerHTML = str;
+
+                $("#myModal").modal('show');
+            }
+
+        });
+
+    }
+</script>

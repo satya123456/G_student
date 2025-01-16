@@ -1,0 +1,2142 @@
+﻿@model Gstudent.ViewModels.Studentrecords.hallticketsummary
+
+
+
+@if (Model.notes.Count() > 0 && Model.studentdetails != null)
+{
+    <div id="idcard" style="max-width:900px;overflow-x:scroll;">
+        <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+        <style>
+            .regfon {
+                font-size: 18px !important;
+                font-weight: bold !important;
+            }
+
+            .instructionsView {
+                width: 900px;
+                margin: auto;
+                border: 1px solid #007367;
+                padding: 15px;
+                background: #fff;
+            }
+
+            .logoDetails {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                align-items: center;
+            }
+
+            .instructionsView .page-title {
+                text-align: center;
+                background: #007367;
+                color: #fff;
+                padding: 5px;
+            }
+
+            .labelWidth {
+                margin-bottom: 7px;
+            }
+
+            .box-container-border {
+                padding: 15px 20px 2px;
+            }
+
+            .label-width-md {
+                min-width: 250px;
+            }
+
+            .instructionsView span {
+                font-weight: 600;
+                /*margin-right: 20px;*/
+            }
+
+            .signatureImg img {
+                width: 160px;
+                height: 30px;
+            }
+
+            .instsPara p {
+                margin-bottom: 0 !important;
+                font-size: 13px;
+                line-height: 20px;
+                text-align: justify;
+            }
+
+            .controllerImg {
+                position: absolute;
+                top: 100px;
+            }
+
+            .studentImg {
+                position: relative;
+            }
+
+            .logoDetails h5 {
+                border: 1px solid #333;
+                padding: 3px 5px
+            }
+
+            .tbl-style thead th:last-child {
+                border-right: 1px solid #dee2e6;
+            }
+
+            .sub_table tr td:nth-child(3) {
+                white-space: nowrap;
+            }
+
+            .t-w-280 {
+                width: 280px;
+            }
+
+            h5 {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .sub_table tr td, .p_table tr td {
+                padding: 2px 2px;
+                font-size: 12px;
+            }
+
+            .table tr th {
+                white-space: nowrap;
+            }
+
+            @@media print {
+                .exam_tbl {
+                    margin-top: 15px;
+                }
+
+                .box-container-border {
+                    padding: 15px 20px 2px;
+                    border: 1px solid #ccc;
+                }
+
+                .table tr td {
+                    font-size: 13px;
+                    padding: 2px 4px;
+                }
+
+                .logoDetails {
+                    margin-bottom: 5px;
+                }
+
+                .instructionsView .page-title {
+                    background: none;
+                    color: #000;
+                }
+            }
+
+            .logoDetails .labelWidth {
+                text-align: right;
+                width: 90px;
+            }
+
+            .logoDetails span {
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .std_info span {
+                margin-right: 20px;
+            }
+
+            .sentence-case {
+                text-transform: capitalize;
+            }
+
+            label {
+                font-size: 15px !important;
+            }
+        </style>
+
+
+        <div class="instructionsView">
+            <div class="logoDetails">
+                <div class="logo">
+                    <img src="https://cdn.gitam.edu/images/logo/gitam-new-logo.png" alt="GITAM-logo">
+                </div>
+                @if (Session["college_code"].ToString().ToUpper() != "GIMSR")
+                {
+                    <div class="logo">
+                        <img src="https://cdn.gitam.edu/images/gimsr-logo.png" alt="GITAM-logo" style="width: 140px; margin-left: 25px;">
+                    </div>
+                }
+                <div>
+                    <div class="d-flex">
+                        <div class="labelWidth">
+                            <label class="regfon"><strong>Regd.No.</strong></label>
+                        </div>
+                        <span class="regfon"> : </span>
+                        <label class="regfon"><strong>@Model.note.regdno</strong></label>
+                        <input type="hidden" id="reg" value="@Model.note.regdno" />
+                    </div>
+
+                </div>
+
+            </div>
+
+            @if (Model.notes.FirstOrDefault().EXAM_TYPE.ToUpper() == "MID")
+            {
+                <h3 class="page-title mb-2">MID EXAMINATION HALL TICKET</h3>
+            }
+            else
+            {
+                <h3 class="page-title mb-2">EXAMINATION HALL TICKET</h3>
+            }
+
+            <div class="box-container-border">
+                <div class="row">
+                    <div class="col-md-10 col-10 std_info">
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                @*<label class="label-width-md sentence-case">Candidate name</label>*@
+                                <label class="label-width-md"><strong>Name of the candidate</strong></label>
+
+                            </div>
+                            <span> : </span>
+                            @{
+                                // Convert the NAME to sentence case
+                                string name = new System.Globalization.CultureInfo("en-US", false).TextInfo.ToTitleCase(Model.note.NAME.ToLower());
+                            }
+                            <label class=""><strong>@name</strong></label>
+                        </div>
+
+                        @if (Session["college_code"].ToString().ToUpper() != "GIMSR")
+                        {<div class="d-flex">
+                                <div class="labelWidth">
+                                    @*<label class="label-width-md sentence-case">Candidate name</label>*@
+                                    <label class="label-width-md"><strong>Father name</strong></label>
+
+                                </div>
+                                <span> : </span>
+                                @{
+
+                                    string name1 = new System.Globalization.CultureInfo("en-US", false).TextInfo.ToTitleCase(Session["FATHER_NAME"].ToString().ToLower());
+                                }
+                                <label class=""><strong>@name1</strong></label>
+                            </div>
+                            <div class="d-flex">
+                                <div class="labelWidth">
+                                    <label class="label-width-md"><strong>DOB</strong></label>
+                                </div>
+                                <span> : </span>
+
+
+                                <label><strong>@Session["dob"].ToString()</strong></label>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+                            </div>
+                        }
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md"><strong>Name of the examination</strong></label>
+                            </div>
+                            <span> : </span>
+                            @if (@Model.notes.FirstOrDefault().course_name_last == "" || @Model.notes.FirstOrDefault().course_name_last == "")
+                            {
+                                <label id="MainContent_Label1"><strong>@Model.notes.FirstOrDefault().course_code</strong></label>
+
+                            }
+                            else
+                            {
+                                <label id="MainContent_Label1"><strong>@Model.notes.FirstOrDefault().course_name_last</strong></label>
+
+                            }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md"><strong>Branch</strong></label>
+                            </div>
+                            <span> : </span>
+                            @if (@Model.notes.FirstOrDefault().branch_name_last == "" || @Model.notes.FirstOrDefault().branch_name_last == "")
+                            {
+                                <label id="MainContent_Label1"><strong>@Model.studentdetailslist.FirstOrDefault().branch_name</strong></label>
+
+                            }
+                            else
+                            {
+                                <label id="MainContent_Label1"><strong>@Model.notes.FirstOrDefault().branch_name_last</strong></label>
+
+                            }
+                        </div>
+
+                        <div class="d-flex">
+
+                            @if (Session["college_code"].ToString().ToUpper() != "GIMSR")
+                            {
+                                <div class="labelWidth">
+                                    <label class="label-width-md"><strong>Semester</strong></label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="labelWidth">
+                                    <label class="label-width-md"><strong>Year</strong></label>
+                                </div>
+                            }
+                            <span> : </span>
+
+                            @if (@Model.note.course_code == "PHD")
+                            {
+                                <label><strong>@Model.notes.FirstOrDefault().psntsem</strong></label>
+                            }
+                            else
+                            {
+                                if (@Model.note.type1 == "R")
+                                {
+                                    <label><strong>@Model.note.psntsem</strong></label>
+                                }
+                                else
+                                { <label><strong>@Model.note.psntsem</strong></label>
+
+                            }
+                        }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md"><strong>Examination</strong></label>
+                            </div>
+                            <span> : </span>
+                            <label><strong>@Model.note.type2</strong></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="labelWidth">
+                                @if (Session["college_code"].ToString().ToUpper() != "GIMSR")
+                                {
+                                    <label class=""><strong>&nbsp;&nbsp;&nbsp;&nbsp;MoY&nbsp;&nbsp;</strong></label>
+                                }
+                                else
+                                {
+                                    <label class=""><strong>&nbsp;&nbsp;&nbsp;&nbsp;M&Y&nbsp;&nbsp;</strong></label>
+                                }
+                            </div>&nbsp;&nbsp;
+                            <span> : </span>
+                            <label><strong>@Model.notes.FirstOrDefault().MONTH</strong>&nbsp;&nbsp;<strong>@Model.notes.FirstOrDefault().year</strong></label>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-md-2 col-2">
+                        <div class="studentImg">
+                            <div class="d-flex justify-content-center">
+                                <img class="img-fluid" src="https://doeresults.gitam.edu/photo/img.aspx?id=@Model.note.regdno">
+                                @*<img class="img-fluid" id="img_data" src="@Model.ImageUrl" />*@
+                            </div>
+                            <div class="signatureImg controllerImg">
+                                <img src="https://doeresults.gitam.edu/gitamhallticket/Images/Sumanth-Kumar.png " />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row exam_tbl">
+
+                <div class="col-md-7 col-7">
+                    @if (Model.notes.FirstOrDefault().EXAM_TYPE.ToUpper() == "MID")
+                    {
+                        <h5 class="text-center">MID Examination Courses</h5>
+                    }
+                    else
+                    {
+                        <h5 class="text-center">Semester End Examination Courses</h5>
+                    }
+
+                    <div class="table-responsive table_style ">
+                        <table class="table table-bordered tbl-style sub_table">
+                            <thead>
+                                <tr>
+
+                                    <th>Course Code</th>
+                                    <th class="t-w-280">Title of the Course</th>
+                                    <th class="t-w-280">Date</th>
+                                    @if (Session["college_code"].ToString().ToUpper() == "GIMSR")
+                                    {
+                                        <th class="t-w-280">Timings</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody class="el3 upload_item">
+                                @{int k = 0; }
+                                @foreach (var val in Model.notes)
+                                {
+                                    string formattedDate = "";
+                                    string timings = "";
+                                    var datetime = val.exam_date + ((val.exam_time));
+                                    <tr class="upload_docs">
+
+                                        @if (DateTime.TryParseExact(val.exam_date, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
+                                        {
+
+                                            formattedDate = parsedDate.ToString("dd-MM-yyyy");
+
+                                        }
+                                        else
+                                        {
+                                            formattedDate = val.exam_date;
+                                        }
+                                        <td>@val.subject_code</td>
+                                        <td>@val.subject_name</td>
+                                        <td>@formattedDate  (@val.exam_time)</td>
+                                        @if (Session["college_code"].ToString().ToUpper() == "GIMSR")
+                                        {
+                                            if (DateTime.TryParseExact(val.exam_date, "dd-MM-yyyy HH:MM:SS", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate1))
+                                            {
+
+                                                timings = parsedDate1.ToString("HH:MM:SS");
+
+                                            }
+                                            else
+                                            {
+                                                timings = "";//val.exam_date.ToString("HH:MM:SS");
+
+
+                                            }
+                                            <td>@timings  </td>
+                                        }
+                                    </tr>
+                                    k++;
+                                    @*}*@
+                                }
+                                @if (k == 0)
+                                {
+                                    <tr class="upload_docs">
+
+                                        <td>
+                                            <input name="subject_code" maxlength="300" onkeypress="return ValidateSpecialText(event);" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input class="form-control" name="subject_name" maxlength="300" onkeypress="return ValidateSpecialText(event);">
+                                        </td>
+                                        <td>
+                                            <input class="form-control " name="datetime" readonly="readonly" type="text">
+                                        </td>
+
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="qrcode1" class="qrcode1"></div>
+                </div>
+                @if (Model.studentdetails.Count() > 0)
+                {
+
+                    <div class="col-md-5 col-5">
+                        <h5 class="text-center">Continuous Evaluation Courses</h5>
+                        <div class="table-responsive table_style ">
+                            <table class="table table-bordered tbl-style p_table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th class="t-w-280">Title of the Course</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody class="el3 upload_item">
+                                    @{int m = 0; }
+                                    @foreach (var val in Model.studentdetails)
+                                    {
+                                        <tr class="upload_docs">
+                                            <td>@val.subject_code</td>
+                                            <td>@val.subject_name</td>
+
+
+                                        </tr>
+                                        m++;
+
+                                    }
+                                    @if (m == 0)
+                                    {
+                                        <tr class="upload_docs">
+
+                                            <td>
+                                                <input name="subject_code" maxlength="300" onkeypress="return ValidateSpecialText(event);" class="form-control" readonly="readonly">
+                                            </td>
+                                            <td>
+                                                <input class="form-control" name="subject_name" maxlength="300" onkeypress="return ValidateSpecialText(event);" readonly="readonly">
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h6>
+                        Place :  @Model.studentdetailslist.FirstOrDefault().Exam_Venue
+                    </h6>
+                    <h6>Date : @DateTime.Today.ToString("dd-MM-yyyy")</h6>
+                </div>
+                <div class="signatureImg ">
+
+                    <img src="https://doeresults.gitam.edu/gitamhallticket/Images/Sumanth-Kumar.png " />
+                    <h6>Controller of Examinations</h6>
+                </div>
+            </div>
+
+            <h6 class="text-center">Instructions to candidates</h6>
+            @if (Model.note.instructn == "A21")
+            {
+                <div class="instsPara">
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+
+                    <p>
+                        1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                    </p>
+                    <p>
+                        2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                    </p>
+                    <p>
+                        3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                    </p>
+                    <p>
+                        4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                    </p>
+                    <p>
+                        5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                    </p><p>
+                        6.   Question numbers must be mentioned legibly in the left-hand column only
+                    </p> <p>
+                        7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                    </p> <p>
+                        8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                    </p> <p>
+                        9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                    </p> <p>
+                        10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                    </p>
+                    <p style="font-weight:bold;">
+                        11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                    </p>
+
+                    @*<p>
+                            1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall.
+                            They should not write any matter on the hall-ticket/ identity card/calculator.
+                        </p>
+                        <p>
+                            2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>	of the examination and will
+                            not be permitted to leave the examination hall until the end of the examination.
+                        </p>
+                        <p>3. <span>Answer booklet consists of 24 pages</span> and <span>no additional answer sheets</span> will be issued</p>
+                        <p>
+                            4. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the front page
+                            of the answer book and nowhere else on the answer book in case of a blank OMR Booklet.
+                        </p>
+                        <p>5. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                        <p>6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                        <p>7. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                        <p>8. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                        <p>9. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                        <p>
+                            10.	Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation is
+                            treated as malpractice and liable for disciplinary action.
+                        </p>
+                        <p>
+                            11. Candidates  are  prohibited  from  carrying  books, notes, slips, reference  material, log  tables,  scribbling  pads, cell  phones,
+                            programmable calculators,electronic and audio devices,etc.,
+                        </p>
+                        <p>12. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                        <p>
+                            13. Referring to any material, talking or chatting with others, and violating other protocols during the examination will be considered as malpractice,
+                            and action will be taken accordingly.
+                        </p>
+                        <p>14. University has the right to cancel the examinations if the student is found to have indulged in any malpractice.</p>*@
+                </div>
+            }
+            else if (Model.note.instructn == "B21")
+            {
+                <div class="instsPara">
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                    @*<p>
+                            1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall. They should not write any matter
+                            on the hall-ticket/ identity card/calculator.
+                        </p>
+                        <p>
+                            2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>  of the examination and will
+                            be allowed to leave the examination hall in the last ten minutes of the examination.
+                        </p>
+                        <p>
+                            3. Candidates should carefully fill the relevant columns of Registration No., Examination,Subject,etc., in the space provided on the front page
+                            of the answer book and nowhere else on the answer book.
+                        </p>
+                        <p>4. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                        <p>5. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                        <p>6. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                        <p>7. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                        <p>8. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                        <p>
+                            9. Candidates should not write any matter, identification mark,appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation
+                            is treated as malpractice and liable for disciplinary action.
+                        </p>
+                        <p>
+                            10.	Candidates  are  prohibited  from  carrying  books,  notes, slips,  reference  material, log  tables, scribbling  pads, cell  phones, programmable
+                            calculators,electronic and audio devices etc.,
+                        </p>
+                        <p>11. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                        <p>
+                            12. Referring to any material,talking or chatting with others,and violating other protocols during the examination will be considered as malpractice,
+                            and action will be taken accordingly.
+                        </p>
+                        <p>13. University has the right to cancel the examinations if the student is found to have indulged in any kind of malpractice</p>*@
+                    <p>
+                        1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                    </p>
+                    <p>
+                        2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                    </p>
+                    <p>
+                        3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                    </p>
+                    <p>
+                        4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                    </p>
+                    <p>
+                        5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                    </p><p>
+                        6.   Question numbers must be mentioned legibly in the left-hand column only
+                    </p> <p>
+                        7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                    </p> <p>
+                        8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                    </p> <p>
+                        9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                    </p> <p>
+                        10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                    </p>
+                    <p style="font-weight:bold;">
+                        11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                    </p>
+
+                </div>
+            }
+            else if (Model.note.instructn == "C21")
+            {
+                <div class="instsPara">
+
+
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                    <br />
+                    <p>
+                        1. Candidates with valid identity cards and hall - ticket only will be permitted into the examination hall.They should not write any
+
+                        matter on the hall - ticket / identity card.
+                    </p>
+                    <p>
+                        2.<span>
+                            Candidates are instructed to be seated in the examination hall 30 minutes before the commencement of the
+
+                            examination.No student shall be allowed into the examination hall after the long bell i.e., after the commencement of the
+
+                            examination.Answer sheets are to be
+                        </span>returned to the Invigilator before leaving the examination hall.
+                    </p>
+
+                    <p>
+                        3. Candidates with no photo available in the hall - ticket need to affix a recent passport - size photo and get it attested by the respective
+
+                        HoD / HoI.
+                    </p>
+
+                    <p>
+                        4. Use only a blue / black ball pen for writing answers. Changes in the shade of the ink during examination has to be attested
+
+                        by the invigilator.
+                    </p>
+
+                    <p>
+                        5. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the
+
+                        front page of the answer book and nowhere else on the answer book.
+                    </p>
+                    <p> 6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                    <p>
+                        7. Question numbers must be mentioned in the left-hand margin only, and Rough work must be done on the right margins of the
+                        page.
+                    </p>
+                    <p> 8. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                    <p>
+                        9. Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the
+                        answer book. Violation is treated as malpractice and liable for disciplinary action.
+                    </p>
+                    <p>
+                        10. Candidates are prohibited from carrying books, notes, slips, reference material, log tables, scribbling pads, cell phones,
+                        programmable calculators, electronic and audio devices etc.,
+                    </p>
+                    <span>
+                        <p>
+                            11. Candidates are instructed to maintain silence after entering the examination hall and throughout the examination period.No student
+                            is allowed to talk or communicate with their fellow examinees in the examination hall.
+                        </p>
+                        <p>12. Candidate in possession of prohibited articles / equipment are liable for debarring from the examination.</p>
+                        <p>
+                            13. If the candidate is found to indulge in malpractice in the examination, the student is not allowed to continue writing the
+                            examination and the case shall be referred to the disciplinary committee for appropriate punishment.
+                        </p>
+                    </span>
+
+                </div>
+
+            }
+            else
+            {
+
+                <div class="instsPara">
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                    @*<p>
+                            1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall.
+                            They should not write any matter on the hall-ticket/ identity card/calculator.
+                        </p>
+                        <p>
+                            2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>	of the examination and will
+                            not be permitted to leave the examination hall until the end of the examination.
+                        </p>
+                        <p>3. <span>Answer booklet consists of 24 pages</span> and <span>no additional answer sheets</span> will be issued</p>
+                        <p>
+                            4. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the front page
+                            of the answer book and nowhere else on the answer book in case of a blank OMR Booklet.
+                        </p>
+                        <p>5. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                        <p>6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                        <p>7. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                        <p>8. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                        <p>9. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                        <p>
+                            10.	Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation is
+                            treated as malpractice and liable for disciplinary action.
+                        </p>
+                        <p>
+                            11. Candidates  are  prohibited  from  carrying  books, notes, slips, reference  material, log  tables,  scribbling  pads, cell  phones,
+                            programmable calculators,electronic and audio devices,etc.,
+                        </p>
+                        <p>12. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                        <p>
+                            13. Referring to any material, talking or chatting with others, and violating other protocols during the examination will be considered as malpractice,
+                            and action will be taken accordingly.
+                        </p>
+                        <p>14. University has the right to cancel the examinations if the student is found to have indulged in any malpractice.</p>
+                        <p>
+                            <span>
+                                Note: The photo displayed on the hallticket will be printed on the Original certificate to be issued during the ensuing convocation.For any changes in the photo
+                                contact your respective HOD immediately.
+                            </span>
+                        </p>*@
+                    <p>
+                        1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                    </p>
+                    <p>
+                        2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                    </p>
+                    <p>
+                        3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                    </p>
+                    <p>
+                        4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                    </p>
+                    <p>
+                        5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                    </p><p>
+                        6.   Question numbers must be mentioned legibly in the left-hand column only
+                    </p> <p>
+                        7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                    </p> <p>
+                        8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                    </p> <p>
+                        9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                    </p> <p>
+                        10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                    </p>
+                    <p style="font-weight:bold;">
+                        11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                    </p>
+
+                </div>
+
+            }
+
+
+        </div>
+
+    </div>
+    <p><b style="color:red;">Note:</b> Please download in desktop version.</p>
+    <div class="text-center mt-4">
+
+        <input type="button" class="btn btn-primary hltckt_print" value="Print" onclick="printpage()" />
+
+    </div>
+}
+else if (Model.notes.Count() > 0)
+{
+    <div id="idcard" style="max-width:900px;overflow-x:scroll;">
+        <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+        <style>
+        .instructionsView {
+            width: 900px;
+            margin: auto;
+            border: 1px solid #007367;
+            padding: 15px;
+            background: #fff;
+        }
+
+        .logoDetails {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .instructionsView .page-title {
+            text-align: center;
+            background: #007367;
+            color: #fff;
+            padding: 5px;
+        }
+
+        .labelWidth {
+            margin-bottom: 7px;
+        }
+
+        .box-container-border {
+            padding: 15px 20px 2px;
+        }
+
+        .label-width-md {
+            min-width: 250px;
+        }
+
+        .instructionsView span {
+            font-weight: 600;
+           @* margin-right: 20px;*@
+        }
+        .std_info span {
+            margin-right: 20px;
+        }
+        .signatureImg img {
+            width: 160px;
+            height: 30px;
+        }
+
+        .instsPara p {
+            margin-bottom: 0 !important;
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        .controllerImg {
+            position: absolute;
+            top: 100px;
+        }
+
+        .studentImg {
+            position: relative;
+        }
+
+        .logoDetails h5 {
+            border: 1px solid #333;
+            padding: 3px 5px
+        }
+
+        .tbl-style thead th:last-child {
+            border-right: 1px solid #dee2e6;
+        }
+
+        .sub_table tr td:nth-child(3) {
+            white-space: nowrap;
+        }
+
+        .t-w-280 {
+            width: 280px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .sub_table tr td, .p_table tr td {
+            padding: 2px 2px;
+            font-size: 12px;
+        }
+
+        @@media print {
+            .exam_tbl {
+                margin-top: 15px;
+            }
+
+            .box-container-border {
+                padding: 15px 20px 2px;
+                border: 1px solid #ccc;
+            }
+
+            .table tr td {
+                font-size: 13px;
+                padding: 2px 4px;
+            }
+
+            .logoDetails {
+                margin-bottom: 5px;
+            }
+
+            .instructionsView .page-title {
+                background: none;
+                color: #000;
+            }
+
+        }
+        .text-right{
+            text-align:right;
+        }
+        .logoDetails .labelWidth {
+            text-align: right;
+            width: 90px;
+        }
+
+        .logoDetails span {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+        .table tr th {
+            white-space: nowrap;
+        }
+        </style>
+
+
+        <div class="instructionsView">
+            <div class="logoDetails">
+                <div class="logo">
+                    <img src="https://cdn.gitam.edu/images/logo/gitam-new-logo.png" alt="GITAM-logo">
+                </div>
+                <div>
+                    <div class="d-flex">
+                        <div class="labelWidth">
+                            <label class="regfon">Regd.No.</label>
+                        </div>
+                        <span class="regfon"> : </span>
+                        <label class="regfon">@Model.note.regdno</label>
+                        <input type="hidden" id="reg" value="@Model.note.regdno" />
+                    </div>
+
+                </div>
+
+            </div>
+
+            @if (Model.notes.FirstOrDefault().EXAM_TYPE.ToUpper() == "MID")
+            {
+                <h3 class="page-title mb-2">MID EXAMINATION HALL TICKET</h3>
+            }
+            else
+            {
+                <h3 class="page-title mb-2">EXAMINATION HALL TICKET</h3>
+            }
+            <div class="box-container-border">
+                <div class="row">
+                    <div class="col-md-10 col-10 std_info">
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Name of the candidate</label>
+                            </div>
+                            <span> : </span>
+                            <label>@Model.note.NAME</label>
+                        </div>
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Name of the examination</label>
+                            </div>
+                            <span> : </span>
+                            @if (@Model.notes.FirstOrDefault().course_name_last == "" || @Model.notes.FirstOrDefault().course_name_last == "")
+                            {
+                                <label id="MainContent_Label1">@Model.notes.FirstOrDefault().course_code</label>
+
+                            }
+                            else
+                            {
+                                <label id="MainContent_Label1">@Model.notes.FirstOrDefault().course_name_last</label>
+
+                            }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Branch</label>
+                            </div>
+                            <span> : </span>
+                            @if (@Model.notes.FirstOrDefault().branch_name_last == "" || @Model.notes.FirstOrDefault().branch_name_last == "")
+                            {
+                                <label id="MainContent_Label1">@Model.studentdetailslist.FirstOrDefault().branch_name</label>
+
+                            }
+                            else
+                            {
+                                <label id="MainContent_Label1">@Model.notes.FirstOrDefault().branch_name_last</label>
+
+                            }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Semester</label>
+                            </div>
+                            <span> : </span>
+
+                            @if (@Model.note.course_code == "PHD")
+                            {
+                                <label>@Model.notes.FirstOrDefault().psntsem</label>
+                            }
+                            else
+                            {
+                                if (@Model.note.type1 == "R")
+                                {
+                                    <label>@Model.note.psntsem</label>
+                                }
+                                else
+                                { <label>@Model.note.psntsem</label>
+
+                            }
+                        }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Examination</label>
+                            </div>
+                            <span> : </span>
+                            <label>@Model.note.type2</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="labelWidth">
+                                <label class="">&nbsp;&nbsp;&nbsp;&nbsp;MoY&nbsp;&nbsp;</label>
+                            </div>&nbsp;&nbsp;
+                            <span> : </span>
+                            <label>@Model.notes.FirstOrDefault().MONTH&nbsp;&nbsp;@Model.notes.FirstOrDefault().year</label>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-2 col-2">
+                        <div class="studentImg">
+                            <div class="d-flex justify-content-center">
+                                <img class="img-fluid" src="https://doeresults.gitam.edu/photo/img.aspx?id=@Model.note.regdno">
+                                @*<img class="img-fluid" id="img_data" src="@Model.ImageUrl" />*@
+                            </div>
+                            <div class="signatureImg controllerImg">
+                                <img src="https://doeresults.gitam.edu/gitamhallticket/Images/Sumanth-Kumar.png " />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row exam_tbl">
+
+                <div class="col-md-7 col-7">
+                    @if (Model.notes.FirstOrDefault().EXAM_TYPE.ToUpper() == "MID")
+                    {
+                        <h5 class="text-center">MID Examination Courses</h5>
+                    }
+                    else
+                    {
+                        <h5 class="text-center">Semester End Examination Courses</h5>
+                    }
+                    <div class="table-responsive table_style ">
+                        <table class="table table-bordered tbl-style sub_table">
+                            <thead>
+                                <tr>
+
+                                    <th>Course Code</th>
+                                    <th class="t-w-280">Title of the Course</th>
+                                    <th>Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="el3 upload_item">
+                                @{int k = 0; }
+                                @foreach (var val in Model.notes)
+                                {
+                                    string formattedDate = "";
+                                    var datetime = val.exam_date + ((val.exam_time));
+                                    <tr class="upload_docs">
+
+                                        @if (DateTime.TryParseExact(val.exam_date, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
+                                        {
+
+                                            formattedDate = parsedDate.ToString("dd-MM-yyyy");
+
+                                        }
+                                        else
+                                        {
+                                            formattedDate = val.exam_date;
+                                        }
+                                        <td>@val.subject_code</td>
+                                        <td>@val.subject_name</td>
+                                        <td>@formattedDate  (@val.exam_time)</td>
+
+                                    </tr>
+                                    k++;
+                                    @*}*@
+                                }
+                                @if (k == 0)
+                                {
+                                    <tr class="upload_docs">
+
+                                        <td>
+                                            <input name="subject_code" maxlength="300" onkeypress="return ValidateSpecialText(event);" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input class="form-control" name="subject_name" maxlength="300" onkeypress="return ValidateSpecialText(event);">
+                                        </td>
+                                        <td>
+                                            <input class="form-control " name="datetime" readonly="readonly" type="text">
+                                        </td>
+
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="qrcode1" class="qrcode1"></div>
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h6>
+                        Place :  @Model.studentdetailslist.FirstOrDefault().Exam_Venue
+                    </h6>
+                    <h6>Date : @DateTime.Today.ToString("dd-MM-yyyy")</h6>
+                </div>
+                <div class="signatureImg ">
+
+                    <img src="https://doeresults.gitam.edu/gitamhallticket/Images/Sumanth-Kumar.png " />
+                    <h6>Controller of Examinations</h6>
+                </div>
+            </div>
+
+            <h6 class="text-center">Instructions to candidates</h6>
+            @if (Model.note.instructn == "A21")
+            {
+                <div class="instsPara">
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                    @*<p>
+                            1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall.
+                            They should not write any matter on the hall-ticket/ identity card/calculator.
+                        </p>
+                        <p>
+                            2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>	of the examination and will
+                            not be permitted to leave the examination hall until the end of the examination.
+                        </p>
+                        <p>3. <span>Answer booklet consists of 24 pages</span> and <span>no additional answer sheets</span> will be issued</p>
+                        <p>
+                            4. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the front page
+                            of the answer book and nowhere else on the answer book in case of a blank OMR Booklet.
+                        </p>
+                        <p>5. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                        <p>6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                        <p>7. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                        <p>8. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                        <p>9. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                        <p>
+                            10.	Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation is
+                            treated as malpractice and liable for disciplinary action.
+                        </p>
+                        <p>
+                            11. Candidates  are  prohibited  from  carrying  books, notes, slips, reference  material, log  tables,  scribbling  pads, cell  phones,
+                            programmable calculators,electronic and audio devices,etc.,
+                        </p>
+                        <p>12. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                        <p>
+                            13. Referring to any material, talking or chatting with others, and violating other protocols during the examination will be considered as malpractice,
+                            and action will be taken accordingly.
+                        </p>
+                        <p>14. University has the right to cancel the examinations if the student is found to have indulged in any malpractice.</p>*@
+                    <p>
+                        1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                    </p>
+                    <p>
+                        2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                    </p>
+                    <p>
+                        3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                    </p>
+                    <p>
+                        4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                    </p>
+                    <p>
+                        5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                    </p><p>
+                        6.   Question numbers must be mentioned legibly in the left-hand column only
+                    </p> <p>
+                        7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                    </p> <p>
+                        8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                    </p> <p>
+                        9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                    </p> <p>
+                        10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                    </p>
+                    <p style="font-weight:bold;">
+                        11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                    </p>
+                </div>
+            }
+            else if (Model.note.instructn == "B21")
+            {
+                <div class="instsPara">
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                    @*<p>
+                            1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall. They should not write any matter
+                            on the hall-ticket/ identity card/calculator.
+                        </p>
+                        <p>
+                            2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>  of the examination and will
+                            be allowed to leave the examination hall in the last ten minutes of the examination.
+                        </p>
+                        <p>
+                            3. Candidates should carefully fill the relevant columns of Registration No., Examination,Subject,etc., in the space provided on the front page
+                            of the answer book and nowhere else on the answer book.
+                        </p>
+                        <p>4. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                        <p>5. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                        <p>6. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                        <p>7. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                        <p>8. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                        <p>
+                            9. Candidates should not write any matter, identification mark,appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation
+                            is treated as malpractice and liable for disciplinary action.
+                        </p>
+                        <p>
+                            10.	Candidates  are  prohibited  from  carrying  books,  notes, slips,  reference  material, log  tables, scribbling  pads, cell  phones, programmable
+                            calculators,electronic and audio devices etc.,
+                        </p>
+                        <p>11. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                        <p>
+                            12. Referring to any material,talking or chatting with others,and violating other protocols during the examination will be considered as malpractice,
+                            and action will be taken accordingly.
+                        </p>
+                        <p>13. University has the right to cancel the examinations if the student is found to have indulged in any kind of malpractice</p>*@
+                    <p>
+                        1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                    </p>
+                    <p>
+                        2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                    </p>
+                    <p>
+                        3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                    </p>
+                    <p>
+                        4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                    </p>
+                    <p>
+                        5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                    </p><p>
+                        6.   Question numbers must be mentioned legibly in the left-hand column only
+                    </p> <p>
+                        7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                    </p> <p>
+                        8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                    </p> <p>
+                        9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                    </p> <p>
+                        10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                    </p>
+                    <p style="font-weight:bold;">
+                        11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                    </p>
+                </div>
+            }
+            else if (Model.note.instructn == "C21")
+            {
+                <div class="instsPara">
+
+
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                    <br />
+                    <p>
+                        1. Candidates with valid identity cards and hall - ticket only will be permitted into the examination hall.They should not write any
+
+                        matter on the hall - ticket / identity card.
+                    </p>
+                    <p>
+                        2.<span>
+                            Candidates are instructed to be seated in the examination hall 30 minutes before the commencement of the
+
+                            examination.No student shall be allowed into the examination hall after the long bell i.e., after the commencement of the
+
+                            examination.Answer sheets are to be
+                        </span>returned to the Invigilator before leaving the examination hall.
+                    </p>
+
+                    <p>
+                        3. Candidates with no photo available in the hall - ticket need to affix a recent passport - size photo and get it attested by the respective
+
+                        HoD / HoI.
+                    </p>
+
+                    <p>
+                        4. Use only a blue / black ball pen for writing answers. Changes in the shade of the ink during examination has to be got attested
+
+                        by the invigilator.
+                    </p>
+
+                    <p>
+                        5. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the
+
+                        front page of the answer book and nowhere else on the answer book.
+                    </p>
+                    <p> 6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                    <p>
+                        7. Question numbers must be mentioned in the left-hand margin only, and Rough work must be done on the right margins of the
+                        page.
+                    </p>
+                    <p> 8. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                    <p>
+                        9. Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the
+                        answer book. Violation is treated as malpractice and liable for disciplinary action.
+                    </p>
+                    <p>
+                        10. Candidates are prohibited from carrying books, notes, slips, reference material, log tables, scribbling pads, cell phones,
+                        programmable calculators, electronic and audio devices etc.,
+                    </p>
+                    <span>
+                        <p>
+                            11. Candidates are instructed to maintain silence after entering the examination hall and throughout the examination period.No student
+                            is allowed to talk or communicate with their fellow examinees in the examination hall.
+                        </p>
+                        <p>12. Candidate in possession of prohibited articles / equipment are liable for debarring from the examination.</p>
+                        <p>
+                            13. If the candidate is found to indulge in malpractice in the examination, the student is not allowed to continue writing the
+                            examination and the case shall be referred to the disciplinary committee for appropriate punishment.
+                        </p>
+                    </span>
+
+                </div>
+
+            }
+            else
+            {
+
+                <div class="instsPara">
+                    <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                    @*<p>
+                            1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall.
+                            They should not write any matter on the hall-ticket/ identity card/calculator.
+                        </p>
+                        <p>
+                            2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>	of the examination and will
+                            not be permitted to leave the examination hall until the end of the examination.
+                        </p>
+                        <p>3. <span>Answer booklet consists of 24 pages</span> and <span>no additional answer sheets</span> will be issued</p>
+                        <p>
+                            4. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the front page
+                            of the answer book and nowhere else on the answer book in case of a blank OMR Booklet.
+                        </p>
+                        <p>5. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                        <p>6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                        <p>7. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                        <p>8. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                        <p>9. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                        <p>
+                            10.	Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation is
+                            treated as malpractice and liable for disciplinary action.
+                        </p>
+                        <p>
+                            11. Candidates  are  prohibited  from  carrying  books, notes, slips, reference  material, log  tables,  scribbling  pads, cell  phones,
+                            programmable calculators,electronic and audio devices,etc.,
+                        </p>
+                        <p>12. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                        <p>
+                            13. Referring to any material, talking or chatting with others, and violating other protocols during the examination will be considered as malpractice,
+                            and action will be taken accordingly.
+                        </p>
+                        <p>14. University has the right to cancel the examinations if the student is found to have indulged in any malpractice.</p>
+                        <p>
+                            <span>
+                                Note: The photo displayed on the hallticket will be printed on the Original certificate to be issued during the ensuing convocation.For any changes in the photo
+                                contact your respective HOD immediately.
+                            </span>
+                        </p>*@
+                    <p>
+                        1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                    </p>
+                    <p>
+                        2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                    </p>
+                    <p>
+                        3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                    </p>
+                    <p>
+                        4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                    </p>
+                    <p>
+                        5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                    </p><p>
+                        6.   Question numbers must be mentioned legibly in the left-hand column only
+                    </p> <p>
+                        7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                    </p> <p>
+                        8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                    </p> <p>
+                        9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                    </p> <p>
+                        10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                    </p>
+                    <p style="font-weight:bold;">
+                        11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                    </p>
+                </div>
+
+            }
+
+
+        </div>
+
+    </div>
+    <p><b style="color:red;">Note:</b> Please download in desktop version.</p>
+    <div class="text-center mt-4">
+
+        <input type="button" class="btn btn-primary hltckt_print" value="Print" onclick="printpage()" />
+
+    </div>
+}
+else if (Model.studentdetails.Count() > 0)
+{
+    <div id="idcard" style="max-width:900px;overflow-x:scroll;">
+        <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+        <style>
+        .instructionsView {
+            width: 900px;
+            margin: auto;
+            border: 1px solid #007367;
+            padding: 15px;
+            background: #fff;
+        }
+
+        .logoDetails {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .instructionsView .page-title {
+            text-align: center;
+            background: #007367;
+            color: #fff;
+            padding: 5px;
+        }
+
+        .labelWidth {
+            margin-bottom: 7px;
+        }
+
+        .box-container-border {
+            padding: 15px 20px 2px;
+        }
+
+        .label-width-md {
+            min-width: 250px;
+        }
+
+        .instructionsView span {
+            font-weight: 600;
+           @* margin-right: 20px;*@
+        }
+        .std_info span {
+            margin-right: 20px;
+        }
+        .signatureImg img {
+            width: 160px;
+            height: 30px;
+        }
+
+        .instsPara p {
+            margin-bottom: 0 !important;
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        .controllerImg {
+            position: absolute;
+            top: 100px;
+        }
+
+        .studentImg {
+            position: relative;
+        }
+
+        .logoDetails h5 {
+            border: 1px solid #333;
+            padding: 3px 5px
+        }
+
+        .tbl-style thead th:last-child {
+            border-right: 1px solid #dee2e6;
+        }
+
+        .sub_table tr td:nth-child(3) {
+            white-space: nowrap;
+        }
+
+        .t-w-280 {
+            width: 280px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .sub_table tr td, .p_table tr td {
+            padding: 2px 2px;
+            font-size: 12px;
+        }
+
+        @@media print {
+            .exam_tbl {
+                margin-top: 15px;
+            }
+
+            .box-container-border {
+                padding: 15px 20px 2px;
+                border: 1px solid #ccc;
+            }
+
+            .table tr td {
+                font-size: 13px;
+                padding: 2px 4px;
+            }
+
+            .logoDetails {
+                margin-bottom: 5px;
+            }
+
+            .instructionsView .page-title {
+                background: none;
+                color: #000;
+            }
+
+        }
+        .text-right{
+            text-align:right;
+        }
+        .logoDetails .labelWidth {
+            text-align: right;
+            width: 90px;
+        }
+
+        .logoDetails span {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+        .table tr th {
+            white-space: nowrap;
+        }
+        </style>
+
+
+        <div class="instructionsView">
+            <div class="logoDetails">
+                <div class="logo">
+                    <img src="https://cdn.gitam.edu/images/logo/gitam-new-logo.png" alt="GITAM-logo">
+                </div>
+                <div>
+                    <div class="d-flex">
+                        <div class="labelWidth">
+                            <label class="regfon">Regd.No.</label>
+                        </div>
+                        <span class="regfon"> : </span>
+                        <label class="regfon">@Model.note.regdno</label>
+                        <input type="hidden" id="reg" value="@Model.note.regdno" />
+                    </div>
+
+                </div>
+
+            </div>
+
+            @if (Model.notes.FirstOrDefault().EXAM_TYPE.ToUpper() == "MID")
+            {
+                <h3 class="page-title mb-2">MID EXAMINATION HALL TICKET</h3>
+            }
+            else
+            {
+                <h3 class="page-title mb-2">EXAMINATION HALL TICKET</h3>
+            }
+            <div class="box-container-border">
+                <div class="row">
+                    <div class="col-md-10 col-10 std_info">
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Name of the candidate</label>
+                            </div>
+                            <span> : </span>
+                            <label>@Model.note.NAME</label>
+                        </div>
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Name of the examination</label>
+                            </div>
+                            <span> : </span>
+                            @if (@Model.studentdetails.FirstOrDefault().course_name_last == "" || @Model.studentdetails.FirstOrDefault().course_name_last == "")
+                            {
+                                <label id="MainContent_Label1">@Model.studentdetails.FirstOrDefault().course_code</label>
+
+                            }
+                            else
+                            {
+                                <label id="MainContent_Label1">@Model.studentdetails.FirstOrDefault().course_name_last</label>
+
+                            }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Branch</label>
+                            </div>
+                            <span> : </span>
+                            @if (@Model.studentdetails.FirstOrDefault().branch_name_last == "" || @Model.studentdetails.FirstOrDefault().branch_name_last == "")
+                            {
+                                <label id="MainContent_Label1">@Model.studentdetailslist.FirstOrDefault().branch_name</label>
+
+                            }
+                            else
+                            {
+                                <label id="MainContent_Label1">@Model.studentdetails.FirstOrDefault().branch_name_last</label>
+
+                            }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Semester</label>
+                            </div>
+                            <span> : </span>
+
+                            @if (@Model.note.course_code == "PHD")
+                            {
+                                <label>@Model.studentdetails.FirstOrDefault().psntsem</label>
+                            }
+                            else
+                            {
+                                if (@Model.note.type1 == "R")
+                                {
+                                    <label>@Model.note.psntsem</label>
+                                }
+                                else
+                                { <label>@Model.note.psntsem</label>
+
+                            }
+                        }
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="labelWidth">
+                                <label class="label-width-md">Examination</label>
+                            </div>
+                            <span> : </span>
+                            <label>@Model.note.type2</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="labelWidth">
+                                <label class="">&nbsp;&nbsp;&nbsp;&nbsp;MoY&nbsp;&nbsp;</label>
+                            </div>&nbsp;&nbsp;
+                            <span> : </span>
+                            <label>@Model.studentdetails.FirstOrDefault().MONTH&nbsp;&nbsp;@Model.studentdetails.FirstOrDefault().year</label>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-2 col-2">
+                        <div class="studentImg">
+                            <div class="d-flex justify-content-center">
+                                <img class="img-fluid" src="https://doeresults.gitam.edu/photo/img.aspx?id=@Model.note.regdno">
+                                @*<img class="img-fluid" id="img_data" src="@Model.ImageUrl" />*@
+                            </div>
+                            <div class="signatureImg controllerImg">
+                                <img src="https://doeresults.gitam.edu/gitamhallticket/Images/Sumanth-Kumar.png " />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row exam_tbl">
+
+
+                @if (Model.studentdetails.Count() > 0)
+                {
+
+                    <div class="col-md-5 col-5">
+                        <h5 class="text-center">Continuous Evaluation Courses</h5>
+                        <div class="table-responsive table_style ">
+                            <table class="table table-bordered tbl-style p_table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th class="t-w-280">Title of the Course</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody class="el3 upload_item">
+                                    @{int m = 0; }
+                                    @foreach (var val in Model.studentdetails)
+                                    {
+                                        <tr class="upload_docs">
+                                            <td>@val.subject_code</td>
+                                            <td>@val.subject_name</td>
+
+
+                                        </tr>
+                                        m++;
+
+                                    }
+                                    @if (m == 0)
+                                    {
+                                        <tr class="upload_docs">
+
+                                            <td>
+                                                <input name="subject_code" maxlength="300" onkeypress="return ValidateSpecialText(event);" class="form-control" readonly="readonly">
+                                            </td>
+                                            <td>
+                                                <input class="form-control" name="subject_name" maxlength="300" onkeypress="return ValidateSpecialText(event);" readonly="readonly">
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="qrcode1" class="qrcode1"></div>
+                    </div>
+                }
+
+
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>
+                            Place :  @Model.studentdetailslist.FirstOrDefault().Exam_Venue
+                        </h6>
+                        <h6>Date : @DateTime.Today.ToString("dd-MM-yyyy")</h6>
+                    </div>
+                    <div class="signatureImg ">
+
+                        <img src="https://doeresults.gitam.edu/gitamhallticket/Images/Sumanth-Kumar.png " />
+                        <h6>Controller of Examinations</h6>
+                    </div>
+                </div>
+
+                <h6 class="text-center">Instructions to candidates</h6>
+                @if (Model.note.instructn == "A21")
+                {
+                    <div class="instsPara">
+                        <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                        @*<p>
+                                1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall.
+                                They should not write any matter on the hall-ticket/ identity card/calculator.
+                            </p>
+                            <p>
+                                2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>	of the examination and will
+                                not be permitted to leave the examination hall until the end of the examination.
+                            </p>
+                            <p>3. <span>Answer booklet consists of 24 pages</span> and <span>no additional answer sheets</span> will be issued</p>
+                            <p>
+                                4. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the front page
+                                of the answer book and nowhere else on the answer book in case of a blank OMR Booklet.
+                            </p>
+                            <p>5. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                            <p>6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                            <p>7. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                            <p>8. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                            <p>9. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                            <p>
+                                10.	Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation is
+                                treated as malpractice and liable for disciplinary action.
+                            </p>
+                            <p>
+                                11. Candidates  are  prohibited  from  carrying  books, notes, slips, reference  material, log  tables,  scribbling  pads, cell  phones,
+                                programmable calculators,electronic and audio devices,etc.,
+                            </p>
+                            <p>12. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                            <p>
+                                13. Referring to any material, talking or chatting with others, and violating other protocols during the examination will be considered as malpractice,
+                                and action will be taken accordingly.
+                            </p>
+                            <p>14. University has the right to cancel the examinations if the student is found to have indulged in any malpractice.</p>*@
+                        <p>
+                            1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                        </p>
+                        <p>
+                            2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                        </p>
+                        <p>
+                            3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                        </p>
+                        <p>
+                            4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                        </p>
+                        <p>
+                            5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                        </p><p>
+                            6.   Question numbers must be mentioned legibly in the left-hand column only
+                        </p> <p>
+                            7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                        </p> <p>
+                            8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                        </p> <p>
+                            9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                        </p> <p>
+                            10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                        </p>
+                        <p style="font-weight:bold;">
+                            11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                        </p>
+                    </div>
+                }
+                else if (Model.note.instructn == "B21")
+                {
+                    <div class="instsPara">
+                        <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                        @*<p>
+                                1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall. They should not write any matter
+                                on the hall-ticket/ identity card/calculator.
+                            </p>
+                            <p>
+                                2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>  of the examination and will
+                                be allowed to leave the examination hall in the last ten minutes of the examination.
+                            </p>
+                            <p>
+                                3. Candidates should carefully fill the relevant columns of Registration No., Examination,Subject,etc., in the space provided on the front page
+                                of the answer book and nowhere else on the answer book.
+                            </p>
+                            <p>4. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                            <p>5. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                            <p>6. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                            <p>7. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                            <p>8. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                            <p>
+                                9. Candidates should not write any matter, identification mark,appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation
+                                is treated as malpractice and liable for disciplinary action.
+                            </p>
+                            <p>
+                                10.	Candidates  are  prohibited  from  carrying  books,  notes, slips,  reference  material, log  tables, scribbling  pads, cell  phones, programmable
+                                calculators,electronic and audio devices etc.,
+                            </p>
+                            <p>11. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                            <p>
+                                12. Referring to any material,talking or chatting with others,and violating other protocols during the examination will be considered as malpractice,
+                                and action will be taken accordingly.
+                            </p>
+                            <p>13. University has the right to cancel the examinations if the student is found to have indulged in any kind of malpractice</p>*@
+                        <p>
+                            1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                        </p>
+                        <p>
+                            2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                        </p>
+                        <p>
+                            3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                        </p>
+                        <p>
+                            4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                        </p>
+                        <p>
+                            5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                        </p><p>
+                            6.   Question numbers must be mentioned legibly in the left-hand column only
+                        </p> <p>
+                            7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                        </p> <p>
+                            8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                        </p> <p>
+                            9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                        </p> <p>
+                            10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                        </p>
+                        <p style="font-weight:bold;">
+                            11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                        </p>
+                    </div>
+                }
+                else if (Model.note.instructn == "C21")
+                {
+                    <div class="instsPara">
+
+
+                        <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                        <br />
+                        <p>
+                            1. Candidates with valid identity cards and hall - ticket only will be permitted into the examination hall.They should not write any
+
+                            matter on the hall - ticket / identity card.
+                        </p>
+                        <p>
+                            2.<span>
+                                Candidates are instructed to be seated in the examination hall 30 minutes before the commencement of the
+
+                                examination.No student shall be allowed into the examination hall after the long bell i.e., after the commencement of the
+
+                                examination.Answer sheets are to be
+                            </span>returned to the Invigilator before leaving the examination hall.
+                        </p>
+
+                        <p>
+                            3. Candidates with no photo available in the hall - ticket need to affix a recent passport - size photo and get it attested by the respective
+
+                            HoD / HoI.
+                        </p>
+
+                        <p>
+                            4. Use only a blue / black ball pen for writing answers. Changes in the shade of the ink during examination has to be got attested
+
+                            by the invigilator.
+                        </p>
+
+                        <p>
+                            5. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the
+
+                            front page of the answer book and nowhere else on the answer book.
+                        </p>
+                        <p> 6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                        <p>
+                            7. Question numbers must be mentioned in the left-hand margin only, and Rough work must be done on the right margins of the
+                            page.
+                        </p>
+                        <p> 8. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                        <p>
+                            9. Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the
+                            answer book. Violation is treated as malpractice and liable for disciplinary action.
+                        </p>
+                        <p>
+                            10. Candidates are prohibited from carrying books, notes, slips, reference material, log tables, scribbling pads, cell phones,
+                            programmable calculators, electronic and audio devices etc.,
+                        </p>
+                        <span>
+                            <p>
+                                11. Candidates are instructed to maintain silence after entering the examination hall and throughout the examination period.No student
+                                is allowed to talk or communicate with their fellow examinees in the examination hall.
+                            </p>
+                            <p>12. Candidate in possession of prohibited articles / equipment are liable for debarring from the examination.</p>
+                            <p>
+                                13. If the candidate is found to indulge in malpractice in the examination, the student is not allowed to continue writing the
+                                examination and the case shall be referred to the disciplinary committee for appropriate punishment.
+                            </p>
+                        </span>
+
+                    </div>
+
+                }
+                else
+                {
+
+                    <div class="instsPara">
+                        <b>Candidates appearing for the GITAM (Deemed to be University) examinations are required to strictly observe the following instructions</b>
+                        @*<p>
+                                1. Candidates with valid identity cards and hall-ticket only will be permitted into the examination hall.
+                                They should not write any matter on the hall-ticket/ identity card/calculator.
+                            </p>
+                            <p>
+                                2. Candidates shall not be admitted into the examination hall after <span>10 minutes of the commencement</span>	of the examination and will
+                                not be permitted to leave the examination hall until the end of the examination.
+                            </p>
+                            <p>3. <span>Answer booklet consists of 24 pages</span> and <span>no additional answer sheets</span> will be issued</p>
+                            <p>
+                                4. Candidates should carefully fill the relevant columns of Registration No., Examination, Subject, etc., in the space provided on the front page
+                                of the answer book and nowhere else on the answer book in case of a blank OMR Booklet.
+                            </p>
+                            <p>5. Candidates with no photo available in the hall-ticket need to affix a recent passport-size photo and get it attested by the respective HoD/Hol.</p>
+                            <p>6. Candidates shall write answers on both sides of the page and note that no additional answer books are provided.</p>
+                            <p>7. Question numbers must be mentioned in the left-hand margin only,and Rough work must be done on the right margins of the page.</p>
+                            <p>8. Use only a blue/black ball or ink pen for writing answers. Changes in the shade of the ink during examination has to be got attested by the invigilator.</p>
+                            <p>9. Hand over the answer book to theInvigilator before leaving the examination hall.</p>
+                            <p>
+                                10.	Candidates should not write any matter, identification mark, appeal, symbol, etc., unrelated to the examination anywhere on the answer book. Violation is
+                                treated as malpractice and liable for disciplinary action.
+                            </p>
+                            <p>
+                                11. Candidates  are  prohibited  from  carrying  books, notes, slips, reference  material, log  tables,  scribbling  pads, cell  phones,
+                                programmable calculators,electronic and audio devices,etc.,
+                            </p>
+                            <p>12. Candidates shall be provided with drinking water in the examination hall; no other beverages are permitted.</p>
+                            <p>
+                                13. Referring to any material, talking or chatting with others, and violating other protocols during the examination will be considered as malpractice,
+                                and action will be taken accordingly.
+                            </p>
+                            <p>14. University has the right to cancel the examinations if the student is found to have indulged in any malpractice.</p>
+                            <p>
+                                <span>
+                                    Note: The photo displayed on the hallticket will be printed on the Original certificate to be issued during the ensuing convocation.For any changes in the photo
+                                    contact your respective HOD immediately.
+                                </span>
+                            </p>*@
+                        <p>
+                            1. Candidates with Institute identity cards and hall tickets will only be permitted into the examination hall.
+                        </p>
+                        <p>
+                            2.  No candidates are allowed to enter the examination hall 10 minutes after the commencement of the examination and will not be permitted to leave the hall till the end of the examination.
+                        </p>
+                        <p>
+                            3. Candidates without a photo on the hall ticket need to affix a recent passport-size photo, which the respective HoD/Hol shall attest.
+                        </p>
+                        <p>
+                            4.   Candidates should carefully fill out the relevant columns in case of a blank OMR Booklet.
+                        </p>
+                        <p>
+                            5.   No additional answer sheets will be issued. Candidates shall write answers on both sides.
+                        </p><p>
+                            6.   Question numbers must be mentioned legibly in the left-hand column only
+                        </p> <p>
+                            7.  Use only a blue/black ball pen for writing answers. The invigilator must attest to the changes in the ink's shade by the student during the examination.
+                        </p> <p>
+                            8.  Hand over the answer booklet to the invigilator before leaving the examination hall.
+                        </p> <p>
+                            9.  Candidates should not write any matter, identification mark, appeal, symbol, etc., anywhere in the answer booklet, if found be treated as malpractice and liable for disciplinary action.
+                        </p> <p>
+                            10.  Candidates in possession of any forbidden material, programmable calculators, other electronic gadgets and exchange of any devices be treated as indulgence in malpractice.
+                        </p>
+                        <p style="font-weight:bold;">
+                            11. Verify your Name, Father’s Name and Date of Birth in this Hall Ticket with the details on your SSC or equivalent certificate, as they will be printed on all certificates issued by GITAM. if there are discrepancies, please contact your Head of the Department (HoD) immediately for rectification.
+                        </p>
+                    </div>
+
+                }
+
+
+            </div>
+
+        </div>
+        <p><b style="color:red;">Note:</b> Please download in desktop version.</p>
+        <div class="text-center mt-4">
+
+            <input type="button" class="btn btn-primary hltckt_print" value="Print" onclick="printpage()" />
+
+        </div>
+    </div>
+}
+else
+{
+    <h5 class="page-title">Online Hallticket</h5>
+    <div class="box-container">
+        <h6 class="text-center" style="margin-top:20px;">No Exam for this regdno/Invalid HallTicket Number/Pelase Contact HOD's Office............</h6>
+    </div>
+}
+
+
+
+<script>
+    function printpage() {
+        setTimeout(function () {
+
+            var contents = document.getElementById('idcard').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    }
+    @*$(document).ready(function () {
+
+        var content = "Regdno:@Session["REGDNO"]"+"\n"+"Studentname:@Session["studname"]";
+        var qrcode = new QRCode(document.getElementById("qrcode1"), {
+            text: content,
+            width: 80,
+            height: 80,
+            colorDark: "#000000",
+
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+    });*@
+    $(document).ready(function () {
+        var width = $(window).width();
+        if (width > "575") {
+            $('.hltckt_print').show();
+        } else {
+            $('.hltckt_print').hide();
+        }
+
+    });
+    $(document).ready(function () {
+        debugger;
+        var content = "";
+         var campusCode = "@Session["campus_code"]";
+
+        if (campusCode === "blr" || campusCode === "BLR") {
+            content = "https://gstudent.gitam.edu/Hallticket/Roomdetails?regdno=@Session["REGDNO"]";
+
+            var qrcode = new QRCode(document.getElementById("qrcode1"), {
+
+                text: content,
+                width: 100,
+                height: 100,
+                colorDark: "#000000",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+        }
+
+                                        });
+
+
+
+    function CloseModal() {
+
+        var regdno = document.getElementById('reg').value;
+
+        $.ajax({
+            type: "POST",
+            url: './Home/DeleteImage',
+            data: { 'regno': regdno },
+            success: function (data) {
+                // console.log(data);
+            },
+            error: function (request, status, error) {
+
+
+
+            }
+        });
+
+    }
+
+</script>

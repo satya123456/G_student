@@ -1,0 +1,247 @@
+﻿@model Gstudent.ViewModels.Studentrecords.Lmsdirectorysummary
+<style>
+    .accordion {
+        margin-bottom: 15px;
+        border-radius: 4px
+    }
+
+    .accordion-item {
+        border: 1px solid #fff;
+        padding: 2px 0px;
+        margin-bottom: 15px;
+    }
+
+    .accordion-button {
+        box-shadow: none !important;
+        padding: 11px 15px 9px !important;
+        background: #fff !important;
+    }
+
+    .bg1 {
+        background: #eafff5;
+    }
+
+    .bgBox {
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .bg2 {
+        background: #e4e6ed;
+    }
+
+    .bg3 {
+        background: #f0eee5;
+    }
+
+    .far.fa-file-image {
+        color: #007367;
+        font-size: 18px;
+    }
+
+    .ri-file-download-line {
+        color: #007367;
+        font-size: 20px;
+    }
+
+    .table p {
+        line-height: inherit;
+        margin-bottom: 5px;
+        /* padding: 3px; */
+        /* display: flex; */
+    }
+    /*  table tr td:last-child {
+        text-align: right;
+    }*/
+
+    .accordion-item {
+        background: #fff;
+        padding: 10px;
+    }
+
+        .accordion-item div p {
+            line-height: 1.5;
+            display: block;
+        }
+</style>
+<div class="content-container ">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Announcements (@ViewBag.subjectcode - @ViewBag.subjectname)</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="Lmsback()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="inner_wrapper box-inner">
+        <div class="grid-container bgBox bg1">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                @if (Model.directorydata.Count() > 0)
+                {
+                    foreach (var course in Model.directorydata.Select(x => new { x.dt_time }).Distinct())
+                    {
+                        var assignlist = Model.directorydata.Where(X => X.dt_time.Equals(course.dt_time)).OrderByDescending(X => X.dt_time);
+
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flushhead-@assignlist.FirstOrDefault().id">
+                                <div class="d-flex justify-content-between">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@assignlist.FirstOrDefault().id" aria-expanded="false" aria-controls="flush-@assignlist.FirstOrDefault().id">
+                                        @assignlist.FirstOrDefault().dt_time
+
+                                    </button>
+                                    @{int k = 0;}
+                                </div>
+                            </h2>
+
+                            <div id="flush-@assignlist.FirstOrDefault().id" class="accordion-collapse collapse" aria-labelledby="flushhead-@assignlist.FirstOrDefault().id" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    @foreach (var lst in assignlist.Select(x => new { x.folderid, x.FILE_NAME1, x.dt_time, x.content_data, x.group_code, x.id }).Distinct())
+                                    {
+                                        <table class="table">
+                                            <tr>
+                                                <td><div>@Html.Raw(lst.content_data)</div></td>
+
+                                                @if (lst.FILE_NAME1 != null && lst.FILE_NAME1 != "")
+                                                {
+                                                    <input type="hidden" id="imagename1" value="@lst.FILE_NAME1">
+                                                    <td><span id="filename"></span></td>
+                                                    <td class="fileh6 courseFileName"><a onclick="myFunctionabt('@lst.FILE_NAME1', '@lst.group_code', '@lst.folderid', '@lst.id');"><span><i class="ri-file-download-line"></i></span></a></td>
+
+                                                }
+                                                else
+                                                {
+
+                                                }
+                                            </tr>
+
+                                        </table>
+
+
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    }
+                }
+                else
+                {
+                    <div class="nodata" id="noFoldersrepo">
+                        <h6 class="text-center">Faculty not yet posted</h6>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        var FileName = $('#imagename1').val().slice(0, -4);
+        $('#filename').text(FileName);
+    });
+
+    function Lmsback() {
+
+
+        $('#maindiv').html("");
+        $.ajax({
+
+            type: 'GET',
+            url: './Home/getlmssubjects',
+
+            success: (function (result) {
+
+                $('#maindiv').html(result);
+
+
+            })
+        });
+
+    }
+    function myFunctionabt(filename, group_code, folderid, assignmentid) {
+
+        debugger;
+        ViewPdf_repo(filename, group_code, folderid, assignmentid);
+    }
+
+
+    function Base64ToBytes(base64) {
+        var s = window.atob(base64);
+        var bytes = new Uint8Array(s.length);
+        for (var i = 0; i < s.length; i++) {
+            bytes[i] = s.charCodeAt(i);
+        }
+        return bytes;
+    };
+    function ViewPdf_repo(filename, group_code, folderid, assignmentid) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: './Home/PdfGet_announcement',
+            data: { filename: filename, 'group_code': group_code, 'folderid': folderid, 'assignmentid': assignmentid },
+
+            success: function (data, fileType1) {
+                var fileData = data.Base64Content;
+                var fileType = data.FileType;
+                var fileName = filename;
+
+                if (fileData != "") {
+                    downloadFile(fileData, fileType, fileName);
+                } else {
+                    alert("File not available!");
+                }
+            },
+            error: function (request, status, error) {
+                var val = request.responseText;
+                alert("PDF file not available! " + val);
+            }
+        });
+    }
+
+    function downloadFile(fileData, fileType, fileName) {
+        var urlSafeData = fileData;
+        var base64Data = urlSafeData.replace(/-/g, '+').replace(/_/g, '/');
+
+        var byteCharacters = window.atob(base64Data);
+        var byteArrays = [];
+
+        for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+            var slice = byteCharacters.slice(offset, offset + 512);
+
+            var byteNumbers = new Array(slice.length);
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            var byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        var blob = new Blob(byteArrays, { type: fileType });
+        var blobUrl = window.URL.createObjectURL(blob);
+
+        var link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+    }
+
+</script>
+
+

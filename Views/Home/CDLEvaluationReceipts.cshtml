@@ -1,0 +1,1529 @@
+﻿@model Gstudent.ViewModels.Studentrecords.CDLSupplimentaryFeesSummary
+<style>
+    table .form-check-input {
+        margin-left: 0px !important;
+    }
+</style>
+<section class="content-container contentContainer">
+    <div class="tabsContainer  ">
+
+        <!-- Tabs line -->
+        <div class="tabsFill">
+            <div class="d-flex justify-content-between">
+                <h3 class="page-title  mb-2">
+                    Evaluation fee receipts
+                    <div class="back pull-right">
+                        <a href="javascript:void(0);" onclick="location.reload();">
+                            <i class='bx bx-arrow-back'></i>
+                        </a>
+                    </div>
+                </h3>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab1"><span class="dtab">Request</span><span class="mtab" title="Request"><i class="ri-git-pull-request-line"></i></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab2" onclick="getFeeHistory()"><span class="dtab">History</span><span class="mtab"><i class="ri-hourglass-fill"></i></span></a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="box-container">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane  active" id="tab1">
+                        <div id="id1" visible="true">
+
+
+                            @*<table width="800" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <Label ID="lblerror" Font-Bold="True"></Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Label ID="Label1" Text="Regdno">Regdno</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lblregdno" Font-Bold="True">@Model.data.FirstOrDefault().REGDNO</Label>
+                                </td>
+                                <td>
+                                    <Label ID="Label10" Text="Name">Name</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lblname" Font-Bold="True">@Model.data.FirstOrDefault().NAME</Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Label ID="Label6" Text="Father Name">Father Name</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lblfather" Font-Bold="True">@Model.data.FirstOrDefault().FATHER_NAME</Label>
+                                </td>
+                                <td>
+                                    <Label ID="Label31"
+                                           Text="Degree">Degree</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lbldegree" Font-Bold="True">@Model.data.FirstOrDefault().DEGREE_CODE</Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Label ID="Label32" Text="Branch">Branch</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lblbranch" Font-Bold="True">@Model.data.FirstOrDefault().BRANCH_CODE</Label>
+                                </td>
+                                <td>
+                                    <Label ID="Label34" Text="Course">Course</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lblcourse" Font-Bold="True">@Model.data.FirstOrDefault().COURSE_CODE</Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Label ID="Label19" Text="Institute">Institute</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lblinstitute" Font-Bold="True">@Model.data.FirstOrDefault().COLLEGE_CODE</Label>
+                                </td>
+                                <td>
+                                    <Label ID="Label22" Text="Campus">Campus</Label>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <Label ID="lblcampus" Font-Bold="True">@Model.data.FirstOrDefault().CAMPUS</Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <Label ID="lblstatus" Visible="False"></Label>
+                                </td>
+                                <td>
+                                    <Label ID="Label36" Text="Label" Visible="False"></Label>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <Label ID="Label35" Text="Label" Visible="False"></Label>
+                                    <Label ID="Label37" Text="Label" Visible="False"></Label>
+                                    <Label ID="Label38" Text="Label" Visible="False"></Label>
+                                </td>
+                            </tr>
+                        </table>
+                            *@
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                    <label>Fee type</label>
+                                    <div class="sec-inline mt-2">
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input" id="Examination" name="radioBtn" value="something" onclick="DisplayExam()">
+                                            <label class="form-check-label" for="Examination">Examination</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input" id="Certificates" name="radioBtn" value="something" onclick="DisplayCertificate()">
+                                            <label class="form-check-label" for="Certificates">Certificates</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-3 col-lg-3" id="examination" style="display:none;">
+                                    <label>Examination Fee</label>
+                                    <div class="sec-inline mt-2">
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input" id="Supplementary" name="exam" value="something" onclick="GetSupplimentarydetails('Supplementary')">
+                                            <label class="form-check-label" for="Supplementary">Supplementary</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input" id="Revaluation" name="exam" value="something" onclick="GetSupplimentarydetails('Revaluation')">
+                                            <label class="form-check-label" for="Revaluation">Revaluation</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane " id="tab2">
+                        @{Html.RenderPartial("CDLFeeHistory");}
+
+
+
+
+                    </div>
+                    <div class="tab-pane  " id="tab3">
+                        @*@{Html.RenderPartial("Approved");}*@
+                    </div>
+                    <div class="tab-pane  fade" id="tab4">
+                        @*@{Html.RenderPartial("Rejected"); }*@
+                    </div>
+                    <div class="tab-pane  fade" id="tab5">
+                        @*@{Html.RenderPartial("History");}*@
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="box-container" id="Supplimentarydetails" style="display:none;">
+                <div class="tab-content">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Process type</label>
+                                <input type="text" class="form-control" id="lblgetprocesstype" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Month / Year</label>
+                                <input type="text" class="form-control" id="lblgetmonthYear" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Last date</label>
+                                <input type="text" class="form-control" id="lblgetlastdate" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Last date with fine / Late fee per semester</label>
+                                <input type="text" class="form-control" id="lblgetlastdate1" value="" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Last date with fine /  Late fee per semester</label>
+                                <input type="text" class="form-control" id="lblgetlastdate2" value="" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <Label ID="suplly" Text="Label" Visible="False"></Label>
+
+
+                </div>
+                <div id="supplyfee">
+
+                    @{Html.RenderPartial("SupplimentryFee", Model);}
+                </div>
+
+            </div>
+
+            @using (Ajax.BeginForm("ProceedPayCertificate", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", OnSuccess = "successSubmit", OnFailure = "return onError(event)" }))
+            {
+                <div class="box-container" id="Examdetails" style="display:none;">
+                    <div class="tab-content">
+                        @*<div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Process type</label>
+                                <input type="text" class="form-control" id="lblgetprocesstype" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Month / Year</label>
+                                <input type="text" class="form-control" id="lblgetmonthYear" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Last date</label>
+                                <input type="text" class="form-control" id="lblgetlastdate" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Last date with fine / Late fee per semester</label>
+                                <input type="text" class="form-control" id="lblgetlastdate1" value="" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Last date with fine /  Late fee per semester</label>
+                                <input type="text" class="form-control" id="lblgetlastdate2" value="" readonly>
+                            </div>
+                        </div>
+                    </div>*@
+                        <fieldset class="fieldset_fm">
+                            <legend class="legend_fm">Certificates Fee</legend>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable1">
+
+                                        <tr>
+                                            <td></td>
+
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Adl.Fee
+                                            </td>
+
+                                            <td>
+
+                                                By Post
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                1.<Label ID="Label9">Credential Verification</Label>
+                                                <br />
+                                                India - 1770/- (Including 18% GST)<br />
+                                                Abroad - US-100$ + GST + @@ 18%
+                                            </td>
+
+
+                                            <td>
+                                                <div class="sec-inline mt-2">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="form-check-input" id="India" name="India" value="India" onclick="IndiaAbroad()">
+                                                        <label class="form-check-label" for="India">India</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input type="radio" class="form-check-input" id="Abroad" name="India" value="Abroad" onclick="IndiaAbroad()">
+                                                        <label class="form-check-label" for="Abroad">Abroad</label>
+                                                    </div>
+                                                </div>
+                                                @*<RadioButtonList ID="rbtcrever" AutoPostBack="True"
+                                                             onselectedindexchanged="rbtcrever_SelectedIndexChanged" Width="234px">
+                                                <ListItem Value="O">India</ListItem>
+                                                <ListItem Value="D">Abroad</ListItem>
+
+                                            </RadioButtonList>*@
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text" value="0" ID="IndiaAbroadTextbox"  name="IndiaAbroadTextbox"/>
+
+                                            </td>
+
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                2.<Label ID="lbltrans">Transcripts</Label>
+                                                (Rs.50/- Per Transcript)
+                                            </td>
+
+
+                                            <td>
+                                                <input type="checkbox" class="form-check-input" id="Transcripts" name="checkboxTrascript" value="something" checked readonly onclick="rbttrans_SelectedIndexChanged()">
+                                                @*<label class="form-check-label" for="Transcripts" id="counterval" name="counterval">0</label>*@
+                                                <input type="text" class="form-control" for="Transcripts" id="counterval" name="counterval" readonly/>
+                                                @*<RadioButtonList ID="rbttrans"
+                                                             RepeatDirection="Horizontal" AutoPostBack="True"
+                                                             onselectedindexchanged="rbttrans_SelectedIndexChanged">
+                                                <ListItem Value="O" Selected="True">0</ListItem>
+                                            </RadioButtonList>*@
+                                                <Label ID="Label5" Text="Count">Count</Label>
+                                                <input class="form-control" type="text" value="0" onkeyup="txttrans_TextChanged('count')" ID="txttrans" MaxLength="2" />
+                                                <input class="form-control" type="text" value="0" hidden ID="txttranshid" MaxLength="2" />
+
+
+                                                Sets :
+                                                <input class="form-control" type="text" value="1" onkeyup="txttrans_TextChanged('set')" ID="txttranssets" MaxLength="2" />
+                                                <input class="form-control" type="text" value="0" hidden ID="txttranssetshid" MaxLength="2" />
+
+                                            </td>
+
+                                            <td>
+                                                <input type="checkbox" class="form-check-input" id="lbltotamount160" disabled name="checkbox" value="something" onclick="addamount160()">
+                                                <label class="form-check-label" for="chboxtr">160</label>
+
+                                            </td>
+
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3.WES application fee</td>
+
+
+                                            <td>
+                                                <input type="checkbox" class="form-check-input" id="lbltotamount300" name="lbltotamount300" value="something" onclick="AddAmount('300')">
+                                                <label class="form-check-label" for="lbltotamount300">300</label>
+                                                @*<RadioButtonList ID="rbtcorrection2"
+                                                             RepeatDirection="Horizontal" AutoPostBack="True"
+                                                             onselectedindexchanged="rbtcorrection2_SelectedIndexChanged">
+                                                <ListItem Value="O">300</ListItem>
+                                            </RadioButtonList>*@
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text" value="0" onkeyup="AddTextAmount('300')" ID="TextBox300" name="TextBox300" MaxLength="4" disabled />
+                                                <input class="form-control" type="text" value="0" hidden ID="TextBoxhid300" MaxLength="4" disabled />
+
+
+
+                                            </td>
+
+
+                                            <td>
+                                                <input type="checkbox" class="form-check-input" id="chbox300" name="checkbox" value="something" onclick="addamount75()" disabled>
+                                                <label class="form-check-label" for="chbox300">75</label>
+                                                @*<CheckBox ID="chboxcorrect2" AutoPostBack="True"
+                                            oncheckedchanged="chboxcorrect2_CheckedChanged" Text="75"
+                                            Enabled="False" />*@
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4.Certificate electronic transfer</td>
+
+                                            <td>
+                                                @*<RadioButtonList ID="rbtmedium"
+                                                             RepeatDirection="Horizontal" AutoPostBack="True"
+                                                             onselectedindexchanged="rbtmedium_SelectedIndexChanged">
+                                                <ListItem Value="O">500</ListItem>
+                                            </RadioButtonList>*@
+                                                <input type="checkbox" class="form-check-input" id="lbltotamount500" name="lbltotamount500" value="" onclick="AddAmount('500')">
+                                                <label class="form-check-label" for="lbltotamount500">500</label>
+                                            </td>
+                                            <td>
+
+                                                <input class="form-control" type="text" value="0" onkeyup="AddTextAmount('500')" ID="TextBox500" name="TextBox500" MaxLength="4" disabled />
+                                                <input class="form-control" type="text" value="0" hidden ID="TextBoxhid500" MaxLength="4" disabled />
+
+                                            </td>
+                                            <td></td>
+
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>4.Original Degree(OD)</td>
+
+
+                                            <td>
+                                                @*<RadioButtonList ID="rbtOD"
+                                                             RepeatDirection="Horizontal" AutoPostBack="True"
+                                                             onselectedindexchanged="rbtOD_SelectedIndexChanged">
+                                                <ListItem Value="O">1700</ListItem>
+                                            </RadioButtonList>*@
+                                                <input type="checkbox" class="form-check-input" id="lbltotamount1700" name="lbltotamount1700" value="something" onclick="AddAmount('1700')">
+                                                <label class="form-check-label" for="lbltotamount1700">1700</label>
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text" value="0" onkeyup="AddTextAmount('1700')" ID="TextBox1700" name="TextBox1700" MaxLength="4" disabled />
+                                                <input class="form-control" type="text" value="0" hidden ID="TextBoxhid1700" MaxLength="4" disabled />
+
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+
+
+
+                                        <tr>
+                                            <td><Label ID="Label4">Total Amount</Label></td>
+
+                                            <td>
+                                                <input class="form-control" type="text" value="0" ID="lbltotamount" name="lbltotamount" MaxLength="4" readonly />
+
+                                                @*<Label ID="lbltotamount" name="lbltotamount" Text="0">0</Label>*@
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <input type="checkbox" class="form-check-input" id="chkcheck" name="chkcheck" value="something">
+                                                <label class="form-check-label" for="chkcheck">NOTE: PLEASE SEND REQUIRED APPLICATION FORM ALONG WITH SUPPORTING DOCUMENTS</label>
+
+                                                @*<CheckBox ID="chkcheck" AutoPostBack="false" />
+                                                <Label ID="lblnote" Text="" style="font-weight: 700; color: #FF3300">NOTE: PLEASE SEND REQUIRED APPLICATION FORM ALONG WITH SUPPORTING DOCUMENTS</Label>*@
+                                           
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                @*<Label ID="lblmsg" Text="" style="font-weight: 700; color: #FF3300" Visible="false">Please read & select NOTE!</Label>*@
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-primary" id="certificatefee" type="button" onclick="proceedcertificatefee()">Proceed</button>
+
+
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <Label ID="lblerror"
+                                                       style="font-weight: 700; color: #FF3300"></Label>
+                                                <button class="btn btn-primary" type="button" onclick="DisplayCertificate()" id="btnclear">Clear</button>
+
+
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <Label ID="suplly" Text="Label" Visible="False"></Label>
+
+
+                    </div>
+                    <div id="supplyfee">
+
+
+                    </div>
+
+                </div>
+            }
+</section>
+
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="heading_dynamicaaly"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                        </path>
+                    </svg>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div id="printdiv">
+                    <style>
+                        .logo {
+                            width: 650px;
+                        }
+
+                        .text-right {
+                            text-align: right;
+                        }
+
+                        .sign .qr {
+                            display: flex;
+                            justify-content: end;
+                        }
+
+                        .table-responsive table {
+                            width: 650px;
+                        }
+
+                        .note i {
+                            font-size: 13px;
+                        }
+
+                            .note i a {
+                                font-size: 14px;
+                            }
+
+                        @@media print {
+                            .innerdiv {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                border: 2px solid #000;
+                                width: 700px;
+                                padding: 20px;
+                                margin: auto;
+                                height: auto;
+                            }
+
+                            .w-700 {
+                                width: 700px;
+                            }
+
+                            .w-650 {
+                                width: 650px;
+                            }
+
+                            .w-150 {
+                                width: 150px;
+                            }
+
+                            .abc.img_hover {
+                                margin-top: 0px !important;
+                            }
+
+                            .tab {
+                                border: 2px solid #026B5C;
+                                width: 700px;
+                            }
+
+                                .tab tr td:nth-child(1), .tab tr td:nth-child(2), .tab tr td:nth-child(3) {
+                                    border-right: 1px solid #026B5C;
+                                }
+
+                            .sgpa table {
+                                display: flex;
+                                justify-content: end;
+                            }
+
+                            .table-responsive table, .logo {
+                                width: 700px;
+                            }
+                        }
+
+                        @@media screen and (max-width:991px) {
+                            .innerdiv {
+                                width: 100%;
+                            }
+
+                            .logo {
+                                width: 100%;
+                            }
+                        }
+                    </style>
+                    <div id="inner">
+                    </div>
+                </div>
+                
+            </div>
+            @*<div class="modal-footer ">
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closemodal()">Close</button>
+                    </div>
+                </div>*@
+        </div>
+
+    </div>
+</div>
+<script>
+
+    function getFeeHistory() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/getCDLFeeHistory',
+            datatype: JSON,
+            success: function (data) {
+                debugger;
+                var result = data.fee;
+                var result1 = data.eval_fee;
+                console.log(data);
+                $('#cdlfee').html("");
+
+                var tablestring = "";
+                var a = 1;
+                var type = "";
+                var date = "";
+                for (var i = 0; i < result.length; i++) {
+                    tablestring = tablestring + "<tr><td>" + result[i].Type + "</td><td>" + result[i].CHALLAN_NO + "</td><td>" + result[i].PaymentMode + "</td><td>" + result[i].COLLEGE_CODE + "</td><td>" + result[i].CAMPUS + "</td><td>" + result[i].Refid + "</td><td>" + result[i].Exam_Type + "</td><td>" + result[i].Category + "</td><td>" + result[i].PAYMENT_DATE + "</td><td>" + result[i].Payment_Status + "</td><td>" + result[i].Total_fee + "</td></tr>"
+
+
+                }
+                if ($.fn.DataTable.isDataTable('#dataTable')) {
+                    $('#dataTable').DataTable().destroy();
+                }
+
+                $('#cdlfee').html(tablestring);
+                $('#dataTable').DataTable();
+
+                $('#cdlevalfee').html("");
+                var tablestring = "";
+                var a = 1;
+                var type = "";
+                var date = "";
+                for (var i = 0; i < result1.length; i++) {
+                    tablestring = tablestring + "<tr><td>" + result1[i].SUBJECT_CODE + "</td><td>" + result1[i].SUBJECT_NAME + "</td><td>" + result1[i].SEMESTER + "</td><td>" + result1[i].PROCESS_TYPE + "</td><td>" + result1[i].PAYMENT_DATE + "</td><td>" + result1[i].Refid + "</td></tr>"
+
+
+                }
+                if ($.fn.DataTable.isDataTable('#dataTable1')) {
+                    $('#dataTable1').DataTable().destroy();
+                }
+
+                $('#cdlevalfee').html(tablestring);
+                $('#dataTable1').DataTable();
+            }
+        });
+    }
+
+
+    function DisplayExam() {
+        $('#examination').show();
+        $('#Examdetails').hide();
+      
+    }
+
+
+
+    function GetSupplimentarydetails(type) {
+
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/getSupplimentaryDetails',
+            data: {
+                type: type
+            },
+            datatype: JSON,
+            success: function (data) {
+                console.log(data);
+
+                if (type == "Supplementary") {
+                    if (data.length > 0) {
+                        document.getElementById('lblgetprocesstype').value = data[0].PROCESS_TYPE;
+                        document.getElementById('lblgetmonthYear').value = data[0].MONTH + "/" + data[0].YEAR;
+                        document.getElementById('lblgetlastdate').value = data[0].LASTDATE;
+                        document.getElementById('lblgetlastdate1').value = data[0].LASTDATE1 + "/" + data[0].LASTDATEAMOUNT1;
+                        document.getElementById('lblgetlastdate2').value = data[0].LASTDATE2 + "/" + data[0].LASTDATEAMOUNT2;
+                        $('#Supplimentarydetails').show();
+                        ProceedPayment();
+
+                    }
+                    else {
+                        //document.getElementById('lblgetprocesstype').innerText = "";
+                        //document.getElementById('lblgetmonth').innerText = "";
+                        //document.getElementById('lblgetyear').innerText = "";
+                        //document.getElementById('lblgetlastdate').innerText = "";
+                        //document.getElementById('lblgetlastdate1').innerText = "";
+                        //document.getElementById('lblgetlastdateamount1').innerText = "";
+                        //document.getElementById('lblgetlastdate2').innerText = "";
+                        //document.getElementById('lblgetlastdateamount2').innerText = "";
+                        //document.getElementById('suplly').innerText = "No details available";
+                        $('#Supplimentarydetails').hide();
+                        swal('No details available', '', 'error');
+
+                    }
+                }
+                else {
+                    if (data.length > 0) {
+
+                        if (data[0].Reason == "Not applicable") {
+                            $('#Supplimentarydetails').hide();
+                            swal('Not applicable', '', 'error');
+                        }
+                        else {
+                           
+                                document.getElementById('lblgetprocesstype').value = data[0].PROCESS_TYPE;
+                                document.getElementById('lblgetmonthYear').value = data[0].MONTH + "/" + data[0].YEAR;
+                                document.getElementById('lblgetlastdate').value = data[0].LASTDATE;
+                                document.getElementById('lblgetlastdate1').value = data[0].LASTDATE1 + "/" + data[0].LASTDATEAMOUNT1;
+                                document.getElementById('lblgetlastdate2').value = data[0].LASTDATE2 + "/" + data[0].LASTDATEAMOUNT2;
+                                $('#Supplimentarydetails').show();
+                                ProceedPayment();
+
+                            
+                              
+                              
+
+                            }
+                        
+                }
+                else{
+                    $('#Supplimentarydetails').hide();
+                    swal('No details available', '', 'error');
+            }
+                }
+
+               
+
+            }
+        });
+
+    }
+
+
+
+
+    function ProceedPayment() {
+
+       
+
+
+        var type = "";
+        if (document.getElementById("Supplementary").checked == true) {
+            type = "Supplementary";
+        }
+        else if (document.getElementById("Revaluation").checked == true) {
+            type = "Revaluation";
+        }
+        $.ajax({
+            type: 'GET',
+            url: './Home/ProceedPayment',
+            data: {
+                type: type
+            },
+            datatype: JSON,
+            success: function (data) {
+                console.log(data);
+                if (data.status == "Applications Closed") {
+                    $("#supplyfee").html("");
+                    swal(data.status, '', 'error');
+                    
+                }
+                else if (data.status == "MBA1_Supplimentry") {
+
+                        MBA1_Supplimentry(data.latefeeamount, data.readmit);
+                   
+                }
+                else if (data.status == "Revaluation") {
+                    Revaluation(data.latefeeamount, data.MONTH, data.YEAR);
+                }
+            }
+        });
+
+
+
+    }
+
+
+    function MBA1_Supplimentry(latefeeamount, readmit) {
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/MBA1_Supplimentry',
+            data: {
+                latefee: latefeeamount,
+                readmit: readmit
+            },
+            datatype: JSON,
+            success: function (data) {
+                $("#supplyfee").html("");
+                $("#supplyfee").html(data);
+
+                var readmit = document.getElementById('readmit').value;
+                var projects = document.getElementById('projectresult').value;
+
+
+                if (readmit == "Y" && projects == "Y") {
+                    document.getElementById("Total_fee").value = 2000;
+                }
+                else if (readmit == "Y") {
+                    document.getElementById("Total_fee").value = 1500;
+                }
+                else if (projects == "Y") {
+                    document.getElementById("Total_fee").value = 500;
+                }
+                else{
+                    document.getElementById("Total_fee").value = 0;
+                }
+
+            }
+        });
+
+
+    }
+
+
+
+    function Revaluation(latefeeamount, month, year) {
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/Revaluation',
+            data: {
+                latefee: latefeeamount,
+                month: month,
+                year: year
+            },
+            datatype: JSON,
+            success: function (data) {
+                $("#supplyfee").html("");
+                $("#supplyfee").html(data);
+
+                var readmit = document.getElementById('readmit').value;
+                var projects = document.getElementById('projectresult').value;
+
+
+                if (readmit == "Y" && projects == "Y") {
+                    document.getElementById("Total_fee").value = 2000;
+                }
+                else if (readmit == "Y") {
+                    document.getElementById("Total_fee").value = 1500;
+                }
+                else if (projects == "Y") {
+                    document.getElementById("Total_fee").value = 500;
+                }
+                else {
+                    document.getElementById("Total_fee").value = 0;
+                }
+
+            }
+        });
+
+
+    }
+
+
+
+    var counter_1 = 0;
+    var counter_2 = 0;
+    var counter_3 = 0;
+    var counter_4 = 0;
+    var counter_5 = 0;
+    var counter_6 = 0;
+   var totalcounter = 0
+
+    function addTotal(semester, subcode) {
+        totalcounter++;
+        debugger;
+
+        var type = document.getElementById('lblgetprocesstype').value;
+
+        //alert("Total_" + semester);
+
+        if (type == "SUPPLEMENTARY") {
+            var value = document.getElementById("Total_" + semester).innerText;
+            if (document.getElementById("checkBox1_" + subcode).checked == true) {
+                var value1 = parseInt(value) + 250;
+                if (semester == 1) {
+                    counter_1++;
+                    if (counter_1 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 2) {
+                    counter_2++;
+                    if (counter_2 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 3) {
+                    counter_3++;
+                    if (counter_3 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 4) {
+                    counter_4++;
+                    if (counter_4 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 5) {
+                    counter_5++;
+                    if (counter_5 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 6) {
+                    counter_6++;
+                    if (counter_6 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+
+            }
+            else {
+                if (value1 != 0) {
+                    var value1 = parseInt(value) - 250;
+                    if (semester == 1) {
+                        counter_1--;
+                        if (counter_1 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 2) {
+                        counter_2--;
+                        if (counter_2 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 3) {
+                        counter_3--;
+                        if (counter_3 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 4) {
+                        counter_4--;
+                        if (counter_4 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 5) {
+                        counter_5--;
+                        if (counter_5 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 6) {
+                        counter_6--;
+                        if (counter_6 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+
+                }
+
+                // var addval = document.getElementById("Total_" + semester).innerText;
+                //var totalvalue = document.getElementById("Total_fee").value;
+                // totalvalue = parseInt(totalvalue) - parseInt(addval);
+
+            }
+            var totalfee = 0;
+            //if (totalcounter == 1) {
+            //    totalfee = document.getElementById("Total_fee").value;
+            //}
+            var readmit = document.getElementById('readmit').value;
+            var projects = document.getElementById('projectresult').value;
+
+            if (readmit == "Y" && projects == "Y") {
+                totalcounter = 2000;
+            }
+            else if (readmit == "Y") {
+                totalcounter = 1500;
+            }
+            else if (projects == "Y") {
+                totalcounter = 500;
+            }
+            else {
+                totalcounter = 0;
+            }
+            for (var i = 1; i < 7; i++) {
+                totalfee = parseInt(totalfee) + parseInt(document.getElementById("Total_fee" + i).value);
+            }
+            totalfee = parseInt(totalfee) + parseInt(totalcounter);
+            document.getElementById("Total_fee").value = totalfee;
+        }
+        else if (type == "REVALUATION"){
+
+            var value = document.getElementById("Total_" + semester).innerText;
+            if (document.getElementById("checkBox1_" + subcode).checked == true) {
+                var value1 = parseInt(value) + 750;
+                if (semester == 1) {
+                    counter_1++;
+                    if (counter_1 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 2) {
+                    counter_2++;
+                    if (counter_2 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 3) {
+                    counter_3++;
+                    if (counter_3 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 4) {
+                    counter_4++;
+                    if (counter_4 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 5) {
+                    counter_5++;
+                    if (counter_5 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+                if (semester == 6) {
+                    counter_6++;
+                    if (counter_6 < 5) {
+                        document.getElementById("Total_" + semester).innerText = value1;
+                        document.getElementById("totalsem_" + semester).value = value1;
+                        document.getElementById("Total_fee" + semester).value = value1;
+                    }
+                }
+
+            }
+            else {
+                if (value1 != 0) {
+                    var value1 = parseInt(value) - 750;
+                    if (semester == 1) {
+                        counter_1--;
+                        if (counter_1 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 2) {
+                        counter_2--;
+                        if (counter_2 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 3) {
+                        counter_3--;
+                        if (counter_3 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 4) {
+                        counter_4--;
+                        if (counter_4 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 5) {
+                        counter_5--;
+                        if (counter_5 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+                    if (semester == 6) {
+                        counter_6--;
+                        if (counter_6 < 4) {
+                            document.getElementById("Total_" + semester).innerText = value1;
+                            document.getElementById("totalsem_" + semester).value = value1;
+                            document.getElementById("Total_fee" + semester).value = value1;
+                        }
+                    }
+
+                }
+
+                // var addval = document.getElementById("Total_" + semester).innerText;
+                //var totalvalue = document.getElementById("Total_fee").value;
+                // totalvalue = parseInt(totalvalue) - parseInt(addval);
+
+            }
+            var totalfee = 0;
+            //if (totalcounter == 1) {
+            //    totalfee = document.getElementById("Total_fee").value;
+            //}
+            var readmit = document.getElementById('readmit').value;
+            var projects = document.getElementById('projectresult').value;
+
+            if (readmit == "Y" && projects == "Y") {
+                totalcounter = 2000;
+            }
+            else if (readmit == "Y") {
+                totalcounter = 1500;
+            }
+            else if (projects == "Y") {
+                totalcounter = 500;
+            }
+            else {
+                totalcounter = 0;
+            }
+            for (var i = 1; i < 7; i++) {
+                totalfee = parseInt(totalfee) + parseInt(document.getElementById("Total_fee" + i).value);
+            }
+            totalfee = parseInt(totalfee) + parseInt(totalcounter);
+            document.getElementById("Total_fee").value = totalfee;
+        }
+        
+    }
+
+
+
+    function successSubmit(e) {
+
+
+        console.log(e.data);
+
+
+        $('#inner').html(e.data);
+        $('#myModal').modal('show');
+
+    }
+
+
+
+    function projectviva() {
+        var total = document.getElementById('Total_fee').value;
+
+        if (document.getElementById('Projects').checked == true) {
+            document.getElementById('Projects_total').value = "500";
+            var result = parseInt(total) + 500;
+        }
+        else {
+            document.getElementById('Projects_total').value = "0";
+            var result = parseInt(total) - 500;
+        }
+
+       
+        
+
+        document.getElementById('Total_fee').value = result; 
+
+    }
+
+
+    function Readmission() {
+        var total = document.getElementById('Total_fee').value;
+
+        if (document.getElementById('Re-admission').checked == true) {
+            document.getElementById('Re-admission_total').value = "1500";
+            var result = parseInt(total) + 1500;
+        }
+        else {
+            document.getElementById('Re-admission_total').value = "0";
+            var result = parseInt(total) - 1500;
+        }
+
+
+
+
+        document.getElementById('Total_fee').value = result;
+
+
+    }
+
+
+    function ProceedPaySubmit() {
+
+        var e = document.getElementById('examcenter');
+        var strUser = e.options[e.selectedIndex].value;
+
+        if (strUser == "Select") {
+
+            swal('Please select exam center', '', 'error');
+
+        }
+        else {
+            $('#ProceedPay').submit();
+        }
+
+
+    }
+
+
+
+    function DisplayCertificate() {
+
+        document.getElementById('IndiaAbroadTextbox').value = "0";
+        document.getElementById('txttrans').value = "0";
+        document.getElementById('txttranssets').value = "1";
+        document.getElementById('counterval').value = "";
+        document.getElementById('lbltotamount').value = "0";
+        document.getElementById('lbltotamount300').checked = false;
+        document.getElementById('lbltotamount500').checked = false;
+        document.getElementById('lbltotamount1700').checked = false;
+        document.getElementById('chbox300').checked = false;
+        document.getElementById('Abroad').checked = false;
+        document.getElementById('India').checked = false;
+        document.getElementById('chbox300').disabled = true;
+        document.getElementById('chkcheck').checked = false;
+        document.getElementById('lbltotamount160').checked = false;
+        document.getElementById('lbltotamount160').disabled = true;
+        document.getElementById('TextBox300').disabled = true;
+        document.getElementById('TextBox500').disabled = true;
+        document.getElementById('TextBox1700').disabled = true;
+
+
+        $('#examination').hide();
+        $('#Examdetails').show();
+        $('#Supplimentarydetails').hide();
+
+    }
+
+
+    function IndiaAbroad() {
+        debugger;
+
+        var total = document.getElementById('lbltotamount').value;
+        var finaltotal = 0;
+
+
+        if (document.getElementById("India").checked == true) {
+            document.getElementById('IndiaAbroadTextbox').value = "1770";
+            finaltotal = parseInt(total) + 1770;
+
+
+        }
+        else if (document.getElementById("Abroad").checked == true){
+            document.getElementById('IndiaAbroadTextbox').value = "0";
+            if (total != "0") {
+                finaltotal = parseInt(total) - 1770;
+            }
+            
+        } 
+        document.getElementById('lbltotamount').value = finaltotal;
+    }
+
+
+    function txttrans_TextChanged(type) {
+        debugger;
+
+        var hid = document.getElementById('txttranshid').value;
+        var hidset = document.getElementById('txttranssetshid').value;
+        var count = document.getElementById('txttrans').value;
+        var set = document.getElementById('txttranssets').value;
+        var val = document.getElementById('counterval').value;
+        if (val == "") {
+            val = 0;
+        }
+
+        //(50 * (Int32.Parse(txttrans.Text.ToString())) * (Int32.Parse(txttranssets.Text.ToString()))).ToString();
+        //rbttrans.SelectedItem.Text = ((10 * (Int32.Parse(txttranssets.Text.ToString()))) + (Int32.Parse(rbttrans.SelectedItem.Text.ToString()))).ToString();
+        
+        if (count != "") {
+            if (set != "") {
+                if (count != "0") {
+                    var counter = (50 * parseInt(count) * parseInt(set));
+                    counter = ((10 * parseInt(set)) + (parseInt(counter)));
+                    var total = document.getElementById('lbltotamount').value;
+                    var finaltotal = 0;
+                    finaltotal = parseInt(total) - parseInt(val);
+                    finaltotal = finaltotal + counter;
+                    document.getElementById('lbltotamount').value = finaltotal;
+                    document.getElementById('counterval').value = counter;
+                }
+                else {
+                    var total = document.getElementById('lbltotamount').value;
+                    var finaltotal = 0;
+                    finaltotal = parseInt(total) - parseInt(val);
+                    document.getElementById('lbltotamount').value = finaltotal;
+                }
+                if (type == "count") {
+                    if (count == "0") {
+                        document.getElementById('lbltotamount160').disabled = true;
+                    }
+                    else {
+                        document.getElementById('lbltotamount160').disabled = false;
+                    }
+
+
+                }
+            }
+            
+        }
+        else {
+            var total = document.getElementById('lbltotamount').value;
+            var finaltotal = 0;
+            finaltotal = parseInt(total) - parseInt(val);
+            document.getElementById('lbltotamount').value = finaltotal;
+            document.getElementById('counterval').value = "0";
+            //document.getElementById('txttrans').value = "0";
+        }
+
+       
+    }
+
+
+    function txttranssets_TextChanged() {
+        debugger;
+
+        var count = document.getElementById('txttrans').value;
+        var set = document.getElementById('txttranssets').value;
+        var val = document.getElementById('counterval').value;
+
+
+        //(50 * (Int32.Parse(txttrans.Text.ToString())) * (Int32.Parse(txttranssets.Text.ToString()))).ToString();
+        //rbttrans.SelectedItem.Text = ((10 * (Int32.Parse(txttranssets.Text.ToString()))) + (Int32.Parse(rbttrans.SelectedItem.Text.ToString()))).ToString();
+        if (count != "") {
+            var counter = (50 * parseInt(count) * parseInt(set));
+            counter = ((10 * parseInt(set)) + (parseInt(counter)));
+            var total = document.getElementById('lbltotamount').value;
+            var finaltotal = 0;
+            finaltotal = parseInt(total) - parseInt(val);
+            finaltotal = finaltotal + counter;
+            document.getElementById('lbltotamount').value = finaltotal;
+            document.getElementById('counterval').value = counter;
+        }
+
+
+    }
+
+
+    function AddAmount(value) {
+
+        if (value == "300") {
+            if (document.getElementById("lbltotamount" + value).checked == true) {
+                document.getElementById('chbox300').disabled = false;
+               
+
+
+            }
+            else if (document.getElementById("lbltotamount" + value).checked == false) {
+
+                document.getElementById('chbox300').disabled = true;
+                
+            }
+
+
+        }
+       
+            if (document.getElementById("lbltotamount" + value).checked == true) {
+                document.getElementById('TextBox' + value).disabled = false;
+                document.getElementById('TextBox' + value).disabled = false;
+            }
+            else if (document.getElementById("lbltotamount" + value).checked == false) {
+                document.getElementById('TextBox' + value).disabled = true;
+                document.getElementById('TextBox' + value).disabled = true;
+            }
+       
+
+
+        var total = document.getElementById('lbltotamount').value;
+        var finaltotal = 0;
+
+
+        if (document.getElementById("lbltotamount" + value).checked == true) {
+            finaltotal = parseInt(total) + parseInt(value);
+
+
+        }
+        else if(document.getElementById("lbltotamount" + value).checked == false){
+            
+            finaltotal = parseInt(total) - parseInt(value);
+        }
+        document.getElementById('lbltotamount').value = finaltotal;
+    }
+
+
+
+    function AddTextAmount(value) {
+        debugger;
+
+        var total = document.getElementById('lbltotamount').value;
+        var hid = document.getElementById('TextBoxhid' + value).value;
+        var finaltotal = 0;
+        var count = document.getElementById('TextBox'+value).value;
+
+        if (count != "") {
+            if (document.getElementById("lbltotamount" + value).checked == true) {
+                total = total - parseInt(hid);
+                finaltotal = parseInt(total) + parseInt(count);
+
+
+            }
+            else if (document.getElementById("lbltotamount" + value).checked == false) {
+
+                finaltotal = parseInt(total) - parseInt(count);
+            }
+            document.getElementById('lbltotamount').value = finaltotal;
+            document.getElementById('TextBoxhid' + value).value = parseInt(count);
+        }
+        else {
+            if (document.getElementById("lbltotamount" + value).checked == true) {
+                total = total - parseInt(hid);
+                finaltotal = parseInt(total);
+
+                document.getElementById('lbltotamount').value = finaltotal;
+            }
+
+        }
+
+       
+    }
+
+
+    function addamount75() {
+
+        var value = "75";
+        var total = document.getElementById('lbltotamount').value;
+        var finaltotal = 0;
+
+
+        if (document.getElementById("chbox300").checked == true) {
+            finaltotal = parseInt(total) + parseInt(value);
+
+
+        }
+        else if (document.getElementById("chbox300").checked == false) {
+
+            finaltotal = parseInt(total) - parseInt(value);
+        }
+        document.getElementById('lbltotamount').value = finaltotal;
+
+    }
+
+
+    function addamount160() {
+
+        var value = "160";
+        var total = document.getElementById('lbltotamount').value;
+        var finaltotal = 0;
+
+
+        if (document.getElementById("lbltotamount160").checked == true) {
+            finaltotal = parseInt(total) + parseInt(value);
+
+
+        }
+        else if (document.getElementById("lbltotamount160").checked == false) {
+
+            finaltotal = parseInt(total) - parseInt(value);
+        }
+        document.getElementById('lbltotamount').value = finaltotal;
+
+    }
+
+
+
+    function proceedcertificatefee() {
+
+
+        if (document.getElementById('chkcheck').checked == true) {
+            $('#certificatefee').submit();
+
+        }
+        else {
+            swal("Please read & select NOTE!", '', 'error');
+        }
+
+    }
+</script>

@@ -1,0 +1,397 @@
+﻿@model IEnumerable<Gstudent.Models.Students>
+<script src="~/Content/js/jquery-validate.min.js"></script>
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Daily Log </h5>
+        <div class="back">
+            <!-- Back Arrow Button -->
+
+            <a href="javascript:void(0);" onclick="goBack()">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="tabsContainer">
+        <div class="tabsFill">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#tabfill1" aria-selected="true" role="tab">Daily log</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-bs-toggle="tab" href="#tabfill2" aria-selected="false" tabindex="-1" role="tab">History</a>
+                </li>
+
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="tabfill1" role="tabpanel">
+                    <div id="daily-log">
+                        <div class="box-inner">
+                            <form action="/submit-log" method="post" id="form1">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group ">
+                                            <label>Time Of Arrival<span style="color:red;">*</span></label>
+                                            <input class="form-control hasWickedpicker" type="text" value="" placeholder="HH:MM:SS" id="fromtimepicker" name="fromtimepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group ">
+                                            <label>Date Of Arrival<span style="color:red;">*</span></label>
+                                            <input class="form-control hasWickedpicker" type="text" value="" placeholder="DD/MM/YYYY" id="fromdatepicker" name="fromdatepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Time of departure<span style="color:red;">*</span></label>
+                                            <input class="form-control hasWickedpicker" type="text" value="" placeholder="HH:MM:SS" id="Totimepicker" name="Totimepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Date of departure<span style="color:red;">*</span></label>
+                                            <input class="form-control hasWickedpicker" type="text" value="" placeholder="DD/MM/YYYY" id="Todatepicker" name="Todatepicker" readonly="" onkeypress="return false;" aria-showingpicker="false" tabindex="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Organization <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="organization" name="organization" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Dept/Division <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="department" name="department" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Name of the Company Mentor <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="mentor_name" name="mentor_name" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Learning Journal and Key Actions <span style="color:red;">*</span></label>
+                                            <textarea class="form-control" id="journal" name="journal" maxlength="300"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-success Submit" id="btnsubmit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tabfill2" role="tabpanel">
+                    <div id="history">
+                        <div class="box-inner">
+
+                            <table id="submittedDataTable" class="table table-striped">
+                                <thead>
+
+                                    <tr>
+                                        <th>Time of arrival</th>
+                                        <th>Time of departure</th>
+                                        <th>Organization</th>
+                                        <th>Dept/Division</th>
+                                        <th>Name of the company mentor</th>
+                                        <th>Learning journal and key actions</th>
+                                        <th>Date &amp; Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var student in Model)
+                                    {
+
+                                        <tr class="">
+                                            <td style="width:10%">@student.arrival_time</td>
+                                            <td style="width:20%">@student.depart_time</td>
+                                            <td style="width:10%">@student.org_name</td>
+                                            <td style="width:10%">@student.dept_name</td>
+                                            <td style="width:10%">@student.mentor_name</td>
+                                            <td style="width:10%">@student.learning_actions</td>
+                                            <td style="width:10%">@student.dt_time</td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    function goBack() {
+   
+        loadConfigView('80');
+    }
+</script>
+
+   
+   
+    @*<script>
+        $(document).ready(function () {
+            $(".ui-tabs").tabs({
+                activate: function (event, ui) {
+                    if (ui.newTab.index() == 0) {
+                        $("#history").hide();
+                        $("#daily-log").show();
+                    } else {
+                        $("#daily-log").hide();
+                        $("#history").show();
+                    }
+                }
+            });
+        });
+    </script>*@
+
+
+<script>
+
+    window.fromDatePicker = new tempusDominus.TempusDominus(document.getElementById("fromdatepicker"), {
+        localization: {
+            locale: "en",
+            startOfTheWeek: 1,
+            format: "dd/MM/yyyy"
+
+        }
+    });
+
+    window.fromTimePicker = new tempusDominus.TempusDominus(
+        document.getElementById("fromtimepicker"),
+        {
+            restrictions: {
+                minDate: undefined,
+            },
+            localization: {
+                format: 'hh:mm T',
+            },
+            display: {
+                viewMode: "clock",
+                components: {
+
+                    decades: false,
+                    year: false,
+                    month: false,
+                    date: false,
+                    hours: true,
+                    minutes: true,
+                    seconds: false
+                }
+            }
+        }
+    );
+
+    window.toDatePicker = new tempusDominus.TempusDominus(
+        document.getElementById("Todatepicker"), {
+        localization: {
+            locale: "en",
+            startOfTheWeek: 1,
+            format: "dd/MM/yyyy"
+
+        }
+    });
+
+    window.toTimePicker = new tempusDominus.TempusDominus(
+        document.getElementById("Totimepicker"),
+        {
+            restrictions: {
+                minDate: undefined,
+            },
+            localization: {
+                format: 'hh:mm T',
+            },
+            display: {
+                viewMode: "clock",
+                components: {
+
+                    decades: false,
+                    year: false,
+                    month: false,
+                    date: false,
+                    hours: true,
+                    minutes: true,
+                    seconds: false
+                }
+            }
+        });
+
+    </script>
+<script>
+    function reloadPage() {
+        // Reload the page after a successful update
+        loadConfigView('78');
+    }
+
+
+    $(document).ready(function () {
+        $("#form1").validate({
+            rules: {
+                "organization": {
+                    required: true,
+                    minlength: 5
+                },
+                "fromtimepicker": {
+                    required: true,
+
+                },
+                "Totimepicker": {
+                    required: true,
+
+
+                },
+                "fromdatepicker": {
+                    required: true,
+
+
+                },
+                "Todatepicker": {
+                    required: true,
+
+
+                },
+                "department": {
+                    required: true,
+                    minlength: 5
+                },
+
+                "mentor_name": {
+                    required: true,
+                    minlength: 5
+                },
+                "journal": {
+                    required: true,
+                    minlength: 5
+                   
+
+                },
+            },
+            messages: {
+                "organization": {
+                    required: "Please, enter an organization"
+                },
+                "fromtimepicker": {
+                    required: "Please, enter  arrival time"
+                },
+                "Totimepicker": {
+                    required: "Please, enter  departure time",
+                },
+                "fromdatepicker": {
+                    required: "Please, enter  date of arrival"
+                },
+                "Todatepicker": {
+                    required: "Please, enter  date of departure"
+                },
+                "department": {
+                    required: "Please, enter a department name"
+                },
+                "mentor_name": {
+                    required: "Please, enter a mentor name"
+                },
+                "journal": {
+                    required: "Please, enter Journal and key actions"
+                },
+            },
+            
+            
+            submitHandler: function (form) { // for demo
+
+                let timeFrom = $('#fromtimepicker').val(),
+                    timeTo = $('#Totimepicker').val(),
+                    fit_start_time = $("#fromdatepicker").val()
+                fit_end_time = $("#Todatepicker").val();
+
+
+
+                if (!timeFrom || !timeTo) {
+                    alert('Select time');
+                    return;
+                }
+
+                if (getTime(timeFrom) >= getTime(timeTo)) {
+                    swal({
+                        icon: "warning",
+                        text: "Time of Departure cannot be earlier than or equal to Time of Arrival"
+                    });
+                    return false;
+                }
+         
+                debugger;
+                var fd = new Date(fit_start_time);
+                var td = new Date(fit_end_time);
+                if (new Date(fit_start_time) > new Date(fit_end_time)) {
+                    swal({
+                        icon: "warning",
+                        text: "Date of Departure cannot be earlier than Date of Arrival"
+                    });
+                    return false;
+                }
+
+                    debugger;
+                    // Get the form data
+                var arrtime = $('#fromtimepicker').val();
+                var dprttime = $('#Totimepicker').val();
+                var orgname = $('#organization').val();
+                var deptname = $('#department').val();
+                var mtrname = $('#mentor_name').val();
+                var lrngactions = $('#journal').val();
+                var arrivalTime = moment(arrtime, 'hh:mm A').format('YYYY-MM-DD HH:mm:ss');
+                var departTime = moment(dprttime, 'hh:mm A').format('YYYY-MM-DD HH:mm:ss');
+
+                //console.log('Arrival time:', arrtime, 'Departure time:', dprttime, 'Organization name:', orgname, 'Department name:', deptname, 'Mentor name:', mtrname, 'Learning actions:', lrngactions);
+                    // Send the form data to the server using AJAX
+                    $.ajax({
+                        url: './Home/submittingdailylog',
+                        type: 'POST',
+                        data: { 'Arrivaltimedata': arrivalTime, 'departtimedata': departTime, 'orgnamedata': orgname, 'dptnamedata': deptname, 'mtrnamedata': mtrname, 'lernactiondata': lrngactions, },
+                        //processData: false,
+                        //contentType: false,
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.success) {
+                                // Display a success message to the user
+                                swal({ icon: "success", text: "Updated Successfully" });
+                                reloadPage();
+                            } else {
+                                // Display an error message to the user
+                                swal({ icon: "error", text: "Not Submitted!" });
+                            }
+                           
+                        },
+                        error: function (xhr, status, error) {
+                            // Display an error message to the user
+                            alert('Error submitting: ' + error);
+                        }
+
+                });
+            }
+        });
+       
+    });
+
+    
+</script>
+<script>
+   
+        $('#submittedDataTable').DataTable({
+            order: [[6, 'desc']]
+        });
+    let getTime = (v) => {
+        return Date.parse("11-7-2018 " + v)
+    }
+</script>

@@ -1,0 +1,61 @@
+﻿
+<div class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Student disciplinary info</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    @*<div class="d-flex justify-content-between flex-wrap align-items-center">
+        <div>
+            <h3 class="page-title">Student displinary info </h3>
+        </div>
+    </div>*@
+    <div class="box-container">
+        <div class="table-responsive">
+            <table class="table table-bordered tbl-style" id="roomhistory">
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        GetStudent_displinary();
+       
+    });
+    function GetStudent_displinary() {
+        $.ajax({
+            type: 'GET',
+            url: './Home/GetStudent_displinary',
+            data: {
+            },
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                //debugger;
+                $("#roomhistory").html('');
+                var tablestring = "";
+                    tablestring = tablestring + "<div class='table-responsive'><table id='example55' class='table table_style table-bordered appointments dataTable no-footer' role='grid' aria-describedby='example55_info'>";
+                tablestring = tablestring + "<thead class='thead-light'><tr><th>#</th> <th>Comment</th><th>Comment raised date</th></tr></thead><tbody>";
+                for (var i = 0; i < result.length; i++) {
+                    var slno = i + 1;
+                        tablestring = tablestring + '<tr> <td>' + slno + '</td><td>' + result[i].Comment + '</td><td>' + result[i].date + '</td></tr>';
+                    }
+                    tablestring = tablestring + "</tbody></table></div>";
+                    $("#roomhistory").append(tablestring);
+                    $('#example55').DataTable({
+                        order: [[0, 'desc']] 
+                    });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $(".loaderm").hide();
+            }
+        });
+    };
+ 
+</script>

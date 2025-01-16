@@ -1,0 +1,262 @@
+﻿
+
+
+<div class="content-container ">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Biometric Report</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner">
+
+
+
+        <section>
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        Month
+                        <div>
+                            <select id="cbomonth" class="form-control">
+                                <option>Select</option>
+                                <option Value="01">JAN</option>
+                                <option Value="02">FEB</option>
+                                <option Value="03">MAR</option>
+                                <option Value="04">APR</option>
+                                <option Value="05">MAY</option>
+                                <option Value="06">JUN</option>
+                                <option Value="07">JUL</option>
+                                <option Value="08">AUG</option>
+                                <option Value="09">SEP</option>
+                                <option Value="10">OCT</option>
+                                <option Value="11">NOV</option>
+                                <option Value="12">DEC</option>
+                            </select>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        Year
+                        @*<div>
+                            <select ID="cboyear" class="form-control">
+                                <option Value="Select">select</option>
+                                <option Value="2022">2022</option>
+                                <option Value="2023">2023</option>
+                            </select>
+
+                        </div>*@
+                        @Html.DropDownList("Year", new SelectList(ViewBag.Years as System.Collections.IEnumerable), "Select", new { @class = "form-control", @data_val = "true", @data_val_required = "Year is required" })
+
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <br />
+                        <input type="button" id="btview" value="View" class="btn btn-primary" />
+                        <input type="button" id="btdownload" value="Download" class="btn btn-primary" />
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="divmessage" visible="false" class="text-center message">
+                <asp:Label ID="lblerror"></asp:Label>
+
+            </div>
+            <div class="row text-center biometric">
+
+
+                @*<div class="col-sm-2">
+                    <div class="form-group">
+                        <br />
+                        <input type="button" id="btdownload" value="Download" class="btn btn-primary" />
+
+
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <br />
+                        <input type="button" id="Button1" value="Download PDF" class="btn btn-primary" />
+
+
+                    </div>
+                </div>*@
+
+
+            </div>
+        </section>
+
+        <div id="available">
+
+        </div>
+        <div id="printpdf" hidden>
+            
+            <div id="body">
+
+
+            </div>
+       
+        </div>
+    </div>
+    </div>
+
+<script>
+
+    $('#btdownload').click(function () {
+
+        setTimeout(function () {
+
+            var contents = document.getElementById('printpdf').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../Content/css/bootstrap.min.css" />');
+
+            frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    });
+
+    $("#btview").click(function () {
+           $.ajax({
+                type: 'GET',
+                url: '@Url.Content("./Home/getphdbiometricreport")',
+                data: {
+                    'month': $('#cbomonth').val(), 'year': $('#Year').val()
+                },
+                //contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                //dataType: "html",
+               success: function (data) {
+                    console.log(data);
+                   var Ids = 1;
+                   var Ide = 1;
+                   $('#available').html('');
+                   $('#body').html('');
+                 
+
+                   trHTML1 = '<hr /><div class="table_style"><table class="table table-bordered"  id="tbl" style="width:100%"><thead ><tr></th><th>#</th><th>Date</th><th>Check-in</th><th>Check-out</th><th>Duration</th></tr></thead><tbody>';
+                   $.each(data, function (key, value) {
+                       trHTML1 +=
+                           "<tr><td>" + value.Row + "</td><td>" + value.Date + "</td><td>" + value.CheckIN + "</td><td>" + value.CheckOUT + "</td><td>" + value.Duration + "</td></tr>";
+                       Ide++;
+                   });
+                   trHTML1 += "</tbody></table></div>";
+                   $('#available').html(trHTML1);
+                   $('#available').show();
+                   var str = "";
+                   str += "<html><head> </head><body style='background-color:#ffffff !important;'>";
+                   str += "<table border=\"0px\" style='background-color:#ffffff;width:100%;'>";
+                   str += "<tr>";
+                   str += "<td style='text-align:center;color:black;font-size:24px;font-family:verdana;' >";
+                   str += "<table border=\"0px\" style='background-color:#ffffff;'>";
+                   str += "<tr style='float: left;'>";
+
+                   str += "<td>";
+                   str += "<img  src='https://gstudent.gitam.edu/GITAM_logo.png'  style='width:150px;height:60px'  /><br/>";
+                   str += "</td>";
+                   str += "<td style='text-align:center;font-size:16px; padding-left:90px;'>";
+                   str += "Biometric Attendance Report For " + $("#cbomonth option:selected").text(); + "," + $('#Year').val() + " <br/>";
+
+
+                   str += "</td>";
+
+                   str += "</tr>";
+                   str += "</table>";
+
+
+                   str += "</td></tr>";
+
+                   str += "<tr style='text-align:center;vertical-align:top;'>";
+
+
+
+                   str += "<td style='text-align:left;vertical-align:top;padding-left:20px;'> ";
+                   str += "Registration Number : " + data[0].Regdno + "";
+
+                   str += "</td></tr>";
+                   str += "<tr style='text-align:center;vertical-align:top;'>";
+
+
+
+                   str += "<td style='text-align:left;vertical-align:top;padding-left:20px;'> ";
+
+                   str += "Name : " + data[0].Name + " ";
+
+                   str += "</td></tr>";
+
+
+
+                   str += "<tr style='text-align:center;vertical-align:top;'>";
+                   str += "<td style='text-align:center;vertical-align:top;margin-left:20px;'> ";
+                   str += "<table border=\"1px\" style='font-family:verdana;text-align:left;vertical-align:top;width:100%;padding:1px;border:1px solid black;'>";
+                   str += "<tr style='background-color:darkred;color:white;'>";
+                   str += "<td style='font-size:14px;color:white;font-family:verdana;padding:3px;font-weight:bold;' > Date  </td>";
+                   str += "<td style='font-size:14px;color:white;font-family:verdana;padding:3px;font-weight:bold;' > Check IN  </td>";
+                   str += "<td style='font-size:14px;color:white;font-family:verdana;padding:3px;font-weight:bold;' > Check Out  </td>";
+                   str += "<td style='font-size:14px;color:white;font-family:verdana;padding:3px;font-weight:bold;' > Duration  </td>";
+                   str += "</tr>";
+
+
+                   $.each(data, function (key, value) {
+
+
+                       str += "<tr >";
+                       str += "<td style='font-size:14px;color:black;font-family:verdana;padding:3px;' >  " + value.Date + "  </td>";
+                       str += "<td style='font-size:14px;color:black;font-family:verdana;padding:3px;' >  " + value.CheckIN + "  </td>";
+                       str += "<td style='font-size:14px;color:black;font-family:verdana;padding:3px;' >  " + value.CheckOUT + "  </td>";
+                       str += "<td style='font-size:14px;color:black;font-family:verdana;padding:3px;' >  " + value.Duration + "  </td>";
+                       str += "</tr>";
+
+
+                       Ids++;
+                   });
+                   str += "</table>";
+                   str += "</td>";
+                   str += "</tr>";
+                   str += "</table>";
+                   str += "</body></html>";
+
+                   // trHTML += "</tbody></table></div>";
+                   $('#body').append(str);
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    $(".loaderm").hide();
+                }
+
+
+            });
+       
+
+    });
+</script>

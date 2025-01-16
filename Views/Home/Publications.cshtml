@@ -1,0 +1,618 @@
+﻿@model Gstudent.ViewModels.Studentrecords.publicationsummary
+
+@{
+    var Author_type = new SelectList(new[]
+    {
+
+new SelectListItem() {Text = "Author", Value="Author"},
+new SelectListItem { Text = "Co-author", Value = "Co-author"},
+new SelectListItem() {Text = "Corresponding-Author", Value="Corresponding-Author"},
+
+}, "Value", "Text");
+}
+
+<section class="content-container contentContainer">
+  
+    <div class="wrapper" id="tabs">
+
+        <div class="tab-wrapper">
+            <ul class="tabs">
+                <li class="tab-link active" data-tab="1">Publications</li>
+                @*<li class="tab-link" data-tab="2">History</li>*@
+
+            </ul>
+            <div class="back">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+
+            <div id="tab-1" class="tab-content active">
+                <div class="filter box-inner" id="executive">
+
+                    @using (Ajax.BeginForm("CreatePublications", "Home", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loading", UpdateTargetId = "visitSummary", OnSuccess = "successSubmit" }, new { enctype = "multipart/form-data" }))
+                    {
+                        <div id="details">
+                            <input type="text" class="form-control" id="ApplicationNumber" name="ApplicationNumber" hidden>
+                            <input type="text" class="form-control" id="category1" name="category1" hidden>
+
+
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="row">
+
+                                        <div class="col-12 col-sm-6 col-md-9 col-lg-9">
+                                            <div class="form-group ">
+                                                <label>Article title</label>
+                                                <textarea class="form-control" id="PUBLICATION_TITLE" name="PUBLICATION_TITLE" maxlength="1500" onkeypress="removemsg('validmsg10'); return Validateletters(event);" rows="1"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group  ">
+                                                <label>Author type</label>
+                                                @Html.DropDownListFor(model => model.note.Author_type, Author_type, "Select", new { @class = "form-control", @id = "author" })
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Journal name</label>
+                                                <input class="form-control" id="JOURNAL_NAME" maxlength="1500" onkeypress="removemsg('validmsg9'); return Validateletters(event);" name="JOURNAL_NAME" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Volume</label>
+                                                <input class="form-control" id="Volume" name="Volume" type="text" maxlength="50" onkeypress="removemsg('validmsg8'); return Validateletters(event);">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Issue number</label>
+                                                <input class="form-control" id="Issue_number" name="Issue_number" type="text" maxlength="150" onkeypress="removemsg('validmsg7'); return Validateletters(event);">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>DOI number</label>
+                                                <input class="form-control" id="DOI_number" name="DOI_number" type="text" maxlength="50" onkeypress="removemsg('validmsg6'); return Validateletters(event);">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Page numbers</label>
+                                                <input class="form-control" id="Page_numbers" name="Page_numbers" type="text" maxlength="50" onkeypress="removemsg('validmsg5'); return Validateletters(event);">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Issue Year</label>
+                                                <select class="form-control" id="Issue_Year" name="Issue_Year" onchange="removemsg('validmsg4');  return Validateletters(event);"></select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Indexed by</label>
+                                                <input class="form-control" id="Indexed_by" name="Indexed_by" maxlength="50" onkeypress="removemsg('validmsg3'); return Validateletters(event);" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Citation index</label>
+                                                <input class="form-control" id="Citation_index" name="Citation_index" maxlength="50" onkeypress="removemsg('validmsg2');return isNumber(event)" type="text">
+                                            </div>
+                                        </div>  <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Impact factor</label>
+                                                <input class="form-control" id="Impact_factor" name="Impact_factor" maxlength="100" onkeypress="removemsg('validmsg1'); return isNumber(event)" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div class="form-group ">
+                                                <label>Hyperlink (if any)</label>
+                                                <input class="form-control" id="Hyperlink" name="Hyperlink" maxlength="500" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-7 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <label>publication abstract upload in pdf format.</label>
+                                                <input type="file" name="uploadForm" class="form-control" id="uploadForm" />
+                                                <span style="color:red" id="erruploadForm"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-7 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <label>Publication article upload in pdf format</label>
+                                                <input type="file" name="uploadForm1" class="form-control" id="uploadForm1" />
+                                                <span style="color:red" id="erruploadForm1"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="text-center main_from">
+                                <button type="button" class="btn btn-primary" id="btnsubmit" onclick="validatetextbox(event);">Submit</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+            <div id="tab-2" class="tab-content">
+                <div class="filter box-inner" id="executive">
+
+                    <div class="table-responsive table_style">
+                        <table class="table table-bordered" id="myTable1">
+                            <thead>
+                                <tr>
+                                    <th>Registration ID </th>
+                                    <th>Publication title</th>
+                                    <th>Journal name</th>
+                                    <th>Status</th>
+                                    <th>Abstract</th>
+                                    <th>Article	</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.notes.Count() > 0)
+                                {
+                                    foreach (var pub in Model.notes)
+                                    {
+
+
+
+                                        <tr>
+                                            <td>@pub.Regdno</td>
+                                            <td>@pub.PUBLICATION_TITLE</td>
+                                            <td>@pub.JOURNAL_NAME</td>
+                                            @if (pub.Approved_Status == "N")
+                                            {
+                                                <td>Pending</td>
+                                            }
+                                            else if (pub.Approved_Status == "D")
+                                            {
+                                                <td>Disapproved</td>
+                                            }
+                                            else if (pub.Approved_Status == "A")
+                                            {
+                                                <td>Approved</td>
+                                            }
+
+                                            <td class="text-center"><i class="fas fa-file-pdf" aria-hidden="true" onclick="return myFunctionabt(this);" style="cursor:pointer;"></i></td>
+                                            <td class="text-center"><i class="fas fa-file-pdf text-center" aria-hidden="true" onclick="return myFunctionart(this);" style="cursor:pointer;"></i></td>
+                                            <td class="text-center"><i class="fa fa-trash text-center" aria-hidden="true" onclick="return myFunctiondelete(this);" style="cursor:pointer"></i></td>
+                                        </tr>
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="7" class="text-center">No records found</td></tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="pdfContainer"></div>
+
+    </div>
+</section>
+    @*<script src="~/Scripts/pdf.js"></script>
+        <script src="~/Scripts/pdf.worker.js"></script>
+        <script src="~/Scripts/PDFjs-.js"></script>*@
+    <script>
+        function myFunctiondelete(lnk) {
+            var message = "";
+            var row = lnk.parentNode.parentNode;
+            var regdno = row.cells[0].innerHTML;
+            var name = "";
+            var publt = row.cells[1].innerHTML;
+            var journam = row.cells[2].innerHTML;
+            name = row.cells[1].innerHTML;
+                        deletePublication(regdno, publt, journam);
+        }
+        function deletePublication(regdno, publt, journam) {
+            swal({
+                title: "Do you want to delete this?",
+                type: "warning",
+                confirmButtonText: "Confirm",
+                showCancelButton: true,
+                closeOnClickOutside: false,
+            })
+                .then((willDelete) => {
+                    console.log(willDelete.value);
+                    if (willDelete.value) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: './Home/DeletePublication',
+                            data: { 'regno': regdno, 'pubtit': publt, 'jname': journam },
+                            success: function (data) {
+                                console.log(data);
+                                successSubmit(data);
+                                return false;
+                            },
+                            error: function (request, status, error) {
+
+                            }
+                        });
+                    }
+                });
+        }
+        function myFunctionabt(lnk) {
+           
+            var message = "";
+            var row = lnk.parentNode.parentNode;
+            message = row.cells[0].innerHTML + "_" + row.cells[2].innerHTML + "?0";
+            ViewPdf(message);
+        }
+        function myFunctionart(lnk) {
+            var message = "";
+            var row = lnk.parentNode.parentNode;
+            message = row.cells[0].innerHTML + "_" + row.cells[2].innerHTML + "?1";
+            ViewPdf(message);
+        }
+        function Base64ToBytes(base64) {
+            var s = window.atob(base64);
+            var bytes = new Uint8Array(s.length);
+            for (var i = 0; i < s.length; i++) {
+                bytes[i] = s.charCodeAt(i);
+            }
+            return bytes;
+        };
+        function ViewPdf(message) {
+         
+            $.ajax({
+                type: "POST",
+                url: './Home/PdfGet',
+                data: { PDFID: message },
+                success: function (data) {
+                    //debugger;
+                    var PdfName = data;
+                    if (PdfName != "") {
+                        var pdfWindow = window.open("");
+                        //if (pdfWindow) {
+                        //    pdfWindow.document.write(
+                               
+                        //        "<iframe width='100%' height='100%' src='data:application/pdf;base64, " + PdfName + "'></iframe>"
+                        //    );
+                        //    pdfWindow.document.title = "GITAM | Student portal";
+                        //} else {
+                        //    alert("Failed to open PDF window.");
+                        //}
+                        if (pdfWindow) {
+                            setTimeout(function () {
+                                pdfWindow.document.write(
+                                    "<iframe width='100%' height='100%' src='data:application/pdf;base64, " + PdfName + "'></iframe>"
+                                );
+                                pdfWindow.document.title = "GITAM | Student portal";
+                            }, 500); // Delay in milliseconds (adjust as needed)
+                        } else {
+                            alert("Failed to open PDF window.");
+                        }
+                    } else {
+                        alert("PDF file not available!");
+                    }
+                },
+                error: function (request, status, error) {
+                    var val = request.responseText;
+                    alert("PDF file not available! " + val);
+                }
+            });
+        }
+        //function ViewPdf(message) {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: './Home/PdfGet',
+        //        data: { 'PDFID': message },
+        //        success: function (r) {
+        //            console.log(r);
+        //            //Convert Base64 string to Byte Array.
+        //            var bytes = Base64ToBytes(r);
+
+        //            //Convert Byte Array to BLOB.
+        //            var blob = new Blob([bytes], { type: "application/octetstream" });
+
+        //            //Check the Browser type and download the File.
+        //            var isIE = false || !!document.documentMode;
+        //            if (isIE) {
+        //                window.navigator.msSaveBlob(blob, fileName);
+        //            } else {
+        //                var url = window.URL || window.webkitURL;
+        //                link = url.createObjectURL(blob);
+        //                var a = $("<a />");
+        //                a.attr("download", message);
+        //                a.attr("href", link);
+        //                $("body").append(a);
+        //                a[0].click();
+        //                $("body").remove(a);
+        //            }
+        //        },
+        //        error: function (request, status, error) {
+        //            var val = request.responseText;
+        //            alert("PDF file not available! " + val);
+        //        }
+        //    });
+        //}
+        $(document).ready(function () {
+            var years = (new Date()).getFullYear();
+            $('#Issue_Year').append('<option value="">Select</option>');
+
+            for (var i = 14; i >= 0; i--) {
+                var optionValue = years - i;
+                $('#Issue_Year').append('<option value="' + optionValue + '">' + optionValue + '</option>');
+            }
+
+
+        });
+        $('.tab-link').click(function () {
+
+            var tabID = $(this).attr('data-tab');
+
+            $(this).addClass('active').siblings().removeClass('active');
+
+            $('#tab-' + tabID).addClass('active').siblings().removeClass('active');
+        });
+
+        $(function () {
+            $('#uploadForm1').change(function () {
+
+                var file_size = $('#uploadForm1')[0].files[0].size;
+
+                if (file_size > 2097152) {
+                    alert("File size is greater than 2MB");
+                    $('#btnsubmit').prop('disabled', true);
+                    $("#uploadForm1").val('');
+                }
+                else {
+                    $('#btnsubmit').prop('disabled', false);
+                }
+                var fileExtension = ['pdf'];
+                if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+                    alert("Only '.pdf' formats are allowed.");
+                    $('#btnsubmit').prop('disabled', true);
+                    $("#uploadForm1").val('');
+
+                }
+                else {
+                    $('#btnsubmit').prop('disabled', false);
+                    $("#erruploadForm").text('');
+                }
+            })
+        })
+
+        $(function () {
+            $('#uploadForm').change(function () {
+
+                var file_size = $('#uploadForm')[0].files[0].size;
+
+                if (file_size > 2097152) {
+                    alert("File size is greater than 2MB");
+                    $('#btnsubmit').prop('disabled', true);
+                    $("#uploadForm").val('');
+                }
+                else {
+                    $('#btnsubmit').prop('disabled', false);
+                }
+                var fileExtension = ['pdf'];
+                if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+                    alert("Only '.pdf' formats are allowed.");
+                    $('#btnsubmit').prop('disabled', true);
+                    $("#uploadForm").val('');
+
+                }
+                else {
+                    $('#btnsubmit').prop('disabled', false);
+                    $("#erruploadForm").text('');
+                }
+            })
+        })
+        function successSubmit(e) {
+            var error = e;
+            if (error == "Successfully submitted") {
+                swal('Submitted successfully', '', 'success');
+               
+                setTimeout(loaddata, 1500);
+            }
+            else if (error == "Publication record already exists") {
+                swal('Publication record already exists', '', 'error');
+               // swal({ icon: "error", text: "Publication record already exists" });
+                setTimeout(loaddata, 1500);
+
+            }
+            else if (error == "Record deleted successfully") {
+                swal('Record deleted successfully', '', 'success');
+                //swal({ icon: "error", text: "Record deleted successfully" });
+                setTimeout(loaddata, 1500);
+
+            }
+            else if (error == "Record deleted unsuccessfully") {
+                swal('Record deleted unsuccessfully', '', 'error');
+                //swal({ icon: "success", text: "Record deleted unsuccessfull" });
+                setTimeout(loaddata, 1500);
+
+            }
+            else {
+                swal('Cancelled', '', 'error');
+                setTimeout(loaddata, 1500);
+            }
+        }
+        function loaddata() {
+            loadConfigView('17');
+        }
+        function removemsg(id) {
+            $('#' + id).remove();
+        }
+        function validatetextbox(e) {
+            var count = 0;
+            $('#validmsg1').remove();
+            $('#validmsg2').remove(); $('#validmsg3').remove(); $('#validmsg4').remove();
+            $('#validmsg5').remove(); $('#validmsg6').remove(); $('#validmsg7').remove();
+            $('#validmsg8').remove(); $('#validmsg9').remove(); $('#validmsg10').remove();
+            var v1 = $("#uploadForm1").val();
+            var v2 = $("#uploadForm").val();
+            var val1 = $('#Impact_factor').val();
+            var val2 = $('#Citation_index').val();
+            var val3 = $('#Indexed_by').val();
+            var val4 = $('#Issue_Year').val();
+            var val5 = $('#Page_numbers').val();
+            var val6 = $('#DOI_number').val();
+            var val7 = $('#Issue_number').val();
+            var val8 = $('#Volume').val();
+            var val9 = $('#JOURNAL_NAME').val();
+            var val10 = $('#PUBLICATION_TITLE').val();
+            if (val1 == 0 || val1 == null) {
+                document.getElementById('Impact_factor').focus();
+                $('#Impact_factor').parent().append('<span class="error" id="validmsg1"> Please enter Imfact factor</span>');
+                $('#Impact_factor').val("");
+                count++;
+            }
+            if (val2 == 0 || val2 == null) {
+                document.getElementById('Citation_index').focus();
+                $('#Citation_index').parent().append('<span class="error" id="validmsg2"> Please enter Citation index</span>');
+                $('#Citation_index').val("");
+                count++;
+            } if (val3 == 0 || val3 == null) {
+                document.getElementById('Indexed_by').focus();
+                $('#Indexed_by').parent().append('<span class="error" id="validmsg3"> Please enter Indexed by</span>');
+                $('#Indexed_by').val("");
+                count++;
+            } if (val4 == 0 || val4 == null) {
+                document.getElementById('Issue_Year').focus();
+                $('#Issue_Year').parent().append('<span class="error" id="validmsg4"> Please select Issue Year</span>');
+                $('#Issue_Year').val("");
+                count++;
+            } if (val5 == 0 || val5 == null) {
+                document.getElementById('Page_numbers').focus();
+                $('#Page_numbers').parent().append('<span class="error" id="validmsg5"> Please enter Page numbers</span>');
+                $('#Page_numbers').val("");
+                count++;
+            } if (val6 == 0 || val6 == null) {
+                document.getElementById('DOI_number').focus();
+                $('#DOI_number').parent().append('<span class="error" id="validmsg6"> Please enter DOI number</span>');
+                $('#DOI_number').val("");
+                count++;
+            } if (val7 == 0 || val7 == null) {
+                document.getElementById('Issue_number').focus();
+                $('#Issue_number').parent().append('<span class="error" id="validmsg7"> Please enter Issue number</span>');
+                $('#Issue_number').val("");
+                count++;
+            } if (val8 == 0 || val8 == null) {
+                document.getElementById('Volume').focus();
+                $('#Volume').parent().append('<span class="error" id="validmsg8"> Please enter Volume</span>');
+                $('#Volume').val("");
+                count++;
+            } if (val9 == 0 || val9 == null) {
+                document.getElementById('JOURNAL_NAME').focus();
+                $('#JOURNAL_NAME').parent().append('<span class="error" id="validmsg9"> Please enter JOURNAL NAME</span>');
+                $('#JOURNAL_NAME').val("");
+                count++;
+            }
+
+            if (val10 == 0 || val10 == null) {
+                document.getElementById('PUBLICATION_TITLE').focus();
+                $('#PUBLICATION_TITLE').parent().append('<span class="error" id="validmsg10"> Please enter article title</span>');
+                $('#PUBLICATION_TITLE').val("");
+                count++;
+            }
+            if (v1 == "") {
+                $("#erruploadForm1").text("please select article");
+                count++;
+                event.preventDefault();
+            }
+            else {
+                $("#erruploadForm1").text('');
+            }
+            if (v2 == "") {
+                $("#erruploadForm").text("please select abstract");
+                count++;
+                event.preventDefault();
+            }
+            else {
+                $("#erruploadForm").text('');
+            }
+            if (count == 0) {
+                if ($("#form0").valid()) {
+                    swal({
+                        title: "Are you sure to submit?",
+                        type: "warning",
+                        confirmButtonText: "Confirm",
+                        showCancelButton: true,
+                        closeOnClickOutside: false,
+                    })
+                        .then((willDelete) => {
+                            if (willDelete.value) {
+                                $("#btnsubmit").submit();
+                                return false;
+                            } else {
+                                swal('Cancelled', '', 'error');
+                                return false;
+                            }
+                        });
+                }
+            }
+
+        }
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function onlyAlphabets(e, t) {
+            try {
+                if (window.event) {
+                    var charCode = window.event.keyCode;
+                }
+                else if (e) {
+                    var charCode = e.which;
+                }
+                else { return true; }
+                if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                    return true;
+                else
+                    return false;
+            }
+            catch (err) {
+                alert(err.Description);
+            }
+        }
+
+
+        function Validateletters(evt) {
+            var keyCode = (evt.which) ? evt.which : evt.keyCode
+            if ((keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 123) && keyCode != 32 && !(keyCode >= 48 && keyCode <= 57) && !(keyCode == 38) && !(keyCode == 40) && !(keyCode == 41) && !(keyCode == 44) && !(keyCode == 45) && !(keyCode == 47) && !(keyCode == 46) && !(keyCode == 58) && !(keyCode == 13) && !(keyCode == 190))
+                return false;
+            return true;
+        };
+    </script>
+
+
+    <style>
+
+        .tabs {
+            /* margin-bottom: 15px; */
+            justify-content: start !important;
+            /* float: left; */
+        }
+    </style>

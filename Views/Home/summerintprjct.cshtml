@@ -1,0 +1,239 @@
+﻿
+
+<section class="content-container contentContainer">
+
+    <div id="inner" class="row " style="margin-bottom:0px !important;">
+
+
+        <div class="col-md-5  box-inner">
+
+
+            <div class="cardBox">
+
+                <style>
+
+
+
+                .cardBox {
+                    position: relative;
+                    width: 100%;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding-top: 60px; /* Initial space for the hidden header */
+                }
+
+                /* .cardBox {
+                    position: relative;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    background-color: #fff;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }*/
+                .envelopeHeader {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: linear-gradient(0deg, rgb(255, 223, 186) 80%, rgb(255, 223, 186) 80%), url('./Content/images/envelopeBg.png');
+                    padding: 10px;
+                    /* border-bottom: 2px solid #ccc;*/
+                    text-align: center;
+                    color: #333;
+                    font-size: 1.5em;
+                    font-weight: bold;
+                    animation: slideDown 1s forwards;
+                    font-size: 18px;
+                }
+
+                @*@keyframes slideDown {
+                    from {
+                        top: -60px;
+                    }
+
+                    to {
+                        top: 0;
+                    }
+                }*@
+
+                .cardBox {
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    background-color: #fff;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .cardBoxHeader {
+                    background: linear-gradient(0deg, rgb(237, 237, 237) 80%, rgb(237, 237, 237) 80%), url('./Content/images/courseBg.png');
+                    padding: 20px;
+                }
+
+                .headerText {
+                    margin: 0;
+                }
+
+                .courseCode {
+                    margin: 0;
+                }
+
+                .cardBoxBody {
+                    padding: 20px;
+                }
+
+                .courseDetails ul {
+                    list-style-type: none;
+                    padding: 0;
+                }
+
+                    .courseDetails ul li {
+                        cursor: pointer;
+                        margin-bottom: 10px;
+                    }
+
+                .tooltipDiv {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                    .tooltipDiv .tooltip-text {
+                        visibility: hidden;
+                        width: 120px;
+                        background-color: #555;
+                        color: #fff;
+                        text-align: center;
+                        border-radius: 6px;
+                        padding: 5px 0;
+                        position: absolute;
+                        z-index: 1;
+                        bottom: 100%;
+                        left: 50%;
+                        margin-left: -60px;
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                    }
+
+                    .tooltipDiv:hover .tooltip-text {
+                        visibility: visible;
+                        opacity: 1;
+                    }
+                .courseDetails ul li {
+
+                    float: right!important;
+                    margin-right: 10px!important;
+                }
+                </style>
+                <div class="envelopeHeader">
+                    <span>Summer Internship</span>
+                </div>
+
+                <div class="cardBoxHeader" style="background: linear-gradient(0deg, rgb(234, 255, 245) 80%, rgb(234, 255, 245) 80%), url('./Content/images/courseBg.png')">
+                    <h3 class="headerText">
+                        <span>Project internship work </span>
+                    </h3>
+
+
+                </div>
+                <div class="cardBoxBody">
+                    <div class="courseDetails">
+                        <h5 class="secDetails d-none">
+                            <span>Section : A, INTEGRATEDBIO, 2019-2020</span>
+                        </h5>
+                        <div class="d-flex justify-content-between  d-none">
+                            <h6>
+                                <span> VSP, GIS, Sem/Tri- 10</span>
+                            </h6>
+                        </div>
+                        <ul style="float: left;">
+                            <li>
+                                <div class="tooltipDiv"><span class="tooltip-text">Field work proposal</span></div>
+                                <span class="toolclass">Field Work Proposal </span>
+                                <div class="text-button-container">
+                                    <a href="javascript:void(0);" onclick="getresource('fldwrkprpsl')">
+                                        <i class="bx bx-calendar"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tooltipDiv"><span class="tooltip-text">Weekly Activity Log</span></div>
+                                <span class="toolclass">Weekly Activity Log</span>
+                                <div class="text-button-container">
+
+                                    <a href="javascript:void(0);" onclick="getresource('Weeklyactivitylog')">
+                                        <i class="bx bx-news"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tooltipDiv"><span class="tooltip-text">Daily log</span></div>
+                                <span class="toolclass">Daily Log </span>
+                                <div class="text-button-container">
+
+                                    <a href="javascript:void(0);" onclick="getresource('dailylog')">
+                                        <i class="ri-article-line"></i>
+                                    </a>
+                                </div>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    </section>
+    <script>
+
+
+        function getresource(obj) {
+            debugger;
+
+
+            if (obj == "dailylog") {
+                $.ajax({
+                    type: "Get",
+                    url: './Home/DailyLog',
+                    // data: { subcode: sub_code, subname: sub_name, groupcode: groupcode, radiovalue: radiovalue.trim(), faculty_id: facultyid },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                    }
+                });
+            }
+            if (obj == "Weeklyactivitylog") {
+                $.ajax({
+                    type: "Get",
+                    url: './Home/Weeklyactivitylog',
+                    // data: { subcode: sub_code, subname: sub_name, groupcode: groupcode, radiovalue: radiovalue.trim(), faculty_id: facultyid },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                    }
+                });
+            }
+            if (obj == "fldwrkprpsl") {
+                $.ajax({
+                    type: "Get",
+                    url: './Home/fldwrkprpsl',
+                    // data: { subcode: sub_code, subname: sub_name, groupcode: groupcode, radiovalue: radiovalue.trim(), faculty_id: facultyid },
+                    success: function (data) {
+                        $('#maindiv').html("");
+                        console.log(data);
+                        $('#maindiv').html(data);
+                    },
+                    error: function (request, status, error) {
+                    }
+                });
+            }
+        }
+    </script>

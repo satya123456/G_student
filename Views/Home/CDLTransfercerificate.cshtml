@@ -1,0 +1,388 @@
+﻿
+
+
+
+<section class="content-container contentContainer">
+    <div class="d-flex justify-content-between">
+        <h5 class="page-title">Transfer certificate</h5>
+        <div class="back">
+            <a href="javascript:void(0);" onclick="location.reload();">
+                <i class='bx bx-arrow-back'></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-inner" id="contentdiv">
+
+        <div id="divtcc111" visible="true">
+            <style>
+                .tc_crtf {
+                    width: 685px;
+                    padding: 20px;
+                    text-align: center;
+                    border: 2px solid #787878;
+                    margin: auto;
+                }
+
+                    .tc_crtf h6 {
+                        margin-top: 10px;
+                    }
+
+                .logo img {
+                    width: 100%;
+                }
+
+                .title {
+                    background: #eee;
+                    font-size: 24px;
+                    margin-top: 20px;
+                }
+
+                .content table {
+                    margin: auto;
+                }
+
+                    .content table tr td {
+                        padding: 5px 0px;
+                    }
+
+                        .content table tr td:nth-child(1) {
+                            width: 25px;
+                        }
+
+                        .content table tr td:nth-child(2) {
+                            width: 200px;
+                            font-size: 14px;
+                            text-align: left;
+                        }
+
+                        .content table tr td:nth-child(3) {
+                            width: 50px;
+                            font-size: 20px;
+                        }
+
+                        .content table tr td:nth-child(4) {
+                            /*width: 250px;*/
+                            font-size: 18px;
+                            text-align: left;
+                        }
+
+                .text-right {
+                    text-align: right;
+                }
+
+                .sign {
+                    margin-top: 70px;
+                }
+
+                    .sign .qr {
+                        display: flex;
+                        justify-content: end;
+                    }
+
+                .font-bold {
+                    font-weight: bold;
+                }
+
+                .prnt_dt {
+                    text-align: left;
+                    margin-top: 20px;
+                }
+
+                @@media screen and (max-width:767px) {
+                    .tc_crtf {
+                        width: 100%;
+                        padding: 5px;
+                        text-align: center;
+                        border: 2px solid #787878;
+                        margin: auto;
+                    }
+
+                    .title {
+                        font-size: 16px;
+                        margin-top: 10px;
+                    }
+                }
+
+                @@media screen and (max-width:475px) {
+                    .content table tr td:nth-child(1) {
+                        width: 25px;
+                        font-size: 10px;
+                    }
+
+                    .content table tr td:nth-child(2) {
+                        width: 125px;
+                        font-size: 9px;
+                        text-align: left;
+                    }
+
+                    .content table tr td:nth-child(3) {
+                        width: 50px;
+                        font-size: 10px;
+                    }
+
+                    .content table tr td:nth-child(4) {
+                        /*width: 250px;*/
+                        font-size: 10px;
+                        text-align: left;
+                    }
+
+                    .box-inner {
+                        padding: 10px;
+                    }
+                }
+
+                @@media print {
+                    .logo {
+                        margin-bottom: 20px;
+                    }
+
+                    .content table {
+                        margin: 10px auto;
+                    }
+
+                    .tc_crtf h6 {
+                        font-size: 19px;
+                        margin: 0;
+                    }
+
+                    .content table tr td {
+                        padding: 7px 0px;
+                        font-family: "Poppins", sans-serif !important;
+                    }
+
+                        .content table tr td:nth-child(2) {
+                            font-size: 18px;
+                            width: 250px;
+                        }
+
+                    .title {
+                        margin: 10px 0;
+                    }
+                }
+            </style>
+            <div class="tc_crtf">
+                <div class="logo">
+                    <img src="~/Content/images/cdl-header.jpg?v=1" />
+                </div>
+                <div class="divh title"><span>TRANSFER CERTIFICATE </span></div>
+                <h6 class="text-center font-bold">Original</h6><br />
+
+                <div class="content">
+                    <table>
+                        <tr>
+                            <td><b></b></td>
+                            <td><span><b>Admission ID.No.</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblreg" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b></b></td>
+                            <td><span><b>Program</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblprogram" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>a.</b></td>
+                            <td><span><b>i. Name of the Student&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblname" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><span><b>ii. Father/Guardian's Name</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblfname" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>b.</b></td>
+                            <td><span><b>Date of Birth</b></span></td>
+                            <td><span></span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><span><b>i. In figures</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblfig" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><span><b>ii. In Words</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblword" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>c.</b></td>
+                            <td><span><b>Nationality</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblnat" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>d.</b></td>
+                            <td><span><b>Date of Admission</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lbldoa" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>e.</b></td>
+                            <td><span><b>Date of Leaving</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lbldol" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>f.</b></td>
+                            <td><span><b>Program of Study</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblprstudy" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>g.</b></td>
+                            <td><span><b>Optional Courses</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lbloptcourses" Text=" "></Label></td>
+                        </tr>
+                        <tr>
+                            <td><b>h.</b></td>
+                            <td><span><b>Medium of Instructions</b></span></td>
+                            <td><span><b>:</b></span></td>
+                            <td><Label ID="lblmedium" Text=" "></Label></td>
+                        </tr>
+                    </table>
+
+                    <div class="prnt_dt"><Label ID="lbldtt" Text=" " Font-Bold="true"></Label></div>
+
+                </div>
+                <div class="sign">
+                    <div class="qr" id="QRIMG"></div>
+
+                    <div class="text-right">
+                        <img src="~/Content/images/signature_cdl_new.png" style="height:30px;" />
+                        <div><b>Director</b></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="box-inner" id="nodatadiv">
+        <div class="row text-center">
+            <label style="text-align:center;">No data available</label>
+        </div>
+    </div>
+    <div class="text-center mb-5" id="printbtn">
+        <button class="btn btn-primary" onclick="PrintCDLTransferCertificate()">Print</button>
+    </div>
+</section>
+
+<script>
+
+    $(document).ready(function () {
+
+
+
+        $.ajax({
+            type: 'GET',
+            url: './Home/getCDLTransferCertificateData',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+
+                    $('#contentdiv').show();
+                    $('#nodatadiv').hide();
+                    $('#printbtn').show();
+                    document.getElementById('lblreg').innerText = data[0].REGDNO;
+                    document.getElementById('lblprogram').innerText = data[0].course_name;
+                    document.getElementById('lblname').innerText = data[0].NAME;
+                    document.getElementById('lblfname').innerText = data[0].FATHER_NAME;
+                    document.getElementById('lblfig').innerText = data[0].DOB;
+                    document.getElementById('lblword').innerText = data[0].DOB_WORDS;
+                    document.getElementById('lblnat').innerText = data[0].NATIONALITY;
+                    document.getElementById('lbldoa').innerText = data[0].DOA;
+                    document.getElementById('lbldol').innerText = data[0].DOL;
+                    document.getElementById('lblprstudy').innerText = data[0].COURSE;
+                    document.getElementById('lbloptcourses').innerText = data[0].sp_name;
+                    document.getElementById('lblmedium').innerText = data[0].MEDIUM;
+                    document.getElementById('lbldtt').innerText = "Printed On :" + data[0].sysdate;
+                    $('#QRIMG').append(data[0].qrtext);
+
+                }
+                else {
+
+
+                    $('#contentdiv').hide();
+                    $('#nodatadiv').show();
+                    $('#printbtn').hide();
+                }
+                //    $('#contentdiv').show();
+                //    $('#nodatadiv').hide();
+                //    $('#printbtn').show();
+                //    document.getElementById('dttm').innerText = "Printed On :" + data[0].sysdate;
+                //    document.getElementById('lblname').innerText = data[0].NAME;
+                //    document.getElementById('lblfname').innerText = data[0].FATHER_NAME;
+                //    document.getElementById('lblpr').innerText = data[0].COURSE;
+                //    document.getElementById('lblregdno').innerText = data[0].REGDNO;
+                //    document.getElementById('lblbatch').innerText = data[0].Batch;
+                //}
+                //else {
+
+
+                //    $('#contentdiv').hide();
+                //    $('#nodatadiv').show();
+                //    $('#printbtn').hide();
+                //}
+
+
+                //document.getElementById('lblbatch').value = data.NAME;
+
+
+                console.log(data);
+
+
+
+            }
+        });
+    })
+
+
+
+    function PrintCDLTransferCertificate() {
+        //debugger;
+        setTimeout(function () {
+
+            var contents = document.getElementById('divtcc111').innerHTML;
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            frameDoc.document.write('<html><head><title></title>');
+            frameDoc.document.write('</head><body>');
+            frameDoc.document.write('<link href="../../Content/css/bootstrap.min.css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/fonts.css" rel="stylesheet" type="text/css" />');
+
+            //frameDoc.document.write('<link href="../Content/css/print.css" type="text/css" rel="stylesheet" />');
+
+
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+
+            return false;
+        }, 50);
+    }
+
+
+
+</script>

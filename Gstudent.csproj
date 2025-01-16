@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1AA14111-DF3A-42E8-B1A0-D6FBDD3F8B47}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gstudent</RootNamespace>
+    <AssemblyName>Gstudent</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44319</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.SVG, Version=23.10.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>packages\Aspose.SVG.23.10.0\lib\netstandard2.0\Aspose.SVG.dll</HintPath>
+    </Reference>
+    <Reference Include="CryptSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CryptSharpOfficial.2.1.0.0\lib\CryptSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Dapper.2.0.123\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.60.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>packages\HtmlAgilityPack.1.11.60\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=7.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.7.0.1\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
+      <HintPath>packages\MySqlConnector.2.3.7\lib\net471\MySqlConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.7.0.2\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.4.5.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Permissions.4.5.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Principal.Windows.4.5.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encoding.CodePages.4.5.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.5.11.1\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc5, Version=1.4.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Mvc5.1.4.0\lib\net45\Unity.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>packages\ZXing.Net.0.16.9\lib\net47\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>packages\ZXing.Net.0.16.9\lib\net47\zxing.presentation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HallticketController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController_old.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PasswordController.cs" />
+    <Compile Include="CustomFilter\CustomExceptionHandlerFilter.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Models\EventAttendance.cs" />
+    <Compile Include="Models\Buspass.cs" />
+    <Compile Include="Models\CDLCertificates.cs" />
+    <Compile Include="Models\CDLEvaluationReceipts.cs" />
+    <Compile Include="Models\CDLHallticket.cs" />
+    <Compile Include="Models\CDL_academictrack.cs" />
+    <Compile Include="Models\Certificatesnew.cs" />
+    <Compile Include="Models\Contactus.cs" />
+    <Compile Include="Models\CryptoEngine.cs" />
+    <Compile Include="Models\Degreeplan.cs" />
+    <Compile Include="Models\DiningSubscription.cs" />
+    <Compile Include="Models\LmsResource.cs" />
+    <Compile Include="Models\LMSsubject.cs" />
+    <Compile Include="Models\Mac_details.cs" />
+    <Compile Include="Models\Phdbiometric.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\FeedbackMaster.cs" />
+    <Compile Include="Models\Hallticket.cs" />
+    <Compile Include="Models\Hostelbiometric.cs" />
+    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\Publications.cs" />
+    <Compile Include="Models\residence.cs" />
+    <Compile Include="Models\Response1.cs" />
+    <Compile Include="Models\Scholarship.cs" />
+    <Compile Include="Models\Security.cs" />
+    <Compile Include="Models\Softwareproject.cs" />
+    <Compile Include="Models\SportsScholarship.cs" />
+    <Compile Include="Models\StudentPhoto.cs" />
+    <Compile Include="Models\StudentProfile.cs" />
+    <Compile Include="Models\Students.cs" />
+    <Compile Include="Models\studenttrack.cs" />
+    <Compile Include="Models\Timetable.cs" />
+    <Compile Include="Models\Userlogin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Base\ServiceBaseRepository.cs" />
+    <Compile Include="Repositories\Implementation\loginrepository.cs" />
+    <Compile Include="Repositories\Implementation\PasswordRepository.cs" />
+    <Compile Include="Repositories\Implementation\StudentRepository.cs" />
+    <Compile Include="Repositories\Interface\Iloginrepository.cs" />
+    <Compile Include="Repositories\Interface\IPasswordRepository.cs" />
+    <Compile Include="Repositories\Interface\IStudentRepository.cs" />
+    <Compile Include="ViewModels\permissions.cs" />
+    <Compile Include="ViewModels\Studentrecords.cs" />
+    <Content Include="Views\Hallticket\Roomdetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\exporting.js" />
+    <Content Include="Scripts\highcharts.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\NewQRBarCode.js" />
+    <Content Include="Scripts\qrcode.min.js" />
+    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Home\Attendance.cshtml" />
+    <Content Include="Views\Home\Attendancedata.cshtml" />
+    <Content Include="Views\Home\Course_structure.cshtml" />
+    <Content Include="Views\Home\StudentScholarship.cshtml" />
+    <Content Include="Views\Home\Approved.cshtml" />
+    <Content Include="Views\Home\History.cshtml" />
+    <Content Include="Views\Home\Noticeboard.cshtml" />
+    <Content Include="Views\Home\NoticeBoardMore.cshtml" />
+    <Content Include="Views\Home\permissions.cshtml" />
+    <Content Include="Views\Home\Rejected.cshtml" />
+    <Content Include="Views\Home\Request.cshtml" />
+    <Content Include="Views\Home\Underprocess.cshtml" />
+    <Content Include="Views\Home\CDLProfile.cshtml" />
+    <Content Include="Views\Home\Hostelbiometricsms.cshtml" />
+    <Content Include="Views\Home\Student_id_card.cshtml" />
+    <Content Include="Views\Home\CDL_Academictrack.cshtml" />
+    <Content Include="Views\Home\Academictrack.cshtml" />
+    <Content Include="Views\Home\Accrediations.cshtml" />
+    <Content Include="Views\Home\HostelFeedback.cshtml" />
+    <Content Include="Views\Home\Publications.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\_Layout.cshtml" />
+    <Content Include="Views\Home\loginpage.cshtml" />
+    <Content Include="Views\Home\StudentThesis.cshtml" />
+    <Content Include="Views\Home\loginpageCDL.cshtml" />
+    <Content Include="Views\Home\Buspassenrollment.cshtml" />
+    <Content Include="Views\Home\Email_update_password.cshtml" />
+    <Content Include="Views\Home\AccountsPayment.cshtml" />
+    <Content Include="Views\Home\Dining.cshtml" />
+    <Content Include="Views\Home\Residence.cshtml" />
+    <Content Include="Views\Home\Security.cshtml" />
+    <Content Include="Views\Home\Passwordchange.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Home\Timetable_I_sem.cshtml" />
+    <Content Include="Views\Home\Hostelfeedbacksummary.cshtml" />
+    <Content Include="Views\Home\Student_displinary.cshtml" />
+    <Content Include="Views\Home\Sports_Scholarship.cshtml" />
+    <Content Include="Views\Home\SportsScholarshipSummary.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\Welcome.cshtml" />
+    <Content Include="Views\Home\Mobiledashboard.cshtml" />
+    <Content Include="Views\Home\Course_structurenew.cshtml" />
+    <Content Include="Views\Home\attendancecopy.cshtml" />
+    <Content Include="Views\Home\Admission.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\Fees.cshtml" />
+    <Content Include="Views\Home\Results.cshtml" />
+    <Content Include="Views\Home\Resultsview.cshtml" />
+    <Content Include="Views\Home\ViewResultGrid.cshtml" />
+    <Content Include="Views\Home\DegreePlan.cshtml" />
+    <Content Include="Views\Home\Dynamicfeedback.cshtml" />
+    <Content Include="Views\Home\Dynamicfeedbackview.cshtml" />
+    <Content Include="Views\Home\CDLStudycerificate.cshtml" />
+    <Content Include="Views\Home\CDL_Study_CertificateQR.cshtml" />
+    <Content Include="Views\Home\Newsevents.cshtml" />
+    <Content Include="Views\Home\CDLTransfercerificate.cshtml" />
+    <Content Include="Views\Home\CDL_Transfer_Certificate.cshtml" />
+    <Content Include="Views\Home\CDLGradeCrad.cshtml" />
+    <Content Include="Views\Home\Hallticketinstruction.cshtml" />
+    <Content Include="Views\Home\Hallticket.cshtml" />
+    <Content Include="Views\Home\NEW_HallTickets.cshtml" />
+    <Content Include="Views\Home\Admissions.cshtml" />
+    <Content Include="Views\Home\CDLMigration.cshtml" />
+    <Content Include="Views\Home\CDL_Migration_Certificate.cshtml" />
+    <Content Include="Views\Home\CDLHallTicket.cshtml" />
+    <Content Include="Views\Home\CertificatesFee.cshtml" />
+    <Content Include="Views\Home\Onlinegradecard.cshtml" />
+    <Content Include="Views\Password\Index.cshtml" />
+    <Content Include="Views\Password\ResetPassword.cshtml" />
+    <Content Include="Views\Password\_Layout.cshtml" />
+    <Content Include="Views\Home\phdbiometric_report.cshtml" />
+    <Content Include="Views\Login\Error.cshtml" />
+    <Content Include="Views\Home\Cdlmaterail.cshtml" />
+    <Content Include="Views\Home\MedicalAppointment.cshtml" />
+    <Content Include="Views\Home\CDLEvaluationReceipts.cshtml" />
+    <Content Include="Views\Home\CDLFeeHistory.cshtml" />
+    <Content Include="Views\Home\CertificateConfirm.cshtml" />
+    <Content Include="Views\Home\ReceiptConfirm.cshtml" />
+    <Content Include="Views\Home\SupplimentryFee.cshtml" />
+    <Content Include="Views\Home\CourseRegistration.cshtml" />
+    <Content Include="Views\Home\Courseview.cshtml" />
+    <Content Include="Views\Home\Mycourses.cshtml" />
+    <Content Include="Views\Home\Upcomingtimetable.cshtml" />
+    <Content Include="Views\Hallticket\Index.cshtml" />
+    <Content Include="Views\Hallticket\NEW_HallTickets.cshtml" />
+    <Content Include="Views\Hallticket\Stdhallticket.cshtml" />
+    <Content Include="Views\Home\Lmsannoncements.cshtml" />
+    <Content Include="Views\Home\Lmsassignments.cshtml" />
+    <Content Include="Views\Home\lmscetemplate_old.cshtml" />
+    <Content Include="Views\Home\Lmsdirectoryview.cshtml" />
+    <Content Include="Views\Home\Lmshome.cshtml" />
+    <Content Include="Views\Home\Lmshomeold.cshtml" />
+    <Content Include="Views\Home\lmslessonplan.cshtml" />
+    <Content Include="Views\Home\LmsResourceview.cshtml" />
+    <Content Include="Views\Home\LmsTextbooks.cshtml" />
+    <Content Include="Views\Home\lmstype.cshtml" />
+    <Content Include="Views\Home\lmsurl.cshtml" />
+    <Content Include="Views\Home\BellTheCats.cshtml" />
+    <Content Include="Views\Home\Gevents.cshtml" />
+    <Content Include="Views\Home\Timetable.cshtml" />
+    <Content Include="Views\Home\LmsAssessments.cshtml" />
+    <Content Include="Views\Home\PhotoUpload.cshtml" />
+    <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Error.cshtml" />
+    <Content Include="Views\Admin\_Layout.cshtml" />
+    <Content Include="Views\Home\lmscetemplate.cshtml" />
+    <Content Include="Views\Home\WhatsNew.cshtml" />
+    <Content Include="Views\Home\studenthelpdesk.cshtml" />
+    <Content Include="Views\Home\Hallticketskip.cshtml" />
+    <Content Include="Views\Home\examtimetable.cshtml" />
+    <Content Include="Views\Shared\_HallLayout.cshtml" />
+    <Content Include="Views\Home\Dynamicfinalyearfeedbackview.cshtml" />
+    <Content Include="Views\Home\Attendancesummerterm.cshtml" />
+    <Content Include="Views\Home\DailyLog.cshtml" />
+    <Content Include="Views\Home\Weeklyactivitylog.cshtml" />
+    <Content Include="Views\Home\fldwrkprpsl.cshtml" />
+    <Content Include="Views\Home\summerintprjct.cshtml" />
+    <Content Include="Views\Home\CourseRegistrationnew.cshtml" />
+    <Content Include="Views\Home\GetAttendancedataforsummerterm.cshtml" />
+    <Content Include="Views\Home\Projectslist.cshtml" />
+    <Content Include="Views\Home\Mobiledashboard_15oct2024.cshtml" />
+    <Content Include="Views\Home\EventAttendance.cshtml" />
+    <Content Include="Views\Home\Newgleanencry.cshtml" />
+    <Content Include="Views\Home\CourseRegistrationneweven.cshtml" />
+    <Content Include="Views\Home\Mycredits.cshtml" />
+    <Content Include="Views\Home\studenthelpdesknew.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58104</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:44319/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,231 @@
+﻿
+@model List<Gstudent.Models.CDLCertificates>
+
+<section class="content-container contentContainer">
+    
+    <div class="box-inner" id="contentdiv">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <center>
+                    <div style="width: 770px; height: 1110px; padding: 20px; text-align: center; border: 0px solid" id="divtcc111" visible="true">
+                        <div style="width: 685px; padding: 20px; text-align: center; border: 2px solid #787878">
+                            <div>
+                                <img src="~/Content/images/cdl-header.jpg?v=1" style="width:670px;margin-left:-10px;" />
+                                @*<img src="images/cdl-header.jpg?v=1" style="width:670px;margin-left:-10px;" />*@
+                            </div>
+                            <div class="divh" style="background: #eee; font-size: 24px; margin-top: 20px;"><span>TRANSFER CERTIFICATE </span></div>
+                            <center style="font-size: 20px; font-weight: bold;">Original</center><br />
+
+                            @*<div>
+                                    <table>
+                                        <tr>
+
+                                            <td><div style="width:338px;font-size:14px;text-align:left;display:none;"><span><b>Sl.No. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b></span></div></td>
+                                            <td><div style="width:250px;font-size:20px;text-align:left;display:none;"><Label ID="lblslno" Text=""></Label></div></td>
+
+                                            <td>
+                                                <div style="width:190px;font-size:18px;margin-left:-105px;">
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><div style="width: 338px; font-size: 14px; text-align: left;"><span><b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b></span></div></td>
+                                            <td><div style="width:250px;font-size:20px;text-align:left;"><Label ID="" Text=""></Label></div></td>
+                                            <td></td>
+
+                                        </tr>
+                                        </tr>
+                                        <tr>
+                                            <td><div style="width: 320px; font-size: 14px; text-align: left; margin-top: 10px;"><span style="width:320px;"><b>Program &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b></span></div></td>
+                                            <td><div style="width:250px;font-size:20px;text-align:left;margin-top:10px;"><Label ID="" Text=""></Label></div></td>
+                                            <td></td>
+
+                                        </tr>
+                                    </table>
+                                </div><br />*@
+                            <div style="text-align:center;height:600px;">
+
+
+                                <table align="center;" style="text-align:center;height:550px;">
+                                    <tr>
+                                        <td style="width:25px;"><b></b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Admission ID.No.</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblreg" Text=" ">@Model.FirstOrDefault().REGDNO</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"><b></b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Program</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblprogram" Text=" ">@Model.FirstOrDefault().course_name</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @*<tr>
+                                            <td style="width:25px;"><b>a.</b></td>
+                                            <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b></b></span></div></td>
+                                            <td><div style="width:50px;font-size:15px;"><span></span></div></td>
+                                            <td><div style="width:250px;font-size:20px;"></div></td>
+                                        </tr>*@
+                                    <tr>
+                                        <td style="width:25px;"><b>a.</b></td>
+                                        <td><div style="width: 195px; font-size: 14px;"><span><b>i. Name of the Student&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblname" Text=" ">@Model.FirstOrDefault().NAME</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><div style="width: 256px; font-size: 14px; text-align: left"><span><b>ii. Father/Guardian's Name</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblfname" Text=" ">@Model.FirstOrDefault().FATHER_NAME</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td style="width:25px;"><b>b.</b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Date of Birth</b></span></div></td>
+                                        <td><div style="width:50px;font-size:15px;"><span></span></div></td>
+                                        <td><div style="width:250px;font-size:20px;"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>i. In figures</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblfig" Text=" ">@Model.FirstOrDefault().DOB</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>ii. In Words</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:310px;font-size:18px;text-align:left;">
+                                                <Label ID="lblword" Text=" ">@Model.FirstOrDefault().DOB_WORDS</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"><b>c.</b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Nationality</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblnat" Text=" ">@Model.FirstOrDefault().NATIONALITY</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"><b>d.</b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Date of Admission</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lbldoa" Text=" ">@Model.FirstOrDefault().DOA</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"><b>e.</b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Date of Leaving</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lbldol" Text=" ">@Model.FirstOrDefault().DOL</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"><b>f.</b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Program of Study</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblprstudy" Text=" ">@Model.FirstOrDefault().COURSE</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"><b>g.</b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Optional Courses</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:300px;font-size:18px;text-align:left;">
+                                                <Label ID="lbloptcourses" Text=" ">@Model.FirstOrDefault().sp_name</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25px;"><b>h.</b></td>
+                                        <td><div style="width: 250px; font-size: 14px; text-align: left;"><span><b>Medium of Instructions</b></span></div></td>
+                                        <td><div style="width:50px;font-size:20px;"><span><b>:</b></span></div></td>
+                                        <td>
+                                            <div style="width:250px;font-size:18px;text-align:left;">
+                                                <Label ID="lblmedium" Text=" ">@Model.FirstOrDefault().MEDIUM</Label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div style="width:320px;font-size:15px;text-align:left;margin-top:25px;"><Label ID="lbldtt" Text=" " Font-Bold="true"></Label></div>
+
+                            </div>
+
+                            <div style="height:10px;"></div>
+
+                            <div style="width:320px;font-size:15px;text-align:left;"><span><b></b></span></div>
+
+                            @*<div class="pull-right" style="float:right;"><img src="~/Content/images/TCDynamicQR.jpg" / width="130"></div>*@
+
+
+                            <table style="margin-left:550px;">
+                                <tr>
+                                    <td>
+                                        <img src="~/Content/images/signature_cdl_new.png" style="height:23px;" />
+                                        @*<img src="images/signature_cdl_new.png" style="margin-top:22px;height:23px;" />*@
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span style="margin-left:0px;"><b>Director</b></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                </center>
+
+            </div>
+        </div>
+    </div>
+    
+   
+</section>
+
+
+
+
+
+
